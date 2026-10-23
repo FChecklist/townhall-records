@@ -81,3 +81,7 @@ Evidence files are in `docs/evidence/`. Reproduce: `bun test --isolate --timeout
 - [x] every request stores IP, device id, browser-session id, cookie id, user agent, client hints, screen/time zone/language, network place, all encrypted; blind indexes `bsid_idx`/`bid_idx` (migration 0006)
 - [x] `GET /api/vote/me`, `GET /api/events/:id/flats/:flat/evidence` (shortened values), `GET /api/super/events/:id/flats/:flat/dossier?reason=` (full values, reason logged)
 - [~] no mutation entries yet for these routes; the browser client must send `x-browser-session` and `x-client-info` (UI not built)
+
+## Flat list from PDF (owner directive, 2026-10-23)
+- [x] Excel template download, fill, Save as PDF, upload PDF only; preview with problems by flat; confirm code; PDF + hash kept; manual add/change/remove with reason; all logged - `rollsheet.test.ts`, `rollimport.test.ts`
+- [~] the PDF reader is tested on PDFs built like Excel's output (flipped transform, compressed streams, Identity-H + ToUnicode, multi-page, repeated heading). **Not yet tried on a real file saved by Excel / LibreOffice / Google Sheets**: that is the first thing to test when the UI exists. Scans and photos are refused by design.

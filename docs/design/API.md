@@ -103,3 +103,9 @@ Routes added during the build, all in `apps/api/src/handler.ts`:
 * `ballot.mode` rule: online | printed | either. Paper needs a secret ballot (`paper_needs_secret` at publish).
 * `GET /api/languages`, `GET /api/i18n/:lang`, `GET /api/guide/:role?lang=&event=` (roles organizer, host, attendance_officer, voter; organizer + event adds step status).
 * Log types added: `handshake_started`, `device_bound`, `mobile_confirmed`, `paper_issued`, `paper_reissued`, `paper_voided`, `terms_accepted`, `schedule_set`, `report_emailed`; `ballot_box_sealed` may carry `paper` {serials, counted, invalid, voided, uncounted, imagesDigest}.
+
+## Flat list from a PDF (owner directive 2026-10-23: PDF only)
+* `GET /api/events/:id/roll/template?flats=N` (staff, edit_setup) -> `flat-list-template.xlsx` (title line `TOWNHALL-ROLL-V1`, grey headings, Yes/No dropdown, whole-number check, landscape one page wide). Fill it, **File > Save As > PDF**, upload the PDF.
+* `POST /api/events/:id/roll/import` `{ pdfBase64, fileName?, confirm?, reason? }` - only `%PDF-` files (413 over 6 MB). Without `confirm`: **preview only, nothing saved** (problems named by flat, counts, total weight, added/removed/changed, table). With `confirm` = the 8-letter `confirmCode` of that same file: saved as a new roll revision; the PDF is kept (`roll_documents`, append-only, private) and its SHA-256 is in the public `roll_set` entry. Replacing an existing list needs `reason`. Names, e-mails, mobiles become private holders (never public).
+* `POST /api/events/:id/roll/flat` `{ op: add|change|remove, flatNo, weight?, eligible?, name?, reason }` - manual entry/correction, `reason` (5+ letters) always required; each is a new `roll_set` revision whose before/after is public. Refused once voting has started (same rule as the list).
+* The PDF reader (`pdftext.ts`) reads text PDFs only (what Excel/LibreOffice/Google Sheets produce); a scan or photo is refused with a plain message.

@@ -3,7 +3,7 @@ import { Database } from "bun:sqlite";
 import { readFileSync } from "node:fs";
 import type { D1, D1Stmt } from "../src/core";
 
-export const MIGRATIONS = ["migrations/0001_records.sql", "migrations/0002_operational.sql", "migrations/0003_access_audit.sql", "migrations/0004_freeze_after_report.sql", "migrations/0005_handshake_paper.sql", "migrations/0006_resume_evidence.sql"];
+export const MIGRATIONS = ["migrations/0001_records.sql", "migrations/0002_operational.sql", "migrations/0003_access_audit.sql", "migrations/0004_freeze_after_report.sql", "migrations/0005_handshake_paper.sql", "migrations/0006_resume_evidence.sql", "migrations/0007_roll_documents.sql"];
 export function makeD1(): { db: D1; raw: Database } {
   const raw = new Database(":memory:");
   for (const f of MIGRATIONS) raw.exec(readFileSync(f, "utf8"));

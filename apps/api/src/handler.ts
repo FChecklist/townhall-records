@@ -2,7 +2,7 @@
 // Routes and rules: docs/design/API.md. There is no DELETE route and no route that edits history.
 import rulePacks from "../../../docs/research/rule-packs.json";
 import {
-  type Bytes, BRAND, journeyFor, HANDSHAKE_MAX_TRIES, HANDSHAKE_TTL_MS, codeHash, openLink, voterConfirm, monitorConfirm, type Handshake, hmacHex, newSerial, paperToken, parsePaperToken, paperLayout, renderPaperSvg, LANGUAGES, coverage, dictionary, isLang, playbook,
+  type Bytes, BRAND, journeyFor, buildRollTemplateXlsx, readPdfTable, parseRollTable, diffRoll, type SheetFlat, HANDSHAKE_MAX_TRIES, HANDSHAKE_TTL_MS, codeHash, openLink, voterConfirm, monitorConfirm, type Handshake, hmacHex, newSerial, paperToken, parsePaperToken, paperLayout, renderPaperSvg, LANGUAGES, coverage, dictionary, isLang, playbook,
   defaultSchedule, validateSchedule, type Schedule, TERMS_VERSION, TERMS_TEXT, termsSha256, priceFor, isCountry, formatPrice, renderReportPdf, pdfSha256, extractSeal, normalizeBallotDesign, defaultBallotDesign, ballotInstruction, type Actor,
   CUSTOM_WORLD_PACK, OPTIONS, PARAMS, RuleError, aesDecrypt, aesEncrypt, applyRecommended, b64url, buildReportModel, canAmendPoint, canChangeRoll, canChangeRule, canDo, canVote, cloneTemplate,
   deriveKey32, effectiveWeight, extractData, fromB64url, issuePasscode, loadAllPacks, maskEmail, maskName, maskPhone, newRuleSet, parseMajority, progressOf, proxyAllowed, randomHex, renderReportHtml,
@@ -323,6 +323,62 @@ route("PUT", "/api/events/:id/roll", async (c, m) => {
   const rev = st.rollRev + 1;
   await tx.add("roll_set", ENTRY_ACTOR(st, pid), { rev, flats: clean }, () => clean.map((f) => c.db.prepare("INSERT INTO flats(event_id,flat_no,weight,eligible,rev) VALUES(?,?,?,?,?)").bind(tx.eid, f.flatNo, f.weight, f.eligible ? 1 : 0, rev)));
   await tx.commit(); return json({ ok: true, flats: clean.length, anonymityWarning: !!st.rules?.options.weightage && !!st.rules?.options.secret_ballot });
+});
+// ---- the flat list as a PDF: download the Excel sheet, fill it, save it as PDF, upload that PDF. Manual entry and manual correction go through the same recorded path.
+const PDF_MAX = 6_000_000;
+type RollMeta = { source: "pdf" | "manual"; reason: string; op?: string; pdfSha256?: string; diff: ReturnType<typeof diffRoll> };
+async function setRoll(c: Ctx, tx: Tx, st: EventState, pid: string, clean: Array<{ flatNo: string; weight: number; eligible: boolean }>, meta: RollMeta, names: SheetFlat[] = [], pdf?: { name: string; bytes: Uint8Array; sha: string }) {
+  const rev = st.rollRev + 1;
+  await tx.add("roll_set", ENTRY_ACTOR(st, pid), { rev, flats: clean, source: meta.source, reason: meta.reason, op: meta.op ?? "replace", pdfSha256: meta.pdfSha256 ?? null, diff: { added: meta.diff.added.length, removed: meta.diff.removed.length, changed: meta.diff.changed, addedFlats: meta.diff.added, removedFlats: meta.diff.removed } } as any,
+    (seq) => [...clean.map((f) => c.db.prepare("INSERT INTO flats(event_id,flat_no,weight,eligible,rev) VALUES(?,?,?,?,?)").bind(tx.eid, f.flatNo, f.weight, f.eligible ? 1 : 0, rev)),
+      ...(pdf ? [c.db.prepare("INSERT INTO roll_documents(event_id,rev,file_name,size,sha256,pdf,by_pid,at_ms,log_seq) VALUES(?,?,?,?,?,?,?,?,?)").bind(tx.eid, rev, pdf.name, pdf.bytes.length, pdf.sha, pdf.bytes, pid, c.now, seq)] : [])]);
+  await tx.commit();
+  const have = new Set((await c.db.prepare("SELECT DISTINCT flat_no f FROM people WHERE event_id=? AND flat_no IS NOT NULL").bind(tx.eid).all<{ f: string }>()).results.map((r) => r.f)); let named = 0;
+  const todo = names.filter((f) => f.name.length >= 2 && !have.has(f.flatNo)); const key = todo.length ? await eventKey(c, tx.eid) : null;
+  if (todo.length) {
+    const tx2 = await Tx.load(c, tx.eid); const st2 = await tx2.st();
+    for (const f of todo) {
+      const hid = newId("p_", 8); named++;
+      const stmts = await personStmts(c, tx.eid, hid, { name: f.name, email: f.email, phone: f.mobile || undefined } as any, f.flatNo, key!);
+      await tx2.add("holder_added", ENTRY_ACTOR(st2, pid), { pid: hid, flatNo: f.flatNo, maskedName: maskName(f.name), source: "roll_" + meta.source }); await tx2.commit(stmts);
+    }
+  }
+  return { rev, named };
+}
+route("GET", "/api/events/:id/roll/template", async (c, m) => {
+  const { tx } = await staff(c, m[1]!, "edit_setup"); const st = await tx.st(); const n = Math.max(1, Math.min(3000, +(c.url.searchParams.get("flats") ?? st.roll.length) || 50));
+  return new Response(buildRollTemplateXlsx({ flats: n }) as any, { status: 200, headers: { "content-type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "content-disposition": 'attachment; filename="flat-list-template.xlsx"', "cache-control": "no-store" } });
+});
+route("POST", "/api/events/:id/roll/import", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!, "edit_setup"); const st = await tx.st(); decide(canChangeRoll(st));
+  const b64 = typeof c.body.pdfBase64 === "string" ? c.body.pdfBase64.replace(/^data:[^,]*,/, "").replace(/\s+/g, "") : ""; if (!b64) throw err(400, "no_file", "Please choose the PDF file to upload.");
+  let bytes: Uint8Array; try { bytes = Uint8Array.from(atob(b64), (ch) => ch.charCodeAt(0)); } catch { throw err(400, "bad_file", "That file could not be read. Please choose the PDF again."); }
+  if (bytes.length > PDF_MAX) throw err(413, "too_large", "The PDF is bigger than 6 MB. Save it again with fewer pages or smaller size.");
+  if (String.fromCharCode(...bytes.subarray(0, 5)) !== "%PDF-") throw err(400, "not_pdf", "Only a PDF file is accepted. Fill the Excel sheet, then File > Save As > PDF, and upload that PDF.");
+  const sha = await sha256Hex(bytes as Bytes); const res = parseRollTable(await readPdfTable(bytes));
+  const clean = res.flats.map((f) => ({ flatNo: f.flatNo, weight: f.weight, eligible: f.eligible })); const diff = diffRoll(st.roll, clean);
+  const preview = { fileSha256: sha, confirmCode: sha.slice(0, 8), ok: res.ok, problems: res.problems, flats: res.flats.length, eligible: res.eligibleCount, totalWeight: res.totalWeight, diff: { added: diff.added, removed: diff.removed, changed: diff.changed, same: diff.same }, rows: res.flats.slice(0, 500).map((f) => ({ flatNo: f.flatNo, name: f.name, weight: f.weight, eligible: f.eligible })), replacesExisting: st.roll.length > 0 };
+  if (c.body.confirm === undefined) return json({ applied: false, ...preview, next: res.ok ? "Check the table. If it is right, send the same PDF again with confirm set to the confirmCode." : "Fix the sheet and upload the PDF again. Nothing was saved." });
+  if (!res.ok) throw err(422, "sheet_has_problems", "The sheet still has problems. Nothing was saved. Fix them and upload again.");
+  if (String(c.body.confirm) !== sha.slice(0, 8)) throw err(409, "confirm_mismatch", "The confirm code does not match this file. Upload the file again and check the table.");
+  const reason = optStr(c.body.reason, "reason", 300) ?? ""; if (st.roll.length && reason.length < 5) throw err(400, "reason_required", "This replaces the list you already have. Please write why (at least 5 letters).");
+  const r = await setRoll(c, tx, st, pid, clean, { source: "pdf", reason: reason || "first upload", pdfSha256: sha, diff }, res.flats, { name: str(c.body.fileName ?? "flat-list.pdf", "fileName", 1, 120), bytes, sha });
+  return json({ applied: true, rev: r.rev, flats: clean.length, namesAdded: r.named, pdfSha256: sha });
+});
+/** One flat at a time: add, change or remove. Every edit says why, and the earlier list stays in the log. */
+route("POST", "/api/events/:id/roll/flat", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!, "edit_setup"); const st = await tx.st(); decide(canChangeRoll(st));
+  const op = String(c.body.op ?? ""); if (!["add", "change", "remove"].includes(op)) throw err(400, "bad_op", "op must be add, change or remove.");
+  const flatNo = str(c.body.flatNo, "flat number", 1, 24); const reason = str(c.body.reason, "reason", 5, 300);
+  const cur = st.roll.find((f) => f.flatNo === flatNo); const next = st.roll.map((f) => ({ flatNo: f.flatNo, weight: f.weight, eligible: f.eligible }));
+  if (op === "add") { if (cur) throw err(409, "dup_flat", `Flat ${flatNo} is already on the list.`); next.push({ flatNo, weight: c.body.weight === undefined ? 1 : int(c.body.weight, "weight", 1, 1_000_000_000), eligible: c.body.eligible !== false }); }
+  else if (!cur) throw err(404, "no_flat", `Flat ${flatNo} is not on the list.`);
+  else if (op === "remove") next.splice(next.findIndex((f) => f.flatNo === flatNo), 1);
+  else { const e = next.find((f) => f.flatNo === flatNo)!; if (c.body.weight === undefined && c.body.eligible === undefined) throw err(400, "nothing_to_change", "Say the new weight or whether the flat can vote."); if (c.body.weight !== undefined) e.weight = int(c.body.weight, "weight", 1, 1_000_000_000); if (c.body.eligible !== undefined) e.eligible = c.body.eligible !== false; }
+  if (!next.length) throw err(400, "empty", "The list cannot be empty.");
+  const diff = diffRoll(st.roll, next); const name = optStr(c.body.name, "name", 80);
+  const r = await setRoll(c, tx, st, pid, next, { source: "manual", reason, op, diff }, op === "add" && name ? [{ flatNo, weight: 1, eligible: true, name, mobile: "", email: "", sheetRow: 0 }] : []);
+  return json({ ok: true, rev: r.rev, flats: next.length, change: diff });
 });
 function pointInput(b: any, cur?: any) {
   const kindIn = b.kind ?? cur?.kind;
@@ -1000,7 +1056,7 @@ export async function handle(req: Request, env: Env, now = Date.now()): Promise<
     if (req.method === "OPTIONS") return new Response(null, { status: 204 });
     const hit = routes.find((r) => r.method === req.method && r.re.test(url.pathname));
     if (!hit) throw err(404, "not_found", "Not found.");
-    const body = await readBody(req, url.pathname.endsWith("/evidence") ? 400_000 : 65_536);
+    const body = await readBody(req, url.pathname.endsWith("/roll/import") ? 9_000_000 : url.pathname.endsWith("/evidence") ? 400_000 : 65_536);
     const dev = req.headers.get("x-device-id") ?? "";
     const c: Ctx = { req, env, db: env.DB, now, url, ip: (req.headers.get("cf-connecting-ip") ?? "local").slice(0, 64), body, deviceId: DEVICE_RE.test(dev) ? dev : "", bsid: /^[A-Za-z0-9_-]{8,64}$/.test(req.headers.get("x-browser-session") ?? "") ? req.headers.get("x-browser-session")! : "", bid: /(?:^|;\s*)tw_bid=([0-9a-f]{32})/.exec(req.headers.get("cookie") ?? "")?.[1] ?? "", client: sanitizeClient(req.headers.get("x-client-info")), cf: pickCf(req) };
     if (req.method !== "GET") await rateLimit(c, "any-ip", c.ip, 600, 60); else await rateLimit(c, "read-ip", c.ip, 240, 60);
