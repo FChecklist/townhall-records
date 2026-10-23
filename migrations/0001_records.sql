@@ -30,7 +30,7 @@ CREATE TABLE flats (                -- PUBLIC (flat numbers are public by owner 
 CREATE TABLE agenda_points (        -- PUBLIC; versions of a point; current = highest rev
   id INTEGER PRIMARY KEY AUTOINCREMENT, point_id TEXT NOT NULL, event_id TEXT NOT NULL, number TEXT NOT NULL, title TEXT NOT NULL, body TEXT NOT NULL,
   kind TEXT NOT NULL CHECK (kind IN ('discussion','resolution','election_post')), options_json TEXT NOT NULL, max_choices INTEGER NOT NULL,
-  majority_class TEXT NOT NULL, secret INTEGER NOT NULL, rev INTEGER NOT NULL, log_seq INTEGER, UNIQUE (point_id, rev)
+  majority_class TEXT NOT NULL, secret INTEGER NOT NULL, extra_json TEXT NOT NULL DEFAULT '{}', rev INTEGER NOT NULL, log_seq INTEGER, UNIQUE (point_id, rev)
 );
 CREATE TABLE point_state (          -- PUBLIC; current = latest row (open / closed)
   id INTEGER PRIMARY KEY AUTOINCREMENT, point_id TEXT NOT NULL, event_id TEXT NOT NULL, state TEXT NOT NULL, ends_ms INTEGER, log_seq INTEGER, at_ms INTEGER NOT NULL

@@ -1,5 +1,6 @@
 // Quorum, majority, weightage, ballot validation, tallies. Integer arithmetic only: weights are integers, percentages are basis points.
 import type { RuleSet } from "./rules";
+import type { BallotDesign, EventFormat } from "./ballot";
 
 export interface Flat { flatNo: string; weight: number; eligible: boolean }
 export type MajorityClass = "simple" | "two_thirds" | "three_quarters" | { num: number; den: number; strict?: boolean };
@@ -54,13 +55,22 @@ export function adjournedQuorumMet(rs: RuleSet, presentFlats: number): boolean {
 }
 
 // ---- ballots ----
-export interface PointDef { pointId: string; kind: "discussion" | "resolution" | "election_post"; options: string[]; maxChoices: number; majorityClass: string; secret: boolean }
-export type BallotCheck = { ok: true; choices: string[] } | { ok: false; reason: "not_votable" | "no_choice" | "too_many" | "duplicate" | "unknown_option" | "bad_shape" };
+export interface PointDef {
+  pointId: string; kind: "discussion" | "resolution" | "election_post"; options: string[]; maxChoices: number; majorityClass: string; secret: boolean;
+  /** option id -> text shown on the ballot (candidate names, "Yes", ...). Ids are unique; labels may repeat only by mistake. */
+  labels?: Record<string, string>;
+  /** least number of ticks a ballot must have (0 = a blank ballot is allowed). Default 1. */
+  minChoices?: number;
+  format?: EventFormat; seats?: string[]; topN?: number | null; design?: BallotDesign;
+}
+export type BallotCheck = { ok: true; choices: string[] } | { ok: false; reason: "not_votable" | "no_choice" | "too_few" | "too_many" | "duplicate" | "unknown_option" | "bad_shape" };
 export function validateBallot(p: PointDef, choices: unknown): BallotCheck {
   if (p.kind === "discussion") return { ok: false, reason: "not_votable" };
   if (!Array.isArray(choices) || choices.some((c) => typeof c !== "string")) return { ok: false, reason: "bad_shape" };
   const c = choices as string[];
-  if (c.length === 0) return { ok: false, reason: "no_choice" };
+  const min = p.minChoices ?? 1;
+  if (c.length === 0 && min >= 1) return { ok: false, reason: "no_choice" };
+  if (c.length < min) return { ok: false, reason: "too_few" };
   if (new Set(c).size !== c.length) return { ok: false, reason: "duplicate" };
   if (c.length > p.maxChoices) return { ok: false, reason: "too_many" };
   if (c.some((x) => !p.options.includes(x))) return { ok: false, reason: "unknown_option" };
@@ -68,7 +78,13 @@ export function validateBallot(p: PointDef, choices: unknown): BallotCheck {
 }
 
 export interface BallotRow { choices: string[]; weight: number; kind?: "official" | "proxy" }
-export interface OptionTally { option: string; weight: number; count: number; percentBp: number }
+export interface OptionTally { option: string; weight: number; count: number; percentBp: number; /** ballots on which this box was NOT ticked ("no") */ notSelected: number }
+export interface RankRow { option: string; weight: number; count: number; rank: number; tied: boolean }
+export interface Assignment {
+  format: "ranked_posts" | "top_n";
+  seats: Array<{ seat: string; option: string | null; weight: number; tied: boolean }> | null;
+  selected: string[] | null; tieAtCutoff: boolean; needsReturningOfficer: boolean;
+}
 /** Aggregated ballots: all that is ever published for a secret point (no per-ballot weights, so a unique weight cannot reveal a flat). */
 export interface Aggregate { n: number; castWeight: number; perOption: Record<string, { weight: number; count: number }>; split: { official: Record<string, number>; proxy: Record<string, number> } | null }
 export interface PointTally {
@@ -77,6 +93,7 @@ export interface PointTally {
   outcome: "carried" | "not_carried" | "tie" | "counted";
   majority: { num: number; den: number; strict: boolean; basis: string; base: number } | null;
   leaders: string[] | null;
+  ranking: RankRow[] | null; assignment: Assignment | null;
   split: { official: Record<string, number>; proxy: Record<string, number> } | null;
 }
 
@@ -99,18 +116,31 @@ export function aggregate(p: PointDef, ballots: BallotRow[], rs: RuleSet): Aggre
 
 /** Tallies one point from aggregates. Elections never name a winner unless the pack parameter says so. */
 export function tallyAgg(p: PointDef, agg: Aggregate, rs: RuleSet, presentWeight: number, totalWeight: number): PointTally {
-  const options = p.options.map((o) => ({ option: o, weight: agg.perOption[o]?.weight ?? 0, count: agg.perOption[o]?.count ?? 0, percentBp: bp(agg.perOption[o]?.weight ?? 0, agg.castWeight) }));
+  const options = p.options.map((o) => ({ option: o, weight: agg.perOption[o]?.weight ?? 0, count: agg.perOption[o]?.count ?? 0, percentBp: bp(agg.perOption[o]?.weight ?? 0, agg.castWeight), notSelected: agg.n - (agg.perOption[o]?.count ?? 0) }));
   const base = { pointId: p.pointId, kind: p.kind, ballots: agg.n, castWeight: agg.castWeight, presentWeight, totalWeight, options, turnoutBp: bp(agg.castWeight, presentWeight || totalWeight) };
   const split = agg.split;
   if (p.kind === "election_post") {
+    const cand = options.filter((o) => o.option !== "abstain").slice().sort((a, b) => b.weight - a.weight || (a.option < b.option ? -1 : 1));
+    const ranking: RankRow[] = cand.map((o, i) => {
+      const same = (j: number) => j >= 0 && j < cand.length && cand[j]!.weight === o.weight;
+      return { option: o.option, weight: o.weight, count: o.count, rank: i > 0 && same(i - 1) ? cand.slice(0, i).filter((x) => x.weight > o.weight).length + 1 : i + 1, tied: same(i - 1) || same(i + 1) };
+    });
+    let assignment: Assignment | null = null;
+    if (agg.castWeight > 0 && p.format === "ranked_posts" && p.seats?.length) {
+      const seats = p.seats.map((seat, i) => ({ seat, option: ranking[i]?.option ?? null, weight: ranking[i]?.weight ?? 0, tied: ranking[i]?.tied ?? false }));
+      assignment = { format: "ranked_posts", seats, selected: null, tieAtCutoff: false, needsReturningOfficer: seats.some((x) => x.tied) };
+    } else if (agg.castWeight > 0 && p.format === "top_n" && p.topN) {
+      const n = p.topN, tieAtCutoff = ranking.length > n && ranking[n - 1]!.weight === ranking[n]!.weight;
+      assignment = { format: "top_n", seats: null, selected: ranking.slice(0, n).map((r) => r.option), tieAtCutoff, needsReturningOfficer: tieAtCutoff };
+    }
     let leaders: string[] | null = null;
     if (rs.params["election.declareWinner"] === true) {
       const ranked = options.filter((o) => o.option !== "abstain").sort((a, b) => b.weight - a.weight || (a.option < b.option ? -1 : 1));
       leaders = ranked.slice(0, p.maxChoices).map((o) => o.option);
     }
-    return { ...base, outcome: "counted", majority: null, leaders, split };
+    return { ...base, outcome: "counted", majority: null, leaders, ranking, assignment, split };
   }
-  if (p.kind === "discussion") return { ...base, outcome: "counted", majority: null, leaders: null, split };
+  if (p.kind === "discussion") return { ...base, outcome: "counted", majority: null, leaders: null, ranking: null, assignment: null, split };
   const f = fractionOf(parseMajority(p.majorityClass));
   const yes = agg.perOption["yes"]?.weight ?? 0, no = agg.perOption["no"]?.weight ?? 0, abs = agg.perOption["abstain"]?.weight ?? 0;
   const basisName = ((p.majorityClass === "simple" ? rs.params["majority.simple.basis"] : rs.params["majority.special.basis"]) as string | null) ?? "cast";
@@ -120,7 +150,7 @@ export function tallyAgg(p: PointDef, agg: Aggregate, rs: RuleSet, presentWeight
   let outcome: PointTally["outcome"];
   if (f.den === 2 && f.num === 1 && yes === no && baseW > 0 && basisName === "cast") outcome = rs.params["tie.break"] && rs.params["tie.break"] !== "none" ? "tie" : "not_carried";
   else outcome = (f.strict ? lhs > rhs : lhs >= rhs) && yes > 0 ? "carried" : "not_carried";
-  return { ...base, outcome, majority: { num: f.num, den: f.den, strict: f.strict, basis: basisName, base: baseW }, leaders: null, split };
+  return { ...base, outcome, majority: { num: f.num, den: f.den, strict: f.strict, basis: basisName, base: baseW }, leaders: null, ranking: null, assignment: null, split };
 }
 export const tallyPoint = (p: PointDef, ballots: BallotRow[], rs: RuleSet, presentWeight: number, totalWeight: number): PointTally =>
   tallyAgg(p, aggregate(p, ballots, rs), rs, presentWeight, totalWeight);

@@ -6,7 +6,8 @@ import {
 
 export interface D1Stmt { bind(...v: unknown[]): D1Stmt; run(): Promise<any>; all<T = any>(): Promise<{ results: T[] }>; first<T = any>(): Promise<T | null> }
 export interface D1 { prepare(sql: string): D1Stmt; batch(s: D1Stmt[]): Promise<any[]> }
-export interface Mailer { name: string; send(to: string, subject: string, text: string): Promise<boolean> }
+export interface Attachment { filename: string; content: Uint8Array; contentType: string }
+export interface Mailer { name: string; send(to: string, subject: string, text: string, attachments?: Attachment[]): Promise<boolean> }
 
 export interface Env {
   DB: D1;
@@ -103,21 +104,25 @@ export const mailLimit = (env: Env) => Math.max(1, parseInt(env.MAIL_DAILY_LIMIT
 class ResendMailer implements Mailer {
   name = "resend";
   constructor(private key: string, private from: string) {}
-  async send(to: string, subject: string, text: string) {
-    try { const r = await fetch("https://api.resend.com/emails", { method: "POST", headers: { authorization: `Bearer ${this.key}`, "content-type": "application/json" }, body: JSON.stringify({ from: this.from, to: [to], subject, text, headers: { "Auto-Submitted": "auto-generated" } }) }); return r.ok; } catch { return false; }
+  async send(to: string, subject: string, text: string, attachments: Attachment[] = []) {
+    const b64 = (u: Uint8Array) => { let s = ""; for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode(...u.subarray(i, i + 0x8000)); return btoa(s); };
+    try { const r = await fetch("https://api.resend.com/emails", { method: "POST", headers: { authorization: `Bearer ${this.key}`, "content-type": "application/json" }, body: JSON.stringify({ from: this.from, to: [to], subject, text, ...(attachments.length ? { attachments: attachments.map((a) => ({ filename: a.filename, content: b64(a.content) })) } : {}), headers: { "Auto-Submitted": "auto-generated" } }) }); return r.ok; } catch { return false; }
   }
 }
 /** Local stub: the mail stays in mail_outbox so tests and a developer can read it. Never used when a real provider is configured. */
 class OutboxMailer implements Mailer {
   name = "outbox";
   constructor(private db: D1, private now: number) {}
-  async send(to: string, subject: string, text: string) { await this.db.prepare("INSERT INTO mail_outbox(to_addr,subject,body,at_ms,sent,provider) VALUES(?,?,?,?,1,'outbox')").bind(to, subject, text, this.now).run(); return true; }
+  async send(to: string, subject: string, text: string, attachments: Attachment[] = []) {
+    const note = attachments.map((a) => `\n[attachment ${a.filename} ${a.contentType} ${a.content.length} bytes]`).join("");
+    await this.db.prepare("INSERT INTO mail_outbox(to_addr,subject,body,at_ms,sent,provider) VALUES(?,?,?,?,1,'outbox')").bind(to, subject, text + note, this.now).run(); return true;
+  }
 }
 export async function mailsToday(c: Ctx): Promise<Array<{ provider: string; n: number }>> {
   return (await c.db.prepare("SELECT provider, n FROM mail_counter WHERE day=?").bind(dayOf(c.now)).all<{ provider: string; n: number }>()).results;
 }
 /** Sends one mail through the first provider with quota left. Over quota everywhere -> 503 mail_quota_reached (shown in the super console). */
-export async function sendMail(c: Ctx, to: string, subject: string, text: string): Promise<void> {
+export async function sendMail(c: Ctx, to: string, subject: string, text: string, attachments: Attachment[] = []): Promise<void> {
   const providers: Mailer[] = [];
   if (c.env.MAILER) providers.push(c.env.MAILER);
   else if (c.env.RESEND_API_KEY) providers.push(new ResendMailer(c.env.RESEND_API_KEY, c.env.MAIL_FROM ?? "AOA-RWA <noreply@example.invalid>"));
@@ -127,7 +132,7 @@ export async function sendMail(c: Ctx, to: string, subject: string, text: string
   for (const p of providers) {
     const row = await c.db.prepare("SELECT n FROM mail_counter WHERE day=? AND provider=?").bind(day, p.name).first<{ n: number }>();
     if ((row?.n ?? 0) >= limit) continue;
-    if (await p.send(to, subject, text)) {
+    if (await p.send(to, subject, text, attachments)) {
       await c.db.prepare("INSERT INTO mail_counter(day,provider,n) VALUES(?,?,1) ON CONFLICT(day,provider) DO UPDATE SET n=n+1").bind(day, p.name).run();
       return;
     }

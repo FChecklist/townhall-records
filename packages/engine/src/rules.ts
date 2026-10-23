@@ -50,6 +50,7 @@ export const OPTIONS: OptionDef[] = [
   { key: "minutes", label: "Minutes", default: true },
   { key: "designation_labels", label: "Designation labels on the report", default: true },
   { key: "notices", label: "Notice period check", default: true },
+  { key: "auto_publish", label: "Close the event and publish the report automatically at the scheduled end", default: true },
 ];
 export const OPTION_KEYS = new Set(OPTIONS.map((o) => o.key));
 

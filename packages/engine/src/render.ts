@@ -5,6 +5,7 @@ import type { SignedEntry } from "./log";
 import { SEAL_CLOSE, SEAL_OPEN, fileDigest, reportMessage, type EmbeddedData, type ReportModel, type Seal } from "./model";
 import { NOT_PUBLISHED } from "./model";
 import { percentText } from "./tally";
+import { FORMAT_LABEL } from "./ballot";
 import { MILESTONE_KEYS, dayParts, milestoneLabel } from "./schedule";
 import { VERIFIER_JS } from "./verifier.generated";
 
@@ -18,7 +19,7 @@ const PHASES: Array<{ id: string; en: string; hi: string; svg: string }> = [
   { id: "report", en: "Report", hi: "रिपोर्ट", svg: '<path d="M12 6h18l8 8v28H12z"/><path d="M17 28l5 5 9-11"/>' },
 ];
 const bp = (n: number) => percentText(n);
-const rs = (minor: number) => `${Math.floor(minor / 100)}.${String(minor % 100).padStart(2, "0")}`;
+const money = (minor: number, cur: string) => `${cur === "USD" ? "USD " : "Rs "}${Math.floor(minor / 100)}.${String(minor % 100).padStart(2, "0")}`;
 const dt = (ms: number) => (ms ? new Date(ms).toISOString().replace("T", " ").slice(0, 16) + " UTC" : "not set");
 
 function tree(nodes: ReportModel["tree"], by: Map<string, string>): string {
@@ -31,17 +32,22 @@ function pointHtml(m: ReportModel, p: ReportModel["points"][number]): string {
   const stateTxt = p.state === "pending" ? "Not opened yet" : p.state === "open" ? "VOTING OPEN" : "Closed";
   let h = `<section class="pt ${esc(p.state)}"><h3>${esc(p.number)} &nbsp; ${esc(p.title)} <span class="st">${stateTxt}</span></h3>`;
   if (p.body) h += `<p>${esc(p.body)}</p>`;
+  const L = (id: string) => esc(p.labels[id] ?? id);
+  if (p.kind !== "discussion") h += `<p class="meta">Ballot paper: ${esc(p.design.layout)} layout, ${p.design.columns === 2 ? "two columns on a wide screen, one on a phone" : "one column"}, ${p.design.order === "shuffled" ? "options in a different order for each voter" : "options in the listed order"}, ${esc(p.design.size)} tick boxes. ${esc(p.instruction)}${p.kind === "election_post" && p.format ? " Format: " + esc(FORMAT_LABEL[p.format]) + (p.format === "ranked_posts" ? " (" + p.seats.map(esc).join(", ") + ")" : p.format === "top_n" ? " (first " + p.topN + ")" : "") + "." : ""}</p>`;
   h += `<p class="meta">${p.kind === "discussion" ? "Discussion" : p.kind === "election_post" ? `Election: choose up to ${p.maxChoices}` : `Resolution, majority needed: ${esc(p.majorityClass.replace(/_/g, " "))}`} · ${p.secret ? "secret ballot" : "open vote by flat"}${p.endsMs ? ` · closes ${esc(dt(p.endsMs))}` : ""}${p.extensions ? ` · extended ${p.extensions}x` : ""}</p>`;
   if (p.kind !== "discussion" && p.state !== "pending") {
     h += `<p><b>${p.voted.length}</b> of <b>${m.attendance.present}</b> present flats have voted${p.voted.length ? ": " + p.voted.map(esc).join(", ") : ""}</p>`;
     if (p.countsHidden) h += `<p class="note">Totals appear when voting on this secret ballot closes.</p>`;
     if (t && !p.countsHidden) {
-      h += `<table><tr><th>Option</th><th>Votes (flats)</th><th>Weight</th><th>Vote %</th></tr>` + t.options.map((o) => `<tr><td>${esc(o.option)}</td><td>${o.count}</td><td>${o.weight}</td><td>${bp(o.percentBp)}</td></tr>`).join("") + "</table>";
+      h += `<table><tr><th>Option (id)</th><th>Ticked = yes</th><th>Not ticked = no</th><th>Weight</th><th>Vote %</th></tr>` + t.options.map((o) => `<tr><td>${L(o.option)} <small class="mono">${esc(o.option)}</small></td><td>${o.count}</td><td>${o.notSelected}</td><td>${o.weight}</td><td>${bp(o.percentBp)}</td></tr>`).join("") + "</table>";
+      if (t.ranking) h += `<p><b>Ranking</b> (ties share a rank): ${t.ranking.map((r) => `${r.rank}. ${L(r.option)} (${r.count})${r.tied ? " tie" : ""}`).join(" | ")}</p>`;
+      if (t.assignment?.seats) h += `<p><b>By rank (for the Returning Officer to confirm):</b> ${t.assignment.seats.map((x) => `${esc(x.seat)}: ${x.option ? L(x.option) : "-"}${x.tied ? " (tie)" : ""}`).join(" | ")}${t.assignment.needsReturningOfficer ? ` <span class="warn">A tie needs the Returning Officer.</span>` : ""}</p>`;
+      if (t.assignment?.selected) h += `<p><b>First ${t.assignment.selected.length} by votes (for the Returning Officer to confirm):</b> ${t.assignment.selected.map(L).join(", ")}${t.assignment.tieAtCutoff ? ` <span class="warn">A tie at the cut-off needs the Returning Officer.</span>` : ""}</p>`;
       if (t.majority) h += `<p>Counted on ${esc(t.majority.basis)} (${t.majority.base}); needs ${t.majority.num}/${t.majority.den}${t.majority.strict ? " (more than)" : ""}. Result: <b>${esc(t.outcome.replace(/_/g, " "))}</b></p>`;
-      else if (p.kind === "election_post") h += `<p>Numbers only. The returning officer or chair declares the result.${t.leaders ? " Leading: " + t.leaders.map(esc).join(", ") : ""}</p>`;
+      else if (p.kind === "election_post") h += `<p>Numbers only. The returning officer or chair declares the result.${t.leaders ? " Leading: " + t.leaders.map(L).join(", ") : ""}</p>`;
       if (t.split) h += `<p class="note">Official voters: ${esc(JSON.stringify(t.split.official))} · Proxy voters: ${esc(JSON.stringify(t.split.proxy))}</p>`;
     }
-    if (p.openVotes && p.openVotes.length) h += `<details><summary>How each flat voted</summary><table><tr><th>Flat</th><th>Voter</th><th>Choice</th></tr>${p.openVotes.map((v) => `<tr><td>${esc(v.flatNo)}</td><td>${esc(v.kind)}</td><td>${esc(v.choices.join(", "))}</td></tr>`).join("")}</table></details>`;
+    if (p.openVotes && p.openVotes.length) h += `<details><summary>How each flat voted</summary><table><tr><th>Flat</th><th>Voter</th><th>Choice</th></tr>${p.openVotes.map((v) => `<tr><td>${esc(v.flatNo)}</td><td>${esc(v.kind)}</td><td>${esc(v.choices.map((c) => p.labels[c] ?? c).join(", "))}</td></tr>`).join("")}</table></details>`;
     if (p.receipts) h += `<details><summary>${p.receipts.length} receipt codes (check yours is in the list)</summary><p class="mono">${p.receipts.map(esc).join("<br>")}</p></details>`;
   }
   return h + "</section>";
@@ -86,7 +92,7 @@ ${scheduleHtml}
 <h2>Attendance and quorum</h2><div class="card"><p><b>${esc(att.line)}</b></p><p>${att.present} of ${att.total} flats present${q ? ` · quorum: ${q.present} present, ${q.required} needed (${esc(q.basis ?? "")}): <b>${q.met ? "met" : "not met"}</b>` : " · quorum check was off"}</p>
 ${attRows ? `<details><summary>Present flats</summary><table><tr><th>Flat</th><th>Mode</th><th>Checked by</th><th>Marked by</th></tr>${attRows}</table></details>` : ""}</div>
 <h2>Agenda and results</h2>${model.points.map((p) => pointHtml(model, p)).join("") || '<div class="card">No agenda points yet.</div>'}
-${model.payments.length ? `<h2>Payment</h2><div class="card">${model.payments.map((p) => `Rs ${rs(p.amountMinor)} · ${esc(p.state)} · ${esc(p.mode)} mode`).join("<br>")}</div>` : ""}
+${model.payments.length ? `<h2>Payment</h2><div class="card">${model.payments.map((p) => `${esc(money(p.amountMinor, p.currency))} · ${esc(p.state)} · ${esc(p.mode)} mode`).join("<br>")}</div>` : ""}
 ${model.platformActions.length ? `<h2>Platform actions</h2><div class="card">${model.platformActions.map((a) => `#${a.seq} ${esc(a.action)}: ${esc(a.reason)}`).join("<br>")}</div>` : ""}
 ${model.problems.length ? `<h2 class="warn">Problems found in the log</h2><div class="card warn">${model.problems.map(esc).join("<br>")}</div>` : ""}
 <h2>Complete log</h2><details><summary>${log.length} entries</summary><table class="mono"><tr><th>#</th><th>Time</th><th>Type</th><th>Hash</th></tr>${log.map((l) => `<tr><td>${l.entry.seq}</td><td>${esc(dt(l.entry.ts))}</td><td>${esc(l.entry.type)}</td><td>${esc(l.hash.slice(0, 16))}…</td></tr>`).join("")}</table></details>

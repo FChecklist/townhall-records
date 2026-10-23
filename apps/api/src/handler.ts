@@ -2,7 +2,7 @@
 // Routes and rules: docs/design/API.md. There is no DELETE route and no route that edits history.
 import rulePacks from "../../../docs/research/rule-packs.json";
 import {
-  defaultSchedule, validateSchedule, type Schedule, TERMS_VERSION, TERMS_TEXT, termsSha256,
+  defaultSchedule, validateSchedule, type Schedule, TERMS_VERSION, TERMS_TEXT, termsSha256, priceFor, isCountry, formatPrice, renderReportPdf, pdfSha256, extractSeal, normalizeBallotDesign, defaultBallotDesign, ballotInstruction, type Actor,
   CUSTOM_WORLD_PACK, OPTIONS, PARAMS, RuleError, aesDecrypt, aesEncrypt, applyRecommended, b64url, buildReportModel, canAmendPoint, canChangeRoll, canChangeRule, canDo, canVote, cloneTemplate,
   deriveKey32, effectiveWeight, extractData, fromB64url, issuePasscode, loadAllPacks, maskEmail, maskName, maskPhone, newRuleSet, parseMajority, progressOf, proxyAllowed, randomHex, renderReportHtml,
   sealReport, setOption, validateBallot, validateParam, verifyPasscode, LOGIN_TTL_MS, sha256Hex, type EnginePack, type EventState, type PointDef, type RuleSet, type Json, type Role,
@@ -15,7 +15,7 @@ import {
 
 export const PACKS: Map<string, EnginePack> = loadAllPacks(rulePacks);
 const EVENT_TYPES = ["agm", "sgm", "monthly", "committee", "custom"];
-const PRICE_MINOR: Record<string, number> = { meeting: 19900, election: 49900 };
+const PRICES_PUBLIC = { india: { meeting: priceFor("meeting", "IN"), election: priceFor("election", "IN") }, world: { meeting: priceFor("meeting", "US"), election: priceFor("election", "US") } };
 const STAFF_TTL = 12 * 3600_000, VOTER_TTL = 8 * 3600_000;
 const ENTRY_ACTOR = (st: EventState, pid: string) => actorOf(pid, st.people.get(pid)?.roles[0] ?? "none");
 
@@ -99,7 +99,7 @@ const needPack = (id: unknown): EnginePack => { const p = PACKS.get(String(id));
 route("GET", "/api/health", async () => json({ ok: true }));
 route("GET", "/api/terms", async () => json({ version: TERMS_VERSION, text: TERMS_TEXT, sha256: await termsSha256() }));
 route("GET", "/api/pubkey", async (c) => json({ alg: "Ed25519", ...(await publicKey(c.env)) }));
-route("GET", "/api/schema", async () => json({ params: PARAMS.map(({ requiredWhen, ...p }) => ({ ...p, conditional: !!requiredWhen })), options: OPTIONS, eventTypes: EVENT_TYPES, prices: PRICE_MINOR, milestones: ["start", "votingStart", "votingEnd", "end"] }));
+route("GET", "/api/schema", async () => json({ params: PARAMS.map(({ requiredWhen, ...p }) => ({ ...p, conditional: !!requiredWhen })), options: OPTIONS, eventTypes: EVENT_TYPES, prices: PRICES_PUBLIC, priceText: { india: [formatPrice(priceFor("meeting", "IN")), formatPrice(priceFor("election", "IN"))], world: [formatPrice(priceFor("meeting", "US")), formatPrice(priceFor("election", "US"))] }, electionFormats: ["single_post", "ranked_posts", "top_n"], ballotDesign: defaultBallotDesign(), milestones: ["start", "votingStart", "votingEnd", "end"] }));
 route("GET", "/api/packs", async () => json([...PACKS.values()].map((p) => ({ id: p.id, name: p.name, jurisdiction: p.jurisdiction, confidence: p.confidence, needsLawyer: p.needsLawyer, recommended: p.recommended }))));
 route("GET", "/api/packs/:id", async (c, m) => json(needPack(m[1])));
 
@@ -163,6 +163,8 @@ route("POST", "/api/events", async (c) => {
     registrationNo: str(soc.registrationNo ?? tpl?.society.registrationNo, "registration number", 1, 60), kind: str(soc.kind ?? tpl?.society.kind ?? "AOA", "society kind", 2, 30),
   };
   const pack = needPack(b.packId ?? tpl?.packId);
+  const country = (isCountry(b.country) ? b.country : pack.jurisdiction.split("-")[0]!).toUpperCase();
+  if (!isCountry(country)) throw err(400, "bad_country", "Please choose the country of the society (two letters, for example IN or US).");
   const scheduledMs = int(b.schedule?.start?.atMs ?? b.scheduledMs, "scheduledMs", c.now - 86_400_000, c.now + 3 * 366 * 86_400_000);
   let schedule: Schedule = b.schedule ?? defaultSchedule(scheduledMs, str(b.venue, "venue", 2, 200));
   { const sv = validateSchedule(schedule); if (sv) throw err(400, "bad_schedule", sv); }
@@ -177,7 +179,7 @@ route("POST", "/api/events", async (c) => {
   const tx = Tx.fresh(c, eid); tx.regAllow = [society.registrationNo];
   const stmts: D1Stmt[] = [];
   const { db } = c;
-  await tx.add("event_created", { pid, role: "organizer" }, { kind, eventType, title, venue, scheduledMs: schedule.start.atMs, schedule: schedule as any, packId: pack.id, timezone, society, createdFrom: tpl ? tpl.createdFrom : null } as any,
+  await tx.add("event_created", { pid, role: "organizer" }, { kind, eventType, title, venue, scheduledMs: schedule.start.atMs, schedule: schedule as any, country, packId: pack.id, timezone, society, createdFrom: tpl ? tpl.createdFrom : null } as any,
     () => [
       db.prepare("INSERT INTO societies(id,name,address,registration_no,kind,created_ms) VALUES(?,?,?,?,?,?)").bind(eid, society.name, society.address, society.registrationNo, society.kind, c.now),
       db.prepare("INSERT INTO events(id,society_id,kind,event_type,title,venue,scheduled_ms,pack_id,created_from_event_id,organizer_person_id,created_ms) VALUES(?,?,?,?,?,?,?,?,?,?,?)").bind(eid, eid, kind, eventType, title, venue, schedule.start.atMs, pack.id, tpl?.createdFrom ?? null, pid, c.now),
@@ -220,8 +222,8 @@ async function eventKey2(c: Ctx, eid: string, stmts: D1Stmt[]): Promise<Uint8Arr
   stmts.unshift(c.db.prepare("INSERT INTO event_keys(event_id,wrapped_key,created_ms,destroyed_ms) VALUES(?,?,?,NULL)").bind(eid, await aesEncrypt(await wrapKey(c.env), b64url(key), eid), c.now));
   return key;
 }
-const pointStmt = (c: Ctx, eid: string, pointId: string, p: { number: string; title: string; body: string; kind: string; options: string[]; maxChoices: number; majorityClass: string; secret: boolean }, rev: number, seq: number) =>
-  c.db.prepare("INSERT INTO agenda_points(point_id,event_id,number,title,body,kind,options_json,max_choices,majority_class,secret,rev,log_seq) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)").bind(pointId, eid, p.number, p.title, p.body, p.kind, JSON.stringify(p.options), p.maxChoices, p.majorityClass, p.secret ? 1 : 0, rev, seq);
+const pointStmt = (c: Ctx, eid: string, pointId: string, p: any, rev: number, seq: number) =>
+  c.db.prepare("INSERT INTO agenda_points(point_id,event_id,number,title,body,kind,options_json,max_choices,majority_class,secret,extra_json,rev,log_seq) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)").bind(pointId, eid, p.number, p.title, p.body, p.kind, JSON.stringify(p.options), p.maxChoices, p.majorityClass, p.secret ? 1 : 0, JSON.stringify({ labels: p.labels ?? {}, minChoices: p.minChoices ?? 1, format: p.format ?? null, seats: p.seats ?? [], topN: p.topN ?? null, design: p.design ?? null }), rev, seq);
 
 // ------------------------------------------------------------------------------------------------ e-mail passcode login
 async function issueLogin(c: Ctx, eid: string, pid: string, to: string, society: string): Promise<void> {
@@ -304,18 +306,37 @@ route("PUT", "/api/events/:id/roll", async (c, m) => {
   await tx.add("roll_set", ENTRY_ACTOR(st, pid), { rev, flats: clean }, () => clean.map((f) => c.db.prepare("INSERT INTO flats(event_id,flat_no,weight,eligible,rev) VALUES(?,?,?,?,?)").bind(tx.eid, f.flatNo, f.weight, f.eligible ? 1 : 0, rev)));
   await tx.commit(); return json({ ok: true, flats: clean.length, anonymityWarning: !!st.rules?.options.weightage && !!st.rules?.options.secret_ballot });
 });
-function pointInput(b: any, kind0?: string) {
-  const kind = ["discussion", "resolution", "election_post"].includes(b.kind) ? (b.kind as string) : (() => { throw err(400, "bad_kind", "kind must be discussion, resolution or election_post."); })();
-  const title = str(b.title, "title", 2, 200), body = optStr(b.body, "body", 4000);
-  let options: string[] = kind === "resolution" ? ["yes", "no", "abstain"] : kind === "discussion" ? [] : (Array.isArray(b.options) ? b.options : []);
-  if (kind === "resolution" && Array.isArray(b.options)) options = b.options;
-  options = options.map((o) => str(o, "option", 1, 60));
-  if (new Set(options).size !== options.length || options.some((o) => o.includes(","))) throw err(400, "bad_options", "Options must be different and must not contain commas.");
-  if (kind === "election_post" && options.length < 2) throw err(400, "bad_options", "An election post needs at least two options.");
-  if (kind === "resolution" && !(options.includes("yes") && options.includes("no"))) throw err(400, "bad_options", "A resolution needs yes and no.");
-  const maxChoices = kind === "election_post" ? int(b.maxChoices ?? 1, "maxChoices", 1, Math.max(1, options.length)) : 1;
-  const majorityClass = typeof b.majorityClass === "string" ? b.majorityClass : "simple"; try { parseMajority(majorityClass); } catch { throw err(400, "bad_majority", "Unknown majority class."); }
-  void kind0; return { kind, title, body, options, maxChoices, majorityClass, secret: b.secret === true };
+function pointInput(b: any, cur?: any) {
+  const kindIn = b.kind ?? cur?.kind;
+  const kind = ["discussion", "resolution", "election_post"].includes(kindIn) ? (kindIn as string) : (() => { throw err(400, "bad_kind", "kind must be discussion, resolution or election_post."); })();
+  const title = str(b.title ?? cur?.title, "title", 2, 200), body = optStr(b.body ?? cur?.body, "body", 4000);
+  let options: string[] = []; const labels: Record<string, string> = {};
+  if (kind === "resolution") {
+    const abstain = b.abstain !== undefined ? b.abstain !== false : cur ? cur.options.includes("abstain") : true;
+    options = ["yes", "no", ...(abstain ? ["abstain"] : [])]; labels.yes = "Yes"; labels.no = "No"; if (abstain) labels.abstain = "Abstain";
+  } else if (kind === "election_post") {
+    const raw = Array.isArray(b.candidates) ? b.candidates : cur ? cur.options.map((id: string) => ({ id, label: cur.labels?.[id] ?? id })) : [];
+    const seenLabel = new Set<string>();
+    for (const x of raw) {
+      const label = str(typeof x === "string" ? x : x?.label, "candidate", 1, 80); const given = typeof x === "object" && x ? x.id : undefined;
+      let id: string; if (given) { if (!cur?.options.includes(given)) throw err(400, "bad_candidate_id", "Unknown candidate id."); id = given; } else id = "c_" + randomHex(6);
+      if (options.includes(id) || seenLabel.has(label.toLowerCase())) throw err(400, "dup_candidate", "Two candidates have the same name or id.");
+      seenLabel.add(label.toLowerCase()); options.push(id); labels[id] = label;
+    }
+    if (options.length < 2) throw err(400, "bad_options", "An election post needs at least two candidates.");
+  }
+  const n = options.filter((o) => o !== "abstain").length;
+  const maxChoices = kind === "election_post" ? int(b.maxChoices ?? cur?.maxChoices ?? 1, "maxChoices", 1, Math.max(1, n)) : 1;
+  const minChoices = kind === "discussion" ? 0 : int(b.minChoices ?? cur?.minChoices ?? 1, "minChoices", 0, maxChoices);
+  const majorityClass = typeof b.majorityClass === "string" ? b.majorityClass : cur?.majorityClass ?? "simple"; try { parseMajority(majorityClass); } catch { throw err(400, "bad_majority", "Unknown majority class."); }
+  let format: string | null = null, seats: string[] = [], topN: number | null = null;
+  if (kind === "election_post") {
+    format = b.format ?? cur?.format ?? "single_post"; if (!["single_post", "ranked_posts", "top_n"].includes(format!)) throw err(400, "bad_format", "format must be single_post, ranked_posts or top_n.");
+    if (format === "ranked_posts") { seats = (b.seats ?? cur?.seats ?? []).map((x: unknown) => str(x, "post name", 2, 60)); if (!seats.length || seats.length > n || new Set(seats.map((x) => x.toLowerCase())).size !== seats.length) throw err(400, "bad_seats", "Give the post names (President, Vice President ...): at least one, all different, no more than the candidates."); }
+    if (format === "top_n") { topN = int(b.topN ?? cur?.topN, "topN", 1, n); }
+  }
+  let design; try { design = normalizeBallotDesign(b.design ?? cur?.design); } catch (e: any) { throw err(400, "bad_design", e.message); }
+  return { kind, title, body, options, labels, maxChoices, minChoices, majorityClass, secret: b.secret !== undefined ? b.secret === true : cur?.secret === true, format, seats, topN, design };
 }
 route("POST", "/api/events/:id/points", async (c, m) => {
   const { tx, pid } = await staff(c, m[1]!, "edit_setup"); const st = await tx.st(); decide(canAmendPoint(st, null));
@@ -329,7 +350,7 @@ route("POST", "/api/events/:id/points", async (c, m) => {
 route("PUT", "/api/events/:id/points/:pid", async (c, m) => {
   const { tx, pid } = await staff(c, m[1]!, "edit_setup"); const st = await tx.st(); decide(canAmendPoint(st, m[2]!));
   const cur = st.points.get(m[2]!); if (!cur) throw err(404, "unknown_point", "No such agenda point.");
-  const p = pointInput({ ...cur.def, ...c.body }); const number = optStr(c.body.number, "number", 12) || cur.def.number; const rev = cur.def.rev + 1;
+  const p = pointInput(c.body, cur.def); const number = optStr(c.body.number, "number", 12) || cur.def.number; const rev = cur.def.rev + 1;
   await tx.add("point_amended", ENTRY_ACTOR(st, pid), { pointId: m[2]!, number, ...p, rev } as any, (seq) => [pointStmt(c, tx.eid, m[2]!, { number, ...p }, rev, seq)]);
   await tx.commit(); return json({ ok: true, rev });
 });
@@ -395,22 +416,22 @@ route("POST", "/api/events/:id/pay", async (c, m) => {
   const { tx, pid } = await staff(c, m[1]!, "pay"); const st = await tx.st();
   if (c.env.TEST_MODE !== "1") throw err(503, "pay_disabled", "Payments are not switched on yet.");
   if (st.paid) throw err(409, "already_paid", "This event is already paid.");
-  const amountMinor = PRICE_MINOR[st.created!.kind]!; const paymentId = newId("pay_", 8);
+  const price = priceFor(st.created!.kind, st.created!.country); const amountMinor = price.amountMinor; const paymentId = newId("pay_", 8);
   let orderId: string | null = null;
   if (c.env.PAY_SERVICE_KEY) { // central path (IT Services by Rajat Agarwal), same call shape as Corporate Bingo; TEST mode only
     try {
-      const r = await fetch(`${(c.env.PAY_SERVICE_URL ?? "https://itservices-rajat-agarwal.pages.dev").replace(/\/+$/, "")}/api/pay/order`, { method: "POST", headers: { "content-type": "application/json", "x-site-key": c.env.PAY_SERVICE_KEY }, body: JSON.stringify({ site: c.env.PAY_SITE ?? "aoa-rwa", product: "aoa_rwa", plan: st.created!.kind, amount_minor: amountMinor, currency: "INR", payment_ref: paymentId, extra_notes: { event: tx.eid.slice(0, 8), test: "1" } }), signal: AbortSignal.timeout(6000) });
+      const r = await fetch(`${(c.env.PAY_SERVICE_URL ?? "https://itservices-rajat-agarwal.pages.dev").replace(/\/+$/, "")}/api/pay/order`, { method: "POST", headers: { "content-type": "application/json", "x-site-key": c.env.PAY_SERVICE_KEY }, body: JSON.stringify({ site: c.env.PAY_SITE ?? "aoa-rwa", product: "aoa_rwa", plan: st.created!.kind, amount_minor: amountMinor, currency: price.currency, payment_ref: paymentId, extra_notes: { event: tx.eid.slice(0, 8), test: "1" } }), signal: AbortSignal.timeout(6000) });
       const d: any = await r.json().catch(() => ({})); if (r.ok && d.orderId) orderId = String(d.orderId);
     } catch { /* falls back to the local test order */ }
   }
-  await tx.add("payment_state", ENTRY_ACTOR(st, pid), { paymentId, state: "created", amountMinor, mode: "test" }, (seq) => [c.db.prepare("INSERT INTO payments(payment_id,event_id,state,mode,order_id,amount_minor,currency,ref,log_seq,at_ms) VALUES(?,?,'created','test',?,?, 'INR', ?,?,?)").bind(paymentId, tx.eid, orderId, amountMinor, null, seq, c.now)]);
-  await tx.commit(); return json({ paymentId, amountMinor, currency: "INR", mode: "test", orderId }, 201);
+  await tx.add("payment_state", ENTRY_ACTOR(st, pid), { paymentId, state: "created", amountMinor, currency: price.currency, mode: "test" }, (seq) => [c.db.prepare("INSERT INTO payments(payment_id,event_id,state,mode,order_id,amount_minor,currency,ref,log_seq,at_ms) VALUES(?,?,'created','test',?,?,?,?,?,?)").bind(paymentId, tx.eid, orderId, amountMinor, price.currency, null, seq, c.now)]);
+  await tx.commit(); return json({ paymentId, amountMinor, currency: price.currency, price: formatPrice(price), mode: "test", orderId }, 201);
 });
 async function markPaid(c: Ctx, eid: string, paymentId: string, via: string): Promise<void> {
   const tx = await Tx.load(c, eid); const st = await tx.st();
   const created = st.payments.find((p) => p.paymentId === paymentId && p.state === "created"); if (!created) throw err(404, "no_payment", "No such payment.");
   if (st.payments.some((p) => p.paymentId === paymentId && p.state === "paid")) return; // idempotent
-  await tx.add("payment_state", { system: true }, { paymentId, state: "paid", amountMinor: created.amountMinor, mode: "test" }, (seq) => [c.db.prepare("INSERT INTO payments(payment_id,event_id,state,mode,order_id,amount_minor,currency,ref,log_seq,at_ms) VALUES(?,?,'paid','test',NULL,?, 'INR', ?,?,?)").bind(paymentId, eid, created.amountMinor, via, seq, c.now)]);
+  await tx.add("payment_state", { system: true }, { paymentId, state: "paid", amountMinor: created.amountMinor, currency: created.currency, mode: "test" }, (seq) => [c.db.prepare("INSERT INTO payments(payment_id,event_id,state,mode,order_id,amount_minor,currency,ref,log_seq,at_ms) VALUES(?,?,'paid','test',NULL,?,?,?,?,?)").bind(paymentId, eid, created.amountMinor, created.currency, via, seq, c.now)]);
   await tx.commit();
 }
 route("POST", "/api/pay/test-confirm", async (c) => {
@@ -502,9 +523,9 @@ route("POST", "/api/events/:id/points/:pid/extend", async (c, m) => {
   await tx.add("point_extended", ENTRY_ACTOR(st, pid), { pointId: m[2]!, endsMs, reason }, (seq) => [c.db.prepare("INSERT INTO point_state(point_id,event_id,state,ends_ms,log_seq,at_ms) VALUES(?,?,'open',?,?,?)").bind(m[2]!, tx.eid, endsMs, seq, c.now)]);
   await tx.commit(); return json({ ok: true, endsMs });
 });
-async function closePoint(c: Ctx, tx: Tx, pid: string, pointId: string): Promise<void> {
-  let st = await tx.st(); const actor = ENTRY_ACTOR(st, pid);
-  await tx.add("point_closed", actor, { pointId, by: pid }, (seq) => [c.db.prepare("INSERT INTO point_state(point_id,event_id,state,ends_ms,log_seq,at_ms) VALUES(?,?,'closed',NULL,?,?)").bind(pointId, tx.eid, seq, c.now)]);
+async function closePoint(c: Ctx, tx: Tx, pid: string | null, pointId: string): Promise<void> {
+  let st = await tx.st(); const actor: Actor = pid ? ENTRY_ACTOR(st, pid) : { system: true };
+  await tx.add("point_closed", actor, { pointId, by: pid ?? "system" }, (seq) => [c.db.prepare("INSERT INTO point_state(point_id,event_id,state,ends_ms,log_seq,at_ms) VALUES(?,?,'closed',NULL,?,?)").bind(pointId, tx.eid, seq, c.now)]);
   st = await tx.st(); const pt = st.points.get(pointId)!;
   if (pt.def.secret) {
     const rows = (await c.db.prepare("SELECT receipt_hash, choice_json, weight, kind FROM ballot_box WHERE point_id=?").bind(pointId).all<any>()).results;
@@ -519,19 +540,64 @@ route("POST", "/api/events/:id/points/:pid/close", async (c, m) => {
   const { tx, pid } = await staff(c, m[1]!, "close_point", { pointId: m[2]!, nowMs: c.now });
   await closePoint(c, tx, pid, m[2]!); await tx.commit(); return json({ ok: true, result: (await tx.st()).results.get(m[2]!) });
 });
-route("POST", "/api/events/:id/close", async (c, m) => {
-  const { tx, pid } = await staff(c, m[1]!, "close_event"); let st = await tx.st();
+/** Closes every open point, closes the event, builds + signs + stores the report, all in ONE atomic write. Used by the Host's button and by the automatic end-of-event tick. */
+async function closeAndPublish(c: Ctx, tx: Tx, pid: string | null): Promise<{ fileSha256: string; headSeq: number }> {
+  let st = await tx.st();
   for (const id of st.pointOrder) if (st.points.get(id)!.state === "open") { await closePoint(c, tx, pid, id); st = await tx.st(); }
-  st = await tx.st();
-  await tx.add("event_closed", ENTRY_ACTOR(st, pid), { headSeq: tx.nextSeq }, (seq) => [statusStmt(c, tx.eid, "closed", seq)]);
+  st = await tx.st(); const actor: Actor = pid ? ENTRY_ACTOR(st, pid) : { system: true };
+  await tx.add("event_closed", actor, { headSeq: tx.nextSeq, auto: pid === null }, (seq) => [statusStmt(c, tx.eid, "closed", seq)]);
   st = await tx.st(); const model = buildReportModel(st); const pk = await publicKey(c.env);
   const { html, seal } = await sealReport(renderReportHtml(model, tx.entries, pk.publicKey, pk.kid), model, c.env.SIGNING_KEY, pk.kid);
-  const rev = ((await c.db.prepare("SELECT MAX(rev) r FROM reports WHERE event_id=?").bind(tx.eid).first<{ r: number }>())?.r ?? 0) + 1;
   await tx.commit([
-    c.db.prepare("INSERT INTO reports(event_id,rev,file_sha256,sig,head_seq,head_hash,html,published_ms) VALUES(?,?,?,?,?,?,?,?)").bind(tx.eid, rev, seal.fileSha256, seal.sig, seal.headSeq, seal.headHash, html, c.now),
+    c.db.prepare("INSERT INTO reports(event_id,rev,file_sha256,sig,head_seq,head_hash,html,published_ms) VALUES(?,1,?,?,?,?,?,?)").bind(tx.eid, seal.fileSha256, seal.sig, seal.headSeq, seal.headHash, html, c.now),
     c.db.prepare("INSERT INTO anchors(event_id,head_seq,head_hash,kind,sig,at_ms) VALUES(?,?,?,'report',?,?)").bind(tx.eid, seal.headSeq, seal.headHash, seal.sig, c.now),
   ]);
-  return json({ ok: true, report: `/api/r/${tx.eid}`, fileSha256: seal.fileSha256, headSeq: seal.headSeq });
+  try { // best effort: the Organizer gets the PDF by e-mail straight away; a mail problem never blocks or undoes the publication
+    const org = [...st.people.values()].find((p) => p.roles.includes("organizer"));
+    if (org) await emailReport(c, tx.eid, [(await contactOf(c, tx.eid, org.pid)).email], { system: true });
+  } catch (e) { console.error("auto e-mail of the report failed", String((e as any)?.message ?? e)); }
+  return { fileSha256: seal.fileSha256, headSeq: seal.headSeq };
+}
+route("POST", "/api/events/:id/close", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!, "close_event");
+  const r = await closeAndPublish(c, tx, pid);
+  return json({ ok: true, report: `/api/r/${tx.eid}`, pdf: `/api/r/${tx.eid}/pdf`, fileSha256: r.fileSha256, headSeq: r.headSeq });
+});
+/** The scheduler (every minute) closes live events whose scheduled end has passed and publishes their reports: the report is out within about a minute of the end, well inside 120 seconds. */
+route("POST", "/api/internal/tick", async (c) => {
+  if (!c.env.INTERNAL_SECRET || c.req.headers.get("x-internal-secret") !== c.env.INTERNAL_SECRET) throw err(404, "not_found", "Not found.");
+  const live = (await c.db.prepare("SELECT event_id FROM event_status s WHERE id=(SELECT MAX(id) FROM event_status WHERE event_id=s.event_id) AND status='live'").all<{ event_id: string }>()).results;
+  const closed: string[] = [];
+  for (const r of live) {
+    const tx = await Tx.load(c, r.event_id); const st = await tx.st();
+    if (st.status !== "live" || st.rules?.options.auto_publish === false || c.now < st.created!.schedule.end.atMs) continue;
+    c.eventId = r.event_id; await closeAndPublish(c, tx, null); closed.push(r.event_id);
+  }
+  return json({ closed: closed.length, events: closed });
+});
+async function reportBytes(c: Ctx, eid: string): Promise<{ html: string; pdf: Uint8Array; pdfSha256: string; fileSha256: string }> {
+  const rep = await c.db.prepare("SELECT html FROM reports WHERE event_id=? ORDER BY rev DESC LIMIT 1").bind(eid).first<{ html: string }>();
+  if (!rep) throw err(409, "not_published", "The report is published when the event closes.");
+  const data = extractData(rep.html)!, seal = extractSeal(rep.html);
+  const pdf = await renderReportPdf(data, seal, { reportUrl: `${(c.env.PUBLIC_ORIGIN ?? c.url.origin).replace(/\/+$/, "")}/api/r/${eid}` });
+  return { html: rep.html, pdf, pdfSha256: await pdfSha256(pdf), fileSha256: seal?.fileSha256 ?? "" };
+}
+route("GET", "/api/r/:id/pdf", async (c, m) => {
+  const b = await reportBytes(c, m[1]!);
+  return new Response(b.pdf, { headers: { "content-type": "application/pdf", "cache-control": "no-store", "content-disposition": `attachment; filename="aoa-rwa-${m[1]!.slice(0, 8)}-report.pdf"`, "x-pdf-sha256": b.pdfSha256, "x-report-sha256": b.fileSha256, "x-content-type-options": "nosniff" } });
+});
+async function emailReport(c: Ctx, eid: string, to: string[], actor: Actor): Promise<void> {
+  const tx = await Tx.load(c, eid); const st = await tx.st(); const b = await reportBytes(c, eid);
+  const link = `${(c.env.PUBLIC_ORIGIN ?? c.url.origin).replace(/\/+$/, "")}/api/r/${eid}`;
+  for (const addr of to) await sendMail(c, addr, `Report: ${st.created!.title}`, `The signed report of "${st.created!.title}" (${st.created!.society.name}) is attached as a PDF for signature by the Returning Officer.\nOnline record and verifier: ${link}\nReport fingerprint (SHA-256): ${b.fileSha256}\n`, [{ filename: `aoa-rwa-${eid.slice(0, 8)}-report.pdf`, content: b.pdf, contentType: "application/pdf" }]);
+  await tx.add("report_emailed", actor, { count: to.length, recipients: to.map((x) => maskEmail(x)), pdfSha256: b.pdfSha256, reportSha256: b.fileSha256 });
+  await tx.commit();
+}
+route("POST", "/api/events/:id/report/email", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!, "read_contacts"); const st = await tx.st();
+  await rateLimit(c, "report-email", tx.eid, 5, 3600);
+  const to = Array.isArray(c.body.to) ? (c.body.to as unknown[]).map((x) => emailOf(x)) : []; if (!to.length || to.length > 10) throw err(400, "bad_recipients", "Give 1 to 10 e-mail addresses.");
+  await emailReport(c, tx.eid, [...new Set(to)], ENTRY_ACTOR(st, pid)); return json({ ok: true, sent: new Set(to).size });
 });
 
 // ------------------------------------------------------------------------------------------------ voter
@@ -556,7 +622,7 @@ route("POST", "/api/vote/login", async (c) => {
 });
 route("GET", "/api/vote/points", async (c) => {
   const s = await requireSession(c, "voter"); const st = await (await Tx.load(c, s.eventId!)).st();
-  return json({ flatNo: s.flatNo, points: st.pointOrder.map((id) => st.points.get(id)!).filter((p) => p.state === "open").map((p) => ({ pointId: p.def.pointId, number: p.def.number, title: p.def.title, body: p.def.body, kind: p.def.kind, options: p.def.options, maxChoices: p.def.maxChoices, secret: p.def.secret, endsMs: p.endsMs, voted: !!st.ledger.get(p.def.pointId)?.has(s.flatNo!) })) });
+  return json({ flatNo: s.flatNo, points: st.pointOrder.map((id) => st.points.get(id)!).filter((p) => p.state === "open").map((p) => ({ pointId: p.def.pointId, number: p.def.number, title: p.def.title, body: p.def.body, kind: p.def.kind, options: p.def.options, maxChoices: p.def.maxChoices, secret: p.def.secret, endsMs: p.endsMs, labels: p.def.labels, minChoices: p.def.minChoices ?? 1, design: p.def.design, instruction: ballotInstruction(p.def.minChoices ?? 1, p.def.maxChoices), voted: !!st.ledger.get(p.def.pointId)?.has(s.flatNo!) })) });
 });
 route("POST", "/api/vote/cast", async (c) => {
   const s = await requireSession(c, "voter"); await rateLimit(c, "vote-cast", s.tokenHash, 60, 60);
@@ -566,7 +632,14 @@ route("POST", "/api/vote/cast", async (c) => {
     if (["already_voted", "window_ended", "not_present", "point_closed"].includes(d.code) && st.points.has(pointId)) { await tx.add("vote_rejected", { flat: flatNo }, { pointId, flatNo, reason: d.code }); await tx.commit().catch(() => {}); }
     throw err(d.code === "already_voted" ? 409 : 403, d.code, d.message);
   }
-  const pt = st.points.get(pointId)!; const bc = validateBallot(pt.def as PointDef, c.body.choices); if (!bc.ok) throw err(400, "bad_ballot", "That ballot is not valid: " + bc.reason);
+  const pt = st.points.get(pointId)!;
+  let rawChoices = c.body.choices;
+  if (c.body.marks !== undefined) { // checkbox form: ticked = yes (selected), not ticked = no (not selected)
+    const mk = c.body.marks; if (!mk || typeof mk !== "object" || Array.isArray(mk)) throw err(400, "bad_ballot", "marks must list each box as true or false.");
+    for (const [k, v] of Object.entries(mk)) { if (!pt.def.options.includes(k)) throw err(400, "bad_ballot", "That box is not on this ballot."); if (typeof v !== "boolean") throw err(400, "bad_ballot", "Each box must be ticked (true) or not ticked (false)."); }
+    rawChoices = Object.entries(mk).filter(([, v]) => v === true).map(([k]) => k);
+  }
+  const bc = validateBallot(pt.def as PointDef, rawChoices); if (!bc.ok) throw err(400, "bad_ballot", "That ballot is not valid: " + bc.reason);
   const rules = pt.frozen ?? st.rules!; const flat = st.roll.find((f) => f.flatNo === flatNo)!; const weight = effectiveWeight(flat, !!rules.options.weightage);
   const kind = ((await c.db.prepare("SELECT voter_kind FROM sessions WHERE token_hash=?").bind(s.tokenHash).first<{ voter_kind: string }>())?.voter_kind === "proxy") ? "proxy" : "official";
   if (pt.def.secret) {
@@ -618,8 +691,8 @@ route("GET", "/api/super/events/:id/audit", async (c, m) => {
 });
 route("POST", "/api/super/payments/reconcile", async (c) => {
   await requireSession(c, "super"); const pid = str(c.body.paymentId, "paymentId", 3, 40), note = str(c.body.note, "note", 3, 300);
-  const p = await c.db.prepare("SELECT event_id, amount_minor FROM payments WHERE payment_id=? ORDER BY id DESC LIMIT 1").bind(pid).first<any>(); if (!p) throw err(404, "no_payment", "No such payment.");
-  await c.db.batch([c.db.prepare("INSERT INTO payments(payment_id,event_id,state,mode,order_id,amount_minor,currency,ref,log_seq,at_ms) VALUES(?,?,'reconciled','test',NULL,?,'INR',?,NULL,?)").bind(pid, p.event_id, p.amount_minor, note, c.now),
+  const p = await c.db.prepare("SELECT event_id, amount_minor, currency FROM payments WHERE payment_id=? ORDER BY id DESC LIMIT 1").bind(pid).first<any>(); if (!p) throw err(404, "no_payment", "No such payment.");
+  await c.db.batch([c.db.prepare("INSERT INTO payments(payment_id,event_id,state,mode,order_id,amount_minor,currency,ref,log_seq,at_ms) VALUES(?,?,'reconciled','test',NULL,?,?,?,NULL,?)").bind(pid, p.event_id, p.amount_minor, p.currency, note, c.now),
     c.db.prepare("INSERT INTO super_admin_actions(at_ms,actor_hash,action,event_id,reason,log_seq) VALUES(?,?,?,?,?,NULL)").bind(c.now, await superHash(c), "reconcile", p.event_id, note)]);
   return json({ ok: true });
 });

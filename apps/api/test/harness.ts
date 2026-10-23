@@ -38,7 +38,7 @@ export const PRIVATE = [ORG, HOSTP, OFFP].flatMap((p) => [p.name, p.email, p.pho
 export interface EventCtx { h: H; eid: string; org: string; pid: string }
 export async function newEvent(h: H, over: Record<string, unknown> = {}): Promise<EventCtx & { ip: string }> {
   const r = await h.call("POST", "/api/events", {
-    kind: "meeting", eventType: "agm", title: "Annual General Meeting 2026", venue: "Clubhouse", scheduledMs: h.now + 10 * DAY, packId: "in-up-aoa", useRecommended: true,
+    kind: "meeting", eventType: "agm", title: "Annual General Meeting 2026", venue: "Clubhouse", scheduledMs: h.now + 10 * DAY, packId: "in-up-aoa", country: "IN", useRecommended: true,
     society: { name: "Green Park Apartments", address: "12 Park Road, Lucknow", registrationNo: "REG/2020/118", kind: "AOA" }, organizer: ORG, turnstile: "test-ok", ...over,
   });
   if (r.status !== 201) throw new Error("create failed " + r.text);
@@ -53,7 +53,7 @@ export async function setup(h: H, o: { flats?: number; secret?: boolean; kind?: 
   const ok = async (r: Promise<any>) => { const x = await r; if (x.status >= 300) throw new Error(JSON.stringify(x.body)); return x; };
   await ok(h.call("PUT", `/api/events/${e.eid}/roll`, { flats: flatsOf(o.flats ?? 10) }, e.org));
   const pr = o.kind === "election"
-    ? await ok(h.call("POST", `/api/events/${e.eid}/points`, { kind: "election_post", title: "President", options: ["Asha", "Bimal", "Chitra"], maxChoices: 1, secret: true }, e.org))
+    ? await ok(h.call("POST", `/api/events/${e.eid}/points`, { kind: "election_post", title: "President", candidates: ["Asha", "Bimal", "Chitra"], maxChoices: 1, secret: true }, e.org))
     : await ok(h.call("POST", `/api/events/${e.eid}/points`, { kind: "resolution", title: "Approve the accounts", secret: o.secret ?? false, majorityClass: "simple" }, e.org));
   const pay = await ok(h.call("POST", `/api/events/${e.eid}/pay`, {}, e.org));
   await ok(h.call("POST", "/api/pay/test-confirm", { eventId: e.eid, paymentId: pay.body.paymentId }, e.org));

@@ -4,6 +4,7 @@ import { canonical, type Json } from "./canonical";
 import { sha256Hex } from "./crypto";
 import type { SignedEntry } from "./log";
 import { effectiveForPoint, type RuleSet } from "./rules";
+import { defaultBallotDesign, normalizeBallotDesign } from "./ballot";
 import { defaultSchedule, validateSchedule, type Schedule } from "./schedule";
 import { aggregate, computeQuorum, effectiveWeight, tallyAgg, type Aggregate, type Flat, type PointDef, type PointTally, type QuorumResult } from "./tally";
 
@@ -22,9 +23,9 @@ export interface RuleChange { seq: number; ts: number; scope: string; param: str
 
 export interface EventState {
   eid: string; seqCount: number; head: { seq: number; hash: string } | null; firstTs: number | null; lastTs: number | null;
-  created: null | { kind: "meeting" | "election"; eventType: string; title: string; venue: string; scheduledMs: number; schedule: Schedule; packId: string; timezone: string; society: { name: string; address: string; registrationNo: string; kind: string }; createdFrom: string | null };
+  created: null | { kind: "meeting" | "election"; eventType: string; title: string; venue: string; scheduledMs: number; schedule: Schedule; country: string; packId: string; timezone: string; society: { name: string; address: string; registrationNo: string; kind: string }; createdFrom: string | null };
   rules: RuleSet | null; initialRules: RuleSet | null; ruleHistory: RuleChange[]; rejectedChanges: RuleChange[];
-  status: EventStatus; paid: boolean; payments: Array<{ paymentId: string; state: string; amountMinor: number; mode: string; seq: number }>;
+  status: EventStatus; paid: boolean; payments: Array<{ paymentId: string; state: string; amountMinor: number; currency: string; mode: string; seq: number }>;
   people: Map<string, PersonState>; roleLog: Array<{ seq: number; ts: number; action: "appoint" | "remove"; pid: string; role: Role; by: string | null }>;
   roll: Flat[]; rollRev: number;
   points: Map<string, PointRun>; pointOrder: string[];
@@ -94,7 +95,7 @@ export async function replayLog(entries: SignedEntry[]): Promise<EventState> {
     else if ("flat" in e.actor && (e.type === "vote_recorded" || e.type === "vote_cast_open") && !s.terms.has("flat:" + e.actor.flat)) bad(seq, `flat ${e.actor.flat} voted without accepting the terms`);
     if (typeof p.acc === "string") s.accEntries += 1;
     switch (e.type) {
-      case "event_created": s.created = { kind: p.kind, eventType: p.eventType, title: p.title, venue: p.venue, scheduledMs: p.scheduledMs, schedule: p.schedule ?? defaultSchedule(p.scheduledMs, p.venue), packId: p.packId, timezone: p.timezone ?? "UTC", society: p.society, createdFrom: p.createdFrom ?? null }; break;
+      case "event_created": s.created = { kind: p.kind, eventType: p.eventType, title: p.title, venue: p.venue, scheduledMs: p.scheduledMs, schedule: p.schedule ?? defaultSchedule(p.scheduledMs, p.venue), country: p.country ?? "IN", packId: p.packId, timezone: p.timezone ?? "UTC", society: p.society, createdFrom: p.createdFrom ?? null }; break;
       case "schedule_set": {
         if (!s.created) { bad(seq, "schedule set before the event existed"); break; }
         if (s.status === "live" || s.status === "closed") bad(seq, "schedule changed after the event started");
@@ -127,14 +128,21 @@ export async function replayLog(entries: SignedEntry[]): Promise<EventState> {
         s.roll = (p.flats as Flat[]).map((f) => ({ flatNo: f.flatNo, weight: f.weight, eligible: f.eligible })); s.rollRev = p.rev; break;
       }
       case "point_added": case "point_amended": {
-        const def: PointFull = { pointId: p.pointId, number: p.number, title: p.title, body: p.body, kind: p.kind, options: p.options, maxChoices: p.maxChoices, majorityClass: p.majorityClass, secret: !!p.secret, rev: p.rev };
+        let design = defaultBallotDesign(); try { design = normalizeBallotDesign(p.design); } catch { bad(seq, "invalid ballot design"); }
+        const def: PointFull = {
+          pointId: p.pointId, number: p.number, title: p.title, body: p.body, kind: p.kind, options: p.options, maxChoices: p.maxChoices, majorityClass: p.majorityClass, secret: !!p.secret, rev: p.rev,
+          labels: p.labels ?? Object.fromEntries((p.options as string[]).map((o) => [o, o])), minChoices: p.minChoices ?? 1,
+          format: p.format ?? (p.kind === "election_post" ? "single_post" : undefined), seats: p.seats ?? [], topN: p.topN ?? null, design,
+        };
+        if (new Set((p.options as string[])).size !== (p.options as string[]).length) bad(seq, `point ${p.number} has a repeated option id`);
+        for (const other of s.points.values()) if (other.def.pointId !== p.pointId) for (const o of def.options) if (other.def.kind === "election_post" && def.kind === "election_post" && other.def.options.includes(o)) bad(seq, `option id ${o} is used on two points`);
         const ex = s.points.get(p.pointId);
         if (ex && ex.state !== "pending") bad(seq, `point ${ex.def.number} amended after it opened`);
         if (ex) ex.def = def; else { s.points.set(p.pointId, { def, state: "pending", endsMs: null, extensions: 0, openedSeq: null, closedSeq: null, frozen: null, presentWeightAtClose: null, totalWeightAtClose: null, quorumAtOpen: null }); s.pointOrder.push(p.pointId); }
         break;
       }
       case "agenda_published": s.status = "agenda_published"; s.agenda = { seq, ts: e.ts, givenDays: p.givenDays, minDays: p.minDays ?? null, maxDays: p.maxDays ?? null, met: p.met ?? null }; break;
-      case "payment_state": s.payments.push({ paymentId: p.paymentId, state: p.state, amountMinor: p.amountMinor, mode: p.mode, seq }); if (p.state === "paid") s.paid = true; break;
+      case "payment_state": s.payments.push({ paymentId: p.paymentId, state: p.state, amountMinor: p.amountMinor, currency: p.currency ?? "INR", mode: p.mode, seq }); if (p.state === "paid") s.paid = true; break;
       case "attendance_marked": {
         const pr: Presence = { flatNo: p.flatNo, maskedName: p.maskedName ?? "", mode: p.mode, method: p.method, docType: p.docType ?? null, docLast4: p.docLast4 ?? null, by: p.by, independent: !!p.independent, evidenceHash: p.evidenceHash ?? null, seq, ts: e.ts };
         s.attendanceLog.push(pr);

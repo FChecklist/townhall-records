@@ -7,6 +7,7 @@ import { OPTIONS } from "./rules";
 import { computeQuorum, type PointTally } from "./tally";
 import { progressOf } from "./progress";
 import { complianceChecks, type Compliance } from "./compliance";
+import { ballotInstruction, type BallotDesign, type EventFormat } from "./ballot";
 import { defaultSchedule, type Schedule } from "./schedule";
 
 export const NOT_PUBLISHED: Array<{ item: string; why: string }> = [
@@ -22,10 +23,11 @@ export interface PointView {
   pointId: string; number: string; title: string; body: string; kind: string; options: string[]; maxChoices: number; majorityClass: string; secret: boolean;
   state: string; endsMs: number | null; extensions: number; voted: string[]; openVotes: Array<{ flatNo: string; kind: string; choices: string[] }> | null;
   receipts: string[] | null; tally: PointTally | null; countsHidden: boolean;
+  labels: Record<string, string>; minChoices: number; format: EventFormat | null; seats: string[]; topN: number | null; design: BallotDesign; instruction: string;
 }
 export interface ReportModel {
   v: 1; eid: string; live: boolean; phase: string; percent: number;
-  title: string; kind: string; eventType: string; venue: string; scheduledMs: number; schedule: Schedule; scheduleChanges: number; timezone: string; packId: string;
+  title: string; kind: string; eventType: string; venue: string; scheduledMs: number; schedule: Schedule; scheduleChanges: number; timezone: string; country: string; closedMs: number | null; packId: string;
   society: { name: string; address: string; registrationNo: string; kind: string }; createdFrom: string | null;
   head: { seq: number; hash: string } | null; status: string;
   people: Array<{ pid: string; maskedName: string; maskedEmail: string; roles: string[]; label: string | null; verified: boolean }>;
@@ -38,7 +40,7 @@ export interface ReportModel {
   attendance: { line: string; officers: number; present: number; total: number; presentWeight: number; totalWeight: number; rows: Array<{ flatNo: string; maskedName: string; mode: string; method: string; docType: string | null; docLast4: string | null; by: string; independent: boolean }> };
   quorum: { enabled: boolean; basis: string | null; total: number; present: number; required: number; met: boolean } | null;
   points: PointView[];
-  payments: Array<{ state: string; amountMinor: number; mode: string }>;
+  payments: Array<{ state: string; amountMinor: number; currency: string; mode: string }>;
   platformActions: Array<{ seq: number; action: string; reason: string }>;
   clones: Array<{ direction: string; eventId: string }>; anchors: Array<{ headSeq: number; headHash: string }>;
   problems: string[]; contactsReads: number;
@@ -70,12 +72,13 @@ export function buildReportModel(s: EventState): ReportModel {
       state: pt.state, endsMs: pt.endsMs, extensions: pt.extensions, voted: [...led.keys()].sort(),
       openVotes: secret ? null : [...led.entries()].sort((a, b) => (a[0] < b[0] ? -1 : 1)).map(([flatNo, v]) => ({ flatNo, kind: v.kind, choices: v.choices ?? [] })),
       receipts: secret && sealed ? s.seals.get(id)!.receipts : null, tally, countsHidden: secret && !(finished && sealed),
+      labels: pt.def.labels ?? {}, minChoices: pt.def.minChoices ?? 1, format: (pt.def.format ?? null) as EventFormat | null, seats: pt.def.seats ?? [], topN: pt.def.topN ?? null, design: pt.def.design!, instruction: pt.def.kind === "discussion" ? "" : ballotInstruction(pt.def.minChoices ?? 1, pt.def.maxChoices),
     };
   });
   const prog = progressOf(s);
   return {
     v: 1, eid: s.eid, live: s.status !== "closed", phase: prog.phase, percent: prog.percent,
-    title: c?.title ?? "", kind: c?.kind ?? "", eventType: c?.eventType ?? "", venue: c?.venue ?? "", scheduledMs: c?.scheduledMs ?? 0, schedule: c?.schedule ?? defaultSchedule(0, ""), scheduleChanges: s.scheduleChanges.length, timezone: c?.timezone ?? "UTC", packId: c?.packId ?? "",
+    title: c?.title ?? "", kind: c?.kind ?? "", eventType: c?.eventType ?? "", venue: c?.venue ?? "", scheduledMs: c?.scheduledMs ?? 0, schedule: c?.schedule ?? defaultSchedule(0, ""), scheduleChanges: s.scheduleChanges.length, country: c?.country ?? "IN", closedMs: s.closedInfo?.ts ?? null, timezone: c?.timezone ?? "UTC", packId: c?.packId ?? "",
     society: c?.society ?? { name: "", address: "", registrationNo: "", kind: "" }, createdFrom: c?.createdFrom ?? null,
     head: s.head, status: s.status,
     people: currentRoles(s).map((p) => ({ pid: p.pid, maskedName: p.maskedName, maskedEmail: p.maskedEmail, roles: [...p.roles], label: p.label, verified: p.verified })),
@@ -87,7 +90,7 @@ export function buildReportModel(s: EventState): ReportModel {
     notice: s.agenda ? { givenDays: s.agenda.givenDays, minDays: s.agenda.minDays, maxDays: s.agenda.maxDays, met: s.agenda.met } : null,
     attendance: { line, officers, present: s.attendance.size, total: s.roll.filter((f) => f.eligible).length, presentWeight: w.present, totalWeight: w.total, rows: rows.map((r) => ({ flatNo: r.flatNo, maskedName: r.maskedName, mode: r.mode, method: r.method, docType: r.docType, docLast4: r.docLast4, by: r.by, independent: r.independent })) },
     quorum, points,
-    payments: s.payments.map((p) => ({ state: p.state, amountMinor: p.amountMinor, mode: p.mode })),
+    payments: s.payments.map((p) => ({ state: p.state, amountMinor: p.amountMinor, currency: p.currency, mode: p.mode })),
     platformActions: s.platformActions, clones: s.clones, anchors: s.anchors, problems: s.problems, contactsReads: s.contactsReads,
     compliance: complianceChecks(s), access: { termsAccepted: s.terms.size, entriesWithAccessFingerprint: s.accEntries, entries: s.seqCount },
   };

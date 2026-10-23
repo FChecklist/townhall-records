@@ -341,12 +341,13 @@ describe("secret ballot", () => {
     await e.ok(h.call("POST", `/api/events/${e.eid}/agenda/publish`, {}, e.org)); await e.ok(h.call("POST", `/api/events/${e.eid}/start`, {}, e.org));
     for (let i = 0; i < 6; i++) await e.ok(h.call("POST", `/api/events/${e.eid}/attendance`, { flatNo: `A-${101 + i}`, attendeeName: "Owner " + i, mode: "physical", method: "visual" }, off.token));
     await e.ok(h.call("POST", `/api/events/${e.eid}/points/${e.pointId}/open`, { minutes: 20 }, e.org));
-    const picks = ["Asha", "Asha", "Bimal", "Asha", "Chitra", "Bimal"];
+    const ids = (await h.call("GET", `/api/vote/points`, undefined, "x")).status; void ids; const labelsOf = (await h.call("GET", `/api/events/${e.eid}`)).body.model.points[0].labels as Record<string, string>; const idOf = (n: string) => Object.keys(labelsOf).find((k) => labelsOf[k] === n)!;
+    const picks = ["Asha", "Asha", "Bimal", "Asha", "Chitra", "Bimal"].map(idOf);
     for (let i = 0; i < 6; i++) { const c = await h.call("POST", `/api/events/${e.eid}/passcodes/voter`, { flatNo: `A-${101 + i}` }, off.token); const l = await h.call("POST", "/api/vote/login", { eventId: e.eid, flatNo: `A-${101 + i}`, code: c.body.code, turnstile: "test-ok" }); await e.ok(h.call("POST", "/api/vote/cast", { pointId: e.pointId, choices: [picks[i]] }, l.body.token)); }
     await e.ok(h.call("POST", `/api/events/${e.eid}/close`, {}, e.org));
     const model = buildReportModel(await replayLog((await getLog(h, e.eid)).entries));
     const t = model.points[0]!.tally!;
-    expect(t.options.map((o) => [o.option, o.count])).toEqual([["Asha", 3], ["Bimal", 2], ["Chitra", 1]]);
+    expect(t.options.map((o) => [model.points[0]!.labels[o.option], o.count])).toEqual([["Asha", 3], ["Bimal", 2], ["Chitra", 1]]);
     expect(t.leaders).toBeNull(); expect(t.outcome).toBe("counted"); expect(model.points[0]!.secret).toBe(true);
   });
 });
@@ -390,10 +391,10 @@ describe("platform: payments, mail quota, abuse limits, super console", () => {
     expect((await h2.call("POST", `/api/events/${e.eid}/pay`, {}, e.org)).status).toBe(503);
     expect((await h2.call("POST", "/api/pay/test-confirm", { eventId: e.eid, paymentId: "x" }, e.org)).status).toBe(404);
   });
-  test("prices: Rs 199 per meeting, Rs 499 per election; the event cannot be published before payment", async () => {
+  test("prices: Rs 499 per meeting, Rs 1499 per election in India; the event cannot be published before payment", async () => {
     const h = await H.make(); const m = await newEvent(h); const el = await newEvent(h, { kind: "election" });
-    expect((await h.call("POST", `/api/events/${m.eid}/pay`, {}, m.org)).body.amountMinor).toBe(19900);
-    expect((await h.call("POST", `/api/events/${el.eid}/pay`, {}, el.org)).body.amountMinor).toBe(49900);
+    expect((await h.call("POST", `/api/events/${m.eid}/pay`, {}, m.org)).body.amountMinor).toBe(49900);
+    expect((await h.call("POST", `/api/events/${el.eid}/pay`, {}, el.org)).body.amountMinor).toBe(149900);
     await h.call("PUT", `/api/events/${m.eid}/roll`, { flats: flatsOf(3) }, m.org); await h.call("POST", `/api/events/${m.eid}/points`, { kind: "resolution", title: "Q" }, m.org);
     const p = await h.call("POST", `/api/events/${m.eid}/agenda/publish`, {}, m.org); expect(p.status).toBe(403); expect(p.body.error).toBe("not_paid");
   });
@@ -414,7 +415,7 @@ describe("platform: payments, mail quota, abuse limits, super console", () => {
     expect(r.status).toBe(201); expect(sent).toEqual(["second@example.org"]);
   });
   test("event creation is rate limited per IP and needs Turnstile", async () => {
-    const h = await H.make(); const mk = (ip: string, t?: string) => h.call("POST", "/api/events", { kind: "meeting", eventType: "agm", title: "AGM", venue: "Hall", scheduledMs: h.now + 9 * DAY, packId: "custom-world", society: { name: "Sky Heights", address: "Addr 1", registrationNo: "R1", kind: "AOA" }, organizer: { name: "Some Body", email: "a@example.org" }, ...(t ? { turnstile: t } : {}) }, undefined, ip);
+    const h = await H.make(); const mk = (ip: string, t?: string) => h.call("POST", "/api/events", { kind: "meeting", eventType: "agm", title: "AGM", venue: "Hall", scheduledMs: h.now + 9 * DAY, packId: "custom-world", country: "IN", society: { name: "Sky Heights", address: "Addr 1", registrationNo: "R1", kind: "AOA" }, organizer: { name: "Some Body", email: "a@example.org" }, ...(t ? { turnstile: t } : {}) }, undefined, ip);
     expect((await mk("5.5.5.5")).status).toBe(403);
     for (let i = 0; i < 5; i++) expect((await mk("6.6.6.6", "test-ok")).status).toBe(201);
     expect((await mk("6.6.6.6", "test-ok")).status).toBe(429);

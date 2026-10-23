@@ -3,7 +3,81 @@ bun test v1.3.14 (0d9b296a)
 apps\api\test\audit.test.ts:
 audit write failed SQLiteError: no such table: access_audit
 
- 166 pass
- 0 fail
- 2879 expect() calls
-Ran 166 tests across 9 files. [12.59s]
+apps\api\test\features.test.ts:
+143 |     const h = await H.make(); const e = await liveElection(h, { candidates: ["Asha", "Bimal"] }, 3);
+144 |     expect((await h.call("GET", `/api/r/${e.eid}/pdf`)).status).toBe(409);
+145 |     await e.ok(h.call("POST", `/api/events/${e.eid}/close`, {}, e.org));
+146 |     const r1 = await fetchPdf(h, e.eid), r2 = await fetchPdf(h, e.eid);
+147 |     expect(r1.type).toBe("application/pdf"); expect(r1.sha).toMatch(/^[0-9a-f]{64}$/); expect(r1.sha).toBe(r2.sha); expect(r1.bytes.length).toBe(r2.bytes.length);
+148 |     expect(new TextDecoder("latin1").decode(r1.bytes.slice(0, 8))).toBe("%PDF-1.4\n");
+                                                                         ^
+error: expect(received).toBe(expected)
+
+- "%PDF-1.4
+- "
++ "%PDF-1.4"
+
+- Expected  - 2
++ Received  + 1
+
+      at <anonymous> (C:\ct\aoa-rwa\apps\api\test\features.test.ts:148:68)
+(fail) the final report as a PDF for the Returning Officer > a PDF is available only once published; it is the same bytes every time, fingerprinted, signed for by the log, and has the signature blocks [175.85ms]
+api error TypeError: e.actor is not an Object. (evaluating '"pid" in e.actor')
+    at replayLog (C:\ct\aoa-rwa\packages\engine\src\replay.ts:92:31)
+    at async refresh (C:\ct\aoa-rwa\apps\api\src\core.ts:196:40)
+    at async load (C:\ct\aoa-rwa\apps\api\src\core.ts:192:44)
+    at async staff (C:\ct\aoa-rwa\apps\api\src\handler.ts:91:23)
+    at async <anonymous> (C:\ct\aoa-rwa\apps\api\src\handler.ts:342:29)
+    at async handle (C:\ct\aoa-rwa\apps\api\src\handler.ts:733:27)
+    at async call (C:\ct\aoa-rwa\apps\api\test\harness.ts:21:21)
+    at async <anonymous> (C:\ct\aoa-rwa\apps\api\test\features.test.ts:225:25)
+api error TypeError: e.actor is not an Object. (evaluating '"pid" in e.actor')
+    at replayLog (C:\ct\aoa-rwa\packages\engine\src\replay.ts:92:31)
+    at async refresh (C:\ct\aoa-rwa\apps\api\src\core.ts:196:40)
+    at async load (C:\ct\aoa-rwa\apps\api\src\core.ts:192:44)
+    at async staff (C:\ct\aoa-rwa\apps\api\src\handler.ts:91:23)
+    at async <anonymous> (C:\ct\aoa-rwa\apps\api\src\handler.ts:299:29)
+    at async handle (C:\ct\aoa-rwa\apps\api\src\handler.ts:733:27)
+    at async call (C:\ct\aoa-rwa\apps\api\test\harness.ts:21:21)
+    at async <anonymous> (C:\ct\aoa-rwa\apps\api\test\features.test.ts:225:25)
+api error Error
+    at replayLog (C:\ct\aoa-rwa\packages\engine\src\replay.ts:92:31)
+    at async refresh (C:\ct\aoa-rwa\apps\api\src\core.ts:196:40)
+    at async load (C:\ct\aoa-rwa\apps\api\src\core.ts:192:44)
+    at async staff (C:\ct\aoa-rwa\apps\api\src\handler.ts:91:23)
+    at async <anonymous> (C:\ct\aoa-rwa\apps\api\src\handler.ts:460:29)
+    at async handle (C:\ct\aoa-rwa\apps\api\src\handler.ts:733:27)
+    at async call (C:\ct\aoa-rwa\apps\api\test\harness.ts:21:21)
+    at async <anonymous> (C:\ct\aoa-rwa\apps\api\test\features.test.ts:225:25)
+api error TypeError: e.actor is not an Object. (evaluating '"pid" in e.actor')
+    at replayLog (C:\ct\aoa-rwa\packages\engine\src\replay.ts:92:31)
+    at async refresh (C:\ct\aoa-rwa\apps\api\src\core.ts:196:40)
+    at async load (C:\ct\aoa-rwa\apps\api\src\core.ts:192:44)
+    at async staff (C:\ct\aoa-rwa\apps\api\src\handler.ts:91:23)
+    at async <anonymous> (C:\ct\aoa-rwa\apps\api\src\handler.ts:562:29)
+    at async handle (C:\ct\aoa-rwa\apps\api\src\handler.ts:733:27)
+    at async call (C:\ct\aoa-rwa\apps\api\test\harness.ts:21:21)
+    at async <anonymous> (C:\ct\aoa-rwa\apps\api\test\features.test.ts:225:25)
+api error TypeError: e.actor is not an Object. (evaluating '"pid" in e.actor')
+    at replayLog (C:\ct\aoa-rwa\packages\engine\src\replay.ts:92:31)
+    at async refresh (C:\ct\aoa-rwa\apps\api\src\core.ts:196:40)
+    at async load (C:\ct\aoa-rwa\apps\api\src\core.ts:192:44)
+    at async staff (C:\ct\aoa-rwa\apps\api\src\handler.ts:91:23)
+    at async <anonymous> (C:\ct\aoa-rwa\apps\api\src\handler.ts:282:29)
+    at async handle (C:\ct\aoa-rwa\apps\api\src\handler.ts:733:27)
+    at async call (C:\ct\aoa-rwa\apps\api\test\harness.ts:21:21)
+    at async <anonymous> (C:\ct\aoa-rwa\apps\api\test\features.test.ts:225:25)
+api error TypeError: e.actor is not an Object. (evaluating '"pid" in e.actor')
+    at replayLog (C:\ct\aoa-rwa\packages\engine\src\replay.ts:92:31)
+    at async refresh (C:\ct\aoa-rwa\apps\api\src\core.ts:196:40)
+    at async load (C:\ct\aoa-rwa\apps\api\src\core.ts:192:44)
+    at async staff (C:\ct\aoa-rwa\apps\api\src\handler.ts:91:23)
+    at async <anonymous> (C:\ct\aoa-rwa\apps\api\src\handler.ts:464:29)
+    at async handle (C:\ct\aoa-rwa\apps\api\src\handler.ts:733:27)
+    at async call (C:\ct\aoa-rwa\apps\api\test\harness.ts:21:21)
+    at async <anonymous> (C:\ct\aoa-rwa\apps\api\test\features.test.ts:225:25)
+
+ 203 pass
+ 1 fail
+ 3113 expect() calls
+Ran 204 tests across 13 files. [21.21s]
