@@ -1,0 +1,8 @@
+node_modules/
+.wrangler/
+.dev.vars
+*.log
+*.sqlite*
+dist/
+.env*
+test-output/

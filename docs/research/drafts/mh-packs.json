@@ -1,0 +1,327 @@
+[
+  {
+    "id": "in-mh-coop-society",
+    "name": "Maharashtra co-operative housing society (MCS Act 1960 regime)",
+    "jurisdiction": "IN-MH",
+    "instruments": [
+      "Maharashtra Co-operative Societies Act 1960 (Mah. XXIV of 1961): ss.27, 32, 73B/73BBB, 73CB, 75, 76, 91, 154B - consolidated section text NOT retrieved from a primary consolidated source; relied on amending-act texts and secondary summaries",
+      "Maharashtra Co-operative Societies Rules 1961 as amended 18 Jun 2026: new Chapter XI-B, Rules 106C-1 to 106C-14 (housing societies)",
+      "Maharashtra Co-operative Societies (Election to Committee) Rules 2014 (11 Sep 2014)",
+      "2014 Model Bye-laws of Co-operative Housing Societies (Registrar to issue NEW model bye-laws under Rule 106C-13(1)(b); not seen)",
+      "Union of India v Rajendra N. Shah (SC, 20 Jul 2021) on the 97th Constitutional Amendment"
+    ],
+    "meetingTypes": [
+      {
+        "type": "annual general body meeting (AGM)",
+        "calledBy": {
+          "value": "Secretary issues notice after Committee fixes date/time/place/agenda; Chairman issues if Secretary fails",
+          "note": "Model bye-law 99",
+          "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 99",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "noticeDays": {
+          "value": 14,
+          "note": "14 CLEAR days (day of issue and day of meeting excluded); notice to members under intimation to Federation and Registering Authority. 2026 Rule 106C-13(3)(d) says AGM notice/agenda 'in accordance with the Act and the bye-laws'.",
+          "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 100; Maharashtra Co-operative Societies (Amendment) Rules, 2026 (Gazette notification 18 Jun 2026), new Rule 106C-13(3), as reproduced at https://taxguru.in/corporate-law/maharashtra-co-operative-societies-amendment-rules-2026.html (secondary reproduction; gazette PDF not seen)",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "noticeContent": {
+          "value": "Date, time, place, agenda. Statutory AGM business listed in bye-law 96: minutes of last AGM/SGMs, committee report and accounts (Form N), audit memorandum and rectification, election result if held, appointment of auditor from Deputy Registrar panel, matters needing GB sanction, official communications.",
+          "note": "Items needing proper notice cannot be taken as 'any other business' (bye-law 96(viii))",
+          "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 96",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "timing": {
+          "value": "Within 6 months of financial-year end (30 Sep for a 31 Mar year end); accounts audited within 4 months. Bye-law 95 text says 'on or before 14 August or within the extended period under s.75(1)'.",
+          "note": "s.75(1) wording seen only in court summaries and guides; s.75(5) lets Registrar disqualify committee members up to 5 years for default (secondary). Bombay HC summary: disqualification automatic unless extension obtained from Registrar before expiry.",
+          "source": "Maharashtra Co-operative Societies Act 1960 s.75(1),(5) via https://lawtext.in/judgement.php?bid=59888 and https://housing.com/news/laws-pertaining-agm-housing-societies-maharashtra (secondary only); 2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 95",
+          "confidence": "low",
+          "needsLawyer": true
+        }
+      },
+      {
+        "type": "special general body meeting (SGM)",
+        "calledBy": {
+          "value": "Chairman, or by decision of majority of Committee; MUST be called within one month of receipt of written requisition signed by at least 1/5th of members, or from Registering Authority or the Housing Federation",
+          "note": "Requisition goes to Committee within 7 days (bye-law 98); requisitioned SGM may transact only business in the requisition. Act s.76(1) text not seen directly (a forum post quotes 1/5th).",
+          "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-laws 97-99; Act s.76",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "noticeDays": {
+          "value": 5,
+          "note": "5 clear days (Rule 106C-13(3)(g), 2026; bye-law 100). Bye-law 100: shorter notice allowed in emergency only if Committee unanimous, agenda and reasons communicated in writing, decision communicated in writing within 2 days.",
+          "source": "Maharashtra Co-operative Societies (Amendment) Rules, 2026 (Gazette notification 18 Jun 2026), new Rule 106C-13(3), as reproduced at https://taxguru.in/corporate-law/maharashtra-co-operative-societies-amendment-rules-2026.html (secondary reproduction; gazette PDF not seen); 2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 100",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "noticeContent": {
+          "value": "Agenda confined to business in notice/requisition",
+          "note": "bye-laws 97, 99",
+          "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error)",
+          "confidence": "high",
+          "needsLawyer": true
+        }
+      },
+      {
+        "type": "redevelopment SGM (2026 rules)",
+        "calledBy": {
+          "value": null,
+          "note": "not stated in sources seen",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "noticeDays": {
+          "value": 14,
+          "note": "14 clear days mandatory. Registrar's representative must be present; meeting must be video-recorded (copy to Chairman and one to Asst/Dy Registrar); developer/contractor selection needs 51% of TOTAL members incl. those on video conference. A practitioner (FPJ, 21 Jul 2026) flags conflict between 2/3 commencement quorum and the adjourned-meeting rule.",
+          "source": "Maharashtra Co-operative Societies (Amendment) Rules, 2026 (Gazette notification 18 Jun 2026), new Rule 106C-13(3), as reproduced at https://taxguru.in/corporate-law/maharashtra-co-operative-societies-amendment-rules-2026.html (secondary reproduction; gazette PDF not seen); https://www.freepressjournal.in/amp/mumbai/consumer-connect-maharashtras-new-redevelopment-rules-allow-online-sgbms-registrar-noc-no-longer-required",
+          "confidence": "medium",
+          "needsLawyer": true
+        }
+      },
+      {
+        "type": "managing committee meeting",
+        "calledBy": {
+          "value": "Secretary in consultation with Chairman; Chairman if Secretary fails; Housing Federation if both fail. Special meeting on requisition of 1/3 of committee members, convened within 7 days.",
+          "note": "bye-laws 133, 136",
+          "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error)",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "noticeDays": {
+          "value": 3,
+          "note": "3 clear days, stating date, time, place, business",
+          "source": "bye-law 133",
+          "confidence": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 133",
+          "needsLawyer": "high"
+        },
+        "frequency": {
+          "value": "At least once a month; emergency resolution by circulation allowed but must be placed at next meeting",
+          "note": "bye-law 128",
+          "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error)",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "quorum": {
+          "value": "3/4/5/6 members for committee of 5/7/9/11; quorum needed at every agenda item",
+          "note": "bye-laws 115, 127; the size-to-quorum table was seen only in https://blog.ipleaders.in/election-procedure-for-housing-societies/ (secondary)",
+          "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error)",
+          "confidence": "medium",
+          "needsLawyer": true
+        }
+      },
+      {
+        "type": "first statutory general meeting",
+        "calledBy": {
+          "value": "Chief Promoter, within 3 months of registration; 14 clear days notice",
+          "note": "bye-laws 86-88",
+          "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error)",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "noticeDays": {
+          "value": 14,
+          "note": "",
+          "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 88",
+          "confidence": "high",
+          "needsLawyer": true
+        }
+      }
+    ],
+    "quorum": {
+      "value": "Two-thirds of total members or 20, whichever is less (any GB meeting, AGM or SGM). Redevelopment SGM: two-thirds of total members (no 20 cap).",
+      "note": "Same figure in 2014 model bye-law 101 and 2026 Rule 106C-13(3)(f). Society's own registered bye-laws control; check them.",
+      "source": "Maharashtra Co-operative Societies (Amendment) Rules, 2026 (Gazette notification 18 Jun 2026), new Rule 106C-13(3), as reproduced at https://taxguru.in/corporate-law/maharashtra-co-operative-societies-amendment-rules-2026.html (secondary reproduction; gazette PDF not seen); 2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 101",
+      "confidence": "high",
+      "needsLawyer": true
+    },
+    "adjournedQuorum": {
+      "value": "No quorum required: if none within half an hour, a requisitioned meeting is DISSOLVED; any other meeting is adjourned to a later hour same day/place (if so specified in notice) or to a date not earlier than 7 and not later than 30 days, and original agenda business may be transacted whether quorum is present or not. Unfinished agenda may be postponed up to 30 days (bye-law 103).",
+      "note": "Exception flagged by a practitioner for redevelopment SGMs (2/3 quorum vs 51% rule).",
+      "source": "Maharashtra Co-operative Societies (Amendment) Rules, 2026 (Gazette notification 18 Jun 2026), new Rule 106C-13(3), as reproduced at https://taxguru.in/corporate-law/maharashtra-co-operative-societies-amendment-rules-2026.html (secondary reproduction; gazette PDF not seen) Rule 106C-13(3)(e); 2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-laws 102-103",
+      "confidence": "high",
+      "needsLawyer": true
+    },
+    "majorities": {
+      "ordinary": {
+        "value": "Simple majority of those present and voting; chair has casting vote on a tie (bye-laws 107-108). 2026 Rule 106C-13(3)(f) [second clause lettered (f) in source] says decisions 'shall be passed by a majority vote of fifty-one per cent of the total members of the society present, including those attending through video conferencing' - wording ambiguous (51% of those present vs of total).",
+        "note": "Ambiguity unresolved; lawyer-review item.",
+        "source": "Maharashtra Co-operative Societies (Amendment) Rules, 2026 (Gazette notification 18 Jun 2026), new Rule 106C-13(3), as reproduced at https://taxguru.in/corporate-law/maharashtra-co-operative-societies-amendment-rules-2026.html (secondary reproduction; gazette PDF not seen); 2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-laws 107-108",
+        "confidence": "medium",
+        "needsLawyer": true
+      },
+      "redevelopmentDeveloperSelection": {
+        "value": "51% of TOTAL members of the society, including those attending by video conferencing",
+        "note": "",
+        "source": "Maharashtra Co-operative Societies (Amendment) Rules, 2026 (Gazette notification 18 Jun 2026), new Rule 106C-13(3), as reproduced at https://taxguru.in/corporate-law/maharashtra-co-operative-societies-amendment-rules-2026.html (secondary reproduction; gazette PDF not seen) Rule 106C-13(3)(i)",
+        "confidence": "medium",
+        "needsLawyer": true
+      },
+      "rescission": {
+        "value": "No resolution cancelling a previous GB resolution unless 6 clear months have passed",
+        "note": "",
+        "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 110",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "special": {
+        "value": null,
+        "note": "Majorities for bye-law amendment, expulsion, removal of committee etc. were not retrieved from Act text.",
+        "source": "not verified",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "noConfidenceAgainstOfficer": {
+        "value": "Special committee meeting presided by Registrar/officer not below Asst Registrar, on notice by 1/3 of committee; passed by 3/4 of members present with attendance of at least 2/3 (secondary description of bye-law 126). Bill 70/2018 proposed s.154B-24: 2/3 of committee members present. Conflict - verify enacted text.",
+        "note": "s.73ID(2)-(7) not retrieved",
+        "source": "https://blog.ipleaders.in/election-procedure-for-housing-societies/ (secondary); Maharashtra Co-operative Societies (Amendment) Bill No. 70 of 2018 (housing chapter, proposed ss.154B-1 onward), https://prsindia.org/files/bills_acts/bills_states/maharashtra/2018/Bill%20no%2070%20of%202018%20MH.pdf (BILL text; final enacted wording not verified)",
+        "confidence": "low",
+        "needsLawyer": true
+      }
+    },
+    "weightageModels": {
+      "value": "One member one vote regardless of flat size/area (no weighted votes). Associate member votes only in absence of the member (bye-law 107; Bill 154B-11(2): with member's prior written consent). Joint holders: first-named on share certificate if present, else next named present and not a minor (s.27(2) per forum summary; Bill 154B-11(4)). Nominal members: no vote (s.27(8)). Company/firm members vote through authorised director/partner (Bill 154B-11(6)). Veena Kumar Tandon v Neelam Bhalla (SC 2007): each admitted family member may vote (secondary).",
+      "note": "Bye-law 106 defers to s.27(1),(2),(3),(3A). iPleaders (secondary) says the 2-year waiting period for voting rights was removed.",
+      "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-laws 106-107; Maharashtra Co-operative Societies (Amendment) Bill No. 70 of 2018 (housing chapter, proposed ss.154B-1 onward), https://prsindia.org/files/bills_acts/bills_states/maharashtra/2018/Bill%20no%2070%20of%202018%20MH.pdf (BILL text; final enacted wording not verified); https://indiancooperative.com/?p=21701 (secondary)",
+      "confidence": "medium",
+      "needsLawyer": true
+    },
+    "proxy": {
+      "value": "No proxy, power-of-attorney holder or authority-letter holder may attend or vote. Elections: 'no votes shall be allowed by proxy' (Rule 33). Bill 154B-11: every right to vote shall be exercised personally.",
+      "note": "Some commentary suggests a POA holder may attend; the bye-law text says otherwise.",
+      "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 105; Maharashtra Co-operative Societies (Election to Committee) Rules, 2014 (notification 11 Sep 2014), copy at https://consumerresourcesin.files.wordpress.com/2014/10/election_rules_final.pdf (third-party host of Gazette text) Rule 33; Maharashtra Co-operative Societies (Amendment) Bill No. 70 of 2018 (housing chapter, proposed ss.154B-1 onward), https://prsindia.org/files/bills_acts/bills_states/maharashtra/2018/Bill%20no%2070%20of%202018%20MH.pdf (BILL text; final enacted wording not verified)",
+      "confidence": "high",
+      "needsLawyer": true
+    },
+    "votingMethods": {
+      "generalBody": {
+        "value": null,
+        "note": "Method (show of hands/poll) for ordinary GB resolutions not specified in the bye-laws or rules text seen.",
+        "source": "not verified",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "committeeElection": {
+        "value": "Secret ballot or Electronic Voting Machine (Election Rules r.33); model bye-law 116(a): secret ballot if paid-up share capital exceeds Rs 10,000. Tie: lots drawn before Returning Officer (r.63(1) proviso).",
+        "note": "",
+        "source": "Maharashtra Co-operative Societies (Election to Committee) Rules, 2014 (notification 11 Sep 2014), copy at https://consumerresourcesin.files.wordpress.com/2014/10/election_rules_final.pdf (third-party host of Gazette text) rules 33, 63; 2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 116",
+        "confidence": "high",
+        "needsLawyer": true
+      }
+    },
+    "electronicVoting": {
+      "allowed": {
+        "value": "yes",
+        "note": "Scope: MEETING PARTICIPATION. Members may attend GB meetings in person or by video conferencing/other audio-visual means provided by the society, capable of recording and recognising participation and storing proceedings with date and time; VC attendees count toward the 51% rule. Remote e-VOTING mechanics are not expressly regulated in text seen.",
+        "source": "Maharashtra Co-operative Societies (Amendment) Rules, 2026 (Gazette notification 18 Jun 2026), new Rule 106C-13(3), as reproduced at https://taxguru.in/corporate-law/maharashtra-co-operative-societies-amendment-rules-2026.html (secondary reproduction; gazette PDF not seen) Rule 106C-13(3)(b) proviso",
+        "confidence": "medium",
+        "needsLawyer": true
+      },
+      "elections": {
+        "value": "unclear",
+        "note": "Election Rules r.39 allows EVMs at a polling station with procedure specified by SCEA; online remote voting for committee elections not found in any primary text. Vendor blogs (right2vote.in) claim legal recognition - promotional, unverified.",
+        "source": "Maharashtra Co-operative Societies (Election to Committee) Rules, 2014 (notification 11 Sep 2014), copy at https://consumerresourcesin.files.wordpress.com/2014/10/election_rules_final.pdf (third-party host of Gazette text) rule 39",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "history": {
+        "value": "Circular dated 25 Feb 2021 (COVID) validated online AGMs via VC/OAVM for housing societies and extended AGM deadline; notice 15 days incl. SMS/email/WhatsApp and newspaper advertisement. Temporary; current status unknown.",
+        "note": "Seen only via ADDA blog summary; circular itself not read",
+        "source": "https://blog.ind.adda.io/?p=12102",
+        "confidence": "low",
+        "needsLawyer": true
+      }
+    },
+    "minutesDeadlineDays": {
+      "value": 90,
+      "note": "Committee finalises DRAFT minutes within 3 months of meeting; circulates within 15 days of the committee meeting that finalised them; members comment within 15 days; final minutes recorded at subsequent committee meeting. No hard statutory deadline for signed minutes found.",
+      "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 109",
+      "confidence": "medium",
+      "needsLawyer": true
+    },
+    "recordRetentionYears": {
+      "value": null,
+      "note": "No retention period found in the bye-laws or rules text seen; bye-law 142 lists registers to be maintained and bye-law 124 requires records kept at society premises.",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+    },
+    "memberInspectionRight": {
+      "value": "Member may inspect books/registers/documents free of cost and obtain copies on fee (bye-law 23, s.32(1),(2)). Bill 154B-8: free inspection during office hours of bye-laws, records, books of accounts, correspondence excluding other members' personal information; copies within one month of fee.",
+      "note": "Bye-law 172 sets copy fees; Chapter 154B enacted wording not verified",
+      "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 23; Maharashtra Co-operative Societies (Amendment) Bill No. 70 of 2018 (housing chapter, proposed ss.154B-1 onward), https://prsindia.org/files/bills_acts/bills_states/maharashtra/2018/Bill%20no%2070%20of%202018%20MH.pdf (BILL text; final enacted wording not verified)",
+      "confidence": "medium",
+      "needsLawyer": true
+    },
+    "electionRoles": {
+      "authority": {
+        "value": "State Co-operative Election Authority (SCEA) has superintendence, direction and control of electoral rolls and elections (s.73CB(1), inserted by 2013 amendment replacing Chapter XIA). Societies with 200+ members (Type C): Taluka/Ward Co-operative Election Officer appoints Returning Officer from Co-operation Department; society informs 180 days before term expiry. Societies with fewer than 200 members at 31 March (Type D): election at a SGM presided by person appointed by SCEA, notice at least 15 days by Presiding Officer; presiding officer has no vote; fallback to Rule 75 process. 2018 proviso to s.73CB(11): housing societies up to 200 members conduct own elections 'in the manner prescribed' - prescription not found.",
+        "note": "Cutoff discrepancy: 'less than 200' (Rule 4(IV)) vs 'up to 200' (2018 proviso). A 2019 bill proposing 250 not verified.",
+        "source": "Maharashtra Co-operative Societies (Election to Committee) Rules, 2014 (notification 11 Sep 2014), copy at https://consumerresourcesin.files.wordpress.com/2014/10/election_rules_final.pdf (third-party host of Gazette text) rules 4, 75, 76; https://indiancooperative.com/?p=9646; Maharashtra Co-operative Societies (Amendment) Bill No. 70 of 2018 (housing chapter, proposed ss.154B-1 onward), https://prsindia.org/files/bills_acts/bills_states/maharashtra/2018/Bill%20no%2070%20of%202018%20MH.pdf (BILL text; final enacted wording not verified)",
+        "confidence": "medium",
+        "needsLawyer": true
+      },
+      "societyRunProcessSecondary": {
+        "value": "Model election regulations (Annexure III, not in the copy seen), per secondary: Committee prepares provisional voter list 60 days before election, 8 days for objections, final list within 2 days, appoints Returning Officer from non-candidates who undertake not to contest/propose/second; RO declares programme within 7 days.",
+        "note": "Likely superseded for most societies by the 2014 Election Rules",
+        "source": "https://blog.ipleaders.in/election-procedure-for-housing-societies/ (secondary)",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "timelineTypeC": {
+        "value": "Programme days: provisional list day 1; claims 5 days; decision within 2 days; final list; nominations close 5 days after final list; scrutiny next day; valid list next day; withdrawal 15 days after valid list; poll min 5 days after withdrawal; count and result immediately. Rejected nomination: appeal to Registrar within 3 days, disposed within 10 days. Office-bearers chosen within 10 days (Type C) / 15 days (Type D). Disputes: election petition to Co-operative Court (s.91, rule 78).",
+        "note": "",
+        "source": "Maharashtra Co-operative Societies (Election to Committee) Rules, 2014 (notification 11 Sep 2014), copy at https://consumerresourcesin.files.wordpress.com/2014/10/election_rules_final.pdf (third-party host of Gazette text) rules 75, 76, 77, 78",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "casualVacancy": {
+        "value": "Committee fills by co-option after 7 days' notice-board call for nominations; term coterminous (Rule 106C-13(4), 2026). Model bye-law 129: co-option not more than two.",
+        "note": "",
+        "source": "Maharashtra Co-operative Societies (Amendment) Rules, 2026 (Gazette notification 18 Jun 2026), new Rule 106C-13(3), as reproduced at https://taxguru.in/corporate-law/maharashtra-co-operative-societies-amendment-rules-2026.html (secondary reproduction; gazette PDF not seen); 2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 129",
+        "confidence": "medium",
+        "needsLawyer": true
+      },
+      "reservations": {
+        "value": "Model bye-law 115 (citing s.73BBB): committee 5/7/9/11 including reserved women seats (secondary table: up to 50 members 4+1; 51-100 6+1; 101-300 8+1; 301+ 9+2); if women unavailable, seats filled by others. Election Rules r.2(15): reserved seats for SC/ST, Women, De-notified/Nomadic Tribes, Special Backward Classes, OBC. Bill 70/2018 proposed s.154B-20/21: 3 reserved seats (SC/ST 1, OBC 1, VJ/NT/SBC 1) plus 2 women; unfilled reserved seats not counted for quorum. CONFLICT between 1 and 2 women seats.",
+        "note": "Enacted s.73B/73BBB/154B text not seen",
+        "source": "https://blog.ipleaders.in/election-procedure-for-housing-societies/ (secondary); Maharashtra Co-operative Societies (Election to Committee) Rules, 2014 (notification 11 Sep 2014), copy at https://consumerresourcesin.files.wordpress.com/2014/10/election_rules_final.pdf (third-party host of Gazette text) rule 2(15); Maharashtra Co-operative Societies (Amendment) Bill No. 70 of 2018 (housing chapter, proposed ss.154B-1 onward), https://prsindia.org/files/bills_acts/bills_states/maharashtra/2018/Bill%20no%2070%20of%202018%20MH.pdf (BILL text; final enacted wording not verified)",
+        "confidence": "low",
+        "needsLawyer": true
+      }
+    },
+    "termYears": {
+      "value": 5,
+      "note": "Committee elected for 5 years (bye-laws 116(a), 122); office-bearers 5 years but not beyond committee term (bye-law 126). Bill 154B-19(3): five years from first meeting of newly constituted committee. 2018 amendment to s.73AAA(3): members deemed to have vacated on expiry of term (amending-act text read).",
+      "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-laws 116, 122, 126; https://prsindia.org/files/bills_acts/acts_states/maharashtra/1961/1961MH24.pdf",
+      "confidence": "high",
+      "needsLawyer": true
+    },
+    "eligibility": {
+      "value": "Not eligible if: conviction for moral turpitude within 6 years; default of dues within 3 months of written notice; held responsible under ss.79/88/85; sublet/leased flat without permission or sold shares; associate member without NOC/undertaking; otherwise ineligible under Act/Rules (bye-law 118). Ceases to be member after missing 3 consecutive monthly meetings without leave (bye-law 120).",
+      "note": "",
+      "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-laws 118, 120",
+      "confidence": "high",
+      "needsLawyer": true
+    },
+    "defaulterDisqualification": {
+      "value": "Bye-law 118(ii): member who has not paid dues within three months from service of written notice (by hand or post under certificate of posting) is ineligible for election/co-option. Secondary: nomination invalid if dues unpaid at nomination and scrutiny; arrears beyond 90 days at scrutiny ineligible, but proposer/seconder may be in arrears. Bill 154B-23: 'defaulter' disqualifies; 5-year bar after certain disqualifications.",
+      "note": "",
+      "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 118; https://blog.ipleaders.in/election-procedure-for-housing-societies/ (secondary); Maharashtra Co-operative Societies (Amendment) Bill No. 70 of 2018 (housing chapter, proposed ss.154B-1 onward), https://prsindia.org/files/bills_acts/bills_states/maharashtra/2018/Bill%20no%2070%20of%202018%20MH.pdf (BILL text; final enacted wording not verified)",
+      "confidence": "medium",
+      "needsLawyer": true
+    },
+    "notes": [
+      "RESEARCH ONLY, NOT LEGAL ADVICE. Highest-value fact: the June 2026 Amendment Rules (Rule 106C-13) now set housing-society GB rules directly and expressly allow video-conference participation.",
+      "Rule 106C-13(1)(b)-(c): Registrar to issue NEW model bye-laws; societies may adopt within 3 months of publication. Bye-law numbers cited are the 2014 model; the society's own registered bye-laws control until changed.",
+      "Bye-law numbering differs across published copies (quorum cited as bye-law 100 in some secondary sources, 101 in the copy read).",
+      "Part IXB (Arts 243ZI-ZT, 97th Amendment) was held operative only for multi-State societies (Rajendra Shah, 2021, para 77, read); Maharashtra's SCEA/election regime rests on the State statute (2013 amendments), not Part IXB.",
+      "Consolidated current text of MCS Act ss.27, 32, 73B, 73BBB, 73CB, 75, 76 was not retrieved from India Code or the legislature; Act-level points come from amending-act PDFs and secondary summaries.",
+      "Maharashtra Apartment Ownership Act 1970 / MOFA 1963 pack NOT produced: no supportable source for association meeting, quorum or voting rules was found."
+    ]
+  }
+]

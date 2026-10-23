@@ -1,0 +1,1795 @@
+{
+  "_disclaimer": "Research data, NOT legal advice. Compiled 2026-10-23 from sources listed in SOURCES.md. Every leaf: value/note/source/confidence/needsLawyer. null = not verified, never a guess. Each value must be re-verified against primary text and reviewed by a lawyer before the engine relies on it.",
+  "_schemaVersion": 1,
+  "packs": [
+    {
+      "id": "in-up-aoa",
+      "name": "Uttar Pradesh Association of Apartment Owners (UP Apartment Act 2010 + Model Bye-laws 2011)",
+      "jurisdiction": "IN-UP",
+      "instruments": [
+        {
+          "value": "Uttar Pradesh Apartment (Promotion of Construction, Ownership and Maintenance) Act, 2010 (UP Act 16 of 2010)",
+          "note": "s.14 = Association of Apartment Owners and bye-laws. Act text itself not read directly; amended by UP Act 30 of 2016 (s.14(2),(5)); one search result says the 2016 amendment was not notified in force (Lotus Boulevard case) - not verified.",
+          "source": "UP Act 16 of 2010 s.14 (secondary summary: https://indiankanoon.org/doc/91371337/ ; India Code PDF https://www.indiacode.nic.in/bitstream/123456789/16832/1/english16of2010.pdf not retrievable: HTTP 403)",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        {
+          "value": "UP Apartment Model Bye-laws 2011 (58 bye-laws)",
+          "note": "Primary text read in full. Association adopts bye-laws at first meeting based on model; departure only with prior approval of competent authority (s.14(6), secondary).",
+          "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law all",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        {
+          "value": null,
+          "note": "UP Apartment (Promotion of Construction, Ownership and Maintenance) Rules, 2011: reported by secondary results (notification 16 Nov 2011, under s.30) but text could not be fetched. Rules provisions on meetings/elections not verified.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        {
+          "value": "Societies Registration Act 1860 (as applied in UP) for registration of AOA",
+          "note": "Allahabad HC Windsor Park (11 Mar 2019): AOA must be registered before Registrar under Societies Act though not a society in the strict sense; s.25(2) Registrar can call election meeting.",
+          "source": "https://indiankanoon.org/doc/92753425/",
+          "confidence": "medium",
+          "needsLawyer": true
+        }
+      ],
+      "meetingTypes": [
+        {
+          "type": "annual general meeting",
+          "calledBy": {
+            "value": "Association; date decided by association; AGM in first quarter of each financial year; Board specifies manner",
+            "note": "13, 25(g), 26(i)",
+            "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 13, 25(g), 26(i)",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "noticeDays": {
+            "value": {
+              "min": 2,
+              "max": 7
+            },
+            "note": "Secretary mails/sends notice 'at least two days but not more than seven days' before; copy to competent authority or registrar",
+            "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 15",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "noticeContent": {
+            "value": "Purpose, time and place; notices also sent to competent authority or registrar",
+            "note": "",
+            "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 15",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "chair": {
+            "value": "President presides over all meetings of Association and Board; Vice-President in absence",
+            "note": "",
+            "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 19, 20",
+            "confidence": "high",
+            "needsLawyer": false
+          }
+        },
+        {
+          "type": "special general meeting",
+          "calledBy": {
+            "value": "President must call: on Board resolution, or petition signed by a majority of owners presented to Secretary, or request of Competent Authority (or authorised officer)",
+            "note": "",
+            "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 14",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "noticeDays": {
+            "value": {
+              "min": 2,
+              "max": 7
+            },
+            "note": "Same notice rule as annual meetings",
+            "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 15",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "noticeContent": {
+            "value": "Time, place and purpose; no other business without consent of two-thirds of owners present in person",
+            "note": "",
+            "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 14",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "chair": {
+            "value": "President",
+            "note": "",
+            "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 19",
+            "confidence": "high",
+            "needsLawyer": false
+          }
+        },
+        {
+          "type": "Board of management regular meeting",
+          "calledBy": {
+            "value": "Time and place determined by majority of office bearers; at least two per year",
+            "note": "",
+            "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 30",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "noticeDays": {
+            "value": 3,
+            "note": "Notice personally or by mail at least three days prior",
+            "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 30",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "noticeContent": {
+            "value": null,
+            "note": "not specified in bye-law 30",
+            "source": "not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          },
+          "quorum": {
+            "value": "One-third of total strength of office bearers; if less, majority present may adjourn and not less than 3 present form quorum",
+            "note": "",
+            "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 33",
+            "confidence": "high",
+            "needsLawyer": false
+          }
+        },
+        {
+          "type": "Board special meeting",
+          "calledBy": {
+            "value": "President on 3 days notice; President or Secretary must call on written request of at least three office bearers",
+            "note": "",
+            "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 31",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "noticeDays": {
+            "value": 3,
+            "note": "three days' notice",
+            "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 31",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "noticeContent": {
+            "value": null,
+            "note": "not specified",
+            "source": "not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          },
+          "quorum": {
+            "value": "as bye-law 33",
+            "note": "",
+            "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 33",
+            "confidence": "high",
+            "needsLawyer": false
+          }
+        },
+        {
+          "type": "first meeting of newly elected Board",
+          "calledBy": {
+            "value": "Held within ten days of election; no notice needed if majority of Board present",
+            "note": "",
+            "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 29",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "noticeDays": {
+            "value": 0,
+            "note": "no notice necessary",
+            "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 29",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "noticeContent": {
+            "value": null,
+            "note": "not applicable",
+            "source": "not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        }
+      ],
+      "quorum": {
+        "value": {
+          "percentOfOwnersInPerson": 30
+        },
+        "note": "'presence in person of 30 percent of owners' (counted by owners, not votes)",
+        "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 9",
+        "confidence": "high",
+        "needsLawyer": false
+      },
+      "adjournedQuorum": {
+        "value": {
+          "minHoursLater": 48,
+          "minOwnersInPerson": 2
+        },
+        "note": "Adjourn to not less than 48 hours later; if still no quorum, owners present in person, not less than two, form quorum",
+        "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 16",
+        "confidence": "high",
+        "needsLawyer": false
+      },
+      "majorities": {
+        "ordinary": {
+          "value": "Majority of owners casting votes in person or proxy; 'majority' of owners defined as owners holding 51 per cent of the votes (ambiguity between bye-law 2(e) and 10)",
+          "note": "",
+          "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 2(e), 10",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "special": {
+          "value": "Two-thirds of owners present in person to allow un-noticed business at special meeting (bye-law 14); owners representing at least two-thirds of total units plus prior competent-authority approval to amend bye-laws (bye-law 58)",
+          "note": "",
+          "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 14, 58",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "removalOfOfficeBearers": {
+          "value": "Majority of apartment owners at regular or special meeting duly called; office bearer to be heard",
+          "note": "",
+          "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 28",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "boardElection": {
+          "value": "Board of 4-10 'elected by the members by simple majority in the General Body Meeting'",
+          "note": "",
+          "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 18",
+          "confidence": "high",
+          "needsLawyer": false
+        }
+      },
+      "weightageModels": {
+        "value": {
+          "model": "percentage per Declaration",
+          "jointOwners": "first-named holder alone votes"
+        },
+        "note": "Voting on percentage basis: percentage assigned to the dwelling unit(s) in the Declaration (bye-law 8). Joint owners: only the first-named person votes (5). Each owner must hold at least one share (6). Not one-flat-one-vote by default.",
+        "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 8, 5, 6",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "proxy": {
+        "value": {
+          "allowed": "unclear",
+          "form": null,
+          "limit": null
+        },
+        "note": "Bye-law 10 says votes 'will be cast in person' but resolutions need majority of owners casting votes 'in person or proxy'; chapter titled 'Voting, Quorum and Proxies' but no proxy form or limit; quorum requires owners present in person.",
+        "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 10",
+        "confidence": "medium",
+        "needsLawyer": true
+      },
+      "votingMethods": {
+        "value": {
+          "boardElection": "by ballot; secrecy not stated",
+          "other": "not specified"
+        },
+        "note": "Annual meeting elects Board 'by ballot of the apartment owners'",
+        "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 13",
+        "confidence": "medium",
+        "needsLawyer": false
+      },
+      "electronicVoting": {
+        "note": "No provision for e-meeting, e-voting or video conferencing in the model bye-laws (read in full) or in any UP source found; the Act and Rules 2011 not read in full. Bye-law 12 only says meetings at a suitable place convenient to owners.",
+        "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 12; searches found no UP rule",
+        "confidence": "low",
+        "needsLawyer": true,
+        "value": "unclear"
+      },
+      "minutesDeadlineDays": {
+        "value": null,
+        "note": "No deadline. Secretary keeps two minute books (Association; Board), pages consecutively numbered and authenticated by President (bye-law 21); minutes of preceding meeting read at next meeting (bye-law 17(c)).",
+        "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-laws 17, 21",
+        "confidence": "high",
+        "needsLawyer": false
+      },
+      "recordRetentionYears": {
+        "value": null,
+        "note": "No retention period in model bye-laws. Related: audited financial statement published by 31 July, copy to competent authority by 15 Aug, summary to each owner within 15 days (49(3)-(6)); statement and auditor report kept in conspicuous place (50).",
+        "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-laws 49, 50",
+        "confidence": "high",
+        "needsLawyer": false
+      },
+      "memberInspectionRight": {
+        "value": {
+          "auditedFinancialStatement": "open to inspection by any member during office hours",
+          "minutesAndRegisters": "not stated"
+        },
+        "note": "Explicit only for audited statement (and list of owners/loanees accompanying it)",
+        "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 49(4), 49(5)",
+        "confidence": "high",
+        "needsLawyer": false
+      },
+      "electionRoles": {
+        "value": {
+          "returningOfficer": null,
+          "nomination": null,
+          "scrutiny": null,
+          "withdrawal": null,
+          "tieBreak": null,
+          "fallback": "Registrar may call and preside over a general body meeting to elect office-bearers if election not held in time or set aside (Societies Act as applied in UP, s.25(2)); prescribed authority decides election disputes (s.25(1)); appeal to Divisional Commissioner within one month (UP Act 8/2022)"
+        },
+        "note": "Model bye-laws provide no returning officer, nomination, scrutiny, withdrawal or tie-break. President, VP, Secretary, Treasurer elected by and from the Board (bye-law 18), though 26(i) says AGM elects 4-10 members 'including' those four; Windsor Park read 18 and 26 together.",
+        "source": "Model Bye-laws 18, 26; Societies Registration Act 1860 as applied in UP (UP Acts 52/1975, 11/1984, 23/2013, 8/2022): https://indiankanoon.org/doc/343062/ ; https://prsindia.org/files/bills_acts/acts_states/uttar-pradesh/1975/1975UP52.pdf; https://indiankanoon.org/doc/92753425/",
+        "confidence": "medium",
+        "needsLawyer": true
+      },
+      "termYears": {
+        "value": {
+          "years": 1,
+          "maxSamePostContinuous": 2,
+          "rotation": "one third of Board retire annually (26(ii)); continue until successors elected and held first meeting (26(iii))"
+        },
+        "note": "Allahabad HC (Windsor Park, secondary summary) treated the Board as a continuing body with annual one-third retirement, rejecting a one-year-Board-term view; office bearers one-year unless re-elected",
+        "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 26",
+        "confidence": "medium",
+        "needsLawyer": true
+      },
+      "eligibility": {
+        "value": "Apartment owner/Member of Association; not eligible if found guilty of misusing the post in previous term (26(i) proviso); arrears disqualifier (7)",
+        "note": "",
+        "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 2(c), 26, 7",
+        "confidence": "high",
+        "needsLawyer": false
+      },
+      "defaulterDisqualification": {
+        "value": {
+          "arrearsDays": 60,
+          "measuredAt": "last day of the year preceding the election year",
+          "effect": "cannot vote in or stand for election of Board or any office bearer"
+        },
+        "note": "Arrears of contributions for common expenses for more than sixty days",
+        "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 7",
+        "confidence": "high",
+        "needsLawyer": false
+      },
+      "notes": [
+        "Applicability: buildings covered by the 2010 Act; competent authority = authority notified by govt (usually development authority) - secondary.",
+        "UP Ownership of Flats Act 1975 relevance NOT verified; repeal/overlap with the 2010 Act not checked.",
+        "UP RERA (UP Real Estate (Regulation and Development) Act/Rules 2016) interaction with association formation not verified; model bye-laws PDF is hosted on up-rera.in.",
+        "Retrieved 2026-10-23. Research only; not legal advice."
+      ]
+    },
+    {
+      "id": "in-generic-rwa-societies-act-1860",
+      "name": "RWA registered under Societies Registration Act 1860 (UP variant)",
+      "jurisdiction": "IN-UP",
+      "instruments": [
+        {
+          "value": "Societies Registration Act, 1860 (Act 21 of 1860) as applied in Uttar Pradesh",
+          "note": "Central Act mostly leaves meetings, quorum and voting to society rules; read only via secondary reproductions.",
+          "source": "https://www.indiacode.nic.in/bitstream/123456789/14647/1/india_societies_registration_act.pdf (not retrieved)",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        {
+          "value": "UP amendments: Act 25/1958; 52/1975 (ss.3, 4(2), 4A, 12A-12D, 25); 11/1984 (s.4 proviso); 23/2013 (s.4B); 8/2022 (appeals, s.4B approval, s.5A, s.16A, s.25 appeal)",
+          "note": "Gazette PDF and indiankanoon text read for these provisions.",
+          "source": "Societies Registration Act 1860 as applied in UP (UP Acts 52/1975, 11/1984, 23/2013, 8/2022): https://indiankanoon.org/doc/343062/ ; https://prsindia.org/files/bills_acts/acts_states/uttar-pradesh/1975/1975UP52.pdf",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        {
+          "value": null,
+          "note": "No official UP model RWA bye-laws found; Delhi or other RWA model bye-laws not read.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        }
+      ],
+      "meetingTypes": [
+        {
+          "type": "annual general meeting",
+          "calledBy": {
+            "value": null,
+            "note": "Not fixed by Act; s.4 assumes an AGM held 'according to the rules of the society'.",
+            "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+            "confidence": "low",
+            "needsLawyer": true
+          },
+          "noticeDays": {
+            "value": null,
+            "note": "No statutory notice period found.",
+            "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+            "confidence": "low",
+            "needsLawyer": true
+          },
+          "noticeContent": {
+            "value": null,
+            "note": "Society rules decide.",
+            "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        },
+        {
+          "type": "special / extraordinary general meeting",
+          "calledBy": {
+            "value": "Per society rules; UP s.12A: name change by resolution at a general meeting convened for the purpose; s.12 contemplates special meetings for altering purposes",
+            "note": "UP s.12A (Act 52/1975) requires consent of not less than two-thirds of total members; s.12 details from secondary text only",
+            "source": "Societies Registration Act 1860 as applied in UP (UP Acts 52/1975, 11/1984, 23/2013, 8/2022): https://indiankanoon.org/doc/343062/ ; https://prsindia.org/files/bills_acts/acts_states/uttar-pradesh/1975/1975UP52.pdf",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          "noticeDays": {
+            "value": 10,
+            "note": "Only for s.12 purpose-alteration proposals, per secondary reproductions; not a general rule",
+            "source": "https://industries.delhi.gov.in/industries/registration-act (search snippet only)",
+            "confidence": "low",
+            "needsLawyer": true
+          },
+          "noticeContent": {
+            "value": null,
+            "note": "Society rules decide.",
+            "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        },
+        {
+          "type": "Registrar-called election meeting",
+          "calledBy": {
+            "value": "Registrar (or authorised officer) convenes and presides over general body meeting to elect office-bearers if election not held within time in society rules or an election is set aside; no other authority may call another election meeting meanwhile",
+            "note": "UP s.25(2)-(3) (Act 52/1975): https://prsindia.org/files/bills_acts/acts_states/uttar-pradesh/1975/1975UP52.pdf",
+            "source": "UP s.25(2)-(3) (Act 52/1975): https://prsindia.org/files/bills_acts/acts_states/uttar-pradesh/1975/1975UP52.pdf",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "noticeDays": {
+            "value": null,
+            "note": "Society's own rules on meetings and elections apply with necessary modifications",
+            "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+            "confidence": "low",
+            "needsLawyer": true
+          },
+          "noticeContent": {
+            "value": null,
+            "note": "same",
+            "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        }
+      ],
+      "quorum": {
+        "value": null,
+        "note": "No statutory quorum found; society rules.",
+        "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "adjournedQuorum": {
+        "value": null,
+        "note": "Society rules.",
+        "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "majorities": {
+        "ordinary": {
+          "value": null,
+          "note": "Society rules.",
+          "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "special": {
+          "value": {
+            "nameChange": "two-thirds of total members (UP s.12A)",
+            "alterPurposes": "three-fifths (s.12, secondary)",
+            "dissolution": "three-fifths of members (s.13, secondary)"
+          },
+          "note": "Verified from primary only for UP s.12A; s.12/13 from secondary summaries",
+          "source": "UP s.12A: https://prsindia.org/files/bills_acts/acts_states/uttar-pradesh/1975/1975UP52.pdf; s.12/13: search snippets of industries.delhi.gov.in/industries/registration-act",
+          "confidence": "medium",
+          "needsLawyer": true
+        }
+      },
+      "weightageModels": {
+        "value": null,
+        "note": "Not set by Act; one-member-one-vote is typical but not verified.",
+        "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "proxy": {
+        "value": null,
+        "note": "Secondary text of central s.12/13 mentions votes 'in person or by proxy' for those resolutions, implying proxies are contemplated; no general rule found; society rules decide.",
+        "source": "secondary summaries of s.12/13",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "votingMethods": {
+        "value": null,
+        "note": "Society rules.",
+        "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "electronicVoting": {
+        "note": "No UP Registrar order or UP/central provision on online or hybrid general body meetings or e-voting for societies found (searched 2026-10-23). Do not assume allowed; check society bye-laws.",
+        "source": "searches 2026-10-23; none found",
+        "confidence": "low",
+        "needsLawyer": true,
+        "value": "unclear"
+      },
+      "minutesDeadlineDays": {
+        "value": null,
+        "note": "Not in Act. UP s.4B(1) lets Registrar verify members list against register of members, minutes book, cash book, receipt book and bank passbook, so those records must exist.",
+        "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "recordRetentionYears": {
+        "value": null,
+        "note": "No retention period found.",
+        "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "memberInspectionRight": {
+        "value": null,
+        "note": "Public may inspect documents filed with Registrar under s.19 (fee-based; secondary). Member inspection of society's own records is not in the Act; society rules.",
+        "source": "Societies Registration Act 1860 s.19 (secondary: https://aaptaxlaw.com/societies-registration-act/section-19-societies-registration-act-inspection-of-documents-section-19-societies-registration-act-1860.html)",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "electionRoles": {
+        "value": {
+          "returningOfficer": null,
+          "fallback": "Registrar may call/preside election meeting (s.25(2)); prescribed authority decides election disputes on reference by Registrar or at least one-fourth of members (s.25(1)); appeal to Divisional Commissioner within one month (UP Act 8/2022)"
+        },
+        "note": "Election mechanics are set by society rules; statute supplies only dispute/default machinery",
+        "source": "UP s.25 (Act 52/1975), UP Act 8/2022: https://prsindia.org/files/bills_acts/acts_states/uttar-pradesh/1975/1975UP52.pdf",
+        "confidence": "high",
+        "needsLawyer": false
+      },
+      "termYears": {
+        "value": null,
+        "note": "Society rules. s.4 requires annual list within 14 days after AGM (or in January if no AGM); UP proviso (Act 11/1984): countersignature of old members or Registrar notice/objections.",
+        "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "eligibility": {
+        "value": "Disqualified: undischarged insolvent; convicted of offence in connection with management of a society/body corporate; offence of moral turpitude; any criminal offence with punishment of 2 years or more - from date of judgment",
+        "note": "UP s.16-A as substituted by UP Act 8/2022 (2022 Act pages inside https://prsindia.org/files/bills_acts/acts_states/uttar-pradesh/1975/1975UP52.pdf)",
+        "source": "UP s.16-A as substituted by UP Act 8/2022 (2022 Act pages inside https://prsindia.org/files/bills_acts/acts_states/uttar-pradesh/1975/1975UP52.pdf)",
+        "confidence": "medium",
+        "needsLawyer": true
+      },
+      "defaulterDisqualification": {
+        "value": null,
+        "note": "Not in Act; RWA bye-laws may bar arrears defaulters.",
+        "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "notes": [
+        "Registration filings: annual list of managing body (s.4); changes in rules and address within 30 days certified by 3 governing-body members (s.4A); members list at registration/renewal and modified list within one month signed by 2 office bearers and 2 executive members, change valid only if approved by Managing Body (s.4B as amended 2013 and 2022); appeals to Divisional Commissioner (UP Act 8/2022).",
+        "UP s.5A (2022): transfer of society immovable property needs prior court approval.",
+        "Most meeting rules for an RWA come from its own bye-laws; this pack cannot supply defaults. Retrieved 2026-10-23. Research only; not legal advice."
+      ]
+    },
+    {
+      "id": "in-mh-coop-society",
+      "name": "Maharashtra co-operative housing society (MCS Act 1960 regime)",
+      "jurisdiction": "IN-MH",
+      "instruments": [
+        "Maharashtra Co-operative Societies Act 1960 (Mah. XXIV of 1961): ss.27, 32, 73B/73BBB, 73CB, 75, 76, 91, 154B - consolidated section text NOT retrieved from a primary consolidated source; relied on amending-act texts and secondary summaries",
+        "Maharashtra Co-operative Societies Rules 1961 as amended 18 Jun 2026: new Chapter XI-B, Rules 106C-1 to 106C-14 (housing societies)",
+        "Maharashtra Co-operative Societies (Election to Committee) Rules 2014 (11 Sep 2014)",
+        "2014 Model Bye-laws of Co-operative Housing Societies (Registrar to issue NEW model bye-laws under Rule 106C-13(1)(b); not seen)",
+        "Union of India v Rajendra N. Shah (SC, 20 Jul 2021) on the 97th Constitutional Amendment"
+      ],
+      "meetingTypes": [
+        {
+          "type": "annual general body meeting (AGM)",
+          "calledBy": {
+            "value": "Secretary issues notice after Committee fixes date/time/place/agenda; Chairman issues if Secretary fails",
+            "note": "Model bye-law 99",
+            "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 99",
+            "confidence": "high",
+            "needsLawyer": true
+          },
+          "noticeDays": {
+            "value": 14,
+            "note": "14 CLEAR days (day of issue and day of meeting excluded); notice to members under intimation to Federation and Registering Authority. 2026 Rule 106C-13(3)(d) says AGM notice/agenda 'in accordance with the Act and the bye-laws'.",
+            "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 100; Maharashtra Co-operative Societies (Amendment) Rules, 2026 (Gazette notification 18 Jun 2026), new Rule 106C-13(3), as reproduced at https://taxguru.in/corporate-law/maharashtra-co-operative-societies-amendment-rules-2026.html (secondary reproduction; gazette PDF not seen)",
+            "confidence": "high",
+            "needsLawyer": true
+          },
+          "noticeContent": {
+            "value": "Date, time, place, agenda. Statutory AGM business listed in bye-law 96: minutes of last AGM/SGMs, committee report and accounts (Form N), audit memorandum and rectification, election result if held, appointment of auditor from Deputy Registrar panel, matters needing GB sanction, official communications.",
+            "note": "Items needing proper notice cannot be taken as 'any other business' (bye-law 96(viii))",
+            "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 96",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          "timing": {
+            "value": "Within 6 months of financial-year end (30 Sep for a 31 Mar year end); accounts audited within 4 months. Bye-law 95 text says 'on or before 14 August or within the extended period under s.75(1)'.",
+            "note": "s.75(1) wording seen only in court summaries and guides; s.75(5) lets Registrar disqualify committee members up to 5 years for default (secondary). Bombay HC summary: disqualification automatic unless extension obtained from Registrar before expiry.",
+            "source": "Maharashtra Co-operative Societies Act 1960 s.75(1),(5) via https://lawtext.in/judgement.php?bid=59888 and https://housing.com/news/laws-pertaining-agm-housing-societies-maharashtra (secondary only); 2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 95",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        },
+        {
+          "type": "special general body meeting (SGM)",
+          "calledBy": {
+            "value": "Chairman, or by decision of majority of Committee; MUST be called within one month of receipt of written requisition signed by at least 1/5th of members, or from Registering Authority or the Housing Federation",
+            "note": "Requisition goes to Committee within 7 days (bye-law 98); requisitioned SGM may transact only business in the requisition. Act s.76(1) text not seen directly (a forum post quotes 1/5th).",
+            "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-laws 97-99; Act s.76",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          "noticeDays": {
+            "value": 5,
+            "note": "5 clear days (Rule 106C-13(3)(g), 2026; bye-law 100). Bye-law 100: shorter notice allowed in emergency only if Committee unanimous, agenda and reasons communicated in writing, decision communicated in writing within 2 days.",
+            "source": "Maharashtra Co-operative Societies (Amendment) Rules, 2026 (Gazette notification 18 Jun 2026), new Rule 106C-13(3), as reproduced at https://taxguru.in/corporate-law/maharashtra-co-operative-societies-amendment-rules-2026.html (secondary reproduction; gazette PDF not seen); 2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 100",
+            "confidence": "high",
+            "needsLawyer": true
+          },
+          "noticeContent": {
+            "value": "Agenda confined to business in notice/requisition",
+            "note": "bye-laws 97, 99",
+            "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error)",
+            "confidence": "high",
+            "needsLawyer": true
+          }
+        },
+        {
+          "type": "redevelopment SGM (2026 rules)",
+          "calledBy": {
+            "value": null,
+            "note": "not stated in sources seen",
+            "source": "not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          },
+          "noticeDays": {
+            "value": 14,
+            "note": "14 clear days mandatory. Registrar's representative must be present; meeting must be video-recorded (copy to Chairman and one to Asst/Dy Registrar); developer/contractor selection needs 51% of TOTAL members incl. those on video conference. A practitioner (FPJ, 21 Jul 2026) flags conflict between 2/3 commencement quorum and the adjourned-meeting rule.",
+            "source": "Maharashtra Co-operative Societies (Amendment) Rules, 2026 (Gazette notification 18 Jun 2026), new Rule 106C-13(3), as reproduced at https://taxguru.in/corporate-law/maharashtra-co-operative-societies-amendment-rules-2026.html (secondary reproduction; gazette PDF not seen); https://www.freepressjournal.in/amp/mumbai/consumer-connect-maharashtras-new-redevelopment-rules-allow-online-sgbms-registrar-noc-no-longer-required",
+            "confidence": "medium",
+            "needsLawyer": true
+          }
+        },
+        {
+          "type": "managing committee meeting",
+          "calledBy": {
+            "value": "Secretary in consultation with Chairman; Chairman if Secretary fails; Housing Federation if both fail. Special meeting on requisition of 1/3 of committee members, convened within 7 days.",
+            "note": "bye-laws 133, 136",
+            "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error)",
+            "confidence": "high",
+            "needsLawyer": true
+          },
+          "noticeDays": {
+            "value": 3,
+            "note": "3 clear days, stating date, time, place, business",
+            "source": "bye-law 133 | 2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 133",
+            "confidence": "high",
+            "needsLawyer": true
+          },
+          "frequency": {
+            "value": "At least once a month; emergency resolution by circulation allowed but must be placed at next meeting",
+            "note": "bye-law 128",
+            "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error)",
+            "confidence": "high",
+            "needsLawyer": true
+          },
+          "quorum": {
+            "value": "3/4/5/6 members for committee of 5/7/9/11; quorum needed at every agenda item",
+            "note": "bye-laws 115, 127; the size-to-quorum table was seen only in https://blog.ipleaders.in/election-procedure-for-housing-societies/ (secondary)",
+            "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error)",
+            "confidence": "medium",
+            "needsLawyer": true
+          }
+        },
+        {
+          "type": "first statutory general meeting",
+          "calledBy": {
+            "value": "Chief Promoter, within 3 months of registration; 14 clear days notice",
+            "note": "bye-laws 86-88",
+            "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error)",
+            "confidence": "high",
+            "needsLawyer": true
+          },
+          "noticeDays": {
+            "value": 14,
+            "note": "",
+            "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 88",
+            "confidence": "high",
+            "needsLawyer": true
+          }
+        }
+      ],
+      "quorum": {
+        "value": "Two-thirds of total members or 20, whichever is less (any GB meeting, AGM or SGM). Redevelopment SGM: two-thirds of total members (no 20 cap).",
+        "note": "Same figure in 2014 model bye-law 101 and 2026 Rule 106C-13(3)(f). Society's own registered bye-laws control; check them.",
+        "source": "Maharashtra Co-operative Societies (Amendment) Rules, 2026 (Gazette notification 18 Jun 2026), new Rule 106C-13(3), as reproduced at https://taxguru.in/corporate-law/maharashtra-co-operative-societies-amendment-rules-2026.html (secondary reproduction; gazette PDF not seen); 2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 101",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "adjournedQuorum": {
+        "value": "No quorum required: if none within half an hour, a requisitioned meeting is DISSOLVED; any other meeting is adjourned to a later hour same day/place (if so specified in notice) or to a date not earlier than 7 and not later than 30 days, and original agenda business may be transacted whether quorum is present or not. Unfinished agenda may be postponed up to 30 days (bye-law 103).",
+        "note": "Exception flagged by a practitioner for redevelopment SGMs (2/3 quorum vs 51% rule).",
+        "source": "Maharashtra Co-operative Societies (Amendment) Rules, 2026 (Gazette notification 18 Jun 2026), new Rule 106C-13(3), as reproduced at https://taxguru.in/corporate-law/maharashtra-co-operative-societies-amendment-rules-2026.html (secondary reproduction; gazette PDF not seen) Rule 106C-13(3)(e); 2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-laws 102-103",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "majorities": {
+        "ordinary": {
+          "value": "Simple majority of those present and voting; chair has casting vote on a tie (bye-laws 107-108). 2026 Rule 106C-13(3)(f) [second clause lettered (f) in source] says decisions 'shall be passed by a majority vote of fifty-one per cent of the total members of the society present, including those attending through video conferencing' - wording ambiguous (51% of those present vs of total).",
+          "note": "Ambiguity unresolved; lawyer-review item.",
+          "source": "Maharashtra Co-operative Societies (Amendment) Rules, 2026 (Gazette notification 18 Jun 2026), new Rule 106C-13(3), as reproduced at https://taxguru.in/corporate-law/maharashtra-co-operative-societies-amendment-rules-2026.html (secondary reproduction; gazette PDF not seen); 2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-laws 107-108",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "redevelopmentDeveloperSelection": {
+          "value": "51% of TOTAL members of the society, including those attending by video conferencing",
+          "note": "",
+          "source": "Maharashtra Co-operative Societies (Amendment) Rules, 2026 (Gazette notification 18 Jun 2026), new Rule 106C-13(3), as reproduced at https://taxguru.in/corporate-law/maharashtra-co-operative-societies-amendment-rules-2026.html (secondary reproduction; gazette PDF not seen) Rule 106C-13(3)(i)",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "rescission": {
+          "value": "No resolution cancelling a previous GB resolution unless 6 clear months have passed",
+          "note": "",
+          "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 110",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "special": {
+          "value": null,
+          "note": "Majorities for bye-law amendment, expulsion, removal of committee etc. were not retrieved from Act text.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "noConfidenceAgainstOfficer": {
+          "value": "Special committee meeting presided by Registrar/officer not below Asst Registrar, on notice by 1/3 of committee; passed by 3/4 of members present with attendance of at least 2/3 (secondary description of bye-law 126). Bill 70/2018 proposed s.154B-24: 2/3 of committee members present. Conflict - verify enacted text.",
+          "note": "s.73ID(2)-(7) not retrieved",
+          "source": "https://blog.ipleaders.in/election-procedure-for-housing-societies/ (secondary); Maharashtra Co-operative Societies (Amendment) Bill No. 70 of 2018 (housing chapter, proposed ss.154B-1 onward), https://prsindia.org/files/bills_acts/bills_states/maharashtra/2018/Bill%20no%2070%20of%202018%20MH.pdf (BILL text; final enacted wording not verified)",
+          "confidence": "low",
+          "needsLawyer": true
+        }
+      },
+      "weightageModels": {
+        "value": "One member one vote regardless of flat size/area (no weighted votes). Associate member votes only in absence of the member (bye-law 107; Bill 154B-11(2): with member's prior written consent). Joint holders: first-named on share certificate if present, else next named present and not a minor (s.27(2) per forum summary; Bill 154B-11(4)). Nominal members: no vote (s.27(8)). Company/firm members vote through authorised director/partner (Bill 154B-11(6)). Veena Kumar Tandon v Neelam Bhalla (SC 2007): each admitted family member may vote (secondary).",
+        "note": "Bye-law 106 defers to s.27(1),(2),(3),(3A). iPleaders (secondary) says the 2-year waiting period for voting rights was removed.",
+        "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-laws 106-107; Maharashtra Co-operative Societies (Amendment) Bill No. 70 of 2018 (housing chapter, proposed ss.154B-1 onward), https://prsindia.org/files/bills_acts/bills_states/maharashtra/2018/Bill%20no%2070%20of%202018%20MH.pdf (BILL text; final enacted wording not verified); https://indiancooperative.com/?p=21701 (secondary)",
+        "confidence": "medium",
+        "needsLawyer": true
+      },
+      "proxy": {
+        "value": "No proxy, power-of-attorney holder or authority-letter holder may attend or vote. Elections: 'no votes shall be allowed by proxy' (Rule 33). Bill 154B-11: every right to vote shall be exercised personally.",
+        "note": "Some commentary suggests a POA holder may attend; the bye-law text says otherwise.",
+        "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 105; Maharashtra Co-operative Societies (Election to Committee) Rules, 2014 (notification 11 Sep 2014), copy at https://consumerresourcesin.files.wordpress.com/2014/10/election_rules_final.pdf (third-party host of Gazette text) Rule 33; Maharashtra Co-operative Societies (Amendment) Bill No. 70 of 2018 (housing chapter, proposed ss.154B-1 onward), https://prsindia.org/files/bills_acts/bills_states/maharashtra/2018/Bill%20no%2070%20of%202018%20MH.pdf (BILL text; final enacted wording not verified)",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "votingMethods": {
+        "generalBody": {
+          "value": null,
+          "note": "Method (show of hands/poll) for ordinary GB resolutions not specified in the bye-laws or rules text seen.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "committeeElection": {
+          "value": "Secret ballot or Electronic Voting Machine (Election Rules r.33); model bye-law 116(a): secret ballot if paid-up share capital exceeds Rs 10,000. Tie: lots drawn before Returning Officer (r.63(1) proviso).",
+          "note": "",
+          "source": "Maharashtra Co-operative Societies (Election to Committee) Rules, 2014 (notification 11 Sep 2014), copy at https://consumerresourcesin.files.wordpress.com/2014/10/election_rules_final.pdf (third-party host of Gazette text) rules 33, 63; 2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 116",
+          "confidence": "high",
+          "needsLawyer": true
+        }
+      },
+      "electronicVoting": {
+        "value": "yes",
+        "note": "Scope: MEETING PARTICIPATION. Members may attend GB meetings in person or by video conferencing/other audio-visual means provided by the society, capable of recording and recognising participation and storing proceedings with date and time; VC attendees count toward the 51% rule. Remote e-VOTING mechanics are not expressly regulated in text seen.",
+        "source": "Maharashtra Co-operative Societies (Amendment) Rules, 2026 (Gazette notification 18 Jun 2026), new Rule 106C-13(3), as reproduced at https://taxguru.in/corporate-law/maharashtra-co-operative-societies-amendment-rules-2026.html (secondary reproduction; gazette PDF not seen) Rule 106C-13(3)(b) proviso",
+        "confidence": "medium",
+        "needsLawyer": true,
+        "elections": {
+          "value": "unclear",
+          "note": "Election Rules r.39 allows EVMs at a polling station with procedure specified by SCEA; online remote voting for committee elections not found in any primary text. Vendor blogs (right2vote.in) claim legal recognition - promotional, unverified.",
+          "source": "Maharashtra Co-operative Societies (Election to Committee) Rules, 2014 (notification 11 Sep 2014), copy at https://consumerresourcesin.files.wordpress.com/2014/10/election_rules_final.pdf (third-party host of Gazette text) rule 39",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "history": {
+          "value": "Circular dated 25 Feb 2021 (COVID) validated online AGMs via VC/OAVM for housing societies and extended AGM deadline; notice 15 days incl. SMS/email/WhatsApp and newspaper advertisement. Temporary; current status unknown.",
+          "note": "Seen only via ADDA blog summary; circular itself not read",
+          "source": "https://blog.ind.adda.io/?p=12102",
+          "confidence": "low",
+          "needsLawyer": true
+        }
+      },
+      "minutesDeadlineDays": {
+        "value": 90,
+        "note": "Committee finalises DRAFT minutes within 3 months of meeting; circulates within 15 days of the committee meeting that finalised them; members comment within 15 days; final minutes recorded at subsequent committee meeting. No hard statutory deadline for signed minutes found.",
+        "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 109",
+        "confidence": "medium",
+        "needsLawyer": true
+      },
+      "recordRetentionYears": {
+        "value": null,
+        "note": "No retention period found in the bye-laws or rules text seen; bye-law 142 lists registers to be maintained and bye-law 124 requires records kept at society premises.",
+        "source": "not verified",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "memberInspectionRight": {
+        "value": "Member may inspect books/registers/documents free of cost and obtain copies on fee (bye-law 23, s.32(1),(2)). Bill 154B-8: free inspection during office hours of bye-laws, records, books of accounts, correspondence excluding other members' personal information; copies within one month of fee.",
+        "note": "Bye-law 172 sets copy fees; Chapter 154B enacted wording not verified",
+        "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 23; Maharashtra Co-operative Societies (Amendment) Bill No. 70 of 2018 (housing chapter, proposed ss.154B-1 onward), https://prsindia.org/files/bills_acts/bills_states/maharashtra/2018/Bill%20no%2070%20of%202018%20MH.pdf (BILL text; final enacted wording not verified)",
+        "confidence": "medium",
+        "needsLawyer": true
+      },
+      "electionRoles": {
+        "authority": {
+          "value": "State Co-operative Election Authority (SCEA) has superintendence, direction and control of electoral rolls and elections (s.73CB(1), inserted by 2013 amendment replacing Chapter XIA). Societies with 200+ members (Type C): Taluka/Ward Co-operative Election Officer appoints Returning Officer from Co-operation Department; society informs 180 days before term expiry. Societies with fewer than 200 members at 31 March (Type D): election at a SGM presided by person appointed by SCEA, notice at least 15 days by Presiding Officer; presiding officer has no vote; fallback to Rule 75 process. 2018 proviso to s.73CB(11): housing societies up to 200 members conduct own elections 'in the manner prescribed' - prescription not found.",
+          "note": "Cutoff discrepancy: 'less than 200' (Rule 4(IV)) vs 'up to 200' (2018 proviso). A 2019 bill proposing 250 not verified.",
+          "source": "Maharashtra Co-operative Societies (Election to Committee) Rules, 2014 (notification 11 Sep 2014), copy at https://consumerresourcesin.files.wordpress.com/2014/10/election_rules_final.pdf (third-party host of Gazette text) rules 4, 75, 76; https://indiancooperative.com/?p=9646; Maharashtra Co-operative Societies (Amendment) Bill No. 70 of 2018 (housing chapter, proposed ss.154B-1 onward), https://prsindia.org/files/bills_acts/bills_states/maharashtra/2018/Bill%20no%2070%20of%202018%20MH.pdf (BILL text; final enacted wording not verified)",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "societyRunProcessSecondary": {
+          "value": "Model election regulations (Annexure III, not in the copy seen), per secondary: Committee prepares provisional voter list 60 days before election, 8 days for objections, final list within 2 days, appoints Returning Officer from non-candidates who undertake not to contest/propose/second; RO declares programme within 7 days.",
+          "note": "Likely superseded for most societies by the 2014 Election Rules",
+          "source": "https://blog.ipleaders.in/election-procedure-for-housing-societies/ (secondary)",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "timelineTypeC": {
+          "value": "Programme days: provisional list day 1; claims 5 days; decision within 2 days; final list; nominations close 5 days after final list; scrutiny next day; valid list next day; withdrawal 15 days after valid list; poll min 5 days after withdrawal; count and result immediately. Rejected nomination: appeal to Registrar within 3 days, disposed within 10 days. Office-bearers chosen within 10 days (Type C) / 15 days (Type D). Disputes: election petition to Co-operative Court (s.91, rule 78).",
+          "note": "",
+          "source": "Maharashtra Co-operative Societies (Election to Committee) Rules, 2014 (notification 11 Sep 2014), copy at https://consumerresourcesin.files.wordpress.com/2014/10/election_rules_final.pdf (third-party host of Gazette text) rules 75, 76, 77, 78",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "casualVacancy": {
+          "value": "Committee fills by co-option after 7 days' notice-board call for nominations; term coterminous (Rule 106C-13(4), 2026). Model bye-law 129: co-option not more than two.",
+          "note": "",
+          "source": "Maharashtra Co-operative Societies (Amendment) Rules, 2026 (Gazette notification 18 Jun 2026), new Rule 106C-13(3), as reproduced at https://taxguru.in/corporate-law/maharashtra-co-operative-societies-amendment-rules-2026.html (secondary reproduction; gazette PDF not seen); 2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 129",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "reservations": {
+          "value": "Model bye-law 115 (citing s.73BBB): committee 5/7/9/11 including reserved women seats (secondary table: up to 50 members 4+1; 51-100 6+1; 101-300 8+1; 301+ 9+2); if women unavailable, seats filled by others. Election Rules r.2(15): reserved seats for SC/ST, Women, De-notified/Nomadic Tribes, Special Backward Classes, OBC. Bill 70/2018 proposed s.154B-20/21: 3 reserved seats (SC/ST 1, OBC 1, VJ/NT/SBC 1) plus 2 women; unfilled reserved seats not counted for quorum. CONFLICT between 1 and 2 women seats.",
+          "note": "Enacted s.73B/73BBB/154B text not seen",
+          "source": "https://blog.ipleaders.in/election-procedure-for-housing-societies/ (secondary); Maharashtra Co-operative Societies (Election to Committee) Rules, 2014 (notification 11 Sep 2014), copy at https://consumerresourcesin.files.wordpress.com/2014/10/election_rules_final.pdf (third-party host of Gazette text) rule 2(15); Maharashtra Co-operative Societies (Amendment) Bill No. 70 of 2018 (housing chapter, proposed ss.154B-1 onward), https://prsindia.org/files/bills_acts/bills_states/maharashtra/2018/Bill%20no%2070%20of%202018%20MH.pdf (BILL text; final enacted wording not verified)",
+          "confidence": "low",
+          "needsLawyer": true
+        }
+      },
+      "termYears": {
+        "value": 5,
+        "note": "Committee elected for 5 years (bye-laws 116(a), 122); office-bearers 5 years but not beyond committee term (bye-law 126). Bill 154B-19(3): five years from first meeting of newly constituted committee. 2018 amendment to s.73AAA(3): members deemed to have vacated on expiry of term (amending-act text read).",
+        "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-laws 116, 122, 126; https://prsindia.org/files/bills_acts/acts_states/maharashtra/1961/1961MH24.pdf",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "eligibility": {
+        "value": "Not eligible if: conviction for moral turpitude within 6 years; default of dues within 3 months of written notice; held responsible under ss.79/88/85; sublet/leased flat without permission or sold shares; associate member without NOC/undertaking; otherwise ineligible under Act/Rules (bye-law 118). Ceases to be member after missing 3 consecutive monthly meetings without leave (bye-law 120).",
+        "note": "",
+        "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-laws 118, 120",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "defaulterDisqualification": {
+        "value": "Bye-law 118(ii): member who has not paid dues within three months from service of written notice (by hand or post under certificate of posting) is ineligible for election/co-option. Secondary: nomination invalid if dues unpaid at nomination and scrutiny; arrears beyond 90 days at scrutiny ineligible, but proposer/seconder may be in arrears. Bill 154B-23: 'defaulter' disqualifies; 5-year bar after certain disqualifications.",
+        "note": "",
+        "source": "2014 Model Bye-laws of Co-operative Housing Societies (Maharashtra), copy at https://adda.io/blog/wp-content/uploads/2022/02/maharashtra-co-operative-housing-society-bye-laws.pdf (third-party host of the official text; official sahakarayukta.maharashtra.gov.in PDF URLs returned a server error) bye-law 118; https://blog.ipleaders.in/election-procedure-for-housing-societies/ (secondary); Maharashtra Co-operative Societies (Amendment) Bill No. 70 of 2018 (housing chapter, proposed ss.154B-1 onward), https://prsindia.org/files/bills_acts/bills_states/maharashtra/2018/Bill%20no%2070%20of%202018%20MH.pdf (BILL text; final enacted wording not verified)",
+        "confidence": "medium",
+        "needsLawyer": true
+      },
+      "notes": [
+        "RESEARCH ONLY, NOT LEGAL ADVICE. Highest-value fact: the June 2026 Amendment Rules (Rule 106C-13) now set housing-society GB rules directly and expressly allow video-conference participation.",
+        "Rule 106C-13(1)(b)-(c): Registrar to issue NEW model bye-laws; societies may adopt within 3 months of publication. Bye-law numbers cited are the 2014 model; the society's own registered bye-laws control until changed.",
+        "Bye-law numbering differs across published copies (quorum cited as bye-law 100 in some secondary sources, 101 in the copy read).",
+        "Part IXB (Arts 243ZI-ZT, 97th Amendment) was held operative only for multi-State societies (Rajendra Shah, 2021, para 77, read); Maharashtra's SCEA/election regime rests on the State statute (2013 amendments), not Part IXB.",
+        "Consolidated current text of MCS Act ss.27, 32, 73B, 73BBB, 73CB, 75, 76 was not retrieved from India Code or the legislature; Act-level points come from amending-act PDFs and secondary summaries.",
+        "Maharashtra Apartment Ownership Act 1970 / MOFA 1963 pack NOT produced: no supportable source for association meeting, quorum or voting rules was found."
+      ]
+    },
+    {
+      "id": "us-hoa-generic",
+      "name": "US HOA generic (UCIOA-style defaults + RONR)",
+      "jurisdiction": "US (no federal HOA law; defaults only, governing documents and state law override)",
+      "instruments": {
+        "value": [
+          "declaration",
+          "bylaws",
+          "articles",
+          "rules/resolutions"
+        ],
+        "note": "Governing documents control. UCIOA 2021 official text not reached; values come from the Minnesota 515B enactment and secondary RONR summaries, treat as templates.",
+        "source": "Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-108",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "meetingTypes": [
+        {
+          "type": "annual",
+          "calledBy": {
+            "value": "association/board per bylaws",
+            "note": "Minn. 515B.3-108: meeting at least once a year; elect directors with expired terms, report, other noticed matters",
+            "source": "Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-108",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          "noticeDays": {
+            "value": {
+              "min": 21,
+              "max": 30
+            },
+            "note": "Minnesota enactment annual 21-30 days; official UCIOA text may differ",
+            "source": "Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-108",
+            "confidence": "low",
+            "needsLawyer": true
+          },
+          "noticeContent": {
+            "value": "date, time, place, purposes; how to appoint proxies if allowed",
+            "note": "Minn. 515B.3-108",
+            "source": "Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-108",
+            "confidence": "medium",
+            "needsLawyer": true
+          }
+        },
+        {
+          "type": "special",
+          "calledBy": {
+            "value": "president; must be called on written petition of majority of board or owners with >=20% of votes",
+            "note": "Minn. 515B.3-108 (bylaws may differ)",
+            "source": "Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-108",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          "noticeDays": {
+            "value": {
+              "min": 7,
+              "max": 30
+            },
+            "note": "Minnesota enactment",
+            "source": "Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-108",
+            "confidence": "low",
+            "needsLawyer": true
+          },
+          "noticeContent": {
+            "value": "date, time, place, purposes",
+            "note": "Minn. 515B.3-108",
+            "source": "Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-108",
+            "confidence": "medium",
+            "needsLawyer": true
+          }
+        },
+        {
+          "type": "board",
+          "calledBy": {
+            "value": null,
+            "note": "UCIOA board meeting rules (3-103) not reached",
+            "source": "not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          },
+          "noticeDays": {
+            "value": null,
+            "note": "Not reached in primary text",
+            "source": "not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          },
+          "noticeContent": {
+            "value": null,
+            "note": "Not reached in primary text",
+            "source": "not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        }
+      ],
+      "quorum": {
+        "value": "owners holding more than 20% of votes present in person or by proxy at start (bylaws may change); board: more than 50% of board",
+        "note": "Minn. 515B.3-109; Vermont enactment also 20% per search snippet only",
+        "source": "Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-109",
+        "confidence": "medium",
+        "needsLawyer": true
+      },
+      "adjournedQuorum": {
+        "value": null,
+        "note": "RONR: adjourned meeting is a continuation so same quorum (not source-verified); UCIOA adjourned rule not reached",
+        "source": "RONR 12th ed. via secondary summaries only (https://www.extension.purdue.edu/county/sullivan/_docs/roberts-cheat-sheet.pdf; https://ces-manuals.mgcafe.uky.edu/quorums-and-proxy-voting); primary text not accessed",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "majorities": {
+        "ordinary": {
+          "value": "majority of votes cast at a meeting with quorum (RONR default: majority of members present and voting)",
+          "note": "RONR baseline, bylaws override",
+          "source": "RONR 12th ed. via secondary summaries only (https://www.extension.purdue.edu/county/sullivan/_docs/roberts-cheat-sheet.pdf; https://ces-manuals.mgcafe.uky.edu/quorums-and-proxy-voting); primary text not accessed",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "special": {
+          "value": "two-thirds of votes cast (RONR: affirmative at least double the negative); amendments per governing docs",
+          "note": "NACo deck citing 12th ed. https://www.naco.org/sites/default/files/2025-09/Keynote%20-%20NACo%20-%20Robert%27s%20Rules%20102.pdf (secondary)",
+          "source": "RONR 12th ed. via secondary summaries only (https://www.extension.purdue.edu/county/sullivan/_docs/roberts-cheat-sheet.pdf; https://ces-manuals.mgcafe.uky.edu/quorums-and-proxy-voting); primary text not accessed",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "tie": {
+          "value": "motion lost on a tie",
+          "note": "NACo deck citing RONR 12th ed. 44:12 (secondary)",
+          "source": "RONR 12th ed. via secondary summaries only (https://www.extension.purdue.edu/county/sullivan/_docs/roberts-cheat-sheet.pdf; https://ces-manuals.mgcafe.uky.edu/quorums-and-proxy-voting); primary text not accessed",
+          "confidence": "medium",
+          "needsLawyer": true
+        }
+      },
+      "weightageModels": {
+        "value": [
+          "one unit one vote",
+          "votes allocated per declaration (size/share)"
+        ],
+        "note": "Minn. 515B.3-110: vote allocated to a unit; co-owners must agree or vote is not cast; association-owned units cannot vote or count for quorum",
+        "source": "Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-110",
+        "confidence": "medium",
+        "needsLawyer": true
+      },
+      "proxy": {
+        "value": {
+          "allowed": "only if articles/bylaws allow",
+          "form": "executed by owner; board may set form",
+          "duration": "VT/WV enactments reportedly 1 year, undated proxy void (search snippet only, not fetched)"
+        },
+        "note": "RONR: no proxies unless bylaws provide",
+        "source": "Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-110; RONR 12th ed. via secondary summaries only (https://www.extension.purdue.edu/county/sullivan/_docs/roberts-cheat-sheet.pdf; https://ces-manuals.mgcafe.uky.edu/quorums-and-proxy-voting); primary text not accessed",
+        "confidence": "medium",
+        "needsLawyer": true
+      },
+      "votingMethods": {
+        "value": [
+          "voice",
+          "show of hands",
+          "ballot",
+          "mail/electronic ballot in lieu of meeting if statute allows and docs do not prohibit"
+        ],
+        "note": "Minn. 515B.3-110(c): e-/mail vote needs votes >= quorum, voting period 15-45 days, results notice within 30 days",
+        "source": "Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-110",
+        "confidence": "medium",
+        "needsLawyer": true
+      },
+      "electronicVoting": {
+        "value": "unclear",
+        "note": "UCIOA 2021 electronic provisions not reached; MN allows electronic ballot in lieu of meeting",
+        "source": "Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-110",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "minutesDeadlineDays": {
+        "value": null,
+        "note": "UCIOA deadline not found; RONR: secretary keeps minutes approved at next meeting",
+        "source": "not verified",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "recordRetentionYears": {
+        "value": null,
+        "note": "Minn. 515B.3-118 requires adequate records, no number of years",
+        "source": "Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-118",
+        "confidence": "medium",
+        "needsLawyer": true
+      },
+      "memberInspectionRight": {
+        "value": true,
+        "note": "Owners or agents may examine records, copies at actual cost; closed-session records excluded",
+        "source": "Minn. 515B.3-118, Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-118",
+        "confidence": "medium",
+        "needsLawyer": true
+      },
+      "electionRoles": {
+        "value": [
+          "tellers/inspectors (RONR committee of tellers)",
+          "chair",
+          "secretary"
+        ],
+        "note": "UCIOA mandates none",
+        "source": "RONR 12th ed. via secondary summaries only (https://www.extension.purdue.edu/county/sullivan/_docs/roberts-cheat-sheet.pdf; https://ces-manuals.mgcafe.uky.edu/quorums-and-proxy-voting); primary text not accessed",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "termYears": {
+        "value": null,
+        "note": "Not reached in primary text",
+        "source": "not verified",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "eligibility": {
+        "value": "owners (bylaws may set)",
+        "note": "Not verified in UCIOA",
+        "source": "not verified",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "defaulterDisqualification": {
+        "value": "restriction on voting or quorum because of unpaid assessments is void",
+        "note": "Minn. 515B.3-110(a); other enactments vary",
+        "source": "Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-110",
+        "confidence": "medium",
+        "needsLawyer": true
+      },
+      "notes": "Research only, not legal advice. UCIOA official 2021 text on uniformlaws.org NOT reached; content from Minnesota enactment. Generic template."
+    },
+    {
+      "id": "us-ca",
+      "name": "California Davis-Stirling Act",
+      "jurisdiction": "California",
+      "instruments": {
+        "value": [
+          "declaration (CC&Rs)",
+          "bylaws",
+          "articles",
+          "election operating rules (Civ. 5105)"
+        ],
+        "note": "Corp. Code 7510-7512 (Nonprofit Mutual Benefit) also applies; read via california.public.law, retrieved 2026-10-23",
+        "source": "https://california.public.law/codes/civil_code_section_5105",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "meetingTypes": [
+        {
+          "type": "annual/regular",
+          "calledBy": {
+            "value": "per bylaws; regular meeting required in director election years",
+            "note": "Corp. Code 7510(b)-(c)",
+            "source": "https://california.public.law/codes/corporations_code_section_7510",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          "noticeDays": {
+            "value": {
+              "min": 10,
+              "max": 90
+            },
+            "note": "20 days min if non-first-class mail; election notices follow 30-day rule",
+            "source": "Corp. Code 7511; Civ. 5115 | https://california.public.law/codes/corporations_code_section_7511",
+            "confidence": "high",
+            "needsLawyer": true
+          },
+          "noticeContent": {
+            "value": "place, date, time, remote means, matters board intends to present, known nominees",
+            "note": "Corp. Code 7511",
+            "source": "https://california.public.law/codes/corporations_code_section_7511",
+            "confidence": "high",
+            "needsLawyer": true
+          }
+        },
+        {
+          "type": "special",
+          "calledBy": {
+            "value": "board, chair, president, others per bylaws, or members holding 5%",
+            "note": "Corp. Code 7510(e)",
+            "source": "https://california.public.law/codes/corporations_code_section_7510",
+            "confidence": "high",
+            "needsLawyer": true
+          },
+          "noticeDays": {
+            "value": {
+              "min": 10,
+              "max": 90,
+              "onMemberRequest": "meeting set 35-150 days after request for CID; notice within 20 days"
+            },
+            "note": "Corp. Code 7511",
+            "source": "https://california.public.law/codes/corporations_code_section_7511",
+            "confidence": "high",
+            "needsLawyer": true
+          },
+          "noticeContent": {
+            "value": "general nature of business; no other business transacted",
+            "note": "Corp. Code 7511",
+            "source": "https://california.public.law/codes/corporations_code_section_7511",
+            "confidence": "high",
+            "needsLawyer": true
+          }
+        },
+        {
+          "type": "board",
+          "calledBy": {
+            "value": null,
+            "note": "not reached",
+            "source": "not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          },
+          "noticeDays": {
+            "value": 4,
+            "note": "2 days if executive session only; emergency exempt; longer governing-doc period prevails",
+            "source": "Civ. 4920 | https://california.public.law/codes/civil_code_section_4920",
+            "confidence": "high",
+            "needsLawyer": true
+          },
+          "noticeContent": {
+            "value": "time, place and agenda by general notice (4045); teleconference needs listed physical location",
+            "note": "Civ. 4920, 4090, 4925",
+            "source": "https://california.public.law/codes/civil_code_section_4920",
+            "confidence": "high",
+            "needsLawyer": true
+          }
+        }
+      ],
+      "quorum": {
+        "value": "only if governing documents or law require; each ballot received counts toward quorum; Corp. Code default 1/3 of voting power",
+        "note": "Civ. 5115(d); Corp. Code 7512",
+        "source": "https://california.public.law/codes/civil_code_section_5115",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "adjournedQuorum": {
+        "value": "director election lacking quorum: reconvene >=20 days later with 20% quorum (unless docs set lower); notice >=15 days. General adjournment max 45 days",
+        "note": "Civ. 5115(d); Corp. Code 7511-7512",
+        "source": "https://california.public.law/codes/civil_code_section_5115",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "majorities": {
+        "ordinary": {
+          "value": "majority of voting power represented, entitled to vote, and voting (quorum present)",
+          "note": "Corp. Code 7512",
+          "source": "https://california.public.law/codes/corporations_code_section_7512",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "special": {
+          "value": null,
+          "note": "Amendment/assessment thresholds come from governing documents and other Civ. sections not fetched",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        }
+      },
+      "weightageModels": {
+        "value": [
+          "per governing documents; cumulative voting only if documents provide, by secret ballot"
+        ],
+        "note": "Civ. 5115(e); voting power per election rules 5105",
+        "source": "https://california.public.law/codes/civil_code_section_5115",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "proxy": {
+        "value": {
+          "allowed": "only if bylaws permit; cannot replace a ballot",
+          "form": "voting instructions on separate detachable page; proxyholder votes by secret ballot; revocable before inspector receives ballot",
+          "generalPowerOfAttorney": "holder cannot be denied ballot"
+        },
+        "note": "Civ. 5130, 5105",
+        "source": "https://california.public.law/codes/civil_code_section_5130",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "votingMethods": {
+        "value": [
+          "secret ballot mandatory for director elections, recalls, amendments, certain assessments",
+          "all-mail",
+          "electronic secret ballot (not for regular/special assessment votes)"
+        ],
+        "note": "Members may switch between electronic and written; 90-day freeze on rule amendments; ballots+rules >=30 days before",
+        "source": "Civ. 5100, 5115(f), 5105 | https://california.public.law/codes/civil_code_section_5100",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "electronicVoting": {
+        "value": "yes",
+        "note": "Electronic secret ballots via election rules; identity authentication, receipt, separation from ballot, device test >=30 days before; vote irrevocable once transmitted",
+        "source": "Civ. 5105, 5110(c)(4), 5115(f) | https://california.public.law/codes/civil_code_section_5105",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "minutesDeadlineDays": {
+        "value": 30,
+        "note": "board minutes (draft/final/summary) available within 30 days; election results to members within 15 days",
+        "source": "Civ. 4950, 5120 | https://california.public.law/codes/civil_code_section_4950",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "recordRetentionYears": {
+        "value": {
+          "electionMaterials": 1,
+          "inspectable": "current + 2 prior fiscal years; meeting minutes permanent"
+        },
+        "note": "",
+        "source": "Civ. 5200, 5210 | https://california.public.law/codes/civil_code_section_5200",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "memberInspectionRight": {
+        "value": {
+          "currentFY": "10 business days",
+          "prior2FY": "30 calendar days"
+        },
+        "note": "signed voter envelopes inspect only, not copy",
+        "source": "Civ. 5210, 5200 | https://california.public.law/codes/civil_code_section_5210",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "electionRoles": {
+        "value": {
+          "inspector": "1 or 3 independent inspectors; not director, candidate, relatives, or paid contractor; may be a member",
+          "duties": "authenticate proxies/ballots, count, decide challenges; report is prima facie evidence",
+          "custody": "inspector holds ballots until challenge period (1 yr) ends"
+        },
+        "note": "Public count at noticed meeting; results in minutes and general notice within 15 days",
+        "source": "Civ. 5110, 5120, 5125, 5145 | https://california.public.law/codes/civil_code_section_5110",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "termYears": {
+        "value": null,
+        "note": "Seat must be elected when term expires and at least every 4 years; maximum terms per docs",
+        "source": "Civ. 5100(a)(2), 5105(b) | https://california.public.law/codes/civil_code_section_5100",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "eligibility": {
+        "value": "members at nomination; docs may bar nominees delinquent on assessments, <1 yr membership, co-owner on board, some convictions; cannot bar for unpaid fines/late charges",
+        "note": "Equal campaign access to media and meeting space",
+        "source": "Civ. 5105 | https://california.public.law/codes/civil_code_section_5105",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "defaulterDisqualification": {
+        "value": "ballot cannot be denied except for non-membership; nominee disqualifiable for delinquent regular/special assessments (not fines/late charges; exceptions for payment under protest or plan)",
+        "note": "Civ. 5105",
+        "source": "https://california.public.law/codes/civil_code_section_5105",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "notes": "2025 changes (AB 2159 electronic voting; AB 2460 reconvened-election quorum) confirmed only via secondary law-firm/legislative analyses; no confirmed 2026 election changes. Tie-break not found in 5105/5120/5125; set in election rules. Research only, not legal advice."
+    },
+    {
+      "id": "us-fl",
+      "name": "Florida HOA Act, Chapter 720",
+      "jurisdiction": "Florida",
+      "instruments": {
+        "value": [
+          "declaration",
+          "articles",
+          "bylaws",
+          "rules"
+        ],
+        "note": "2025 text via flsenate.gov; fetch tool summarised the text, spot-check against statute",
+        "source": "https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+        "confidence": "medium",
+        "needsLawyer": true
+      },
+      "meetingTypes": [
+        {
+          "type": "annual",
+          "calledBy": {
+            "value": "per bylaws",
+            "note": "notice need not state purpose",
+            "source": "720.306(5) | https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          "noticeDays": {
+            "value": {
+              "min": 14
+            },
+            "note": "",
+            "source": "720.306(5) | https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          "noticeContent": {
+            "value": "date/time/place; purpose needed only for special",
+            "note": "720.306(4)-(5)",
+            "source": "https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+            "confidence": "medium",
+            "needsLawyer": true
+          }
+        },
+        {
+          "type": "special",
+          "calledBy": {
+            "value": "board or, unless docs state different percentage, 10% of total voting interests",
+            "note": "",
+            "source": "720.306(3) | https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+            "confidence": "high",
+            "needsLawyer": true
+          },
+          "noticeDays": {
+            "value": {
+              "min": 14
+            },
+            "note": "",
+            "source": "720.306(5) | https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          "noticeContent": {
+            "value": "must state purpose",
+            "note": "",
+            "source": "720.306(4) | https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+            "confidence": "medium",
+            "needsLawyer": true
+          }
+        },
+        {
+          "type": "board",
+          "calledBy": {
+            "value": null,
+            "note": "not reached",
+            "source": "not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          },
+          "noticeDays": {
+            "value": "48 hours posted (with agenda); 14 days for special assessments/rule amendments; 7 days if mailed instead of posted",
+            "note": "emergency exempt",
+            "source": "720.303(2)(c) | https://www.flsenate.gov/Laws/Statutes/2025/720.303",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          "noticeContent": {
+            "value": "agenda items; owners may speak 3 minutes",
+            "note": "",
+            "source": "720.303(2),(6) | https://www.flsenate.gov/Laws/Statutes/2025/720.303",
+            "confidence": "medium",
+            "needsLawyer": true
+          }
+        }
+      ],
+      "quorum": {
+        "value": "30% of total voting interests unless bylaws set lower",
+        "note": "",
+        "source": "720.306(1)(a) | https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "adjournedQuorum": {
+        "value": null,
+        "note": "Adjournment to new date must be announced or noticed under 720.303(2); adjourned quorum not stated",
+        "source": "https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "majorities": {
+        "ordinary": {
+          "value": "majority of voting interests present at a meeting with quorum",
+          "note": "",
+          "source": "720.306(1)(a) | https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "special": {
+          "value": "amendments: two-thirds of voting interests unless docs/law say otherwise; no adverse change to proportionate voting/share without owner joinder",
+          "note": "",
+          "source": "720.306(1)(b)-(f) | https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "directors": {
+          "value": "plurality; election only if nominees exceed vacancies",
+          "note": "",
+          "source": "720.306(9)(a) | https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+          "confidence": "medium",
+          "needsLawyer": true
+        }
+      },
+      "weightageModels": {
+        "value": null,
+        "note": "Not found in 720.306; per governing documents",
+        "source": "not verified",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "proxy": {
+        "value": {
+          "allowed": "unless documents provide otherwise",
+          "form": "dated, states meeting date/time/place, signed, revocable",
+          "expiry": "effective only for that meeting; expires 90 days after meeting"
+        },
+        "note": "",
+        "source": "720.306(8)(a) | https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "votingMethods": {
+        "value": [
+          "in person",
+          "proxy",
+          "secret ballot via inner/outer envelope if docs allow",
+          "online voting by board resolution"
+        ],
+        "note": "duplicate ballots for same parcel disqualified; late ballots not counted",
+        "source": "720.306(8)(b), 720.317 | https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+        "confidence": "medium",
+        "needsLawyer": true
+      },
+      "electronicVoting": {
+        "value": "yes",
+        "note": "Online voting if member consents, system authenticates identity, protects vote integrity, issues receipt, separates identity from secret ballots, device test >=14 days before; board resolution noticed 14 days; e-voters count for quorum",
+        "source": "720.317 (ch. 2015-97, 2024-221) | https://www.flsenate.gov/Laws/Statutes/2025/720.317",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "minutesDeadlineDays": {
+        "value": null,
+        "note": "no deadline found; minutes kept in writing with each director vote recorded (720.303(3))",
+        "source": "not verified",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "recordRetentionYears": {
+        "value": {
+          "officialRecords": 7,
+          "ballots": 1,
+          "directorCertificates": 5
+        },
+        "note": "",
+        "source": "720.303(4)(a), 720.3033(1)(c) | https://www.flsenate.gov/Laws/Statutes/2025/720.303",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "memberInspectionRight": {
+        "value": "available within 10 business days of written request; min damages $50/day up to 10 days on willful noncompliance; 100+ parcels must have owner website portal since 1 Jan 2025",
+        "note": "",
+        "source": "720.303(4)-(5) | https://www.flsenate.gov/Laws/Statutes/2025/720.303",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "electionRoles": {
+        "value": "per governing documents; statute names no inspector; challenges within 60 days of results; disputes to arbitration or court",
+        "note": "",
+        "source": "720.306(9) | https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+        "confidence": "medium",
+        "needsLawyer": true
+      },
+      "termYears": {
+        "value": null,
+        "note": "term limits not in 720.306; per bylaws",
+        "source": "not verified",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "eligibility": {
+        "value": "all members unless delinquent at nomination deadline or certain felons (until 5 years after rights restored); director 90+ days delinquent deemed to abandon seat; director certification within 90 days of election",
+        "note": "",
+        "source": "720.306(9)(b); 720.3033(1) | https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+        "confidence": "medium",
+        "needsLawyer": true
+      },
+      "defaulterDisqualification": {
+        "value": "delinquent on any monetary obligation at nomination deadline cannot run or be listed on ballot",
+        "note": "",
+        "source": "720.306(9)(b) | https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "notes": "HB 1203 (2024, ch. 2024-221) seen only as history note on 720.317 and website content in 720.303. 60-day election notice (720.306 / 720.307) not confirmed. Research only, not legal advice."
+    },
+    {
+      "id": "us-tx",
+      "name": "Texas Property Code Chapter 209",
+      "jurisdiction": "Texas",
+      "instruments": {
+        "value": [
+          "declaration (dedicatory instruments)",
+          "bylaws",
+          "certificate of formation",
+          "rules"
+        ],
+        "note": "Tex. Bus. Orgs. Code fills gaps (not fetched); read via texas.public.law (third party)",
+        "source": "https://texas.public.law/statutes/tex._prop._code_section_209.0056",
+        "confidence": "medium",
+        "needsLawyer": true
+      },
+      "meetingTypes": [
+        {
+          "type": "annual/member",
+          "calledBy": {
+            "value": null,
+            "note": "per bylaws; Bus. Orgs. Code not fetched",
+            "source": "not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          },
+          "noticeDays": {
+            "value": {
+              "min": 10,
+              "max": 60
+            },
+            "note": "written notice of election or vote at a meeting",
+            "source": "209.0056(a) | https://texas.public.law/statutes/tex._prop._code_section_209.0056",
+            "confidence": "high",
+            "needsLawyer": true
+          },
+          "noticeContent": {
+            "value": null,
+            "note": "209.0056 specifies no content",
+            "source": "https://texas.public.law/statutes/tex._prop._code_section_209.0056",
+            "confidence": "medium",
+            "needsLawyer": true
+          }
+        },
+        {
+          "type": "special",
+          "calledBy": {
+            "value": null,
+            "note": "not reached",
+            "source": "not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          },
+          "noticeDays": {
+            "value": {
+              "min": 10,
+              "max": 60
+            },
+            "note": "",
+            "source": "209.0056(a) | https://texas.public.law/statutes/tex._prop._code_section_209.0056",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          "noticeContent": {
+            "value": null,
+            "note": "Not reached in primary text",
+            "source": "not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        },
+        {
+          "type": "board",
+          "calledBy": {
+            "value": "regular or special; must be open to owners",
+            "note": "",
+            "source": "209.0051 | https://texas.public.law/statutes/tex._prop._code_section_209.0051",
+            "confidence": "high",
+            "needsLawyer": true
+          },
+          "noticeDays": {
+            "value": "posting: 144 hours regular, 72 hours special, plus email to registered owners; or mail 10-60 days",
+            "note": "",
+            "source": "209.0051 | https://texas.public.law/statutes/tex._prop._code_section_209.0051",
+            "confidence": "high",
+            "needsLawyer": true
+          },
+          "noticeContent": {
+            "value": "date, hour, place, general subject incl. executive session topics; electronic access instructions",
+            "note": "",
+            "source": "209.0051 | https://texas.public.law/statutes/tex._prop._code_section_209.0051",
+            "confidence": "high",
+            "needsLawyer": true
+          }
+        }
+      ],
+      "quorum": {
+        "value": null,
+        "note": "Member quorum not in ch. 209 text read; absentee/electronic ballots count toward quorum only for items on ballot (209.00592(b))",
+        "source": "not verified",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "adjournedQuorum": {
+        "value": null,
+        "note": "Not reached in primary text",
+        "source": "not verified",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "majorities": {
+        "ordinary": {
+          "value": null,
+          "note": "per documents / Bus. Orgs. Code",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "special": {
+          "value": null,
+          "note": "amendment/assessment thresholds not reached",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        }
+      },
+      "weightageModels": {
+        "value": null,
+        "note": "per documents",
+        "source": "not verified",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "proxy": {
+        "value": "association must allow absentee ballot or proxy",
+        "note": "",
+        "source": "209.00592(a-1) | https://texas.public.law/statutes/tex._prop._code_section_209.00592",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "votingMethods": {
+        "value": [
+          "in person",
+          "proxy",
+          "absentee ballot",
+          "electronic ballot",
+          "secret ballot by rule"
+        ],
+        "note": "association need offer only one method beyond absentee/proxy unless documents say; in-person vote overrides earlier ballot; absentee/e-ballot not counted if motion amended",
+        "source": "209.00592, 209.0058 | https://texas.public.law/statutes/tex._prop._code_section_209.00592",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "electronicVoting": {
+        "value": "yes",
+        "note": "Electronic ballot by email, fax or website; identity confirmable, receipt available; owners notified of online posting; counts as written signed ballot. Electronic owner meetings allowed per secondary source only",
+        "source": "209.00592(d)-(e), 209.0058(b) | https://texas.public.law/statutes/tex._prop._code_section_209.00592",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "minutesDeadlineDays": {
+        "value": null,
+        "note": "board minutes kept, members may inspect (209.0051); no deadline",
+        "source": "not verified",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "recordRetentionYears": {
+        "value": {
+          "governingDocs": "permanent",
+          "financialBooks": 7,
+          "minutes": 7,
+          "ownerAccounts": 5,
+          "contracts": "4 after expiry"
+        },
+        "note": "associations with >14 lots must adopt retention policy",
+        "source": "209.005(m) | https://texas.public.law/statutes/tex._prop._code_section_209.005",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "memberInspectionRight": {
+        "value": "written certified-mail request; respond by 10th business day (extendable to 15th with notice); cost policy required",
+        "note": "",
+        "source": "209.005 | https://texas.public.law/statutes/tex._prop._code_section_209.005",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "electionRoles": {
+        "value": "tabulators may not be candidates or third-degree relatives; recount by qualified neutral person at owner cost; candidates may name one observer for secret ballot count",
+        "note": "",
+        "source": "209.0057, 209.00594, 209.0058(d) | https://texas.public.law/statutes/tex._prop._code_section_209.00594",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "termYears": {
+        "value": null,
+        "note": "expired-term seat must be elected by owners (209.00593(a))",
+        "source": "not verified",
+        "confidence": "low",
+        "needsLawyer": true
+      },
+      "eligibility": {
+        "value": "restrictions on running void except residency (not all), no shared household with a board member, felony within 20 years",
+        "note": "",
+        "source": "209.00591 | https://texas.public.law/statutes/tex._prop._code_section_209.00591",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "defaulterDisqualification": {
+        "value": "provision barring an owner from voting in board election or on matters affecting rights is void",
+        "note": "",
+        "source": "209.0059(a) | https://texas.public.law/statutes/tex._prop._code_section_209.0059",
+        "confidence": "high",
+        "needsLawyer": true
+      },
+      "notes": "Votes outside a meeting need notice 20 days before ballot deadline (209.0056(a-1)). Associations over 100 lots must solicit candidates 10 days before ballots (209.00593). 2025 amendments not confirmed. Research only, not legal advice."
+    }
+  ]
+}

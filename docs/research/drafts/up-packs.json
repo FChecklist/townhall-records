@@ -1,0 +1,574 @@
+[
+ {
+  "id": "in-up-aoa",
+  "name": "Uttar Pradesh Association of Apartment Owners (UP Apartment Act 2010 + Model Bye-laws 2011)",
+  "jurisdiction": "IN-UP",
+  "instruments": [
+   {
+    "value": "Uttar Pradesh Apartment (Promotion of Construction, Ownership and Maintenance) Act, 2010 (UP Act 16 of 2010)",
+    "note": "s.14 = Association of Apartment Owners and bye-laws. Act text itself not read directly; amended by UP Act 30 of 2016 (s.14(2),(5)); one search result says the 2016 amendment was not notified in force (Lotus Boulevard case) - not verified.",
+    "source": "UP Act 16 of 2010 s.14 (secondary summary: https://indiankanoon.org/doc/91371337/ ; India Code PDF https://www.indiacode.nic.in/bitstream/123456789/16832/1/english16of2010.pdf not retrievable: HTTP 403)",
+    "confidence": "medium",
+    "needsLawyer": true
+   },
+   {
+    "value": "UP Apartment Model Bye-laws 2011 (58 bye-laws)",
+    "note": "Primary text read in full. Association adopts bye-laws at first meeting based on model; departure only with prior approval of competent authority (s.14(6), secondary).",
+    "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law all",
+    "confidence": "high",
+    "needsLawyer": false
+   },
+   {
+    "value": null,
+    "note": "UP Apartment (Promotion of Construction, Ownership and Maintenance) Rules, 2011: reported by secondary results (notification 16 Nov 2011, under s.30) but text could not be fetched. Rules provisions on meetings/elections not verified.",
+    "source": "not verified",
+    "confidence": "low",
+    "needsLawyer": true
+   },
+   {
+    "value": "Societies Registration Act 1860 (as applied in UP) for registration of AOA",
+    "note": "Allahabad HC Windsor Park (11 Mar 2019): AOA must be registered before Registrar under Societies Act though not a society in the strict sense; s.25(2) Registrar can call election meeting.",
+    "source": "https://indiankanoon.org/doc/92753425/",
+    "confidence": "medium",
+    "needsLawyer": true
+   }
+  ],
+  "meetingTypes": [
+   {
+    "type": "annual general meeting",
+    "calledBy": {
+     "value": "Association; date decided by association; AGM in first quarter of each financial year; Board specifies manner",
+     "note": "13, 25(g), 26(i)",
+     "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 13, 25(g), 26(i)",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "noticeDays": {
+     "value": {
+      "min": 2,
+      "max": 7
+     },
+     "note": "Secretary mails/sends notice 'at least two days but not more than seven days' before; copy to competent authority or registrar",
+     "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 15",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "noticeContent": {
+     "value": "Purpose, time and place; notices also sent to competent authority or registrar",
+     "note": "",
+     "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 15",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "chair": {
+     "value": "President presides over all meetings of Association and Board; Vice-President in absence",
+     "note": "",
+     "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 19, 20",
+     "confidence": "high",
+     "needsLawyer": false
+    }
+   },
+   {
+    "type": "special general meeting",
+    "calledBy": {
+     "value": "President must call: on Board resolution, or petition signed by a majority of owners presented to Secretary, or request of Competent Authority (or authorised officer)",
+     "note": "",
+     "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 14",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "noticeDays": {
+     "value": {
+      "min": 2,
+      "max": 7
+     },
+     "note": "Same notice rule as annual meetings",
+     "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 15",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "noticeContent": {
+     "value": "Time, place and purpose; no other business without consent of two-thirds of owners present in person",
+     "note": "",
+     "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 14",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "chair": {
+     "value": "President",
+     "note": "",
+     "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 19",
+     "confidence": "high",
+     "needsLawyer": false
+    }
+   },
+   {
+    "type": "Board of management regular meeting",
+    "calledBy": {
+     "value": "Time and place determined by majority of office bearers; at least two per year",
+     "note": "",
+     "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 30",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "noticeDays": {
+     "value": 3,
+     "note": "Notice personally or by mail at least three days prior",
+     "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 30",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "noticeContent": {
+     "value": null,
+     "note": "not specified in bye-law 30",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "quorum": {
+     "value": "One-third of total strength of office bearers; if less, majority present may adjourn and not less than 3 present form quorum",
+     "note": "",
+     "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 33",
+     "confidence": "high",
+     "needsLawyer": false
+    }
+   },
+   {
+    "type": "Board special meeting",
+    "calledBy": {
+     "value": "President on 3 days notice; President or Secretary must call on written request of at least three office bearers",
+     "note": "",
+     "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 31",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "noticeDays": {
+     "value": 3,
+     "note": "three days' notice",
+     "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 31",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "noticeContent": {
+     "value": null,
+     "note": "not specified",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "quorum": {
+     "value": "as bye-law 33",
+     "note": "",
+     "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 33",
+     "confidence": "high",
+     "needsLawyer": false
+    }
+   },
+   {
+    "type": "first meeting of newly elected Board",
+    "calledBy": {
+     "value": "Held within ten days of election; no notice needed if majority of Board present",
+     "note": "",
+     "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 29",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "noticeDays": {
+     "value": 0,
+     "note": "no notice necessary",
+     "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 29",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "noticeContent": {
+     "value": null,
+     "note": "not applicable",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    }
+   }
+  ],
+  "quorum": {
+   "value": {
+    "percentOfOwnersInPerson": 30
+   },
+   "note": "'presence in person of 30 percent of owners' (counted by owners, not votes)",
+   "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 9",
+   "confidence": "high",
+   "needsLawyer": false
+  },
+  "adjournedQuorum": {
+   "value": {
+    "minHoursLater": 48,
+    "minOwnersInPerson": 2
+   },
+   "note": "Adjourn to not less than 48 hours later; if still no quorum, owners present in person, not less than two, form quorum",
+   "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 16",
+   "confidence": "high",
+   "needsLawyer": false
+  },
+  "majorities": {
+   "ordinary": {
+    "value": "Majority of owners casting votes in person or proxy; 'majority' of owners defined as owners holding 51 per cent of the votes (ambiguity between bye-law 2(e) and 10)",
+    "note": "",
+    "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 2(e), 10",
+    "confidence": "high",
+    "needsLawyer": true
+   },
+   "special": {
+    "value": "Two-thirds of owners present in person to allow un-noticed business at special meeting (bye-law 14); owners representing at least two-thirds of total units plus prior competent-authority approval to amend bye-laws (bye-law 58)",
+    "note": "",
+    "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 14, 58",
+    "confidence": "high",
+    "needsLawyer": false
+   },
+   "removalOfOfficeBearers": {
+    "value": "Majority of apartment owners at regular or special meeting duly called; office bearer to be heard",
+    "note": "",
+    "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 28",
+    "confidence": "high",
+    "needsLawyer": false
+   },
+   "boardElection": {
+    "value": "Board of 4-10 'elected by the members by simple majority in the General Body Meeting'",
+    "note": "",
+    "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 18",
+    "confidence": "high",
+    "needsLawyer": false
+   }
+  },
+  "weightageModels": {
+   "value": {
+    "model": "percentage per Declaration",
+    "jointOwners": "first-named holder alone votes"
+   },
+   "note": "Voting on percentage basis: percentage assigned to the dwelling unit(s) in the Declaration (bye-law 8). Joint owners: only the first-named person votes (5). Each owner must hold at least one share (6). Not one-flat-one-vote by default.",
+   "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 8, 5, 6",
+   "confidence": "high",
+   "needsLawyer": true
+  },
+  "proxy": {
+   "value": {
+    "allowed": "unclear",
+    "form": null,
+    "limit": null
+   },
+   "note": "Bye-law 10 says votes 'will be cast in person' but resolutions need majority of owners casting votes 'in person or proxy'; chapter titled 'Voting, Quorum and Proxies' but no proxy form or limit; quorum requires owners present in person.",
+   "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 10",
+   "confidence": "medium",
+   "needsLawyer": true
+  },
+  "votingMethods": {
+   "value": {
+    "boardElection": "by ballot; secrecy not stated",
+    "other": "not specified"
+   },
+   "note": "Annual meeting elects Board 'by ballot of the apartment owners'",
+   "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 13",
+   "confidence": "medium",
+   "needsLawyer": false
+  },
+  "electronicVoting": {
+   "allowed": "unclear",
+   "note": "No provision for e-meeting, e-voting or video conferencing in the model bye-laws (read in full) or in any UP source found; the Act and Rules 2011 not read in full. Bye-law 12 only says meetings at a suitable place convenient to owners.",
+   "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 12; searches found no UP rule",
+   "confidence": "low",
+   "needsLawyer": true
+  },
+  "minutesDeadlineDays": {
+   "value": null,
+   "note": "No deadline. Secretary keeps two minute books (Association; Board), pages consecutively numbered and authenticated by President (bye-law 21); minutes of preceding meeting read at next meeting (bye-law 17(c)).",
+   "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-laws 17, 21",
+   "confidence": "high",
+   "needsLawyer": false
+  },
+  "recordRetentionYears": {
+   "value": null,
+   "note": "No retention period in model bye-laws. Related: audited financial statement published by 31 July, copy to competent authority by 15 Aug, summary to each owner within 15 days (49(3)-(6)); statement and auditor report kept in conspicuous place (50).",
+   "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-laws 49, 50",
+   "confidence": "high",
+   "needsLawyer": false
+  },
+  "memberInspectionRight": {
+   "value": {
+    "auditedFinancialStatement": "open to inspection by any member during office hours",
+    "minutesAndRegisters": "not stated"
+   },
+   "note": "Explicit only for audited statement (and list of owners/loanees accompanying it)",
+   "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 49(4), 49(5)",
+   "confidence": "high",
+   "needsLawyer": false
+  },
+  "electionRoles": {
+   "value": {
+    "returningOfficer": null,
+    "nomination": null,
+    "scrutiny": null,
+    "withdrawal": null,
+    "tieBreak": null,
+    "fallback": "Registrar may call and preside over a general body meeting to elect office-bearers if election not held in time or set aside (Societies Act as applied in UP, s.25(2)); prescribed authority decides election disputes (s.25(1)); appeal to Divisional Commissioner within one month (UP Act 8/2022)"
+   },
+   "note": "Model bye-laws provide no returning officer, nomination, scrutiny, withdrawal or tie-break. President, VP, Secretary, Treasurer elected by and from the Board (bye-law 18), though 26(i) says AGM elects 4-10 members 'including' those four; Windsor Park read 18 and 26 together.",
+   "source": "Model Bye-laws 18, 26; Societies Registration Act 1860 as applied in UP (UP Acts 52/1975, 11/1984, 23/2013, 8/2022): https://indiankanoon.org/doc/343062/ ; https://prsindia.org/files/bills_acts/acts_states/uttar-pradesh/1975/1975UP52.pdf; https://indiankanoon.org/doc/92753425/",
+   "confidence": "medium",
+   "needsLawyer": true
+  },
+  "termYears": {
+   "value": {
+    "years": 1,
+    "maxSamePostContinuous": 2,
+    "rotation": "one third of Board retire annually (26(ii)); continue until successors elected and held first meeting (26(iii))"
+   },
+   "note": "Allahabad HC (Windsor Park, secondary summary) treated the Board as a continuing body with annual one-third retirement, rejecting a one-year-Board-term view; office bearers one-year unless re-elected",
+   "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 26",
+   "confidence": "medium",
+   "needsLawyer": true
+  },
+  "eligibility": {
+   "value": "Apartment owner/Member of Association; not eligible if found guilty of misusing the post in previous term (26(i) proviso); arrears disqualifier (7)",
+   "note": "",
+   "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 2(c), 26, 7",
+   "confidence": "high",
+   "needsLawyer": false
+  },
+  "defaulterDisqualification": {
+   "value": {
+    "arrearsDays": 60,
+    "measuredAt": "last day of the year preceding the election year",
+    "effect": "cannot vote in or stand for election of Board or any office bearer"
+   },
+   "note": "Arrears of contributions for common expenses for more than sixty days",
+   "source": "UP Apartment Model Bye-laws, Notification 3977/8-1-11-115D.A./02T.C.-1 dated 16 Nov 2011 (made under s.14(6) UP Act 16 of 2010), https://up-rera.in/pdf/Model-By-Laws.pdf, bye-law 7",
+   "confidence": "high",
+   "needsLawyer": false
+  },
+  "notes": [
+   "Applicability: buildings covered by the 2010 Act; competent authority = authority notified by govt (usually development authority) - secondary.",
+   "UP Ownership of Flats Act 1975 relevance NOT verified; repeal/overlap with the 2010 Act not checked.",
+   "UP RERA (UP Real Estate (Regulation and Development) Act/Rules 2016) interaction with association formation not verified; model bye-laws PDF is hosted on up-rera.in.",
+   "Retrieved 2026-10-23. Research only; not legal advice."
+  ]
+ },
+ {
+  "id": "in-generic-rwa-societies-act-1860",
+  "name": "RWA registered under Societies Registration Act 1860 (UP variant)",
+  "jurisdiction": "IN-UP",
+  "instruments": [
+   {
+    "value": "Societies Registration Act, 1860 (Act 21 of 1860) as applied in Uttar Pradesh",
+    "note": "Central Act mostly leaves meetings, quorum and voting to society rules; read only via secondary reproductions.",
+    "source": "https://www.indiacode.nic.in/bitstream/123456789/14647/1/india_societies_registration_act.pdf (not retrieved)",
+    "confidence": "low",
+    "needsLawyer": true
+   },
+   {
+    "value": "UP amendments: Act 25/1958; 52/1975 (ss.3, 4(2), 4A, 12A-12D, 25); 11/1984 (s.4 proviso); 23/2013 (s.4B); 8/2022 (appeals, s.4B approval, s.5A, s.16A, s.25 appeal)",
+    "note": "Gazette PDF and indiankanoon text read for these provisions.",
+    "source": "Societies Registration Act 1860 as applied in UP (UP Acts 52/1975, 11/1984, 23/2013, 8/2022): https://indiankanoon.org/doc/343062/ ; https://prsindia.org/files/bills_acts/acts_states/uttar-pradesh/1975/1975UP52.pdf",
+    "confidence": "high",
+    "needsLawyer": false
+   },
+   {
+    "value": null,
+    "note": "No official UP model RWA bye-laws found; Delhi or other RWA model bye-laws not read.",
+    "source": "not verified",
+    "confidence": "low",
+    "needsLawyer": true
+   }
+  ],
+  "meetingTypes": [
+   {
+    "type": "annual general meeting",
+    "calledBy": {
+     "value": null,
+     "note": "Not fixed by Act; s.4 assumes an AGM held 'according to the rules of the society'.",
+     "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "noticeDays": {
+     "value": null,
+     "note": "No statutory notice period found.",
+     "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "noticeContent": {
+     "value": null,
+     "note": "Society rules decide.",
+     "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+     "confidence": "low",
+     "needsLawyer": true
+    }
+   },
+   {
+    "type": "special / extraordinary general meeting",
+    "calledBy": {
+     "value": "Per society rules; UP s.12A: name change by resolution at a general meeting convened for the purpose; s.12 contemplates special meetings for altering purposes",
+     "note": "UP s.12A (Act 52/1975) requires consent of not less than two-thirds of total members; s.12 details from secondary text only",
+     "source": "Societies Registration Act 1860 as applied in UP (UP Acts 52/1975, 11/1984, 23/2013, 8/2022): https://indiankanoon.org/doc/343062/ ; https://prsindia.org/files/bills_acts/acts_states/uttar-pradesh/1975/1975UP52.pdf",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "noticeDays": {
+     "value": 10,
+     "note": "Only for s.12 purpose-alteration proposals, per secondary reproductions; not a general rule",
+     "source": "https://industries.delhi.gov.in/industries/registration-act (search snippet only)",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "noticeContent": {
+     "value": null,
+     "note": "Society rules decide.",
+     "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+     "confidence": "low",
+     "needsLawyer": true
+    }
+   },
+   {
+    "type": "Registrar-called election meeting",
+    "calledBy": {
+     "value": "Registrar (or authorised officer) convenes and presides over general body meeting to elect office-bearers if election not held within time in society rules or an election is set aside; no other authority may call another election meeting meanwhile",
+     "note": "UP s.25(2)-(3) (Act 52/1975): https://prsindia.org/files/bills_acts/acts_states/uttar-pradesh/1975/1975UP52.pdf",
+     "source": "high",
+     "confidence": false,
+     "needsLawyer": true
+    },
+    "noticeDays": {
+     "value": null,
+     "note": "Society's own rules on meetings and elections apply with necessary modifications",
+     "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "noticeContent": {
+     "value": null,
+     "note": "same",
+     "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+     "confidence": "low",
+     "needsLawyer": true
+    }
+   }
+  ],
+  "quorum": {
+   "value": null,
+   "note": "No statutory quorum found; society rules.",
+   "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+   "confidence": "low",
+   "needsLawyer": true
+  },
+  "adjournedQuorum": {
+   "value": null,
+   "note": "Society rules.",
+   "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+   "confidence": "low",
+   "needsLawyer": true
+  },
+  "majorities": {
+   "ordinary": {
+    "value": null,
+    "note": "Society rules.",
+    "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+    "confidence": "low",
+    "needsLawyer": true
+   },
+   "special": {
+    "value": {
+     "nameChange": "two-thirds of total members (UP s.12A)",
+     "alterPurposes": "three-fifths (s.12, secondary)",
+     "dissolution": "three-fifths of members (s.13, secondary)"
+    },
+    "note": "Verified from primary only for UP s.12A; s.12/13 from secondary summaries",
+    "source": "UP s.12A: https://prsindia.org/files/bills_acts/acts_states/uttar-pradesh/1975/1975UP52.pdf; s.12/13: search snippets of industries.delhi.gov.in/industries/registration-act",
+    "confidence": "medium",
+    "needsLawyer": true
+   }
+  },
+  "weightageModels": {
+   "value": null,
+   "note": "Not set by Act; one-member-one-vote is typical but not verified.",
+   "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+   "confidence": "low",
+   "needsLawyer": true
+  },
+  "proxy": {
+   "value": null,
+   "note": "Secondary text of central s.12/13 mentions votes 'in person or by proxy' for those resolutions, implying proxies are contemplated; no general rule found; society rules decide.",
+   "source": "secondary summaries of s.12/13",
+   "confidence": "low",
+   "needsLawyer": true
+  },
+  "votingMethods": {
+   "value": null,
+   "note": "Society rules.",
+   "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+   "confidence": "low",
+   "needsLawyer": true
+  },
+  "electronicVoting": {
+   "allowed": "unclear",
+   "note": "No UP Registrar order or UP/central provision on online or hybrid general body meetings or e-voting for societies found (searched 2026-10-23). Do not assume allowed; check society bye-laws.",
+   "source": "searches 2026-10-23; none found",
+   "confidence": "low",
+   "needsLawyer": true
+  },
+  "minutesDeadlineDays": {
+   "value": null,
+   "note": "Not in Act. UP s.4B(1) lets Registrar verify members list against register of members, minutes book, cash book, receipt book and bank passbook, so those records must exist.",
+   "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+   "confidence": "low",
+   "needsLawyer": true
+  },
+  "recordRetentionYears": {
+   "value": null,
+   "note": "No retention period found.",
+   "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+   "confidence": "low",
+   "needsLawyer": true
+  },
+  "memberInspectionRight": {
+   "value": null,
+   "note": "Public may inspect documents filed with Registrar under s.19 (fee-based; secondary). Member inspection of society's own records is not in the Act; society rules.",
+   "source": "Societies Registration Act 1860 s.19 (secondary: https://aaptaxlaw.com/societies-registration-act/section-19-societies-registration-act-inspection-of-documents-section-19-societies-registration-act-1860.html)",
+   "confidence": "low",
+   "needsLawyer": true
+  },
+  "electionRoles": {
+   "value": {
+    "returningOfficer": null,
+    "fallback": "Registrar may call/preside election meeting (s.25(2)); prescribed authority decides election disputes on reference by Registrar or at least one-fourth of members (s.25(1)); appeal to Divisional Commissioner within one month (UP Act 8/2022)"
+   },
+   "note": "Election mechanics are set by society rules; statute supplies only dispute/default machinery",
+   "source": "UP s.25 (Act 52/1975), UP Act 8/2022: https://prsindia.org/files/bills_acts/acts_states/uttar-pradesh/1975/1975UP52.pdf",
+   "confidence": "high",
+   "needsLawyer": false
+  },
+  "termYears": {
+   "value": null,
+   "note": "Society rules. s.4 requires annual list within 14 days after AGM (or in January if no AGM); UP proviso (Act 11/1984): countersignature of old members or Registrar notice/objections.",
+   "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+   "confidence": "low",
+   "needsLawyer": true
+  },
+  "eligibility": {
+   "value": "Disqualified: undischarged insolvent; convicted of offence in connection with management of a society/body corporate; offence of moral turpitude; any criminal offence with punishment of 2 years or more - from date of judgment",
+   "note": "UP s.16-A as substituted by UP Act 8/2022 (2022 Act pages inside https://prsindia.org/files/bills_acts/acts_states/uttar-pradesh/1975/1975UP52.pdf)",
+   "source": "medium",
+   "confidence": true,
+   "needsLawyer": true
+  },
+  "defaulterDisqualification": {
+   "value": null,
+   "note": "Not in Act; RWA bye-laws may bar arrears defaulters.",
+   "source": "Societies Registration Act 1860 (central) - no such provision found in secondary reproductions; left to society rules/bye-laws (s.2-3). India Code PDF not retrievable.",
+   "confidence": "low",
+   "needsLawyer": true
+  },
+  "notes": [
+   "Registration filings: annual list of managing body (s.4); changes in rules and address within 30 days certified by 3 governing-body members (s.4A); members list at registration/renewal and modified list within one month signed by 2 office bearers and 2 executive members, change valid only if approved by Managing Body (s.4B as amended 2013 and 2022); appeals to Divisional Commissioner (UP Act 8/2022).",
+   "UP s.5A (2022): transfer of society immovable property needs prior court approval.",
+   "Most meeting rules for an RWA come from its own bye-laws; this pack cannot supply defaults. Retrieved 2026-10-23. Research only; not legal advice."
+  ]
+ }
+]

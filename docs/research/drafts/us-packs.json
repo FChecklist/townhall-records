@@ -1,0 +1,896 @@
+[
+ {
+  "id": "us-hoa-generic",
+  "name": "US HOA generic (UCIOA-style defaults + RONR)",
+  "jurisdiction": "US (no federal HOA law; defaults only, governing documents and state law override)",
+  "instruments": {
+   "value": [
+    "declaration",
+    "bylaws",
+    "articles",
+    "rules/resolutions"
+   ],
+   "note": "Governing documents control. UCIOA 2021 official text not reached; values come from the Minnesota 515B enactment and secondary RONR summaries, treat as templates.",
+   "source": "Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-108",
+   "confidence": "low",
+   "needsLawyer": true
+  },
+  "meetingTypes": [
+   {
+    "type": "annual",
+    "calledBy": {
+     "value": "association/board per bylaws",
+     "note": "Minn. 515B.3-108: meeting at least once a year; elect directors with expired terms, report, other noticed matters",
+     "source": "Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-108",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "noticeDays": {
+     "value": {
+      "min": 21,
+      "max": 30
+     },
+     "note": "Minnesota enactment annual 21-30 days; official UCIOA text may differ",
+     "source": "Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-108",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "noticeContent": {
+     "value": "date, time, place, purposes; how to appoint proxies if allowed",
+     "note": "Minn. 515B.3-108",
+     "source": "Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-108",
+     "confidence": "medium",
+     "needsLawyer": true
+    }
+   },
+   {
+    "type": "special",
+    "calledBy": {
+     "value": "president; must be called on written petition of majority of board or owners with >=20% of votes",
+     "note": "Minn. 515B.3-108 (bylaws may differ)",
+     "source": "Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-108",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "noticeDays": {
+     "value": {
+      "min": 7,
+      "max": 30
+     },
+     "note": "Minnesota enactment",
+     "source": "Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-108",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "noticeContent": {
+     "value": "date, time, place, purposes",
+     "note": "Minn. 515B.3-108",
+     "source": "Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-108",
+     "confidence": "medium",
+     "needsLawyer": true
+    }
+   },
+   {
+    "type": "board",
+    "calledBy": {
+     "value": null,
+     "note": "UCIOA board meeting rules (3-103) not reached",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "noticeDays": {
+     "value": null,
+     "note": "Not reached in primary text",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "noticeContent": {
+     "value": null,
+     "note": "Not reached in primary text",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    }
+   }
+  ],
+  "quorum": {
+   "value": "owners holding more than 20% of votes present in person or by proxy at start (bylaws may change); board: more than 50% of board",
+   "note": "Minn. 515B.3-109; Vermont enactment also 20% per search snippet only",
+   "source": "Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-109",
+   "confidence": "medium",
+   "needsLawyer": true
+  },
+  "adjournedQuorum": {
+   "value": null,
+   "note": "RONR: adjourned meeting is a continuation so same quorum (not source-verified); UCIOA adjourned rule not reached",
+   "source": "RONR 12th ed. via secondary summaries only (https://www.extension.purdue.edu/county/sullivan/_docs/roberts-cheat-sheet.pdf; https://ces-manuals.mgcafe.uky.edu/quorums-and-proxy-voting); primary text not accessed",
+   "confidence": "low",
+   "needsLawyer": true
+  },
+  "majorities": {
+   "ordinary": {
+    "value": "majority of votes cast at a meeting with quorum (RONR default: majority of members present and voting)",
+    "note": "RONR baseline, bylaws override",
+    "source": "RONR 12th ed. via secondary summaries only (https://www.extension.purdue.edu/county/sullivan/_docs/roberts-cheat-sheet.pdf; https://ces-manuals.mgcafe.uky.edu/quorums-and-proxy-voting); primary text not accessed",
+    "confidence": "medium",
+    "needsLawyer": true
+   },
+   "special": {
+    "value": "two-thirds of votes cast (RONR: affirmative at least double the negative); amendments per governing docs",
+    "note": "NACo deck citing 12th ed. https://www.naco.org/sites/default/files/2025-09/Keynote%20-%20NACo%20-%20Robert%27s%20Rules%20102.pdf (secondary)",
+    "source": "RONR 12th ed. via secondary summaries only (https://www.extension.purdue.edu/county/sullivan/_docs/roberts-cheat-sheet.pdf; https://ces-manuals.mgcafe.uky.edu/quorums-and-proxy-voting); primary text not accessed",
+    "confidence": "medium",
+    "needsLawyer": true
+   },
+   "tie": {
+    "value": "motion lost on a tie",
+    "note": "NACo deck citing RONR 12th ed. 44:12 (secondary)",
+    "source": "RONR 12th ed. via secondary summaries only (https://www.extension.purdue.edu/county/sullivan/_docs/roberts-cheat-sheet.pdf; https://ces-manuals.mgcafe.uky.edu/quorums-and-proxy-voting); primary text not accessed",
+    "confidence": "medium",
+    "needsLawyer": true
+   }
+  },
+  "weightageModels": {
+   "value": [
+    "one unit one vote",
+    "votes allocated per declaration (size/share)"
+   ],
+   "note": "Minn. 515B.3-110: vote allocated to a unit; co-owners must agree or vote is not cast; association-owned units cannot vote or count for quorum",
+   "source": "Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-110",
+   "confidence": "medium",
+   "needsLawyer": true
+  },
+  "proxy": {
+   "value": {
+    "allowed": "only if articles/bylaws allow",
+    "form": "executed by owner; board may set form",
+    "duration": "VT/WV enactments reportedly 1 year, undated proxy void (search snippet only, not fetched)"
+   },
+   "note": "RONR: no proxies unless bylaws provide",
+   "source": "Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-110; RONR 12th ed. via secondary summaries only (https://www.extension.purdue.edu/county/sullivan/_docs/roberts-cheat-sheet.pdf; https://ces-manuals.mgcafe.uky.edu/quorums-and-proxy-voting); primary text not accessed",
+   "confidence": "medium",
+   "needsLawyer": true
+  },
+  "votingMethods": {
+   "value": [
+    "voice",
+    "show of hands",
+    "ballot",
+    "mail/electronic ballot in lieu of meeting if statute allows and docs do not prohibit"
+   ],
+   "note": "Minn. 515B.3-110(c): e-/mail vote needs votes >= quorum, voting period 15-45 days, results notice within 30 days",
+   "source": "Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-110",
+   "confidence": "medium",
+   "needsLawyer": true
+  },
+  "electronicVoting": {
+   "value": "unclear",
+   "note": "UCIOA 2021 electronic provisions not reached; MN allows electronic ballot in lieu of meeting",
+   "source": "Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-110",
+   "confidence": "low",
+   "needsLawyer": true
+  },
+  "minutesDeadlineDays": {
+   "value": null,
+   "note": "UCIOA deadline not found; RONR: secretary keeps minutes approved at next meeting",
+   "source": "not verified",
+   "confidence": "low",
+   "needsLawyer": true
+  },
+  "recordRetentionYears": {
+   "value": null,
+   "note": "Minn. 515B.3-118 requires adequate records, no number of years",
+   "source": "Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-118",
+   "confidence": "medium",
+   "needsLawyer": true
+  },
+  "memberInspectionRight": {
+   "value": true,
+   "note": "Owners or agents may examine records, copies at actual cost; closed-session records excluded",
+   "source": "Minn. 515B.3-118, Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-118",
+   "confidence": "medium",
+   "needsLawyer": true
+  },
+  "electionRoles": {
+   "value": [
+    "tellers/inspectors (RONR committee of tellers)",
+    "chair",
+    "secretary"
+   ],
+   "note": "UCIOA mandates none",
+   "source": "RONR 12th ed. via secondary summaries only (https://www.extension.purdue.edu/county/sullivan/_docs/roberts-cheat-sheet.pdf; https://ces-manuals.mgcafe.uky.edu/quorums-and-proxy-voting); primary text not accessed",
+   "confidence": "low",
+   "needsLawyer": true
+  },
+  "termYears": {
+   "value": null,
+   "note": "Not reached in primary text",
+   "source": "not verified",
+   "confidence": "low",
+   "needsLawyer": true
+  },
+  "eligibility": {
+   "value": "owners (bylaws may set)",
+   "note": "Not verified in UCIOA",
+   "source": "not verified",
+   "confidence": "low",
+   "needsLawyer": true
+  },
+  "defaulterDisqualification": {
+   "value": "restriction on voting or quorum because of unpaid assessments is void",
+   "note": "Minn. 515B.3-110(a); other enactments vary",
+   "source": "Minn. Stat. 515B (state enactment of the 1993 UCIOA text, NOT the ULC 2021 text), https://www.revisor.mn.gov/statutes/cite/515B.3-110",
+   "confidence": "medium",
+   "needsLawyer": true
+  },
+  "notes": "Research only, not legal advice. UCIOA official 2021 text on uniformlaws.org NOT reached; content from Minnesota enactment. Generic template."
+ },
+ {
+  "id": "us-ca",
+  "name": "California Davis-Stirling Act",
+  "jurisdiction": "California",
+  "instruments": {
+   "value": [
+    "declaration (CC&Rs)",
+    "bylaws",
+    "articles",
+    "election operating rules (Civ. 5105)"
+   ],
+   "note": "Corp. Code 7510-7512 (Nonprofit Mutual Benefit) also applies; read via california.public.law, retrieved 2026-10-23",
+   "source": "https://california.public.law/codes/civil_code_section_5105",
+   "confidence": "high",
+   "needsLawyer": true
+  },
+  "meetingTypes": [
+   {
+    "type": "annual/regular",
+    "calledBy": {
+     "value": "per bylaws; regular meeting required in director election years",
+     "note": "Corp. Code 7510(b)-(c)",
+     "source": "https://california.public.law/codes/corporations_code_section_7510",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "noticeDays": {
+     "value": {
+      "min": 10,
+      "max": 90
+     },
+     "note": "20 days min if non-first-class mail; election notices follow 30-day rule",
+     "source": "Corp. Code 7511; Civ. 5115",
+     "confidence": "https://california.public.law/codes/corporations_code_section_7511",
+     "needsLawyer": "high"
+    },
+    "noticeContent": {
+     "value": "place, date, time, remote means, matters board intends to present, known nominees",
+     "note": "Corp. Code 7511",
+     "source": "https://california.public.law/codes/corporations_code_section_7511",
+     "confidence": "high",
+     "needsLawyer": true
+    }
+   },
+   {
+    "type": "special",
+    "calledBy": {
+     "value": "board, chair, president, others per bylaws, or members holding 5%",
+     "note": "Corp. Code 7510(e)",
+     "source": "https://california.public.law/codes/corporations_code_section_7510",
+     "confidence": "high",
+     "needsLawyer": true
+    },
+    "noticeDays": {
+     "value": {
+      "min": 10,
+      "max": 90,
+      "onMemberRequest": "meeting set 35-150 days after request for CID; notice within 20 days"
+     },
+     "note": "Corp. Code 7511",
+     "source": "https://california.public.law/codes/corporations_code_section_7511",
+     "confidence": "high",
+     "needsLawyer": true
+    },
+    "noticeContent": {
+     "value": "general nature of business; no other business transacted",
+     "note": "Corp. Code 7511",
+     "source": "https://california.public.law/codes/corporations_code_section_7511",
+     "confidence": "high",
+     "needsLawyer": true
+    }
+   },
+   {
+    "type": "board",
+    "calledBy": {
+     "value": null,
+     "note": "not reached",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "noticeDays": {
+     "value": 4,
+     "note": "2 days if executive session only; emergency exempt; longer governing-doc period prevails",
+     "source": "Civ. 4920",
+     "confidence": "https://california.public.law/codes/civil_code_section_4920",
+     "needsLawyer": "high"
+    },
+    "noticeContent": {
+     "value": "time, place and agenda by general notice (4045); teleconference needs listed physical location",
+     "note": "Civ. 4920, 4090, 4925",
+     "source": "https://california.public.law/codes/civil_code_section_4920",
+     "confidence": "high",
+     "needsLawyer": true
+    }
+   }
+  ],
+  "quorum": {
+   "value": "only if governing documents or law require; each ballot received counts toward quorum; Corp. Code default 1/3 of voting power",
+   "note": "Civ. 5115(d); Corp. Code 7512",
+   "source": "https://california.public.law/codes/civil_code_section_5115",
+   "confidence": "high",
+   "needsLawyer": true
+  },
+  "adjournedQuorum": {
+   "value": "director election lacking quorum: reconvene >=20 days later with 20% quorum (unless docs set lower); notice >=15 days. General adjournment max 45 days",
+   "note": "Civ. 5115(d); Corp. Code 7511-7512",
+   "source": "https://california.public.law/codes/civil_code_section_5115",
+   "confidence": "high",
+   "needsLawyer": true
+  },
+  "majorities": {
+   "ordinary": {
+    "value": "majority of voting power represented, entitled to vote, and voting (quorum present)",
+    "note": "Corp. Code 7512",
+    "source": "https://california.public.law/codes/corporations_code_section_7512",
+    "confidence": "high",
+    "needsLawyer": true
+   },
+   "special": {
+    "value": null,
+    "note": "Amendment/assessment thresholds come from governing documents and other Civ. sections not fetched",
+    "source": "not verified",
+    "confidence": "low",
+    "needsLawyer": true
+   }
+  },
+  "weightageModels": {
+   "value": [
+    "per governing documents; cumulative voting only if documents provide, by secret ballot"
+   ],
+   "note": "Civ. 5115(e); voting power per election rules 5105",
+   "source": "https://california.public.law/codes/civil_code_section_5115",
+   "confidence": "high",
+   "needsLawyer": true
+  },
+  "proxy": {
+   "value": {
+    "allowed": "only if bylaws permit; cannot replace a ballot",
+    "form": "voting instructions on separate detachable page; proxyholder votes by secret ballot; revocable before inspector receives ballot",
+    "generalPowerOfAttorney": "holder cannot be denied ballot"
+   },
+   "note": "Civ. 5130, 5105",
+   "source": "https://california.public.law/codes/civil_code_section_5130",
+   "confidence": "high",
+   "needsLawyer": true
+  },
+  "votingMethods": {
+   "value": [
+    "secret ballot mandatory for director elections, recalls, amendments, certain assessments",
+    "all-mail",
+    "electronic secret ballot (not for regular/special assessment votes)"
+   ],
+   "note": "Members may switch between electronic and written; 90-day freeze on rule amendments; ballots+rules >=30 days before",
+   "source": "Civ. 5100, 5115(f), 5105",
+   "confidence": "https://california.public.law/codes/civil_code_section_5100",
+   "needsLawyer": "high"
+  },
+  "electronicVoting": {
+   "value": "yes",
+   "note": "Electronic secret ballots via election rules; identity authentication, receipt, separation from ballot, device test >=30 days before; vote irrevocable once transmitted",
+   "source": "Civ. 5105, 5110(c)(4), 5115(f)",
+   "confidence": "https://california.public.law/codes/civil_code_section_5105",
+   "needsLawyer": "high"
+  },
+  "minutesDeadlineDays": {
+   "value": 30,
+   "note": "board minutes (draft/final/summary) available within 30 days; election results to members within 15 days",
+   "source": "Civ. 4950, 5120",
+   "confidence": "https://california.public.law/codes/civil_code_section_4950",
+   "needsLawyer": "high"
+  },
+  "recordRetentionYears": {
+   "value": {
+    "electionMaterials": 1,
+    "inspectable": "current + 2 prior fiscal years; meeting minutes permanent"
+   },
+   "note": "",
+   "source": "Civ. 5200, 5210",
+   "confidence": "https://california.public.law/codes/civil_code_section_5200",
+   "needsLawyer": "high"
+  },
+  "memberInspectionRight": {
+   "value": {
+    "currentFY": "10 business days",
+    "prior2FY": "30 calendar days"
+   },
+   "note": "signed voter envelopes inspect only, not copy",
+   "source": "Civ. 5210, 5200",
+   "confidence": "https://california.public.law/codes/civil_code_section_5210",
+   "needsLawyer": "high"
+  },
+  "electionRoles": {
+   "value": {
+    "inspector": "1 or 3 independent inspectors; not director, candidate, relatives, or paid contractor; may be a member",
+    "duties": "authenticate proxies/ballots, count, decide challenges; report is prima facie evidence",
+    "custody": "inspector holds ballots until challenge period (1 yr) ends"
+   },
+   "note": "Public count at noticed meeting; results in minutes and general notice within 15 days",
+   "source": "Civ. 5110, 5120, 5125, 5145",
+   "confidence": "https://california.public.law/codes/civil_code_section_5110",
+   "needsLawyer": "high"
+  },
+  "termYears": {
+   "value": null,
+   "note": "Seat must be elected when term expires and at least every 4 years; maximum terms per docs",
+   "source": "Civ. 5100(a)(2), 5105(b)",
+   "confidence": "https://california.public.law/codes/civil_code_section_5100",
+   "needsLawyer": "high"
+  },
+  "eligibility": {
+   "value": "members at nomination; docs may bar nominees delinquent on assessments, <1 yr membership, co-owner on board, some convictions; cannot bar for unpaid fines/late charges",
+   "note": "Equal campaign access to media and meeting space",
+   "source": "Civ. 5105",
+   "confidence": "https://california.public.law/codes/civil_code_section_5105",
+   "needsLawyer": "high"
+  },
+  "defaulterDisqualification": {
+   "value": "ballot cannot be denied except for non-membership; nominee disqualifiable for delinquent regular/special assessments (not fines/late charges; exceptions for payment under protest or plan)",
+   "note": "Civ. 5105",
+   "source": "https://california.public.law/codes/civil_code_section_5105",
+   "confidence": "high",
+   "needsLawyer": true
+  },
+  "notes": "2025 changes (AB 2159 electronic voting; AB 2460 reconvened-election quorum) confirmed only via secondary law-firm/legislative analyses; no confirmed 2026 election changes. Tie-break not found in 5105/5120/5125; set in election rules. Research only, not legal advice."
+ },
+ {
+  "id": "us-fl",
+  "name": "Florida HOA Act, Chapter 720",
+  "jurisdiction": "Florida",
+  "instruments": {
+   "value": [
+    "declaration",
+    "articles",
+    "bylaws",
+    "rules"
+   ],
+   "note": "2025 text via flsenate.gov; fetch tool summarised the text, spot-check against statute",
+   "source": "https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+   "confidence": "medium",
+   "needsLawyer": true
+  },
+  "meetingTypes": [
+   {
+    "type": "annual",
+    "calledBy": {
+     "value": "per bylaws",
+     "note": "notice need not state purpose",
+     "source": "720.306(5)",
+     "confidence": "https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+     "needsLawyer": "medium"
+    },
+    "noticeDays": {
+     "value": {
+      "min": 14
+     },
+     "note": "",
+     "source": "720.306(5)",
+     "confidence": "https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+     "needsLawyer": "medium"
+    },
+    "noticeContent": {
+     "value": "date/time/place; purpose needed only for special",
+     "note": "720.306(4)-(5)",
+     "source": "https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+     "confidence": "medium",
+     "needsLawyer": true
+    }
+   },
+   {
+    "type": "special",
+    "calledBy": {
+     "value": "board or, unless docs state different percentage, 10% of total voting interests",
+     "note": "",
+     "source": "720.306(3)",
+     "confidence": "https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+     "needsLawyer": "high"
+    },
+    "noticeDays": {
+     "value": {
+      "min": 14
+     },
+     "note": "",
+     "source": "720.306(5)",
+     "confidence": "https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+     "needsLawyer": "medium"
+    },
+    "noticeContent": {
+     "value": "must state purpose",
+     "note": "",
+     "source": "720.306(4)",
+     "confidence": "https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+     "needsLawyer": "medium"
+    }
+   },
+   {
+    "type": "board",
+    "calledBy": {
+     "value": null,
+     "note": "not reached",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "noticeDays": {
+     "value": "48 hours posted (with agenda); 14 days for special assessments/rule amendments; 7 days if mailed instead of posted",
+     "note": "emergency exempt",
+     "source": "720.303(2)(c)",
+     "confidence": "https://www.flsenate.gov/Laws/Statutes/2025/720.303",
+     "needsLawyer": "medium"
+    },
+    "noticeContent": {
+     "value": "agenda items; owners may speak 3 minutes",
+     "note": "",
+     "source": "720.303(2),(6)",
+     "confidence": "https://www.flsenate.gov/Laws/Statutes/2025/720.303",
+     "needsLawyer": "medium"
+    }
+   }
+  ],
+  "quorum": {
+   "value": "30% of total voting interests unless bylaws set lower",
+   "note": "",
+   "source": "720.306(1)(a)",
+   "confidence": "https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+   "needsLawyer": "high"
+  },
+  "adjournedQuorum": {
+   "value": null,
+   "note": "Adjournment to new date must be announced or noticed under 720.303(2); adjourned quorum not stated",
+   "source": "https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+   "confidence": "low",
+   "needsLawyer": true
+  },
+  "majorities": {
+   "ordinary": {
+    "value": "majority of voting interests present at a meeting with quorum",
+    "note": "",
+    "source": "720.306(1)(a)",
+    "confidence": "https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+    "needsLawyer": "medium"
+   },
+   "special": {
+    "value": "amendments: two-thirds of voting interests unless docs/law say otherwise; no adverse change to proportionate voting/share without owner joinder",
+    "note": "",
+    "source": "720.306(1)(b)-(f)",
+    "confidence": "https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+    "needsLawyer": "medium"
+   },
+   "directors": {
+    "value": "plurality; election only if nominees exceed vacancies",
+    "note": "",
+    "source": "720.306(9)(a)",
+    "confidence": "https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+    "needsLawyer": "medium"
+   }
+  },
+  "weightageModels": {
+   "value": null,
+   "note": "Not found in 720.306; per governing documents",
+   "source": "not verified",
+   "confidence": "low",
+   "needsLawyer": true
+  },
+  "proxy": {
+   "value": {
+    "allowed": "unless documents provide otherwise",
+    "form": "dated, states meeting date/time/place, signed, revocable",
+    "expiry": "effective only for that meeting; expires 90 days after meeting"
+   },
+   "note": "",
+   "source": "720.306(8)(a)",
+   "confidence": "https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+   "needsLawyer": "high"
+  },
+  "votingMethods": {
+   "value": [
+    "in person",
+    "proxy",
+    "secret ballot via inner/outer envelope if docs allow",
+    "online voting by board resolution"
+   ],
+   "note": "duplicate ballots for same parcel disqualified; late ballots not counted",
+   "source": "720.306(8)(b), 720.317",
+   "confidence": "https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+   "needsLawyer": "medium"
+  },
+  "electronicVoting": {
+   "value": "yes",
+   "note": "Online voting if member consents, system authenticates identity, protects vote integrity, issues receipt, separates identity from secret ballots, device test >=14 days before; board resolution noticed 14 days; e-voters count for quorum",
+   "source": "720.317 (ch. 2015-97, 2024-221)",
+   "confidence": "https://www.flsenate.gov/Laws/Statutes/2025/720.317",
+   "needsLawyer": "high"
+  },
+  "minutesDeadlineDays": {
+   "value": null,
+   "note": "no deadline found; minutes kept in writing with each director vote recorded (720.303(3))",
+   "source": "not verified",
+   "confidence": "low",
+   "needsLawyer": true
+  },
+  "recordRetentionYears": {
+   "value": {
+    "officialRecords": 7,
+    "ballots": 1,
+    "directorCertificates": 5
+   },
+   "note": "",
+   "source": "720.303(4)(a), 720.3033(1)(c)",
+   "confidence": "https://www.flsenate.gov/Laws/Statutes/2025/720.303",
+   "needsLawyer": "high"
+  },
+  "memberInspectionRight": {
+   "value": "available within 10 business days of written request; min damages $50/day up to 10 days on willful noncompliance; 100+ parcels must have owner website portal since 1 Jan 2025",
+   "note": "",
+   "source": "720.303(4)-(5)",
+   "confidence": "https://www.flsenate.gov/Laws/Statutes/2025/720.303",
+   "needsLawyer": "high"
+  },
+  "electionRoles": {
+   "value": "per governing documents; statute names no inspector; challenges within 60 days of results; disputes to arbitration or court",
+   "note": "",
+   "source": "720.306(9)",
+   "confidence": "https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+   "needsLawyer": "medium"
+  },
+  "termYears": {
+   "value": null,
+   "note": "term limits not in 720.306; per bylaws",
+   "source": "not verified",
+   "confidence": "low",
+   "needsLawyer": true
+  },
+  "eligibility": {
+   "value": "all members unless delinquent at nomination deadline or certain felons (until 5 years after rights restored); director 90+ days delinquent deemed to abandon seat; director certification within 90 days of election",
+   "note": "",
+   "source": "720.306(9)(b); 720.3033(1)",
+   "confidence": "https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+   "needsLawyer": "medium"
+  },
+  "defaulterDisqualification": {
+   "value": "delinquent on any monetary obligation at nomination deadline cannot run or be listed on ballot",
+   "note": "",
+   "source": "720.306(9)(b)",
+   "confidence": "https://www.flsenate.gov/Laws/Statutes/2025/720.306",
+   "needsLawyer": "high"
+  },
+  "notes": "HB 1203 (2024, ch. 2024-221) seen only as history note on 720.317 and website content in 720.303. 60-day election notice (720.306 / 720.307) not confirmed. Research only, not legal advice."
+ },
+ {
+  "id": "us-tx",
+  "name": "Texas Property Code Chapter 209",
+  "jurisdiction": "Texas",
+  "instruments": {
+   "value": [
+    "declaration (dedicatory instruments)",
+    "bylaws",
+    "certificate of formation",
+    "rules"
+   ],
+   "note": "Tex. Bus. Orgs. Code fills gaps (not fetched); read via texas.public.law (third party)",
+   "source": "https://texas.public.law/statutes/tex._prop._code_section_209.0056",
+   "confidence": "medium",
+   "needsLawyer": true
+  },
+  "meetingTypes": [
+   {
+    "type": "annual/member",
+    "calledBy": {
+     "value": null,
+     "note": "per bylaws; Bus. Orgs. Code not fetched",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "noticeDays": {
+     "value": {
+      "min": 10,
+      "max": 60
+     },
+     "note": "written notice of election or vote at a meeting",
+     "source": "209.0056(a)",
+     "confidence": "https://texas.public.law/statutes/tex._prop._code_section_209.0056",
+     "needsLawyer": "high"
+    },
+    "noticeContent": {
+     "value": null,
+     "note": "209.0056 specifies no content",
+     "source": "https://texas.public.law/statutes/tex._prop._code_section_209.0056",
+     "confidence": "medium",
+     "needsLawyer": true
+    }
+   },
+   {
+    "type": "special",
+    "calledBy": {
+     "value": null,
+     "note": "not reached",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "noticeDays": {
+     "value": {
+      "min": 10,
+      "max": 60
+     },
+     "note": "",
+     "source": "209.0056(a)",
+     "confidence": "https://texas.public.law/statutes/tex._prop._code_section_209.0056",
+     "needsLawyer": "medium"
+    },
+    "noticeContent": {
+     "value": null,
+     "note": "Not reached in primary text",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    }
+   },
+   {
+    "type": "board",
+    "calledBy": {
+     "value": "regular or special; must be open to owners",
+     "note": "",
+     "source": "209.0051",
+     "confidence": "https://texas.public.law/statutes/tex._prop._code_section_209.0051",
+     "needsLawyer": "high"
+    },
+    "noticeDays": {
+     "value": "posting: 144 hours regular, 72 hours special, plus email to registered owners; or mail 10-60 days",
+     "note": "",
+     "source": "209.0051",
+     "confidence": "https://texas.public.law/statutes/tex._prop._code_section_209.0051",
+     "needsLawyer": "high"
+    },
+    "noticeContent": {
+     "value": "date, hour, place, general subject incl. executive session topics; electronic access instructions",
+     "note": "",
+     "source": "209.0051",
+     "confidence": "https://texas.public.law/statutes/tex._prop._code_section_209.0051",
+     "needsLawyer": "high"
+    }
+   }
+  ],
+  "quorum": {
+   "value": null,
+   "note": "Member quorum not in ch. 209 text read; absentee/electronic ballots count toward quorum only for items on ballot (209.00592(b))",
+   "source": "not verified",
+   "confidence": "low",
+   "needsLawyer": true
+  },
+  "adjournedQuorum": {
+   "value": null,
+   "note": "Not reached in primary text",
+   "source": "not verified",
+   "confidence": "low",
+   "needsLawyer": true
+  },
+  "majorities": {
+   "ordinary": {
+    "value": null,
+    "note": "per documents / Bus. Orgs. Code",
+    "source": "not verified",
+    "confidence": "low",
+    "needsLawyer": true
+   },
+   "special": {
+    "value": null,
+    "note": "amendment/assessment thresholds not reached",
+    "source": "not verified",
+    "confidence": "low",
+    "needsLawyer": true
+   }
+  },
+  "weightageModels": {
+   "value": null,
+   "note": "per documents",
+   "source": "not verified",
+   "confidence": "low",
+   "needsLawyer": true
+  },
+  "proxy": {
+   "value": "association must allow absentee ballot or proxy",
+   "note": "",
+   "source": "209.00592(a-1)",
+   "confidence": "https://texas.public.law/statutes/tex._prop._code_section_209.00592",
+   "needsLawyer": "high"
+  },
+  "votingMethods": {
+   "value": [
+    "in person",
+    "proxy",
+    "absentee ballot",
+    "electronic ballot",
+    "secret ballot by rule"
+   ],
+   "note": "association need offer only one method beyond absentee/proxy unless documents say; in-person vote overrides earlier ballot; absentee/e-ballot not counted if motion amended",
+   "source": "209.00592, 209.0058",
+   "confidence": "https://texas.public.law/statutes/tex._prop._code_section_209.00592",
+   "needsLawyer": "high"
+  },
+  "electronicVoting": {
+   "value": "yes",
+   "note": "Electronic ballot by email, fax or website; identity confirmable, receipt available; owners notified of online posting; counts as written signed ballot. Electronic owner meetings allowed per secondary source only",
+   "source": "209.00592(d)-(e), 209.0058(b)",
+   "confidence": "https://texas.public.law/statutes/tex._prop._code_section_209.00592",
+   "needsLawyer": "high"
+  },
+  "minutesDeadlineDays": {
+   "value": null,
+   "note": "board minutes kept, members may inspect (209.0051); no deadline",
+   "source": "not verified",
+   "confidence": "low",
+   "needsLawyer": true
+  },
+  "recordRetentionYears": {
+   "value": {
+    "governingDocs": "permanent",
+    "financialBooks": 7,
+    "minutes": 7,
+    "ownerAccounts": 5,
+    "contracts": "4 after expiry"
+   },
+   "note": "associations with >14 lots must adopt retention policy",
+   "source": "209.005(m)",
+   "confidence": "https://texas.public.law/statutes/tex._prop._code_section_209.005",
+   "needsLawyer": "high"
+  },
+  "memberInspectionRight": {
+   "value": "written certified-mail request; respond by 10th business day (extendable to 15th with notice); cost policy required",
+   "note": "",
+   "source": "209.005",
+   "confidence": "https://texas.public.law/statutes/tex._prop._code_section_209.005",
+   "needsLawyer": "high"
+  },
+  "electionRoles": {
+   "value": "tabulators may not be candidates or third-degree relatives; recount by qualified neutral person at owner cost; candidates may name one observer for secret ballot count",
+   "note": "",
+   "source": "209.0057, 209.00594, 209.0058(d)",
+   "confidence": "https://texas.public.law/statutes/tex._prop._code_section_209.00594",
+   "needsLawyer": "high"
+  },
+  "termYears": {
+   "value": null,
+   "note": "expired-term seat must be elected by owners (209.00593(a))",
+   "source": "not verified",
+   "confidence": "low",
+   "needsLawyer": true
+  },
+  "eligibility": {
+   "value": "restrictions on running void except residency (not all), no shared household with a board member, felony within 20 years",
+   "note": "",
+   "source": "209.00591",
+   "confidence": "https://texas.public.law/statutes/tex._prop._code_section_209.00591",
+   "needsLawyer": "high"
+  },
+  "defaulterDisqualification": {
+   "value": "provision barring an owner from voting in board election or on matters affecting rights is void",
+   "note": "",
+   "source": "209.0059(a)",
+   "confidence": "https://texas.public.law/statutes/tex._prop._code_section_209.0059",
+   "needsLawyer": "high"
+  },
+  "notes": "Votes outside a meeting need notice 20 days before ballot deadline (209.0056(a-1)). Associations over 100 lots must solicit candidates 10 days before ballots (209.00593). 2025 amendments not confirmed. Research only, not legal advice."
+ }
+]

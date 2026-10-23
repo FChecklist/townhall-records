@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AOA-RWA local prototype</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#1c2b3a;--mut:#667;--line:#dde1e7;--acc:#0e7c6e;--warn:#b45309;--bad:#b91c1c}
+@media (prefers-color-scheme:dark){:root{--bg:#12161b;--card:#1b222a;--ink:#e8ecf0;--mut:#9aa6b2;--line:#2c3640;--acc:#2bb3a0;--warn:#e0a24a;--bad:#f26d6d}}
+*{box-sizing:border-box}body{margin:0;font:15px/1.45 system-ui,sans-serif;background:var(--bg);color:var(--ink)}
+header{padding:12px 16px;border-bottom:1px solid var(--line);background:var(--card);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+header b{font-size:17px}.pill{padding:2px 10px;border-radius:99px;border:1px solid var(--line);font-size:12px;color:var(--mut)}
+nav{display:flex;gap:4px;padding:8px 16px;flex-wrap:wrap;background:var(--card);border-bottom:1px solid var(--line)}
+nav button{border:1px solid var(--line);background:transparent;color:var(--ink);padding:7px 12px;border-radius:8px;cursor:pointer}
+nav button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+main{max-width:1000px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:14px}
+h2{margin:0 0 8px;font-size:17px}h3{margin:12px 0 6px;font-size:14px}
+label{display:block;font-size:12px;color:var(--mut);margin:8px 0 2px}
+input,select,textarea{width:100%;padding:7px 9px;border:1px solid var(--line);border-radius:7px;background:var(--bg);color:var(--ink);font:inherit}
+textarea{min-height:110px;font-family:ui-monospace,monospace;font-size:13px}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+button.b{background:var(--acc);color:#fff;border:0;padding:8px 14px;border-radius:8px;cursor:pointer;font:inherit;margin:6px 6px 0 0}
+button.b.s{background:transparent;color:var(--ink);border:1px solid var(--line)}button.b.w{background:var(--warn)}button.b.d{background:var(--bad)}
+button:disabled{opacity:.45;cursor:not-allowed}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:5px 7px;border-bottom:1px solid var(--line);vertical-align:top}th{color:var(--mut);font-weight:600}
+.ok{color:var(--acc)}.bad{color:var(--bad)}.warn{color:var(--warn)}.mut{color:var(--mut)}
+.code{font:700 34px ui-monospace,monospace;letter-spacing:8px;text-align:center;padding:14px;border:2px dashed var(--acc);border-radius:10px;margin:8px 0}
+.note{font-size:12px;color:var(--mut)}.log{font:12px ui-monospace,monospace;word-break:break-all}
+.bar{height:16px;background:var(--acc);border-radius:4px;display:inline-block;vertical-align:middle}
+.big{font-size:26px;font-weight:700}
+</style>
+</head>
+<body>
+<header><b>AOA-RWA</b><span class="pill">local prototype, no server, data stays in this browser</span><span class="pill" id="ph"></span><span class="pill" id="tm"></span>
+<span style="flex:1"></span><button class="b s" onclick="resetDemo()">Reset demo</button></header>
+<nav id="nav"></nav>
+<main id="main"></main>
+<script>
+"use strict";
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const enc=new TextEncoder();
+async function sha(str){const b=await crypto.subtle.digest('SHA-256',typeof str==='string'?enc.encode(str):str);return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}
+const rnd=n=>{const a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]%n};
+const hex=n=>[...crypto.getRandomValues(new Uint8Array(n))].map(x=>x.toString(16).padStart(2,'0')).join('');
+const now=()=>new Date().toISOString();
+const fmt=t=>t?new Date(t).toLocaleString():'-';
+
+const SAMPLE_ROLL=`flat,official,proxy,weight
+A-101,Rajat Agarwal,Neha Gupta,1
+A-102,Sunita Verma,,1
+A-103,Amit Shah,Priya Shah,1
+B-201,Meera Iyer,,1
+B-202,Karan Malhotra,Rohit Malhotra,1
+B-203,Fatima Khan,,1
+C-301,Dinesh Rao,,1
+C-302,Anita Desai,Vivek Desai,1`;
+
+let S;
+function fresh(){return{
+ cfg:{society:'Sunrise Apartments RWA',title:'Annual General Meeting 2026',question:'Approve the annual budget for 2026-27',kind:'meeting',
+  proxyAllowed:true,maxPerFlat:2,quorumPct:30,durationMin:10,minGroup:2,noticeDaysReq:7,meetingDate:new Date(Date.now()+864e5).toISOString().slice(0,10),
+  codeTtlMin:10,maxAttempts:5},
+ rollText:SAMPLE_ROLL,roll:[],rollVersion:0,notice:null,staff:[],inbox:[],
+ attendees:[],codes:[],ledger:[],ballots:[],log:[],phase:'setup',endsAt:null,extensions:0,saltFlat:hex(8),nextAtt:1};}
+function save(){localStorage.setItem('aoa-proto',JSON.stringify(S))}
+function load(){try{const t=localStorage.getItem('aoa-proto');if(t)return JSON.parse(t)}catch(e){}return null}
+S=load()||fresh(); if(!S.roll.length)parseRoll(S.rollText,true);
+
+/* ---------- tamper-evident log (hash chain). No names/flat numbers inside: only salted references ---------- */
+let q=Promise.resolve();
+function flatRef(f){return 'F#'+S._refs?.[f]||''}
+async function ref(f){return (await sha(S.saltFlat+'|'+f)).slice(0,10)}
+function L(type,actor,data={}){q=q.then(async()=>{const prev=S.log.length?S.log[S.log.length-1].hash:'GENESIS';
+ const e={n:S.log.length+1,t:now(),type,actor,data,prev};e.hash=await sha(JSON.stringify([e.n,e.t,e.type,e.actor,e.data,e.prev]));S.log.push(e);save()});return q}
+async function verifyChain(){let prev='GENESIS';for(const e of S.log){const h=await sha(JSON.stringify([e.n,e.t,e.type,e.actor,e.data,e.prev]));if(e.prev!==prev||h!==e.hash)return{ok:false,at:e.n};prev=e.hash}return{ok:true,n:S.log.length,head:prev}}
+
+/* ---------- roll ---------- */
+function parseRoll(text,silent){const rows=text.trim().split(/\r?\n/).map(l=>l.split(',').map(x=>x.trim()));const out=[];const seen=new Set();const errs=[];
+ rows.forEach((r,i)=>{if(i===0&&/flat/i.test(r[0]))return;if(!r[0]){return}if(seen.has(r[0]))errs.push('Duplicate flat '+r[0]);seen.add(r[0]);if(!r[1])errs.push('Flat '+r[0]+' has no official voter');
+ out.push({flat:r[0],official:r[1]||'',proxy:r[2]||'',weight:Number(r[3]||1)||1})});
+ if(!silent){return{out,errs}}S.roll=out;return{out,errs}}
+const flatOf=f=>S.roll.find(r=>r.flat===f);
+const staffOK=(email,roles)=>S.staff.find(s=>s.email===email&&s.verified&&(!roles||roles.includes(s.role)));
+
+/* ---------- views ---------- */
+const TABS=['1 Organizer setup','2 Monitor desk','3 Voter','4 Host console','5 Report and log'];let tab=0;
+function nav(){ $('#nav').innerHTML=TABS.map((t,i)=>`<button class="${i===tab?'on':''}" onclick="go(${i})">${t}</button>`).join('')}
+function go(i){tab=i;draw()}
+function draw(){nav();$('#ph').textContent='phase: '+S.phase;[vSetup,vMonitor,vVoter,vHost,vReport][tab]();save()}
+function resetDemo(){if(!confirm('Clear everything and start over?'))return;S=fresh();parseRoll(S.rollText,true);save();draw()}
+setInterval(()=>{const t=$('#tm');if(S.phase==='voting'&&S.endsAt){const ms=new Date(S.endsAt)-Date.now();if(ms<=0){autoClose();return}t.textContent='voting closes in '+Math.floor(ms/60000)+'m '+String(Math.floor(ms/1000)%60).padStart(2,'0')+'s'}else t.textContent=''},1000);
+async function autoClose(){if(S.phase!=='voting')return;S.phase='closed';await L('voting.closed','system',{reason:'timer',extensions:S.extensions});draw()}
+
+function vSetup(){const c=S.cfg,locked=!!S.notice;
+$('#main').innerHTML=`
+<div class="card"><h2>Step 1. Event and rules (organizer decides)</h2><div class="row">
+<div><label>Society</label><input id="c_society" value="${esc(c.society)}"></div>
+<div><label>Event title</label><input id="c_title" value="${esc(c.title)}"></div>
+<div><label>Question / resolution (single question in this prototype)</label><input id="c_question" value="${esc(c.question)}"></div>
+<div><label>Kind</label><select id="c_kind"><option ${c.kind==='meeting'?'selected':''}>meeting</option><option ${c.kind==='election'?'selected':''}>election</option></select></div>
+<div><label>Proxy voters allowed? (society rule; Maharashtra societies normally NO)</label><select id="c_proxy"><option value="1" ${c.proxyAllowed?'selected':''}>Yes</option><option value="0" ${!c.proxyAllowed?'selected':''}>No</option></select></div>
+<div><label>Max people per flat who may attend</label><input id="c_max" type="number" min="1" value="${c.maxPerFlat}"></div>
+<div><label>Quorum, % of flats present</label><input id="c_quorum" type="number" value="${c.quorumPct}"></div>
+<div><label>Voting window, minutes (test with 3)</label><input id="c_dur" type="number" min="1" value="${c.durationMin}"></div>
+<div><label>Hide official/proxy split below this many voters</label><input id="c_min" type="number" value="${c.minGroup}"></div>
+<div><label>Required notice, days</label><input id="c_nd" type="number" value="${c.noticeDaysReq}"></div>
+<div><label>Meeting date</label><input id="c_md" type="date" value="${c.meetingDate}"></div>
+</div><button class="b" onclick="saveCfg()">Save rules</button> <span class="note">Rules cannot be changed after voting starts. Every save is logged.</span></div>
+
+<div class="card"><h2>Step 2. Eligible voters list (upload CSV or edit)</h2>
+<input type="file" accept=".csv,.txt" onchange="loadCsv(this)">
+<label>flat, official voter, proxy (optional), weight</label><textarea id="rollTa">${esc(S.rollText)}</textarea>
+<button class="b" onclick="saveRoll()">Validate and save list (version ${S.rollVersion})</button>
+<span class="note">${locked?'Notice already sent: edits create a logged new version and need an approver.':'Editing is free until the notice is sent.'}</span>
+<div id="rollMsg"></div>
+<div class="note">Roll: ${S.roll.length} flats. One vote per flat is enforced by the system.</div></div>
+
+<div class="card"><h2>Step 3. Notice of meeting / election (PDF)</h2>
+<input type="file" accept="application/pdf" id="noticeFile">
+<div class="row"><div><label>Notice date</label><input id="noticeDate" type="date" value="${new Date().toISOString().slice(0,10)}"></div></div>
+<button class="b" onclick="sendNotice()">Attach notice PDF and send</button>
+<div id="noticeMsg" class="note">${S.notice?`<span class="ok">Notice stored: ${esc(S.notice.name)} (${S.notice.size} bytes), sha-256 ${S.notice.hash.slice(0,16)}..., dated ${S.notice.date}. Days before meeting: ${S.notice.days} (required ${c.noticeDaysReq}) ${S.notice.days>=c.noticeDaysReq?'<b class=ok>OK</b>':'<b class=bad>TOO SHORT</b>'}</span>`:'No notice attached yet.'}</div></div>
+
+<div class="card"><h2>Step 4. Staff with verified e-mail (organizer, host, monitors, election officer)</h2>
+<div class="row"><div><label>E-mail</label><input id="stEmail" placeholder="name@example.org"></div>
+<div><label>Role</label><select id="stRole"><option>organizer</option><option>host</option><option>monitor</option><option>officer</option></select></div></div>
+<button class="b" onclick="addStaff()">Add and send verification code</button>
+<table><tr><th>E-mail</th><th>Role</th><th>Status</th><th></th></tr>${S.staff.map((s,i)=>`<tr><td>${esc(s.email)}</td><td>${s.role}</td><td>${s.verified?'<span class=ok>verified '+fmt(s.verifiedAt)+'</span>':'<span class=warn>pending</span>'}</td>
+<td>${s.verified?'':`<input id="vc${i}" placeholder="6-digit code" style="width:130px"> <button class="b s" onclick="verifyStaff(${i})">Verify</button>`}</td></tr>`).join('')||'<tr><td colspan=4 class=mut>None yet. Add at least: 1 host, 1 monitor, 1 officer.</td></tr>'}</table>
+<h3>Simulated inbox (in the real product this is real e-mail)</h3>
+<table>${S.inbox.slice().reverse().map(m=>`<tr><td>${fmt(m.t)}</td><td>${esc(m.to)}</td><td>${esc(m.body)}</td></tr>`).join('')||'<tr><td class=mut>empty</td></tr>'}</table>
+<button class="b s" onclick="quickStaff()">Quick demo staff (3 people, auto-verified)</button></div>
+`}
+async function saveCfg(){const c=S.cfg;if(S.phase!=='setup'){alert('Rules are locked once voting has started');return}
+ const g=id=>document.getElementById(id).value;Object.assign(c,{society:g('c_society'),title:g('c_title'),question:g('c_question'),kind:g('c_kind'),proxyAllowed:g('c_proxy')==='1',maxPerFlat:+g('c_max'),quorumPct:+g('c_quorum'),durationMin:+g('c_dur'),minGroup:+g('c_min'),noticeDaysReq:+g('c_nd'),meetingDate:g('c_md')});
+ await L('rules.saved','organizer',{proxyAllowed:c.proxyAllowed,maxPerFlat:c.maxPerFlat,quorumPct:c.quorumPct,durationMin:c.durationMin,kind:c.kind});draw()}
+function loadCsv(inp){const f=inp.files[0];if(!f)return;f.text().then(t=>{document.getElementById('rollTa').value=t})}
+async function saveRoll(){const t=document.getElementById('rollTa').value;const {out,errs}=parseRoll(t);
+ if(errs.length){document.getElementById('rollMsg').innerHTML='<p class=bad>'+errs.map(esc).join('<br>')+'</p>';return}
+ if(S.notice){const ap=prompt('Notice already sent. Approver e-mail (verified officer/host, not the organizer):');if(!staffOK(ap,['officer','host'])){alert('Not a verified approver');return}
+  await L('roll.edit.approved','organizer',{approver:await sha(ap),old:S.roll.length,new:out.length})}
+ const old=S.roll.length;S.roll=out;S.rollText=t;S.rollVersion++;
+ await L('roll.saved','organizer',{version:S.rollVersion,flats:out.length,prevFlats:old,commitment:(await sha(t)).slice(0,16)});draw()}
+async function sendNotice(){const f=document.getElementById('noticeFile').files[0];if(!f){alert('Choose a PDF');return}
+ const buf=await f.arrayBuffer();const h=await sha(buf);const nd=document.getElementById('noticeDate').value;
+ const days=Math.round((new Date(S.cfg.meetingDate)-new Date(nd))/864e5);
+ S.notice={name:f.name,size:f.size,hash:h,date:nd,days};
+ await L('notice.sent','organizer',{file:f.name,size:f.size,sha256:h,date:nd,daysBefore:days,required:S.cfg.noticeDaysReq,ok:days>=S.cfg.noticeDaysReq});draw()}
+async function addStaff(){const e=document.getElementById('stEmail').value.trim().toLowerCase(),r=document.getElementById('stRole').value;if(!/^\S+@\S+\.\S+$/.test(e)){alert('Enter a valid e-mail');return}
+ if(S.staff.some(s=>s.email===e)){alert('Already added');return}
+ const code=String(100000+rnd(900000));S.staff.push({email:e,role:r,verified:false,codeHash:await sha('st|'+e+'|'+code)});
+ S.inbox.push({t:now(),to:e,body:'Your AOA-RWA verification code is '+code});await L('staff.invited',S.staff.length?'organizer':'',{emailRef:(await sha(e)).slice(0,10),role:r});draw()}
+async function verifyStaff(i){const s=S.staff[i];const v=document.getElementById('vc'+i).value.trim();if(await sha('st|'+s.email+'|'+v)!==s.codeHash){alert('Wrong code');return}
+ s.verified=true;s.verifiedAt=now();await L('staff.verified','system',{emailRef:(await sha(s.email)).slice(0,10),role:s.role});draw()}
+async function quickStaff(){for(const [e,r] of [['host@sunrise.example','host'],['monitor1@sunrise.example','monitor'],['officer@sunrise.example','officer'],['organizer@sunrise.example','organizer']]){if(S.staff.some(s=>s.email===e))continue;
+ S.staff.push({email:e,role:r,verified:true,verifiedAt:now(),codeHash:''});await L('staff.verified','system',{emailRef:(await sha(e)).slice(0,10),role:r,demo:true})}draw()}
+
+/* ---------- monitor desk ---------- */
+let shownCode=null;
+function vMonitor(){const mons=S.staff.filter(s=>s.verified&&['monitor','host','officer'].includes(s.role));
+$('#main').innerHTML=`
+<div class="card"><h2>Check-in desk (physical or online attendee)</h2>
+${mons.length?'':'<p class=warn>Add and verify a monitor in tab 1 first (or use Quick demo staff).</p>'}
+<div class="row"><div><label>Monitor (verified e-mail)</label><select id="mMon">${mons.map(m=>`<option>${esc(m.email)}</option>`).join('')}</select></div>
+<div><label>Flat</label><select id="mFlat" onchange="mFlatChange()">${S.roll.map(r=>`<option>${esc(r.flat)}</option>`).join('')}</select></div>
+<div><label>Who is attending</label><select id="mWho"></select></div>
+<div><label>Name (if other family member)</label><input id="mName"></div>
+<div><label>Mode</label><select id="mMode"><option>physical</option><option>online</option></select></div>
+<div><label>ID shown (visual check only, not stored)</label><select id="mId"><option>Driving licence</option><option>Voter ID</option><option>Passport</option><option>Society roll / known to officer</option><option>No ID (officer vouches)</option></select></div>
+<div><label>Last 4 characters of ID (never full number)</label><input id="mLast4" maxlength="4"></div></div>
+<button class="b" onclick="checkIn()">Check in</button> <span class="note">Max ${S.cfg.maxPerFlat} per flat. Proxy: ${S.cfg.proxyAllowed?'allowed':'NOT allowed'}.</span></div>
+${shownCode?`<div class="card"><h2>Code for ${esc(shownCode.name)} (${esc(shownCode.flat)}), attendance no. ${shownCode.att}</h2><div class="code">${shownCode.code}</div>
+<p class="note">Shown to monitor once. Hand it over now. Stored only as a hash. Valid ${S.cfg.codeTtlMin} min, single use. Handing over is logged under ${esc(shownCode.by)}.</p>
+<button class="b" onclick="handedOver()">I handed it over</button></div>`:''}
+<div class="card"><h2>Attendance sheet (member-wise)</h2>${attTable(true)}</div>`;
+mFlatChange()}
+function mFlatChange(){const fl=document.getElementById('mFlat');if(!fl)return;const r=flatOf(fl.value);const sel=document.getElementById('mWho');
+ sel.innerHTML=`<option value="official">${esc(r.official)} (official voter)</option>`+(r.proxy?`<option value="proxy">${esc(r.proxy)} (proxy voter)</option>`:'')+`<option value="other">Other family member (attends only)</option>`}
+async function checkIn(){const mon=document.getElementById('mMon').value;if(!staffOK(mon,['monitor','host','officer'])){alert('Verified monitor needed');return}
+ if(S.phase==='closed'){alert('Event closed');return}
+ const flat=document.getElementById('mFlat').value,who=document.getElementById('mWho').value,r=flatOf(flat);
+ if(who==='proxy'&&!S.cfg.proxyAllowed){alert('Proxy voters are not allowed for this event');return}
+ const here=S.attendees.filter(a=>a.flat===flat&&!a.out);if(here.length>=S.cfg.maxPerFlat){alert('Flat '+flat+' already has the maximum '+S.cfg.maxPerFlat+' attendees');return}
+ const name=who==='official'?r.official:who==='proxy'?r.proxy:document.getElementById('mName').value.trim();if(!name){alert('Enter the name');return}
+ if(S.attendees.some(a=>a.flat===flat&&a.name===name&&!a.out)){alert('Already checked in');return}
+ const mode=document.getElementById('mMode').value,idt=document.getElementById('mId').value,l4=document.getElementById('mLast4').value.trim();
+ const a={att:S.nextAtt++,flat,name,role:who,mode,idType:idt,idLast4:l4,inAt:now(),by:mon,codeIssuedAt:null,codeBy:null,codeUsedAt:null,voted:false,out:false};S.attendees.push(a);
+ await L('attendance.checkin',mon,{att:a.att,flatRef:await ref(flat),role:who,mode,idType:idt,last4Given:!!l4,late:S.phase==='voting'});draw()}
+async function issueCode(att){const a=S.attendees.find(x=>x.att===att);const mon=document.getElementById('mMon')?.value;if(!staffOK(mon,['monitor','host','officer'])){alert('Select a verified monitor');return}
+ if(a.role==='other'){alert('Only the official voter or an allowed proxy can receive a code');return}
+ if(S.ledger.some(l=>l.flat===a.flat)){alert('This flat has already used its one vote');return}
+ if(mon===a.by&&false){}
+ const old=S.codes.filter(c=>c.flat===a.flat&&c.status==='active');
+ for(const c of old){c.status='voided';await L('code.voided',mon,{att:c.att,reason:'new code issued for same flat'})}
+ const code=String(100000+rnd(900000));const salt=hex(6);
+ S.codes.push({att,flat:a.flat,salt,hash:await sha(salt+'|'+code),genAt:now(),issuedBy:mon,expAt:new Date(Date.now()+S.cfg.codeTtlMin*6e4).toISOString(),handedAt:null,attempts:0,status:'active',enteredAt:null});
+ a.codeIssuedAt=now();a.codeBy=mon;shownCode={code,name:a.name,flat:a.flat,att,by:mon};
+ await L('code.generated','system',{att,flatRef:await ref(a.flat),expires:S.codes[S.codes.length-1].expAt});
+ await L('code.assigned',mon,{att,role:a.role});draw()}
+async function handedOver(){const c=[...S.codes].reverse().find(x=>x.att===shownCode.att);c.handedAt=now();await L('code.handedOver',shownCode.by,{att:shownCode.att,via:'screen/slip'});shownCode=null;draw()}
+async function checkOut(att){const a=S.attendees.find(x=>x.att===att);a.out=true;a.outAt=now();await L('attendance.checkout','monitor',{att});draw()}
+function attTable(withActions){return `<table><tr><th>No.</th><th>Name</th><th>Flat</th><th>Role</th><th>Mode</th><th>In</th><th>By</th><th>Code issued</th><th>Code used</th><th>Voted</th>${withActions?'<th></th>':''}</tr>`+
+ (S.attendees.map(a=>`<tr><td>${a.att}</td><td>${esc(a.name)}</td><td>${esc(a.flat)}</td><td>${a.role}</td><td>${a.mode}</td><td>${fmt(a.inAt)}</td><td>${esc(a.by)}</td><td>${fmt(a.codeIssuedAt)}<br><span class=mut>${esc(a.codeBy||'')}</span></td><td>${fmt(a.codeUsedAt)}</td><td>${a.voted?'<b class=ok>yes</b>':'no'}${a.out?' (out)':''}</td>
+ ${withActions?`<td>${a.role!=='other'&&!a.voted&&!a.out?`<button class="b s" onclick="issueCode(${a.att})">Issue code</button>`:''}${a.out?'':`<button class="b s" onclick="checkOut(${a.att})">Check out</button>`}</td>`:''}</tr>`).join('')||'<tr><td colspan=11 class=mut>nobody checked in yet</td></tr>')+'</table>'}
+
+/* ---------- voter ---------- */
+let vs=null; /* voter session: {att, token, choice} */
+function vVoter(){const m=$('#main');
+ if(vs&&vs.receipt){m.innerHTML=receiptView();return}
+ if(vs&&vs.token){m.innerHTML=`<div class="card"><h2>${esc(S.cfg.society)}: ${esc(S.cfg.title)}</h2><p class="big">${esc(S.cfg.question)}</p>
+ <p class="note">You are voting as <b>${vs.role==='proxy'?'PROXY voter for flat '+esc(vs.flat):'OFFICIAL voter for flat '+esc(vs.flat)}</b>. Your choice is secret: the ballot box keeps no name. Change your mind freely; nothing is recorded until you press Submit.</p>
+ ${['Yes','No','Abstain'].map(o=>`<label style="font-size:16px;color:var(--ink)"><input type="radio" name="ch" style="width:auto" value="${o}" ${vs.choice===o?'checked':''} onchange="vs.choice=this.value"> ${o}</label>`).join('')}
+ <button class="b" onclick="submitVote()">Submit vote (final)</button> <button class="b s" onclick="vs=null;draw()">Cancel</button></div>`;return}
+ m.innerHTML=`<div class="card"><h2>Voter screen</h2><p class="note">Voting is ${S.phase==='voting'?'<b class=ok>OPEN</b>':'<b class=warn>'+S.phase+'</b>'}. Enter your attendance number and the 6-digit code given by the monitor. No e-mail or SMS needed.</p>
+ <div class="row"><div><label>Attendance number</label><input id="vAtt" type="number"></div><div><label>6-digit code</label><input id="vCode" maxlength="6" inputmode="numeric"></div></div>
+ <button class="b" onclick="enterCode()">Verify code</button><div id="vMsg"></div></div>`}
+async function enterCode(){const att=+document.getElementById('vAtt').value,code=document.getElementById('vCode').value.trim(),msg=document.getElementById('vMsg');
+ const a=S.attendees.find(x=>x.att===att);const c=a&&[...S.codes].reverse().find(x=>x.att===att);const bad=t=>msg.innerHTML='<p class=bad>'+t+'</p>';
+ if(!a||!c){bad('No code issued for this attendance number');return}
+ if(S.phase!=='voting'){bad('Voting is not open ('+S.phase+')');return}
+ if(c.status!=='active'){bad('This code is '+c.status);return}
+ if(!c.handedAt){bad('The monitor has not confirmed hand-over yet');return}
+ if(new Date(c.expAt)<new Date()){c.status='expired';await L('code.expired','system',{att});bad('Code expired. Ask the monitor for a new one.');return}
+ if(S.ledger.some(l=>l.flat===a.flat)){bad('This flat has already voted');return}
+ c.attempts++;if(await sha(c.salt+'|'+code)!==c.hash){await L('code.failed','voter',{att,attempt:c.attempts});if(c.attempts>=S.cfg.maxAttempts){c.status='locked';await L('code.locked','system',{att})}bad('Wrong code ('+c.attempts+'/'+S.cfg.maxAttempts+')');save();return}
+ c.status='used';c.enteredAt=now();a.codeUsedAt=now();await L('code.entered','voter',{att,flatRef:await ref(a.flat),secsSinceGenerated:Math.round((Date.now()-new Date(c.genAt))/1000)});
+ vs={att,flat:a.flat,role:a.role,name:a.name,token:hex(12),choice:null,codeEntered:c.enteredAt,codeGen:c.genAt,codeHanded:c.handedAt,codeBy:c.issuedBy};draw()}
+async function submitVote(){if(!vs.choice){alert('Choose Yes, No or Abstain');return}
+ if(S.phase!=='voting'){alert('Voting closed');vs=null;draw();return}
+ const a=S.attendees.find(x=>x.att===vs.att);if(S.ledger.some(l=>l.flat===vs.flat)){alert('Flat already voted');vs=null;draw();return}
+ const subAt=now();
+ S.ballots.push({token:await sha(vs.token),choice:vs.choice,kind:vs.role});            /* ballot box: NO name, NO flat, NO time */
+ S.ballots.sort(()=>Math.random()-.5);                                                  /* order shuffled so insertion order leaks nothing */
+ S.ledger.push({flat:vs.flat,att:vs.att,name:vs.name,kind:vs.role,at:subAt});          /* ledger: WHO voted, never HOW */
+ a.voted=true;
+ const rh=(await sha(['rcpt',vs.att,vs.flat,vs.role,subAt,S.log.length].join('|'))).slice(0,24);
+ await L('vote.submitted','voter',{att:vs.att,flatRef:await ref(vs.flat),kind:vs.role,receiptHash:rh});
+ vs={...vs,receipt:{rh,subAt,mode:a.mode},token:null};draw()}
+function receiptView(){const r=vs.receipt;return `<div class="card" id="rc"><h2>Vote receipt</h2>
+ <table><tr><th>Society / event</th><td>${esc(S.cfg.society)}: ${esc(S.cfg.title)}</td></tr><tr><th>Voter</th><td>${esc(vs.name)}, flat ${esc(vs.flat)}</td></tr>
+ <tr><th>Role</th><td>${vs.role==='proxy'?'Proxy voter':'Official voter'} | mode: ${r.mode}</td></tr><tr><th>Attendance no.</th><td>${vs.att}</td></tr>
+ <tr><th>Code generated</th><td>${fmt(vs.codeGen)}</td></tr><tr><th>Code handed over by</th><td>${esc(vs.codeBy)} at ${fmt(vs.codeHanded)}</td></tr>
+ <tr><th>Code entered</th><td>${fmt(vs.codeEntered)}</td></tr><tr><th>Vote submitted</th><td>${fmt(r.subAt)}</td></tr>
+ <tr><th>Link ID</th><td>${location.pathname.split('/').pop()||'local'}#${vs.att}</td></tr>
+ <tr><th>Your choice</th><td><i>not printed: a receipt must not prove how you voted</i></td></tr>
+ <tr><th>Receipt hash</th><td class="log">${r.rh}</td></tr></table>
+ <p class="note">IP address and mobile number are left out in this local demo (no network). In the product they would appear here only with a notice to the voter.</p>
+ <button class="b" onclick="printReceipt()">Download / print as PDF</button> <button class="b s" onclick="vs=null;draw()">Done</button></div>`}
+function printReceipt(){const w=window.open('','_blank');w.document.write('<title>Vote receipt</title><body style="font:14px system-ui;margin:30px">'+document.getElementById('rc').innerHTML.replace(/<button[^>]*>.*?<\/button>/g,'')+'</body>');w.document.close();w.focus();setTimeout(()=>w.print(),300)}
+
+/* ---------- host ---------- */
+function vHost(){const hosts=S.staff.filter(s=>s.verified&&s.role==='host');const open=S.phase==='voting';
+const ready=!!S.notice&&hosts.length>0;
+$('#main').innerHTML=`<div class="card"><h2>Host console</h2>
+<p>Phase: <b>${S.phase}</b>${S.endsAt?' | closes '+fmt(S.endsAt):''} | extensions: ${S.extensions}</p>
+${!ready&&S.phase==='setup'?'<p class=warn>Needs: notice sent (tab 1 step 3) and a verified host (step 4).</p>':''}
+<div class="row"><div><label>Host (verified e-mail)</label><select id="hHost">${hosts.map(h=>`<option>${esc(h.email)}</option>`).join('')}</select></div>
+<div><label>Approver e-mail (a different verified person, e.g. officer)</label><input id="hApp" placeholder="officer@sunrise.example"></div></div>
+<button class="b" ${S.phase==='setup'&&ready?'':'disabled'} onclick="startVoting()">Start voting (${S.cfg.durationMin} min)</button>
+<button class="b w" ${open?'':'disabled'} onclick="extendVoting()">Extend by 30 minutes</button>
+<button class="b d" ${open?'':'disabled'} onclick="stopVoting()">Stop voting now</button>
+<p class="note">Extend and early stop need an approver. Voting also stops automatically when the timer ends. After stop, no new codes or votes. (To test the timer quickly set the window to 1 minute in tab 1.)</p></div>
+<div class="card"><h2>Who has voted (identity only, never the choice)</h2>
+<table><tr><th>Attendance no.</th><th>Name</th><th>Flat</th><th>Voted as</th><th>Time</th></tr>${S.ledger.map(l=>`<tr><td>${l.att}</td><td>${esc(l.name)}</td><td>${esc(l.flat)}</td><td>${l.kind}</td><td>${fmt(l.at)}</td></tr>`).join('')||'<tr><td colspan=5 class=mut>no votes yet</td></tr>'}</table>
+<p class="note">${S.ledger.length} of ${S.roll.length} flats voted. Pending: ${S.roll.filter(r=>!S.ledger.some(l=>l.flat===r.flat)).map(r=>r.flat).join(', ')||'none'}</p></div>`}
+function approver(){const h=document.getElementById('hHost').value,ap=document.getElementById('hApp').value.trim().toLowerCase();if(!staffOK(h,['host'])){alert('Verified host needed');return null}
+ if(ap===h||!staffOK(ap,['officer','host','organizer'])){alert('Need a DIFFERENT verified approver');return null}return{h,ap}}
+async function startVoting(){const h=document.getElementById('hHost').value;S.phase='voting';S.endsAt=new Date(Date.now()+S.cfg.durationMin*6e4).toISOString();
+ await L('voting.started',h,{endsAt:S.endsAt,flats:S.roll.length,rollVersion:S.rollVersion,proxyAllowed:S.cfg.proxyAllowed});draw()}
+async function extendVoting(){const x=approver();if(!x)return;const why=prompt('Reason for extension (logged):')||'';S.endsAt=new Date(new Date(S.endsAt).getTime()+30*6e4).toISOString();S.extensions++;
+ await L('voting.extended',x.h,{minutes:30,newEnd:S.endsAt,approver:(await sha(x.ap)).slice(0,10),reason:why});draw()}
+async function stopVoting(){const x=approver();if(!x)return;S.phase='closed';await L('voting.closed',x.h,{reason:'manual',approver:(await sha(x.ap)).slice(0,10),extensions:S.extensions});draw()}
+
+/* ---------- report and log ---------- */
+function tally(kind){const bs=S.ballots.filter(b=>!kind||b.kind===kind);const t={Yes:0,No:0,Abstain:0};bs.forEach(b=>t[b.choice]++);return{n:bs.length,...t}}
+function tr(label,t,hide){return hide?`<tr><td>${label}</td><td colspan=5 class=mut>${t.n} voter(s): hidden (fewer than ${S.cfg.minGroup}) to protect secrecy</td></tr>`:`<tr><td>${label}</td><td>${t.n}</td><td>${t.Yes}</td><td>${t.No}</td><td>${t.Abstain}</td><td>${t.n?Math.round(t.Yes/t.n*100):0}% yes</td></tr>`}
+async function vReport(){const T=tally(),O=tally('official'),P=tally('proxy');const here=new Set(S.attendees.map(a=>a.flat)).size;const pct=S.roll.length?Math.round(here/S.roll.length*100):0;
+const phys=S.attendees.filter(a=>a.mode==='physical').length,onl=S.attendees.filter(a=>a.mode==='online').length;
+$('#main').innerHTML=`<div class="card"><h2>${esc(S.cfg.society)}: ${esc(S.cfg.title)}</h2><p><b>${esc(S.cfg.question)}</b></p>
+<p>Eligible flats <b>${S.roll.length}</b> | flats present <b>${here}</b> (${pct}%) | quorum ${S.cfg.quorumPct}% <b class="${pct>=S.cfg.quorumPct?'ok':'bad'}">${pct>=S.cfg.quorumPct?'met':'NOT met'}</b> | people physical ${phys}, online ${onl} | flats voted <b>${S.ledger.length}</b> (${S.roll.length?Math.round(S.ledger.length/S.roll.length*100):0}% turnout)</p>
+<table><tr><th>View</th><th>Votes</th><th>Yes</th><th>No</th><th>Abstain</th><th></th></tr>${tr('VOTING (TOTAL)',T,false)}${tr('VOTING (OFFICIAL VOTER)',O,O.n>0&&O.n<S.cfg.minGroup)}${tr('VOTING (PROXY VOTER)',P,P.n>0&&P.n<S.cfg.minGroup)}</table>
+<p class="note">No winner or loser is declared here. The chair / election officer declares the result in the meeting record. Ballot box holds only token + choice, shuffled, no names, no times.${S.phase!=='closed'?' <b class=warn>Voting is not closed: tallies are provisional and a real product would hide them until close.</b>':''}</p></div>
+<div class="card"><h2>Member-wise attendance</h2>${attTable(false)}</div>
+<div class="card"><h2>Tamper-evident log (hash chain)</h2><div id="chainRes" class="note">...</div>
+<button class="b" onclick="checkChain()">Verify chain</button> <button class="b w" onclick="tamper()">Demo: tamper with entry #2</button> <button class="b s" onclick="exportLog()">Download log (JSON)</button>
+<table><tr><th>#</th><th>Time</th><th>Event</th><th>Actor</th><th>Data (no names or flat numbers)</th><th>Hash</th></tr>${S.log.slice().reverse().map(e=>`<tr><td>${e.n}</td><td>${fmt(e.t)}</td><td>${e.type}</td><td>${esc(e.actor)}</td><td class="log">${esc(JSON.stringify(e.data))}</td><td class="log">${e.hash.slice(0,12)}</td></tr>`).join('')}</table></div>`;checkChain()}
+async function checkChain(){const r=await verifyChain();const el=document.getElementById('chainRes');if(el)el.innerHTML=r.ok?`<span class=ok><b>Chain intact</b>: ${r.n} entries, head ${r.head.slice(0,16)}...</span>`:`<span class=bad><b>TAMPERING DETECTED at entry #${r.at}</b></span>`}
+async function tamper(){if(S.log.length<2){alert('Create some events first');return}S.log[1].data={...S.log[1].data,tampered:true};save();checkChain()}
+function exportLog(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(S.log,null,1)],{type:'application/json'}));a.download='aoa-log.json';a.click()}
+draw();
+</script>
+</body>
+</html>
