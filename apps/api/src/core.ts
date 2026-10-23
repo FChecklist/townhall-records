@@ -1,6 +1,6 @@
 // Shared plumbing for the Pages Function: environment, D1 shapes, HTTP helpers, rate limits, sessions, mail, Turnstile, the log transaction.
 import {
-  appendEntry, hex, publicKeyFromPrivate, replayLog, sha256Hex, randomHex, MemoryPasscodeStore,
+  appendEntry, hex, hmacHex, publicKeyFromPrivate, replayLog, sha256Hex, randomHex, MemoryPasscodeStore,
   type Actor, type EventState, type Json, type PasscodeRow, type PasscodeStore, type Purpose, type SignedEntry,
 } from "../../../packages/engine/src";
 
@@ -25,6 +25,8 @@ export interface Env {
   MAILER?: Mailer; MAILER2?: Mailer;
   PAY_SERVICE_KEY?: string; PAY_SERVICE_URL?: string; PAY_SITE?: string; PAY_WEBHOOK_SECRET?: string;
   PUBLIC_ORIGIN?: string;
+  /** "1" = also write an audit row for anonymous reads of public pages (off by default: public data, read-heavy). */
+  AUDIT_PUBLIC_READS?: string;
 }
 
 export class ApiError extends Error {
@@ -35,7 +37,7 @@ export const err = (status: number, code: string, message: string, extra?: Recor
 export const json = (o: unknown, status = 200, headers: Record<string, string> = {}) =>
   new Response(JSON.stringify(o), { status, headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", ...headers } });
 
-export interface Ctx { req: Request; env: Env; db: D1; now: number; url: URL; ip: string; body: any }
+export interface Ctx { req: Request; env: Env; db: D1; now: number; url: URL; ip: string; body: any; deviceId: string; auditId?: number; eventId?: string; actor?: { kind: string; ref: string | null }; lastSeq?: number }
 
 export async function readBody(req: Request, max = 65_536): Promise<any> {
   if (req.method === "GET" || req.method === "HEAD") return {};
@@ -189,6 +191,8 @@ export class Tx {
   async refresh() { this.state = await replayLog(this.entries); this.dirty = false; return this.state; }
   async st(): Promise<EventState> { return this.dirty ? this.refresh() : this.state; }
   async add(type: string, actor: Actor, payload: Record<string, Json>, rows: (seq: number) => D1Stmt[] = () => []): Promise<SignedEntry> {
+    // every entry carries a keyed fingerprint of the IP address and device that caused it (never the values; includes eid+seq so entries cannot be linked to each other publicly)
+    if (this.c.deviceId) payload = { ...payload, acc: await hmacHex(this.c.env.PEPPER, ["acc", this.eid, this.nextSeq, this.c.ip, this.c.deviceId].join("|")) };
     const se = await appendEntry({ eid: this.eid, prev: this.entries.at(-1) ?? null, type, actor, payload, ts: this.c.now, privateKey: this.c.env.SIGNING_KEY, scanAllow: this.allow() });
     this.entries.push(se); this.dirty = true;
     this.stmts.push(insertEntry(this.c.db, se), ...rows(se.entry.seq));
@@ -204,6 +208,7 @@ export class Tx {
       throw e;
     }
     this.stmts = [];
+    this.c.lastSeq = this.entries.at(-1)?.entry.seq;
   }
 }
 

@@ -81,6 +81,7 @@ ${scheduleHtml}
 <h2>People and who appointed whom</h2><div class="card">${tree(model.tree, new Map())}${model.people.length ? "" : "<p>No people yet.</p>"}</div>
 <h2>Options used</h2><div class="card"><ul style="list-style:none;padding-left:0">${optionsRows}</ul></div>
 <h2>Rules</h2><div class="card"><table>${ruleRows || "<tr><td>No numeric rules set.</td></tr>"}</table><h3>Rule change history</h3>${hist}${rej}</div>
+<h2>Checked against the rules</h2><div class="card"><p class="fine">Rules in use: <b>${esc(model.compliance.packName || model.packId)}</b>${model.compliance.packConfidence ? ` · confidence of the pack: ${esc(model.compliance.packConfidence)}` : ""}${model.compliance.needsLawyer ? " · the society should confirm these values against its own bye-laws" : ""}</p><table><tr><th>Check</th><th>Result</th><th>Detail</th></tr>${model.compliance.checks.map((c) => `<tr><td>${esc(c.label)}</td><td><b>${c.status === "pass" ? "✔ pass" : c.status === "fail" ? "✘ FAIL" : c.status === "not_set" ? "not set" : "info"}</b></td><td>${esc(c.detail)}</td></tr>`).join("")}</table><p class="fine">${esc(model.compliance.disclaimer)}</p></div>
 <h2>Notice</h2><div class="card"><p>${noticeTxt}</p></div>
 <h2>Attendance and quorum</h2><div class="card"><p><b>${esc(att.line)}</b></p><p>${att.present} of ${att.total} flats present${q ? ` · quorum: ${q.present} present, ${q.required} needed (${esc(q.basis ?? "")}): <b>${q.met ? "met" : "not met"}</b>` : " · quorum check was off"}</p>
 ${attRows ? `<details><summary>Present flats</summary><table><tr><th>Flat</th><th>Mode</th><th>Checked by</th><th>Marked by</th></tr>${attRows}</table></details>` : ""}</div>
@@ -89,6 +90,7 @@ ${model.payments.length ? `<h2>Payment</h2><div class="card">${model.payments.ma
 ${model.platformActions.length ? `<h2>Platform actions</h2><div class="card">${model.platformActions.map((a) => `#${a.seq} ${esc(a.action)}: ${esc(a.reason)}`).join("<br>")}</div>` : ""}
 ${model.problems.length ? `<h2 class="warn">Problems found in the log</h2><div class="card warn">${model.problems.map(esc).join("<br>")}</div>` : ""}
 <h2>Complete log</h2><details><summary>${log.length} entries</summary><table class="mono"><tr><th>#</th><th>Time</th><th>Type</th><th>Hash</th></tr>${log.map((l) => `<tr><td>${l.entry.seq}</td><td>${esc(dt(l.entry.ts))}</td><td>${esc(l.entry.type)}</td><td>${esc(l.hash.slice(0, 16))}…</td></tr>`).join("")}</table></details>
+<h2>Access trail and terms</h2><div class="card"><p>${model.access.termsAccepted} terms acceptance(s) are recorded: every Organizer, Host, Attendance Officer and voter ticked the terms before acting. ${model.access.entriesWithAccessFingerprint} of ${model.access.entries} log entries carry a coded fingerprint of the IP address and device that made the request. The addresses themselves are private (see below).</p></div>
 <h2>What is not published and why</h2><div class="card"><ul>${NOT_PUBLISHED.map((n) => `<li><b>${esc(n.item)}</b>: ${esc(n.why)}</li>`).join("")}</ul></div>
 <p class="fine">AOA-RWA records and checks. It is tamper-evident and independently verifiable; it does not give legal advice.</p>
 </main>

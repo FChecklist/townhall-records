@@ -13,3 +13,5 @@ export * from "./clone";
 export * from "./model";
 export * from "./render";
 export * from "./schedule";
+export * from "./terms";
+export * from "./compliance";

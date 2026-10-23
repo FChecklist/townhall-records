@@ -1,6 +1,9 @@
 bun test v1.3.14 (0d9b296a)
 
- 153 pass
+apps\api\test\audit.test.ts:
+audit write failed SQLiteError: no such table: access_audit
+
+ 166 pass
  0 fail
- 2779 expect() calls
-Ran 153 tests across 8 files. [6.76s]
+ 2879 expect() calls
+Ran 166 tests across 9 files. [12.59s]

@@ -6,6 +6,7 @@ import { currentRoles, officerCount, presentFlatNos, provenanceTree, replayLog, 
 import { OPTIONS } from "./rules";
 import { computeQuorum, type PointTally } from "./tally";
 import { progressOf } from "./progress";
+import { complianceChecks, type Compliance } from "./compliance";
 import { defaultSchedule, type Schedule } from "./schedule";
 
 export const NOT_PUBLISHED: Array<{ item: string; why: string }> = [
@@ -13,7 +14,7 @@ export const NOT_PUBLISHED: Array<{ item: string; why: string }> = [
   { item: "Photos and ID images", why: "Sensitive personal data. If used they are encrypted on the device and never public." },
   { item: "ID document details beyond type and last 4 characters", why: "Full ID numbers (including Aadhaar) are never stored." },
   { item: "Full e-mail addresses, phone numbers and names", why: "Shown only partly hidden with * to protect privacy." },
-  { item: "IP addresses", why: "Raw addresses are never stored; only short-lived salted hashes are used to limit abuse." },
+  { item: "IP addresses and device identifiers", why: "They are recorded for every action but kept privately and encrypted. This page shows only a coded fingerprint per entry. Office-bearers see a shortened form; the full details are released only on a lawful request, and each release is recorded here." },
   { item: "How each flat voted in a secret ballot", why: "Secret ballots publish totals and receipt codes only." },
 ];
 
@@ -41,6 +42,7 @@ export interface ReportModel {
   platformActions: Array<{ seq: number; action: string; reason: string }>;
   clones: Array<{ direction: string; eventId: string }>; anchors: Array<{ headSeq: number; headHash: string }>;
   problems: string[]; contactsReads: number;
+  compliance: Compliance; access: { termsAccepted: number; entriesWithAccessFingerprint: number; entries: number };
 }
 
 export function buildReportModel(s: EventState): ReportModel {
@@ -87,6 +89,7 @@ export function buildReportModel(s: EventState): ReportModel {
     quorum, points,
     payments: s.payments.map((p) => ({ state: p.state, amountMinor: p.amountMinor, mode: p.mode })),
     platformActions: s.platformActions, clones: s.clones, anchors: s.anchors, problems: s.problems, contactsReads: s.contactsReads,
+    compliance: complianceChecks(s), access: { termsAccepted: s.terms.size, entriesWithAccessFingerprint: s.accEntries, entries: s.seqCount },
   };
 }
 

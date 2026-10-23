@@ -2,7 +2,7 @@
 // Routes and rules: docs/design/API.md. There is no DELETE route and no route that edits history.
 import rulePacks from "../../../docs/research/rule-packs.json";
 import {
-  defaultSchedule, validateSchedule, type Schedule,
+  defaultSchedule, validateSchedule, type Schedule, TERMS_VERSION, TERMS_TEXT, termsSha256,
   CUSTOM_WORLD_PACK, OPTIONS, PARAMS, RuleError, aesDecrypt, aesEncrypt, applyRecommended, b64url, buildReportModel, canAmendPoint, canChangeRoll, canChangeRule, canDo, canVote, cloneTemplate,
   deriveKey32, effectiveWeight, extractData, fromB64url, issuePasscode, loadAllPacks, maskEmail, maskName, maskPhone, newRuleSet, parseMajority, progressOf, proxyAllowed, randomHex, renderReportHtml,
   sealReport, setOption, validateBallot, validateParam, verifyPasscode, LOGIN_TTL_MS, sha256Hex, type EnginePack, type EventState, type PointDef, type RuleSet, type Json, type Role,
@@ -52,6 +52,37 @@ async function contactOf(c: Ctx, eid: string, pid: string): Promise<Contact> {
 const statusStmt = (c: Ctx, eid: string, status: string, seq: number) => c.db.prepare("INSERT INTO event_status(event_id,status,log_seq,at_ms) VALUES(?,?,?,?)").bind(eid, status, seq, c.now);
 const roleStmt = (c: Ctx, eid: string, pid: string, role: string, action: string, by: string | null, seq: number) => c.db.prepare("INSERT INTO role_assignments(event_id,person_id,role,action,appointed_by,log_seq,at_ms) VALUES(?,?,?,?,?,?,?)").bind(eid, pid, role, action, by, seq, c.now);
 
+// ------------------------------------------------------------------------------------------------ terms (everyone ticks the box) and the access audit
+async function requireTerms(c: Ctx): Promise<void> {
+  if (c.body.acceptTerms !== true || c.body.termsVersion !== TERMS_VERSION) throw err(400, "terms_required", "Please read and tick the terms and conditions to continue.", { termsVersion: TERMS_VERSION });
+}
+const termsEntry = async (subject: "pid" | "flat", ref: string) => ({ subject, ref, version: TERMS_VERSION, termsSha256: await termsSha256() });
+const DEVICE_RE = /^[A-Za-z0-9_-]{16,64}$/;
+async function auditKey(c: Ctx, eid: string): Promise<{ key: Uint8Array; scope: "event" | "platform" }> {
+  if (eid !== "platform") { try { return { key: await eventKey(c, eid), scope: "event" }; } catch { /* destroyed or none: platform key */ } }
+  return { key: await deriveKey32(c.env.MASTER_SECRET, "platform-audit"), scope: "platform" };
+}
+const routeName = (path: string) => path.replace(/\b[0-9a-f]{32}\b/g, ":id").replace(/\bp_[0-9a-f]{16}\b/g, ":pid").replace(/\bpt_[0-9a-f]{16}\b/g, ":pt");
+/** Writes one audit row. Choices, receipts and passcodes are never part of it. Throws if the row cannot be written (the caller then refuses the request). */
+async function writeAudit(c: Ctx, phase: "request" | "result", status: number | null): Promise<number> {
+  const eid = c.eventId ?? "platform"; const { key, scope } = await auditKey(c, eid);
+  const ct = await aesEncrypt(key, JSON.stringify({ ip: c.ip, device: c.deviceId || null, ua: (c.req.headers.get("user-agent") ?? "").slice(0, 200) }), "audit|" + eid);
+  const r = await c.db.prepare("INSERT INTO access_audit(at_ms,event_id,phase,ref_id,method,route,actor_kind,actor_ref,status,log_seq,ct,ip_idx,dev_idx,key_scope) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?) RETURNING id")
+    .bind(c.now, eid, phase, phase === "result" ? c.auditId ?? null : null, c.req.method, routeName(c.url.pathname), c.actor?.kind ?? "anon", c.actor?.ref ?? null, status, phase === "result" ? c.lastSeq ?? null : null, ct, (await pepperHash(c.env, "ip", c.ip)).slice(0, 24), (await pepperHash(c.env, "dev", c.deviceId || "none")).slice(0, 24), scope).first<{ id: number }>();
+  return r!.id;
+}
+const maskIp = (ip: string) => (ip.includes(":") ? ip.split(":").slice(0, 2).join(":") + ":*" : ip.split(".").slice(0, 2).join(".") + ".*.*");
+async function readAudit(c: Ctx, eid: string, full: boolean): Promise<any[]> {
+  const rows = (await c.db.prepare("SELECT * FROM access_audit WHERE event_id=? AND phase='result' ORDER BY id DESC LIMIT 500").bind(eid).all<any>()).results;
+  const out = [];
+  for (const r of rows) {
+    let d: any = null;
+    try { const k = r.key_scope === "event" ? await eventKey(c, eid) : await deriveKey32(c.env.MASTER_SECRET, "platform-audit"); d = JSON.parse(await aesDecrypt(k, r.ct, "audit|" + eid)); } catch { /* erased */ }
+    out.push({ id: r.id, at: r.at_ms, method: r.method, route: r.route, actor: r.actor_kind, ref: r.actor_ref, status: r.status, logSeq: r.log_seq, ...(d ? (full ? { ip: d.ip, device: d.device, userAgent: d.ua } : { ip: maskIp(d.ip), device: String(d.device ?? "").slice(0, 6) + "...", userAgent: String(d.ua).split(/[ /]/)[0] }) : { erased: true }), ipFingerprint: r.ip_idx.slice(0, 8), deviceFingerprint: r.dev_idx.slice(0, 8) });
+  }
+  return out;
+}
+
 // ------------------------------------------------------------------------------------------------ guards
 async function staff(c: Ctx, eid: string, action?: Parameters<typeof canDo>[2], extra: Parameters<typeof canDo>[3] = {}): Promise<{ tx: Tx; pid: string }> {
   const s = await requireSession(c, "staff");
@@ -66,6 +97,7 @@ const needPack = (id: unknown): EnginePack => { const p = PACKS.get(String(id));
 
 // ------------------------------------------------------------------------------------------------ public reads
 route("GET", "/api/health", async () => json({ ok: true }));
+route("GET", "/api/terms", async () => json({ version: TERMS_VERSION, text: TERMS_TEXT, sha256: await termsSha256() }));
 route("GET", "/api/pubkey", async (c) => json({ alg: "Ed25519", ...(await publicKey(c.env)) }));
 route("GET", "/api/schema", async () => json({ params: PARAMS.map(({ requiredWhen, ...p }) => ({ ...p, conditional: !!requiredWhen })), options: OPTIONS, eventTypes: EVENT_TYPES, prices: PRICE_MINOR, milestones: ["start", "votingStart", "votingEnd", "end"] }));
 route("GET", "/api/packs", async () => json([...PACKS.values()].map((p) => ({ id: p.id, name: p.name, jurisdiction: p.jurisdiction, confidence: p.confidence, needsLawyer: p.needsLawyer, recommended: p.recommended }))));
@@ -139,7 +171,9 @@ route("POST", "/api/events", async (c) => {
   let rs: RuleSet = tpl ? { packId: pack.id, params: { ...tpl.params }, options: { ...tpl.options }, locked: { ...pack.locked } } : newRuleSet(pack, kind, eventType as any);
   if (b.useRecommended) rs = applyRecommended(rs);
 
+  await requireTerms(c);
   const eid = randomHex(16), pid = newId("p_", 8);
+  c.eventId = eid;
   const tx = Tx.fresh(c, eid); tx.regAllow = [society.registrationNo];
   const stmts: D1Stmt[] = [];
   const { db } = c;
@@ -148,13 +182,14 @@ route("POST", "/api/events", async (c) => {
       db.prepare("INSERT INTO societies(id,name,address,registration_no,kind,created_ms) VALUES(?,?,?,?,?,?)").bind(eid, society.name, society.address, society.registrationNo, society.kind, c.now),
       db.prepare("INSERT INTO events(id,society_id,kind,event_type,title,venue,scheduled_ms,pack_id,created_from_event_id,organizer_person_id,created_ms) VALUES(?,?,?,?,?,?,?,?,?,?,?)").bind(eid, eid, kind, eventType, title, venue, schedule.start.atMs, pack.id, tpl?.createdFrom ?? null, pid, c.now),
     ]);
-  await tx.add("rules_initialized", { system: true }, { packId: rs.packId, params: rs.params as any, options: rs.options as any, locked: rs.locked as any }, (seq) => [
+  await tx.add("rules_initialized", { system: true }, { packId: rs.packId, packName: pack.name, packConfidence: pack.confidence, packNeedsLawyer: pack.needsLawyer, params: rs.params as any, options: rs.options as any, locked: rs.locked as any }, (seq) => [
     ...OPTIONS.map((o) => db.prepare("INSERT INTO event_options(event_id,key,value,locked,locked_reason,rev,log_seq) VALUES(?,?,?,?,?,1,?)").bind(eid, o.key, rs.options[o.key] === true ? 1 : 0, rs.locked[o.key] ? 1 : 0, rs.locked[o.key]?.reason ?? null, seq)),
     ...Object.entries(rs.params).filter(([, v]) => v !== null).map(([k, v]) => db.prepare("INSERT INTO event_rules(event_id,scope,param,value_json,rev,changed_by,reason,log_seq,at_ms) VALUES(?,?,?,?,1,?,?,?,?)").bind(eid, "event", k, JSON.stringify(v), pid, "initial", seq, c.now)),
   ]);
   const key = await eventKey2(c, eid, stmts);
   stmts.push(...(await personStmts(c, eid, pid, org, null, key)));
   await tx.add("role_appointed", { system: true }, { pid, role: "organizer", appointedBy: null, maskedName: maskName(org.name), maskedEmail: maskEmail(org.email) }, (seq) => [roleStmt(c, eid, pid, "organizer", "appoint", null, seq), statusStmt(c, eid, "setup", seq)]);
+  await tx.add("terms_accepted", actorOf(pid, "organizer"), await termsEntry("pid", pid));
   if (tpl) {
     if (tpl.flats.length) await tx.add("roll_set", actorOf(pid, "organizer"), { rev: 1, flats: tpl.flats } as any, () => tpl!.flats.map((f) => db.prepare("INSERT INTO flats(event_id,flat_no,weight,eligible,rev) VALUES(?,?,?,?,1)").bind(eid, f.flatNo, f.weight, f.eligible ? 1 : 0)));
     for (const p of tpl.points) {
@@ -207,6 +242,8 @@ route("POST", "/api/auth/request", async (c) => {
 route("POST", "/api/auth/verify", async (c) => {
   const eid = str(c.body.eventId, "eventId", 10, 64), pid = str(c.body.personId, "personId", 3, 40), code = typeof c.body.code === "string" ? c.body.code : "";
   await rateLimit(c, "auth-ip", c.ip, 20, 600); await rateLimit(c, "auth-event", eid, 60, 600);
+  c.eventId = eid;
+  { const pre = await Tx.load(c, eid).catch(() => null); const stp = pre ? await pre.st() : null; if (stp?.people.has(pid) && !stp.terms.has("pid:" + pid)) await requireTerms(c); } // checked BEFORE the code is used up
   const res = await verifyPasscode({ store: new D1PasscodeStore(c.db), pepper: c.env.PEPPER, eventId: eid, purpose: "login", subject: pid, code, nowMs: c.now });
   if (!res.ok) {
     if (res.lockedNow) { const tx = await Tx.load(c, eid).catch(() => null); if (tx) { await tx.add("passcode_locked", { system: true }, { purpose: "login", subjectKind: "person", subject: pid }); await tx.commit(); } }
@@ -214,10 +251,9 @@ route("POST", "/api/auth/verify", async (c) => {
   }
   const tx = await Tx.load(c, eid); const st = await tx.st(); const person = st.people.get(pid);
   if (!person) throw err(401, "invalid_code", "That code did not work.");
-  if (!person.verified) {
-    await tx.add("email_verified", ENTRY_ACTOR(st, pid), { pid }, (seq) => [c.db.prepare("INSERT INTO person_verifications(person_id,event_id,at_ms,log_seq) VALUES(?,?,?,?)").bind(pid, eid, c.now, seq)]);
-    await tx.commit();
-  }
+  if (!st.terms.has("pid:" + pid)) await tx.add("terms_accepted", ENTRY_ACTOR(st, pid), await termsEntry("pid", pid));
+  if (!person.verified) await tx.add("email_verified", ENTRY_ACTOR(st, pid), { pid }, (seq) => [c.db.prepare("INSERT INTO person_verifications(person_id,event_id,at_ms,log_seq) VALUES(?,?,?,?)").bind(pid, eid, c.now, seq)]);
+  await tx.commit();
   const token = await createSession(c, { kind: "staff", eventId: eid, personId: pid, flatNo: null }, STAFF_TTL);
   return json({ token, roles: person.roles, verified: true });
 });
@@ -343,6 +379,9 @@ route("GET", "/api/events/:id/contacts", async (c, m) => {
   const out = []; for (const r of rows) out.push({ pid: r.id, flatNo: r.flat_no, roles: st.people.get(r.id)?.roles ?? [], ...JSON.parse(await aesDecrypt(key, r.ct, tx.eid + "|" + r.id)) });
   await tx.add("contacts_read", ENTRY_ACTOR(st, pid), { by: pid, scope: "all" }); await tx.commit();
   return json({ contacts: out });
+});
+route("GET", "/api/events/:id/audit", async (c, m) => {
+  const { tx } = await staff(c, m[1]!, "read_contacts"); return json({ note: "IP addresses are shortened here and the device code is shortened. The full values are released only on a lawful request.", rows: await readAudit(c, tx.eid, false) });
 });
 route("POST", "/api/events/:id/crypto-shred", async (c, m) => {
   const { tx, pid } = await staff(c, m[1]!, "erase_data"); const st = await tx.st(); // organizer only, also after the event closed
@@ -501,11 +540,15 @@ route("POST", "/api/vote/login", async (c) => {
   // a hall full of voters shares one Wi-Fi address, so the per-address limit is generous; guessing is stopped by the per-passcode lock (5 tries) and the per-address+flat limit
   await rateLimit(c, "vote-ip", c.ip, 400, 600); await rateLimit(c, "vote-ipflat", c.ip + "|" + flatNo, 20, 600); await rateLimit(c, "vote-event", eid, 600, 600);
   await checkTurnstile(c, c.body.turnstile);
+  c.eventId = eid;
+  const ptx = await Tx.load(c, eid); const pst = await ptx.st(); const needTerms = !pst.terms.has("flat:" + flatNo);
+  if (needTerms) await requireTerms(c); // before the code is used up
   const res = await verifyPasscode({ store: new D1PasscodeStore(c.db), pepper: c.env.PEPPER, eventId: eid, purpose: "voter", subject: flatNo, code, nowMs: c.now });
   if (!res.ok) {
     if (res.lockedNow) { const tx = await Tx.load(c, eid).catch(() => null); if (tx) { await tx.add("passcode_locked", { system: true }, { purpose: "voter", subjectKind: "flat", subject: flatNo }); await tx.commit(); } }
     throw err(401, "invalid_code", "That code did not work. Ask the person at the desk for a new one.");
   }
+  if (needTerms) { await ptx.add("terms_accepted", { flat: flatNo }, await termsEntry("flat", flatNo)); await ptx.commit(); }
   const kind = (await c.db.prepare("SELECT kind FROM passcodes WHERE id=?").bind(res.row.id).first<{ kind: string }>())?.kind ?? "official";
   const token = await createSession(c, { kind: "voter", eventId: eid, personId: null, flatNo }, VOTER_TTL);
   await c.db.prepare("UPDATE sessions SET voter_kind=? WHERE token_hash=?").bind(kind, await pepperHash(c.env, "session", token)).run();
@@ -568,6 +611,11 @@ route("POST", "/api/super/events/:id/suspend", async (c, m) => {
   await tx.add("event_suspended", { system: true }, { reason }, (seq) => [statusStmt(c, tx.eid, "suspended", seq)]);
   await tx.commit(); return json({ ok: true });
 });
+route("GET", "/api/super/events/:id/audit", async (c, m) => {
+  await requireSession(c, "super"); const tx = await Tx.load(c, m[1]!); const reason = str(c.url.searchParams.get("reason"), "reason", 5, 300);
+  await tx.add("platform_action", { system: true }, { action: "audit_read", reason }, (seq) => [c.db.prepare("INSERT INTO super_admin_actions(at_ms,actor_hash,action,event_id,reason,log_seq) VALUES(?,?,?,?,?,?)").bind(c.now, "super", "audit_read", tx.eid, reason, seq)]);
+  await tx.commit(); return json({ rows: await readAudit(c, tx.eid, true) }); // every full read is itself on the public page
+});
 route("POST", "/api/super/payments/reconcile", async (c) => {
   await requireSession(c, "super"); const pid = str(c.body.paymentId, "paymentId", 3, 40), note = str(c.body.note, "note", 3, 300);
   const p = await c.db.prepare("SELECT event_id, amount_minor FROM payments WHERE payment_id=? ORDER BY id DESC LIMIT 1").bind(pid).first<any>(); if (!p) throw err(404, "no_payment", "No such payment.");
@@ -596,9 +644,23 @@ export async function handle(req: Request, env: Env, now = Date.now()): Promise<
     const hit = routes.find((r) => r.method === req.method && r.re.test(url.pathname));
     if (!hit) throw err(404, "not_found", "Not found.");
     const body = await readBody(req, url.pathname.endsWith("/evidence") ? 400_000 : 65_536);
-    const c: Ctx = { req, env, db: env.DB, now, url, ip: req.headers.get("cf-connecting-ip") ?? "local", body };
+    const dev = req.headers.get("x-device-id") ?? "";
+    const c: Ctx = { req, env, db: env.DB, now, url, ip: (req.headers.get("cf-connecting-ip") ?? "local").slice(0, 64), body, deviceId: DEVICE_RE.test(dev) ? dev : "" };
     if (req.method !== "GET") await rateLimit(c, "any-ip", c.ip, 600, 60); else await rateLimit(c, "read-ip", c.ip, 240, 60);
-    return await hit.h(c, url.pathname.match(hit.re)!);
+    c.eventId = /\/api\/(?:events|r|vote)\/([0-9a-f]{32})/.exec(url.pathname)?.[1] ?? (typeof body.eventId === "string" && /^[0-9a-f]{32}$/.test(body.eventId) ? body.eventId : undefined);
+    const bearer = /^Bearer ([0-9a-f]{64})$/.exec(req.headers.get("authorization") ?? "");
+    if (bearer) { const sr = await env.DB.prepare("SELECT kind, person_id, flat_no, event_id FROM sessions WHERE token_hash=? AND expires_ms>?").bind(await pepperHash(env, "session", bearer[1]!), now).first<any>(); if (sr) { c.actor = { kind: sr.kind, ref: sr.person_id ?? sr.flat_no ?? sr.kind }; c.eventId ??= sr.event_id ?? undefined; } }
+    const mustAudit = req.method !== "GET" || !!bearer || env.AUDIT_PUBLIC_READS === "1";
+    if (mustAudit) {
+      // mandatory: every action carries a device identifier and an IP address, and is audited BEFORE it is processed
+      if (!c.deviceId) { try { await writeAudit(c, "result", 400); } catch { /* nothing more to do */ } throw err(400, "device_required", "This action needs a device identifier (header x-device-id, 16 to 64 letters or digits)."); }
+      try { c.auditId = await writeAudit(c, "request", null); } catch (e2) { console.error("audit write failed", String(e2)); throw err(503, "audit_unavailable", "We cannot record this action right now, so it was not carried out. Please try again."); }
+    }
+    let res: Response; let status = 500;
+    try { res = await hit.h(c, url.pathname.match(hit.re)!); status = res.status; }
+    catch (e3: any) { status = e3 instanceof ApiError ? e3.status : String(e3?.message ?? "").startsWith("log payload not masked") ? 400 : 500; if (mustAudit) await writeAudit(c, "result", status).catch(() => {}); throw e3; }
+    if (mustAudit) await writeAudit(c, "result", status).catch((e4) => console.error("audit result failed", String(e4)));
+    return res;
   } catch (e: any) {
     if (e instanceof ApiError) return json({ error: e.code, message: e.message, ...e.extra }, e.status);
     if (String(e?.message ?? "").startsWith("log payload not masked")) return json({ error: "contains_personal_data", message: "Please remove e-mail addresses and phone numbers from the text you typed." }, 400);

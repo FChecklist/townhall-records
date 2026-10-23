@@ -36,15 +36,17 @@ export interface EventState {
   clones: Array<{ direction: string; eventId: string }>; platformActions: Array<{ seq: number; action: string; reason: string }>;
   contactsReads: number; anchors: Array<{ headSeq: number; headHash: string }>;
   scheduleChanges: Array<{ seq: number; ts: number; reason: string }>;
+  terms: Set<string>; accEntries: number; packInfo: { name: string; confidence: string; needsLawyer: boolean };
   problems: string[];
 }
 
+const TERMS_EXEMPT = new Set(["event_created", "terms_accepted", "email_verified", "passcode_issued", "passcode_locked"]);
 const rs0 = (): RuleSet => ({ packId: "", params: {}, options: {}, locked: {} });
 export function emptyState(eid: string): EventState {
   return {
     eid, seqCount: 0, head: null, firstTs: null, lastTs: null, created: null, rules: null, initialRules: null, ruleHistory: [], rejectedChanges: [], status: "setup", paid: false, payments: [],
     people: new Map(), roleLog: [], roll: [], rollRev: 0, points: new Map(), pointOrder: [], attendance: new Map(), attendanceLog: [], ledger: new Map(),
-    seals: new Map(), results: new Map(), agenda: null, startedTs: null, closedInfo: null, clones: [], platformActions: [], contactsReads: 0, anchors: [], scheduleChanges: [], problems: [],
+    seals: new Map(), results: new Map(), agenda: null, startedTs: null, closedInfo: null, clones: [], platformActions: [], contactsReads: 0, anchors: [], scheduleChanges: [], terms: new Set(), accEntries: 0, packInfo: { name: "", confidence: "", needsLawyer: true }, problems: [],
   };
 }
 
@@ -87,6 +89,10 @@ export async function replayLog(entries: SignedEntry[]): Promise<EventState> {
     const e = se.entry, p = e.payload as any, seq = e.seq;
     s.seqCount = seq; s.head = { seq, hash: se.hash }; s.firstTs ??= e.ts; s.lastTs = e.ts;
     const actorPid = "pid" in e.actor ? e.actor.pid : null;
+    if (e.type === "terms_accepted") s.terms.add(`${p.subject === "flat" ? "flat" : "pid"}:${p.ref}`);
+    else if (actorPid && !TERMS_EXEMPT.has(e.type) && !s.terms.has("pid:" + actorPid)) bad(seq, `${actorPid} acted (${e.type}) without accepting the terms`);
+    else if ("flat" in e.actor && (e.type === "vote_recorded" || e.type === "vote_cast_open") && !s.terms.has("flat:" + e.actor.flat)) bad(seq, `flat ${e.actor.flat} voted without accepting the terms`);
+    if (typeof p.acc === "string") s.accEntries += 1;
     switch (e.type) {
       case "event_created": s.created = { kind: p.kind, eventType: p.eventType, title: p.title, venue: p.venue, scheduledMs: p.scheduledMs, schedule: p.schedule ?? defaultSchedule(p.scheduledMs, p.venue), packId: p.packId, timezone: p.timezone ?? "UTC", society: p.society, createdFrom: p.createdFrom ?? null }; break;
       case "schedule_set": {
@@ -95,7 +101,7 @@ export async function replayLog(entries: SignedEntry[]): Promise<EventState> {
         const why = validateSchedule(p.schedule); if (why) bad(seq, "invalid schedule: " + why);
         s.created.schedule = p.schedule; s.created.scheduledMs = p.schedule.start.atMs; s.scheduleChanges.push({ seq, ts: e.ts, reason: asStr(p.reason) }); break;
       }
-      case "rules_initialized": s.rules = { packId: p.packId, params: { ...p.params }, options: { ...p.options }, locked: { ...p.locked } }; s.initialRules = copyRules(s.rules); break;
+      case "rules_initialized": s.rules = { packId: p.packId, params: { ...p.params }, options: { ...p.options }, locked: { ...p.locked } }; s.packInfo = { name: asStr(p.packName), confidence: asStr(p.packConfidence), needsLawyer: p.packNeedsLawyer !== false }; s.initialRules = copyRules(s.rules); break;
       case "role_appointed": {
         const role = p.role as Role;
         const ex = s.people.get(p.pid) ?? { pid: p.pid, maskedName: p.maskedName ?? "", maskedEmail: p.maskedEmail ?? "", flatNo: p.flatNo ?? null, verified: false, roles: [], label: null, appointedBy: {}, appointedSeq: {} };

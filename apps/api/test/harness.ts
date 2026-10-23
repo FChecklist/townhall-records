@@ -1,4 +1,4 @@
-import { generateSigningKey, verifyChain, type SignedEntry } from "../../../packages/engine/src";
+import { TERMS_VERSION, generateSigningKey, verifyChain, type SignedEntry } from "../../../packages/engine/src";
 import { handle } from "../src/handler";
 import type { Env } from "../src/core";
 import { makeD1 } from "./d1-sqlite";
@@ -14,8 +14,11 @@ export class H {
     return h;
   }
   pub = "";
+  device: string | null = "device-test-00000001";
+  /** The terms box is ticked automatically on the three calls that need it, unless the test sets acceptTerms itself. */
   async call(method: string, path: string, body?: unknown, token?: string, ip = "9.9.9." + (this.ip++ % 250)): Promise<{ status: number; body: any; text: string }> {
-    const r = await handle(new Request("http://x" + path, { method, headers: { "content-type": "application/json", "cf-connecting-ip": ip, ...(token ? { authorization: "Bearer " + token } : {}) }, body: method === "GET" || body === undefined ? undefined : JSON.stringify(body) }), this.env, this.now);
+    if (body && typeof body === "object" && !("acceptTerms" in (body as any)) && method === "POST" && (path === "/api/events" || path === "/api/auth/verify" || path === "/api/vote/login")) body = { ...(body as any), acceptTerms: true, termsVersion: TERMS_VERSION };
+    const r = await handle(new Request("http://x" + path, { method, headers: { "content-type": "application/json", "cf-connecting-ip": ip, "user-agent": "TestBrowser/1.0 (test)", ...(this.device ? { "x-device-id": this.device } : {}), ...(token ? { authorization: "Bearer " + token } : {}) }, body: method === "GET" || body === undefined ? undefined : JSON.stringify(body) }), this.env, this.now);
     const text = await r.text(); let b: any = null; try { b = JSON.parse(text); } catch { /* html */ }
     return { status: r.status, body: b, text };
   }

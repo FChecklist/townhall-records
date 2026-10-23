@@ -198,7 +198,7 @@ describe("append-only database and tamper evidence", () => {
     const sup = await superLogin(h); await h.call("POST", "/api/super/payments/reconcile", { paymentId: (h.raw.query("SELECT payment_id p FROM payments LIMIT 1").get() as any).p, note: "matched to bank" }, sup);
     return { h, e };
   }
-  const RECORD = ["societies", "events", "event_status", "event_options", "event_rules", "flats", "agenda_points", "point_state", "people", "person_labels", "person_verifications", "role_assignments", "attendance", "voter_ledger", "ballot_box", "box_seals", "log_entries", "reports", "anchors", "payments", "super_admin_actions", "private_contacts", "private_evidence"];
+  const RECORD = ["access_audit", "societies", "events", "event_status", "event_options", "event_rules", "flats", "agenda_points", "point_state", "people", "person_labels", "person_verifications", "role_assignments", "attendance", "voter_ledger", "ballot_box", "box_seals", "log_entries", "reports", "anchors", "payments", "super_admin_actions", "private_contacts", "private_evidence"];
   test("EVERY record table rejects UPDATE (trigger), and none of the tests is vacuous: each table holds rows", async () => {
     const { h } = await busyDb();
     for (const t of RECORD) {
@@ -463,7 +463,7 @@ describe("platform: payments, mail quota, abuse limits, super console", () => {
   });
 });
 async function fetchAnchor(h: H) {
-  const r = await (await import("../src/handler")).handle(new Request("http://x/api/internal/anchor", { method: "POST", headers: { "x-internal-secret": "tick", "content-type": "application/json" }, body: "{}" }), h.env, h.now);
+  const r = await (await import("../src/handler")).handle(new Request("http://x/api/internal/anchor", { method: "POST", headers: { "x-internal-secret": "tick", "x-device-id": "scheduler-device-000001", "content-type": "application/json" }, body: "{}" }), h.env, h.now);
   return { status: r.status, body: await r.json() as any };
 }
 void HOSTP;
