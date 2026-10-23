@@ -164,3 +164,19 @@ describe("paper ballots in the signed log", () => {
     const p = (await s.state()).problems.join(" | "); expect(p).toContain("without being marked present"); expect(p).toContain("voted twice"); expect(p).toContain("while it was closed");
   });
 });
+
+describe("the public page has a language drop-down in the upper right", () => {
+  test("16 languages in a select at the top, the whole dictionary embedded (works offline), data-i18n on every heading, RTL handled, still deterministic and verifiable", async () => {
+    const s = await Scenario.fullMeeting(); const k = await testKey(); const model = buildReportModel(await s.state());
+    const a = renderReportHtml(model, s.entries, k.publicKeyRaw, k.kid), b = renderReportHtml(model, s.entries, k.publicKeyRaw, k.kid);
+    expect(a).toBe(b);
+    expect(a).toContain('<div class="topbar"><label for="lang-select"'); expect((a.match(/<option value="[a-z]{2}">/g) ?? []).length).toBe(16); expect(a).toContain("हिन्दी"); expect(a).toContain("العربية");
+    expect((a.match(/data-i18n="/g) ?? []).length).toBeGreaterThan(25);
+    const dict = JSON.parse(/<script type="application\/json" id="aoa-i18n">([\s\S]*?)<\/script>/.exec(a)![1]!); expect(Object.keys(dict).length).toBe(16); expect(dict.hi["sec.schedule"]).toBe("समय-सारणी"); expect(dict.ar["page.final"]).toBe("التقرير النهائي");
+    expect(a).toContain("dir=RTL[l]?'rtl':'ltr'"); expect(a).toContain("localStorage");
+    for (const key of ["sec.schedule", "sec.people", "sec.rules", "sec.attendance", "sec.agenda", "sec.log", "btn.verify", "page.final"]) expect(a).toContain(`data-i18n="${key}"`);
+    const { sealReport } = await import("../src/render"); const { verifyReportHtml } = await import("../src/model");
+    const { html } = await sealReport(a, model, k.privateKeyPkcs8, k.kid); expect((await verifyReportHtml(html)).ok).toBe(true);
+    expect(html).toContain('/pdf" data-i18n="btn.pdf"'); // the final report offers the PDF and a byte-identical copy
+  });
+});

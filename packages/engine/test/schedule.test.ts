@@ -71,7 +71,7 @@ describe("schedule on the log and the public page", () => {
       const what = kind === "election" ? "Election" : "Meeting";
       for (const l of [`${what} starts`, "Voting starts", "Voting ends", `${what} ends`]) expect(html).toContain(`<b>${l}</b>`);
       expect(html).toContain("Saturday"); expect(html).toContain("14 November 2026"); expect(html).toContain("<td>16:00</td>"); expect(html).toContain("Clubhouse / online link");
-      expect(html).toContain('id="tm-head"'); expect(html).toContain("Time (Asia/Kolkata)");
+      expect(html).toContain('id="tm-head"'); expect(html).toContain("(Asia/Kolkata)</th>");
       expect(model.schedule.end.place).toBe("Clubhouse / online link");
     }
   });

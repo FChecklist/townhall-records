@@ -59,7 +59,7 @@ api error TypeError: e.actor is not an Object. (evaluating '"pid" in e.actor')
     at async call (C:\ct\aoa-rwa\apps\api\test\harness.ts:21:21)
     at async <anonymous> (C:\ct\aoa-rwa\apps\api\test\features.test.ts:231:25)
 
- 239 pass
+ 240 pass
  0 fail
- 5124 expect() calls
-Ran 239 tests across 15 files. [16.72s]
+ 5145 expect() calls
+Ran 240 tests across 15 files. [18.04s]
