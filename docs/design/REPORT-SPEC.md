@@ -48,3 +48,8 @@ Section 11 lists what is not published and why: passcodes, images, ID details be
 
 ## 5. Corrections
 Published reports are never edited. A correction is a new log entry (and a new `reports.rev` whose banner links to the earlier rev); the old rev stays downloadable.
+
+## Addendum 2026-10-23
+* There is exactly one report revision per event (a second is refused by the database). A correction is a new log entry; the report is never replaced. (This replaces section 5 above.)
+* The page also prints: schedule with day/date/time/place and count-down timers, "Checked against the rules", "Access trail and terms", ballot design and instruction per point, ticked/not-ticked counts, ranking and by-rank assignment, ids of every person, point and candidate.
+* PDF: `GET /api/r/:id/pdf`, see OWNER-DIRECTIVES section 4.

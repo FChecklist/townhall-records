@@ -44,3 +44,9 @@ Only `PUBLIC`-class columns, always through the report/view builders. The test `
 
 ## Addendum: changes made while building
 `ballot_box.kind` (official/proxy, for the small-group rule), `passcodes.kind`, `sessions.voter_kind` (operational). Passcode and session tables are operational (mutable). Co-host and other titles are `person_labels`, never roles. Holder (flat owner) contacts are `people` rows with `flat_no` and an encrypted `private_contacts` row.
+
+## Addendum 2026-10-23
+* `access_audit` (migration 0003): append-only, PRIVATE, encrypted: two rows per request (`request` before, `result` after), IP/device/browser in `ct` (AES-GCM under the event key, platform key if the event has none), blind indexes `ip_idx`/`dev_idx`, `key_scope`. 24 record tables now.
+* Migration 0004: after a `reports` row exists, new rows in the vote, ballot, attendance, roll, agenda, rule, option, role, point-state, box-seal and status tables are refused; only listed log entry types are accepted; a second report revision is refused.
+* `agenda_points.extra_json` holds labels (option id -> text), minChoices, format, seats, topN and the ballot design. Option ids are `yes/no/abstain` for resolutions and `c_` + 12 hex for candidates.
+* `payments.currency` is INR or USD according to the country.

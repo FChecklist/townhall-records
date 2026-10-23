@@ -26,3 +26,7 @@ Full attacker-by-attacker table: `docs/design/THREAT-MODEL.md`. Every control ma
 7. E-mail inbox takeover = identity takeover for staff. Passkeys for staff are not built.
 8. Not done yet: WebAuthn for the super console, CSP/headers for the UI pages (the report route already sends a strict CSP), a penetration test, abuse monitoring dashboards, the officer-held-device flow for voters without a phone (UI task).
 9. Replay-per-request reads the whole event log from D1 for every vote (about 700 rows for a 120-flat AGM): fine functionally, but costs D1 row reads; see PERF.
+
+## Addendum 2026-10-23
+* New controls: terms acceptance for everyone, mandatory device id, fail-closed access audit with IP and device (encrypted, append-only), per-entry fingerprint, shortened view for office-bearers, full view only for the owner with a reason and a public record of the viewing, publication freeze by database triggers, automatic publication at the scheduled end.
+* New limits: the device id is chosen by the browser and can be changed by a determined person; IP addresses can be shared or masked; anonymous public reads are not audited one by one (switch `AUDIT_PUBLIC_READS`); the scheduler must call the tick at least once a minute for the 120-second promise; the PDF is Latin-only; "100%" claims cannot be met by software - see OWNER-DIRECTIVES section 1.

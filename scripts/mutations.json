@@ -565,5 +565,212 @@
   "find": "{ const sv = validateSchedule(schedule); if (sv) throw err(400, \"bad_schedule\", sv); }",
   "replace": "",
   "test": "apps/api/test/lifecycle.test.ts"
+ },
+ {
+  "id": "A26",
+  "scope": "api",
+  "claim": "creating an event requires the terms box",
+  "file": "apps/api/src/handler.ts",
+  "find": "await requireTerms(c);\n  const eid = randomHex(16)",
+  "replace": "const eid = randomHex(16)",
+  "test": "apps/api/test/audit.test.ts"
+ },
+ {
+  "id": "A27",
+  "scope": "api",
+  "claim": "device identifier is mandatory",
+  "file": "apps/api/src/handler.ts",
+  "find": "if (!c.deviceId) { try { await writeAudit",
+  "replace": "if (false) { try { await writeAudit",
+  "test": "apps/api/test/audit.test.ts"
+ },
+ {
+  "id": "A28",
+  "scope": "api",
+  "claim": "an action that cannot be audited is not carried out",
+  "file": "apps/api/src/handler.ts",
+  "find": "throw err(503, \"audit_unavailable\", \"We cannot record this action right now, so it was not carried out. Please try again.\");",
+  "replace": "void 0;",
+  "test": "apps/api/test/audit.test.ts"
+ },
+ {
+  "id": "A29",
+  "scope": "api",
+  "claim": "every log entry carries the IP+device fingerprint",
+  "file": "apps/api/src/core.ts",
+  "find": "if (this.c.deviceId) payload = {",
+  "replace": "if (false) payload = {",
+  "test": "apps/api/test/audit.test.ts"
+ },
+ {
+  "id": "A30",
+  "scope": "api",
+  "claim": "organizer sees the IP shortened only",
+  "file": "apps/api/src/handler.ts",
+  "find": "ip: maskIp(d.ip), device:",
+  "replace": "ip: d.ip, device:",
+  "test": "apps/api/test/audit.test.ts"
+ },
+ {
+  "id": "A31",
+  "scope": "api",
+  "claim": "the owner's full audit read is itself logged publicly",
+  "file": "apps/api/src/handler.ts",
+  "find": "{ action: \"audit_read\", reason }",
+  "replace": "{ action: \"viewed\", reason }",
+  "test": "apps/api/test/audit.test.ts"
+ },
+ {
+  "id": "A32",
+  "scope": "api",
+  "claim": "refusing the terms does not use up the voter's code",
+  "file": "apps/api/src/handler.ts",
+  "find": "if (needTerms) await requireTerms(c); // before the code is used up",
+  "replace": "",
+  "test": "apps/api/test/audit.test.ts"
+ },
+ {
+  "id": "A33",
+  "scope": "engine",
+  "claim": "India price per meeting is Rs 499",
+  "file": "packages/engine/src/pricing.ts",
+  "find": "meeting: { amountMinor: 49_900,",
+  "replace": "meeting: { amountMinor: 19_900,",
+  "test": "apps/api/test/features.test.ts"
+ },
+ {
+  "id": "A34",
+  "scope": "api",
+  "claim": "no ballot can be added after publication (DB trigger)",
+  "file": "migrations/0004_freeze_after_report.sql",
+  "find": "CREATE TRIGGER voter_ledger_after_report BEFORE INSERT ON voter_ledger WHEN EXISTS (SELECT 1 FROM reports WHERE event_id = NEW.event_id) BEGIN SELECT RAISE(ABORT, 'published: this event can no longer change'); END;",
+  "replace": "",
+  "test": "apps/api/test/features.test.ts"
+ },
+ {
+  "id": "A35",
+  "scope": "api",
+  "claim": "no log entry of the wrong kind after publication (DB trigger)",
+  "file": "migrations/0004_freeze_after_report.sql",
+  "find": "AND json_extract(NEW.entry_json, '$.type') NOT IN",
+  "replace": "AND 0 AND json_extract(NEW.entry_json, '$.type') NOT IN",
+  "test": "apps/api/test/features.test.ts"
+ },
+ {
+  "id": "A36",
+  "scope": "api",
+  "claim": "automatic close waits for the scheduled end",
+  "file": "apps/api/src/handler.ts",
+  "find": "c.now < st.created!.schedule.end.atMs) continue;",
+  "replace": "false) continue;",
+  "test": "apps/api/test/features.test.ts"
+ },
+ {
+  "id": "A37",
+  "scope": "api",
+  "claim": "automatic close can be switched off",
+  "file": "apps/api/src/handler.ts",
+  "find": "st.rules?.options.auto_publish === false || ",
+  "replace": "",
+  "test": "apps/api/test/features.test.ts"
+ },
+ {
+  "id": "A38",
+  "scope": "api",
+  "claim": "report e-mails show recipients masked in the public log",
+  "file": "apps/api/src/handler.ts",
+  "find": "recipients: to.map((x) => maskEmail(x))",
+  "replace": "recipients: to",
+  "test": "apps/api/test/features.test.ts"
+ },
+ {
+  "id": "A39",
+  "scope": "api",
+  "claim": "second report revision is refused (final)",
+  "file": "migrations/0004_freeze_after_report.sql",
+  "find": "WHEN NEW.rev > 1 BEGIN",
+  "replace": "WHEN 0 BEGIN",
+  "test": "apps/api/test/features.test.ts"
+ },
+ {
+  "id": "E39",
+  "scope": "engine",
+  "claim": "a tie at a ranked post goes to the Returning Officer",
+  "file": "packages/engine/src/tally.ts",
+  "find": "needsReturningOfficer: seats.some((x) => x.tied)",
+  "replace": "needsReturningOfficer: false",
+  "test": "packages/engine/test/ballot.test.ts"
+ },
+ {
+  "id": "E40",
+  "scope": "engine",
+  "claim": "report counts ticked (yes) and not ticked (no)",
+  "file": "packages/engine/src/tally.ts",
+  "find": "notSelected: agg.n - (agg.perOption[o]?.count ?? 0)",
+  "replace": "notSelected: 0",
+  "test": "packages/engine/test/ballot.test.ts"
+ },
+ {
+  "id": "E41",
+  "scope": "engine",
+  "claim": "minimum number of ticks enforced",
+  "file": "packages/engine/src/tally.ts",
+  "find": "if (c.length < min) return { ok: false, reason: \"too_few\" };",
+  "replace": "",
+  "test": "packages/engine/test/ballot.test.ts"
+ },
+ {
+  "id": "E42",
+  "scope": "engine",
+  "claim": "ballot design colour must be valid",
+  "file": "packages/engine/src/ballot.ts",
+  "find": "/^#[0-9A-Fa-f]{6}$/",
+  "replace": "/.*/",
+  "test": "packages/engine/test/ballot.test.ts"
+ },
+ {
+  "id": "E43",
+  "scope": "engine",
+  "claim": "PDF has the Chairperson signature block",
+  "file": "packages/engine/src/pdf.ts",
+  "find": "d.sig(\"Chairperson\");",
+  "replace": "",
+  "test": "packages/engine/test/pdf.test.ts"
+ },
+ {
+  "id": "E44",
+  "scope": "engine",
+  "claim": "replay flags a person who acted without accepting the terms",
+  "file": "packages/engine/src/replay.ts",
+  "find": "else if (actorPid && !TERMS_EXEMPT.has(e.type) && !s.terms.has(\"pid:\" + actorPid)) bad(",
+  "replace": "else if (false) bad(",
+  "test": "apps/api/test/audit.test.ts"
+ },
+ {
+  "id": "E45",
+  "scope": "engine",
+  "claim": "proxy ballots with proxy voting off are a visible FAIL",
+  "file": "packages/engine/src/compliance.ts",
+  "find": ": proxyVotes ? \"fail\" : \"pass\"",
+  "replace": ": proxyVotes ? \"pass\" : \"pass\"",
+  "test": "packages/engine/test/compliance.test.ts"
+ },
+ {
+  "id": "E46",
+  "scope": "engine",
+  "claim": "notice outside the rules is a visible FAIL",
+  "file": "packages/engine/src/compliance.ts",
+  "find": "add(\"notice\", \"Notice period\", s.agenda.met ? \"pass\" : \"fail\"",
+  "replace": "add(\"notice\", \"Notice period\", \"pass\"",
+  "test": "packages/engine/test/compliance.test.ts"
+ },
+ {
+  "id": "E47",
+  "scope": "engine",
+  "claim": "a candidate tie is flagged (shared rank)",
+  "file": "packages/engine/src/tally.ts",
+  "find": "tied: same(i - 1) || same(i + 1) };",
+  "replace": "tied: false };",
+  "test": "packages/engine/test/ballot.test.ts"
  }
 ]

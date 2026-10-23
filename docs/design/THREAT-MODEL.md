@@ -102,3 +102,15 @@ Legend: **P** = prevented, **E** = exposed (cannot be stopped, but cannot be hid
 
 ## 4. Control-to-test map
 Each control marked P or E in sections 3.1 to 3.6 that the PM listed has a test that is run against correct code and then run against deliberately broken code (mutation), recorded in `docs/evidence/MUTATIONS.md`. See `docs/CHECKLIST.md`.
+
+## Addendum 2026-10-23 (owner directives; details in OWNER-DIRECTIVES-2026-10-23.md)
+| # | Attack | Control | Type |
+|---|---|---|---|
+| T1 | A person acts without agreeing to the terms | `terms_accepted` entry required before any action; replay and the page flag violations; a refused tick does not burn the passcode | P / E |
+| T2 | Acting anonymously (no device id, spoofed address) | Device id mandatory; request refused without it; IP and device recorded privately for every action with a public fingerprint on each entry. A browser can still fake its device id and an IP can be shared/VPN: the trace is evidence, not proof of identity | E / R |
+| T3 | Staff or admin view IP/device to profile voters | Organizer sees shortened values only; the owner needs a written reason and the viewing becomes a public entry; ballot box never holds IP/device/time | P / E |
+| T4 | Audit trail used to break the secret ballot | Audit rows never hold choices or receipts; the box is separate and unordered; a test asserts all of it | P / R (runtime sees both for one request) |
+| T5 | The audit store is switched off to act untraced | Audit row written before the action; if it fails the action is refused (fail closed) | P |
+| T6 | Editing anything after the report is published | Triggers refuse new rows/entries of every event-changing kind, a second report, and every UPDATE/DELETE; the API refuses staff actions on a closed event | P (API, trigger) / E (DB admin) |
+| T7 | Delaying publication to tamper | Report is built and signed in the same write as the closing entry; automatic close at the scheduled end by the scheduler | P |
+| T8 | A forged PDF | The PDF carries the log head and the report file SHA-256 and a link to the verifier; it is a print of the sealed report, so any difference from the sealed HTML is visible to a comparison | E |

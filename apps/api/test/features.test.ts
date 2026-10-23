@@ -10,12 +10,13 @@ const text = (b: ArrayBuffer | Uint8Array) => [...new TextDecoder("latin1").deco
 
 /** A live election with an officer, all `flats` present, the first point open. */
 async function liveElection(h: H, point: Record<string, unknown>, flats = 6, over: Record<string, unknown> = {}) {
-  const e = await newEvent(h, { kind: "election", ...over });
+  const { setOptions, ...create } = over as any; const e = await newEvent(h, { kind: "election", ...create });
   const ok = async (p: Promise<any>) => { const r = await p; if (r.status >= 300) throw new Error(JSON.stringify(r.body)); return r; };
   await ok(h.call("PUT", `/api/events/${e.eid}/roll`, { flats: flatsOf(flats) }, e.org));
   const pt = await ok(h.call("POST", `/api/events/${e.eid}/points`, { kind: "election_post", title: "Committee election", secret: true, ...point }, e.org));
   const pay = await ok(h.call("POST", `/api/events/${e.eid}/pay`, {}, e.org)); await ok(h.call("POST", "/api/pay/test-confirm", { eventId: e.eid, paymentId: pay.body.paymentId }, e.org));
   const off = await appointVerified(h, e, OFFP, "attendance_officer");
+  if (over.setOptions) await ok(h.call("PUT", `/api/events/${e.eid}/options`, { options: over.setOptions }, e.org));
   await ok(h.call("POST", `/api/events/${e.eid}/agenda/publish`, {}, e.org)); await ok(h.call("POST", `/api/events/${e.eid}/start`, {}, e.org));
   for (let i = 0; i < flats; i++) await ok(h.call("POST", `/api/events/${e.eid}/attendance`, { flatNo: `A-${101 + i}`, attendeeName: "Owner " + i, mode: "physical", method: "visual" }, off.token));
   await ok(h.call("POST", `/api/events/${e.eid}/points/${pt.body.pointId}/open`, { minutes: 30 }, e.org));
@@ -145,7 +146,7 @@ describe("the final report as a PDF for the Returning Officer", () => {
     await e.ok(h.call("POST", `/api/events/${e.eid}/close`, {}, e.org));
     const r1 = await fetchPdf(h, e.eid), r2 = await fetchPdf(h, e.eid);
     expect(r1.type).toBe("application/pdf"); expect(r1.sha).toMatch(/^[0-9a-f]{64}$/); expect(r1.sha).toBe(r2.sha); expect(r1.bytes.length).toBe(r2.bytes.length);
-    expect(new TextDecoder("latin1").decode(r1.bytes.slice(0, 8))).toBe("%PDF-1.4\n");
+    expect(new TextDecoder("latin1").decode(r1.bytes.slice(0, 8))).toBe("%PDF-1.4");
     const t = text(r1.bytes);
     for (const needle of ["Returning Officer / Presiding Officer - signature", e.eid, "Appendix A. Complete log", "Ticked (yes)", "Green Park Apartments", "Election"]) expect(t).toContain(needle);
     const rep = await h.call("GET", `/api/r/${e.eid}`); expect(t).toContain(extractSeal(rep.text)!.fileSha256);
@@ -197,13 +198,18 @@ describe("the report is published within 120 seconds of the end, and a published
     expect((await replayLog(entries)).problems).toEqual([]);
     expect((await tick(s.end.atMs + 90_000)).closed).toBe(0); // already closed: nothing to do twice
   });
-  test("the Organizer can switch automatic closing off (the option is a checkbox); then only the Host's button closes the event", async () => {
+  test("the Organizer can switch automatic closing off (a check box); then the scheduler leaves the event alone and only the Host's button closes it", async () => {
     const h = await H.make(); h.now = T - DAY; const s = sched(T);
-    const e = await liveElection(h, { candidates: ["Asha", "Bimal"] }, 3, { schedule: s });
-    // options can no longer change once live? setup-time option: use a fresh event
-    const f = await newEvent(h, { schedule: s }); expect((await h.call("PUT", `/api/events/${f.eid}/options`, { options: { auto_publish: false } }, f.org)).status).toBe(200);
-    expect((await h.call("GET", `/api/events/${f.eid}`)).body.model.options.find((o: any) => o.key === "auto_publish").value).toBe(false);
-    expect((await h.call("GET", `/api/events/${e.eid}`)).body.model.options.find((o: any) => o.key === "auto_publish").value).toBe(true);
+    const off = await liveElection(h, { candidates: ["Asha", "Bimal"] }, 3, { schedule: s, setOptions: { auto_publish: false } });
+    const on = await liveElection(h, { candidates: ["Asha", "Bimal"] }, 3, { schedule: s });
+    const { handle } = await import("../src/handler");
+    const r = await handle(new Request("http://x/api/internal/tick", { method: "POST", headers: { "x-internal-secret": "tick", "x-device-id": "scheduler-device-000001", "content-type": "application/json" }, body: "{}" }), h.env, s.end.atMs + 30_000);
+    const out = (await r.json()) as any;
+    expect(out.events).toEqual([on.eid]); // only the event that left the box ticked
+    expect(h.raw.query("SELECT COUNT(*) c FROM reports WHERE event_id=?").get(off.eid)).toEqual({ c: 0 });
+    h.now = T - DAY; // sessions are still valid at this clock
+    await off.ok(h.call("POST", `/api/events/${off.eid}/close`, {}, off.org));
+    expect(h.raw.query("SELECT COUNT(*) c FROM reports WHERE event_id=?").get(off.eid)).toEqual({ c: 1 });
   });
   test("ONCE PUBLISHED NOTHING CAN BE ADDED OR CHANGED, by anyone: the database refuses new rows, new log entries and a second report", async () => {
     const h = await H.make(); const e = await liveElection(h, { candidates: ["Asha", "Bimal"] }, 3); const id = await e.ids(); await e.vote("A-101", { choices: [id.Asha!] });

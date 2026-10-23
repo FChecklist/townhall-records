@@ -89,3 +89,9 @@ Routes added during the build, all in `apps/api/src/handler.ts`:
 * Failed passcode attempts are counted (5 tries then a 15-minute lock) but not chained one by one, so nobody can flood the public log; the lock itself, every issue, every success and every refused vote (`vote_rejected`) are logged.
 * A text field containing a complete e-mail address or phone number is refused with `contains_personal_data` instead of being published.
 * `PUT /api/events/:id/schedule` {schedule:{start,votingStart,votingEnd,end:{atMs,place}}, reason}: Organizer/Host, before the event starts. `POST /api/events` also accepts `schedule` and `timezone`. `GET /api/r/:id/head` now includes `serverNow`.
+
+## Addendum 2026-10-23 (owner directives)
+* Every non-public-read request needs header `x-device-id`; bodies of `POST /api/events`, `POST /api/auth/verify` (first time) and `POST /api/vote/login` (first time per flat) need `acceptTerms: true` and `termsVersion` equal to `GET /api/terms`.
+* `GET /api/terms` · `GET /api/r/:id/pdf` (public, after publication) · `POST /api/events/:id/report/email` {to:[1..10 e-mails]} (Organizer/Host) · `GET /api/events/:id/audit` (Organizer/Host, shortened) · `GET /api/super/events/:id/audit?reason=` (owner, full, logged) · `POST /api/internal/tick` (scheduler, secret header; run every minute).
+* `POST /api/events` also takes `country` (two letters). `POST/PUT .../points`: resolutions take `abstain`; election posts take `candidates` (strings or {id,label}), `maxChoices`, `minChoices`, `format` (`single_post`|`ranked_posts`|`top_n`), `seats`, `topN`, `design`. `POST /api/vote/cast` takes `marks` {optionId: true|false} or `choices` [ids].
+* `GET /api/schema` now lists prices (`priceText`), election formats and the default ballot design.

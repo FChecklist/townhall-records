@@ -22,3 +22,12 @@ Rules the UI must respect: show the server's `message` text for errors; never ke
 
 ## Schedule and timers
 Step 1 screen collects the four milestones (start, voting start, voting end, end), each with a date-time picker and a place, plus the time zone (default: the browser's). Use `PUT /api/events/:id/schedule` to change before the event starts. The public page already draws the schedule table and the count-down; a UI that shows its own timers should use `countdowns()` from `packages/engine/src/schedule.ts` and the `serverNow` from `/api/r/:id/head`.
+
+## Added 2026-10-23 (see docs/design/OWNER-DIRECTIVES-2026-10-23.md)
+* Create a random **device id** once per browser (`crypto.randomUUID()` with dashes removed, kept in local storage) and send it as `x-device-id` on every call.
+* Show the **terms** (`GET /api/terms`) with one check box on: event creation, a Host/Officer's first sign-in, a voter's first login. Send `acceptTerms: true` and `termsVersion`.
+* **Ballot designer** for the Organizer (layout, columns, order, accent colour, title, instruction, numbers, box size) with a live phone-size preview; **election format** chooser (one post per election / one election for all posts / first N), post names, how many a voter may tick (min and max), candidates (ids come back from the server).
+* **Ballot** for voters: one big check box per option; ticked = yes, not ticked = no; send `marks`. Always one column on a phone. Show whether the point is an open vote or a secret ballot before voting.
+* **Prices** by country (`/api/schema` `priceText`): India Rs 499 / Rs 1499, elsewhere USD 5 / USD 15.
+* **Final report**: buttons "Download PDF" (`/api/r/:id/pdf`), "Save page", "E-mail report" (`/api/events/:id/report/email`).
+* Organizer view of the **audit trail** (`/api/events/:id/audit`).

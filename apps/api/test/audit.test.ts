@@ -56,9 +56,13 @@ describe("terms and conditions: everyone ticks the box", () => {
     const s = await Scenario.create(); await s.addPoint("pt_1", "1"); await s.pay(); await s.publish(); await s.start(); await s.attend("A-101"); await s.open("pt_1");
     await s.add("vote_cast_open", { flat: "A-101" }, { pointId: "pt_1", flatNo: "A-101", kind: "official", choices: ["yes"] }); // no terms_accepted for this flat
     expect((await s.state()).problems.join()).toContain("voted without accepting the terms");
-    await s.add("role_appointed", s.org, { pid: "p_stranger0000001", role: "host", appointedBy: "p_org0000000000001", maskedName: "S****", maskedEmail: "s****@e****.org" });
-    await s.add("point_closed", { pid: "p_stranger0000001", role: "host" }, { pointId: "pt_1", by: "p_stranger0000001" });
-    expect((await s.state()).problems.join()).toContain("without accepting the terms");
+    const s2 = await Scenario.create(); await s2.addPoint("pt_1", "1");
+    await s2.add("role_appointed", s2.org, { pid: "p_stranger0000001", role: "host", appointedBy: "p_org0000000000001", maskedName: "S****", maskedEmail: "s****@e****.org" });
+    await s2.add("point_added", { pid: "p_stranger0000001", role: "host" }, { pointId: "pt_2", number: "2", title: "Sneaky", body: "", kind: "discussion", options: [], maxChoices: 1, majorityClass: "simple", secret: false, rev: 1 });
+    expect((await s2.state()).problems.join()).toContain("p_stranger0000001 acted (point_added) without accepting the terms");
+    await s2.add("terms_accepted", { pid: "p_stranger0000001", role: "host" }, { subject: "pid", ref: "p_stranger0000001", version: "v", termsSha256: "0".repeat(64) });
+    await s2.add("point_added", { pid: "p_stranger0000001", role: "host" }, { pointId: "pt_3", number: "3", title: "Fine", body: "", kind: "discussion", options: [], maxChoices: 1, majorityClass: "simple", secret: false, rev: 1 });
+    expect((await s2.state()).problems.filter((x) => x.includes("(point_added)")).length).toBe(1); // only the earlier one
   });
 });
 
