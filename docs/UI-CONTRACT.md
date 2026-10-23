@@ -40,3 +40,15 @@ Step 1 screen collects the four milestones (start, voting start, voting end, end
 * **Voter phone**: open the link, tick the terms, read the code aloud, type the officer's code, then the ballot. Keep the returned token only in memory / session storage; it works on this phone only.
 * **Paper desk**: Print ballot (render `svg`, draw the QR matrix of `qrText` into `<g id="qr">`, print); Capture: use the camera, find the four corner marks, straighten, decode the QR, run `detectTicks` (engine), show each box as ticked / empty / UNCERTAIN, let the officer fix uncertain ones, send `marks` + the photo's SHA-256 (+ optional encrypted photo); Void; Finish counting.
 * **Ballot designer**: live preview of the paper (`paper/preview`) and of the phone ballot.
+
+
+## Attendance Monitor screen (owner directive 2026-10-23): one screen, tick-boxes, nothing to type except the name
+Order on the screen, top to bottom; each line is a big tick-box (min 48 px). The "Mark present" button stays grey until every required box is ticked, and the grey button says which box is missing.
+1. Flat picker (search by flat or house number) -> shows the name already on the list and the published vote weightage.
+2. [ ] I have seen the person's proof (ID or a known face)   - `checks.proof_seen`
+3. [ ] The name matches the flat in the list  - `name_matches`  (if not: button "Send change to Organizer/Host" instead of editing)
+4. [ ] This person lives in, or holds the vote for, this flat  - `flat_matches` (proxy: second box "Proxy" + holder reference)
+5. [ ] The person agreed to the photo and to the record - `person_agrees` (only when the event uses photos); then the camera opens: **Take photo** -> `POST /attendance/photo` with `photoBase64` (JPEG, resized on the phone to under 400 KB), `capturedAtMs`, `geo` from the browser's location (`lat`, `lon`, `accuracyM`) or `geoError`, `consent: true`. The screen shows the saved time and place, and a yellow note for any flag (`no_location`, `far_from_network`, `time_off`, `bad_location`) in plain words.
+6. [ ] The person has checked their name, flat and status on their own phone - `person_checked`; both sides then enter the 4-digit number.
+7. **Mark present** -> `POST /attendance` with `checks`. If the event requires the check-list (`attendance_checklist`) the API refuses until all required boxes are true and (with photos on) a photo exists for the flat.
+Team screen (Organizer/Host): "Hosts 3 of 5 · Attendance Monitors 7 of 10 (up to 15 if the Organizer or Hosts also monitor)" from `GET /api/events/:id/team`; the Add button greys out when `canAdd` is false, with the reason in words. Tick-box "I will also act as an Attendance Monitor" on the Organizer's and each Host's own row.

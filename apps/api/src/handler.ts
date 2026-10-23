@@ -2,7 +2,7 @@
 // Routes and rules: docs/design/API.md. There is no DELETE route and no route that edits history.
 import rulePacks from "../../../docs/research/rule-packs.json";
 import {
-  type Bytes, BRAND, journeyFor, buildRollTemplateXlsx, readPdfTable, parseRollTable, diffRoll, type SheetFlat, HANDSHAKE_MAX_TRIES, HANDSHAKE_TTL_MS, codeHash, openLink, voterConfirm, monitorConfirm, type Handshake, hmacHex, newSerial, paperToken, parsePaperToken, paperLayout, renderPaperSvg, LANGUAGES, coverage, dictionary, isLang, playbook,
+  type Bytes, BRAND, journeyFor, ROLE_LIMITS, roleCounts, appointProblem, missingChecks, geoFlags, buildRollTemplateXlsx, readPdfTable, parseRollTable, diffRoll, type SheetFlat, HANDSHAKE_MAX_TRIES, HANDSHAKE_TTL_MS, codeHash, openLink, voterConfirm, monitorConfirm, type Handshake, hmacHex, newSerial, paperToken, parsePaperToken, paperLayout, renderPaperSvg, LANGUAGES, coverage, dictionary, isLang, playbook,
   defaultSchedule, validateSchedule, type Schedule, TERMS_VERSION, TERMS_TEXT, termsSha256, priceFor, isCountry, formatPrice, renderReportPdf, pdfSha256, extractSeal, normalizeBallotDesign, defaultBallotDesign, ballotInstruction, type Actor,
   CUSTOM_WORLD_PACK, OPTIONS, PARAMS, RuleError, aesDecrypt, aesEncrypt, applyRecommended, b64url, buildReportModel, canAmendPoint, canChangeRoll, canChangeRule, canDo, canVote, cloneTemplate,
   deriveKey32, effectiveWeight, extractData, fromB64url, issuePasscode, loadAllPacks, maskEmail, maskName, maskPhone, newRuleSet, parseMajority, progressOf, proxyAllowed, randomHex, renderReportHtml,
@@ -380,6 +380,41 @@ route("POST", "/api/events/:id/roll/flat", async (c, m) => {
   const r = await setRoll(c, tx, st, pid, next, { source: "manual", reason, op, diff }, op === "add" && name ? [{ flatNo, weight: 1, eligible: true, name, mobile: "", email: "", sheetRow: 0 }] : []);
   return json({ ok: true, rev: r.rev, flats: next.length, change: diff });
 });
+// ---- team size limits, and the Attendance Monitor's photo of the attendee (with time and place)
+route("GET", "/api/events/:id/team", async (c, m) => {
+  const { tx } = await staff(c, m[1]!); const st = await tx.st(); const n = roleCounts(st.people.values());
+  return json({ counts: n, limits: ROLE_LIMITS, canAdd: { host: n.hostsInclOrganizer < ROLE_LIMITS.hostsInclOrganizer, attendance_officer: n.monitorsOnly < ROLE_LIMITS.monitorsOnly },
+    note: "At most 1 Organizer and 5 Hosts (the Organizer counts as one). At most 10 Attendance Monitors besides them; the Organizer and Hosts may also act as monitors, so up to 15 monitors in all." });
+});
+const PHOTO_MAX = 400_000;
+route("POST", "/api/events/:id/attendance/photo", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!, "mark_attendance"); const st = await tx.st();
+  if (!st.rules?.options.attendance_photo) throw err(403, "evidence_off", "Photos are switched off for this event. Ask the Organizer to tick \"Photo of the attendee\".");
+  const flatNo = str(c.body.flatNo, "flatNo", 1, 24); if (!st.roll.some((f) => f.flatNo === flatNo)) throw err(400, "no_flat", "That flat is not on the voting list.");
+  if (c.body.consent !== true) throw err(400, "consent_needed", "Ask the person first. Tick \"The person agreed to the photo\" before taking it.");
+  const raw = typeof c.body.photoBase64 === "string" ? c.body.photoBase64.replace(/^data:[^,]*,/, "").replace(/\s+/g, "") : ""; if (!raw) throw err(400, "no_photo", "Please take the photo.");
+  let bytes: Uint8Array; try { bytes = Uint8Array.from(atob(raw), (ch) => ch.charCodeAt(0)); } catch { throw err(400, "bad_photo", "The photo could not be read. Please take it again."); }
+  if (bytes.length > PHOTO_MAX) throw err(413, "photo_too_big", "The photo is too big. Take it again at a lower size (under 400 KB).");
+  const mime = bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff ? "image/jpeg" : bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4e && bytes[3] === 0x47 ? "image/png" : "";
+  if (!mime) throw err(400, "not_a_photo", "Only a JPEG or PNG photo is accepted.");
+  const num = (v: unknown) => (typeof v === "number" && Number.isFinite(v) ? v : null);
+  const g = c.body.geo && typeof c.body.geo === "object" ? { lat: num(c.body.geo.lat), lon: num(c.body.geo.lon), accuracyM: num(c.body.geo.accuracyM) } : null;
+  const client = g && g.lat !== null && g.lon !== null ? { lat: g.lat, lon: g.lon, accuracyM: g.accuracyM ?? undefined } : null;
+  const nl = num(Number((c.cf as any)?.latitude)), nn = num(Number((c.cf as any)?.longitude)); const net = nl !== null && nn !== null ? { lat: nl, lon: nn } : null;
+  const capturedMs = num(c.body.capturedAtMs); const flags = geoFlags(client, net, capturedMs, c.now);
+  const sha = await sha256Hex(bytes as Bytes); const ct = await aesEncrypt(await eventKey(c, tx.eid), raw, tx.eid + "|photo|" + sha);
+  const checks = c.body.checks && typeof c.body.checks === "object" ? Object.fromEntries(Object.entries(c.body.checks).filter(([, v]) => typeof v === "boolean").slice(0, 12)) : null;
+  await tx.add("evidence_filed", ENTRY_ACTOR(st, pid), { flatNo, kind: "photo", sha256: sha, size: bytes.length, capturedMs, hasLocation: !!client, flags, by: pid } as any, (seq) => [
+    c.db.prepare("INSERT INTO attendance_evidence(event_id,flat_no,kind,mime,sha256,size,ct,captured_ms,server_ms,lat,lon,accuracy_m,geo_error,net_lat,net_lon,flags,consent,checks_json,by_pid,log_seq) VALUES(?,?,'photo',?,?,?,?,?,?,?,?,?,?,?,?,?,1,?,?,?)")
+      .bind(tx.eid, flatNo, mime, sha, bytes.length, ct, capturedMs, c.now, client?.lat ?? null, client?.lon ?? null, client?.accuracyM ?? null, optStr(c.body.geoError, "geoError", 80) || null, net?.lat ?? null, net?.lon ?? null, flags.join(","), checks ? JSON.stringify(checks) : null, pid, seq)]);
+  await tx.commit(); return json({ ok: true, sha256: sha, flags, hasLocation: !!client, message: flags.includes("ok") ? "Photo saved with time and place." : "Photo saved. Please look at the notes: " + flags.join(", ") }, 201);
+});
+route("GET", "/api/events/:id/attendance/photos/:evid", async (c, m) => {
+  const { tx } = await staff(c, m[1]!, "read_contacts");
+  const r = await c.db.prepare("SELECT mime, sha256, ct FROM attendance_evidence WHERE id=? AND event_id=?").bind(+m[2]!, tx.eid).first<{ mime: string; sha256: string; ct: string }>(); if (!r) throw err(404, "no_photo", "No such photo.");
+  const b64 = await aesDecrypt(await eventKey(c, tx.eid), r.ct, tx.eid + "|photo|" + r.sha256); const bin = Uint8Array.from(atob(b64), (ch) => ch.charCodeAt(0));
+  return new Response(bin as any, { status: 200, headers: { "content-type": r.mime, "cache-control": "no-store", "x-content-sha256": r.sha256 } });
+});
 function pointInput(b: any, cur?: any) {
   const kindIn = b.kind ?? cur?.kind;
   const kind = ["discussion", "resolution", "election_post"].includes(kindIn) ? (kindIn as string) : (() => { throw err(400, "bad_kind", "kind must be discussion, resolution or election_post."); })();
@@ -431,6 +466,7 @@ route("PUT", "/api/events/:id/points/:pid", async (c, m) => {
 route("POST", "/api/events/:id/people", async (c, m) => {
   const { tx, pid } = await staff(c, m[1]!, "edit_setup"); const st = await tx.st();
   const role = c.body.role as Role; if (!["host", "attendance_officer"].includes(role)) throw err(400, "bad_role", "role must be host or attendance_officer.");
+  { const known = typeof c.body.personId === "string" ? st.people.get(c.body.personId) ?? null : null; const why = appointProblem([...st.people.values()], known, role); if (why) throw err(409, "role_limit", why + " Remove someone first, or give the role to a person who already has another role."); }
   const stmts: D1Stmt[] = []; let target = typeof c.body.personId === "string" ? c.body.personId : "";
   let to = "";
   if (target) { if (!st.people.has(target)) throw err(404, "no_person", "No such person."); to = (await contactOf(c, tx.eid, target)).email; }
@@ -551,9 +587,15 @@ route("POST", "/api/events/:id/attendance", async (c, m) => {
   const method = str(c.body.method ?? "visual", "method", 2, 40), docType = optStr(c.body.docType, "docType", 30) || null, docLast4 = optStr(c.body.docLast4, "docLast4", 4) || null;
   if (docLast4 && !/^[A-Za-z0-9]{1,4}$/.test(docLast4)) throw err(400, "bad_doc", "Only the last 4 characters of an ID are kept.");
   const evidenceHash = optStr(c.body.evidenceHash, "evidenceHash", 64) || null; const present = c.body.present !== false;
+  const checks = c.body.checks && typeof c.body.checks === "object" ? Object.fromEntries(Object.entries(c.body.checks).filter(([, v]) => typeof v === "boolean").slice(0, 12)) as Record<string, boolean> : null;
+  if (present && st.rules?.options.attendance_checklist) {
+    const miss = missingChecks({ attendance_photo: !!st.rules.options.attendance_photo, id_check: !!st.rules.options.id_check }, checks);
+    if (miss.length) throw err(400, "tick_all_boxes", "Please tick every box before marking present: " + miss.map((x) => x.label).join("; ") + ".");
+    if (st.rules.options.attendance_photo && !(await c.db.prepare("SELECT 1 x FROM attendance_evidence WHERE event_id=? AND flat_no=?").bind(tx.eid, flatNo).first())) throw err(400, "photo_first", "Take the photo of the attendee first, then mark present.");
+  }
   const independent = st.people.get(pid)!.roles.includes("attendance_officer");
   const key = await eventKey(c, tx.eid); const ct = await aesEncrypt(key, JSON.stringify({ attendee }), tx.eid + "|att|" + flatNo);
-  await tx.add("attendance_marked", ENTRY_ACTOR(st, pid), { flatNo, mode, method, docType, docLast4, maskedName: maskName(attendee), by: pid, independent, evidenceHash, present },
+  await tx.add("attendance_marked", ENTRY_ACTOR(st, pid), { flatNo, mode, method, docType, docLast4, maskedName: maskName(attendee), by: pid, independent, evidenceHash, present, checks },
     (seq) => [c.db.prepare("INSERT INTO attendance(event_id,flat_no,attendee_masked_name,mode,method,doc_type,doc_last4,marked_by,independent,evidence_hash,supersedes_id,log_seq,at_ms) VALUES(?,?,?,?,?,?,?,?,?,?,NULL,?,?)").bind(tx.eid, flatNo, maskName(attendee), mode, method, docType, docLast4, pid, independent ? 1 : 0, evidenceHash, seq, c.now),
       c.db.prepare("INSERT INTO private_evidence(event_id,flat_no,kind,ct,evidence_hash,created_ms) VALUES(?,?,'attendee_name',?,?,?)").bind(tx.eid, flatNo, ct, evidenceHash ?? "", c.now)]);
   await tx.commit(); return json({ ok: true, independent, present: (await tx.st()).attendance.size });
@@ -924,6 +966,7 @@ async function flatEvidence(c: Ctx, tx: Tx, flatNo: string, full: boolean) {
     handshakes: hs.map((h) => ({ id: h.id, kind: h.kind, createdMs: h.created_ms, voterConfirmedMs: h.voter_confirmed_ms, monitorConfirmedMs: h.monitor_confirmed_ms, completedMs: h.completed_ms, voidedMs: h.voided_ms, wrongTries: { voter: h.tries_voter, officer: h.tries_monitor }, mobileConfirmed: !!h.sms_confirmed_ms, mobile: h.mobile_masked, deviceFingerprint: sh(h.device_hash), browserFingerprint: sh(h.browser_hash) })),
     sessions: ses.map((x) => ({ createdMs: x.created_ms, endedOrExpiresMs: x.expires_ms, deviceFingerprint: sh(x.device_hash), browserFingerprint: sh(x.browser_hash), kind: x.voter_kind })),
     voted, activity,
+    photos: (await c.db.prepare("SELECT id, mime, sha256, size, captured_ms, server_ms, lat, lon, accuracy_m, geo_error, net_lat, net_lon, flags, by_pid, checks_json, log_seq FROM attendance_evidence WHERE event_id=? AND flat_no=? ORDER BY id").bind(eid, flatNo).all<any>()).results.map((x) => ({ id: x.id, mime: x.mime, sha256: x.sha256, size: x.size, takenAtMs: x.captured_ms, savedAtMs: x.server_ms, place: x.lat === null ? null : { lat: x.lat, lon: x.lon, accuracyM: x.accuracy_m }, placeError: x.geo_error, networkPlace: x.net_lat === null ? null : { lat: x.net_lat, lon: x.net_lon }, flags: String(x.flags).split(","), takenBy: x.by_pid, checks: x.checks_json ? JSON.parse(x.checks_json) : null, logSeq: x.log_seq, url: `/api/events/${eid}/attendance/photos/${x.id}` })),
     resumes: tx.entries.filter((e) => e.entry.type === "session_resumed" && (e.entry.payload as any).flatNo === flatNo).map((e) => ({ seq: e.entry.seq, atMs: e.entry.ts, via: (e.entry.payload as any).via, deviceChanged: (e.entry.payload as any).deviceChanged })),
   };
 }

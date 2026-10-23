@@ -5,6 +5,7 @@ import { sha256Hex } from "./crypto";
 import type { SignedEntry } from "./log";
 import { effectiveForPoint, type RuleSet } from "./rules";
 import { defaultBallotDesign, normalizeBallotDesign } from "./ballot";
+import { roleCounts, roleLimitProblem } from "./attendance";
 import { defaultSchedule, validateSchedule, type Schedule } from "./schedule";
 import { aggregate, computeQuorum, effectiveWeight, tallyAgg, type Aggregate, type Flat, type PointDef, type PointTally, type QuorumResult } from "./tally";
 
@@ -112,7 +113,8 @@ export async function replayLog(entries: SignedEntry[]): Promise<EventState> {
         ex.appointedBy[role] = p.appointedBy ?? null; ex.appointedSeq[role] = seq;
         if (p.maskedName) ex.maskedName = p.maskedName;
         if (p.maskedEmail) ex.maskedEmail = p.maskedEmail;
-        s.people.set(p.pid, ex); s.roleLog.push({ seq, ts: e.ts, action: "appoint", pid: p.pid, role, by: p.appointedBy ?? null }); break;
+        s.people.set(p.pid, ex); { const why = roleLimitProblem(roleCounts(s.people.values())); if (why) bad(seq, why); }
+        s.roleLog.push({ seq, ts: e.ts, action: "appoint", pid: p.pid, role, by: p.appointedBy ?? null }); break;
       }
       case "role_removed": { const pr = s.people.get(p.pid); if (pr) pr.roles = pr.roles.filter((r) => r !== p.role); s.roleLog.push({ seq, ts: e.ts, action: "remove", pid: p.pid, role: p.role, by: p.removedBy ?? null }); break; }
       case "email_verified": { const pr = s.people.get(p.pid); if (pr) pr.verified = true; else bad(seq, "email_verified for unknown person"); break; }

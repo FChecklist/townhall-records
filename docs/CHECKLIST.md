@@ -85,3 +85,9 @@ Evidence files are in `docs/evidence/`. Reproduce: `bun test --isolate --timeout
 ## Flat list from PDF (owner directive, 2026-10-23)
 - [x] Excel template download, fill, Save as PDF, upload PDF only; preview with problems by flat; confirm code; PDF + hash kept; manual add/change/remove with reason; all logged - `rollsheet.test.ts`, `rollimport.test.ts`
 - [~] the PDF reader is tested on PDFs built like Excel's output (flipped transform, compressed streams, Identity-H + ToUnicode, multi-page, repeated heading). **Not yet tried on a real file saved by Excel / LibreOffice / Google Sheets**: that is the first thing to test when the UI exists. Scans and photos are refused by design.
+
+## Team limits, attendance photo, tick-boxes (owner directive, 2026-10-23)
+- [x] 1 Organizer / 5 Hosts incl. Organizer / 10 monitors (+ Organizer and Hosts may monitor = 15), enforced on appointment and on replay - `apps/api/test/team.test.ts`
+- [x] photo of the attendee by the monitor with time, lat/long (phone) and network place, consent required, encrypted, hash + flags in the public log - `team.test.ts`
+- [x] tick-box list required before marking present (option `attendance_checklist`) - `team.test.ts`; screen designed in `docs/UI-CONTRACT.md`
+- [~] the phone's place can be faked; the network place is a rough cross-check (flags). Not proof. UI not built. No mutation entries yet for these routes.
