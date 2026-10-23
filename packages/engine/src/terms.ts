@@ -3,10 +3,10 @@
 import { sha256Hex } from "./crypto";
 import { BRAND } from "./brand";
 
-export const TERMS_VERSION = "2026-10-23.2";
+export const TERMS_VERSION = "2026-10-23.3";
 export const TERMS_TEXT = `By using ${BRAND} you agree to the following.
 
-1. Everything is recorded. Every action you take on this service is written to a tamper-evident record. For each action we also keep, privately and encrypted: your IP address, a device identifier created by your browser, your browser type and the time. This is required, for everyone, so that the meeting or election can be checked afterwards.
+1. Everything is recorded. Every action you take on this service is written to a tamper-evident record. For each action we also keep, privately and encrypted: your IP address, a device identifier and a browser-session identifier created by your browser, a small cookie that lets us recognise your browser when you open your link again, your browser type, screen, language and time-zone settings, the approximate place the network reports for your address, and the time. This is required, for everyone, so that the meeting or election can be checked afterwards.
 
 2. Who can see it. The public page shows what happened, by flat number, and only a short coded fingerprint of the IP address and device for each entry, never the address itself. The society's Organizer and Hosts can see a shortened form (part of the IP address, a short device code). The full details are shown only to the platform owner when a society, a court or a law-enforcement authority lawfully asks for them, and every such viewing is itself recorded on the public page.
 

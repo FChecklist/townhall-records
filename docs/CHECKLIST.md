@@ -75,3 +75,9 @@ Evidence files are in `docs/evidence/`. Reproduce: `bun test --isolate --timeout
 - end-to-end simulation: 240 events, 35,184 API calls, 26,287 checks, 0 failures (`sim-stack.txt`)
 - performance: vote p50 5 ms, p95 15 ms; replay of 736 entries 9 ms; verify 366 ms; report 588 KB (`perf.txt`, PERF.md)
 - type check: 0 errors (`typecheck.txt`)
+
+## Resume and per-person evidence (owner directive, 2026-10-23)
+- [x] same completed link on the same phone or browser (device id OR server-issued cookie) returns a fresh bound session and the exact journey step; the earlier session ends; logged as `session_resumed`; other phones get 403 `not_recognised` - `apps/api/test/resume.test.ts`
+- [x] every request stores IP, device id, browser-session id, cookie id, user agent, client hints, screen/time zone/language, network place, all encrypted; blind indexes `bsid_idx`/`bid_idx` (migration 0006)
+- [x] `GET /api/vote/me`, `GET /api/events/:id/flats/:flat/evidence` (shortened values), `GET /api/super/events/:id/flats/:flat/dossier?reason=` (full values, reason logged)
+- [~] no mutation entries yet for these routes; the browser client must send `x-browser-session` and `x-client-info` (UI not built)

@@ -38,7 +38,7 @@ export const err = (status: number, code: string, message: string, extra?: Recor
 export const json = (o: unknown, status = 200, headers: Record<string, string> = {}) =>
   new Response(JSON.stringify(o), { status, headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store", ...headers } });
 
-export interface Ctx { req: Request; env: Env; db: D1; now: number; url: URL; ip: string; body: any; deviceId: string; auditId?: number; eventId?: string; actor?: { kind: string; ref: string | null }; lastSeq?: number }
+export interface Ctx { req: Request; env: Env; db: D1; now: number; url: URL; ip: string; body: any; deviceId: string; bsid: string; bid: string; client: Record<string, string | number | boolean>; cf: Record<string, string | number> | null; newBid?: string; auditId?: number; eventId?: string; actor?: { kind: string; ref: string | null }; lastSeq?: number }
 
 export async function readBody(req: Request, max = 65_536): Promise<any> {
   if (req.method === "GET" || req.method === "HEAD") return {};
@@ -172,7 +172,11 @@ export async function requireSession(c: Ctx, kind: Session["kind"]): Promise<Ses
   const h = await pepperHash(c.env, "session", m[1]!);
   const r = await c.db.prepare("SELECT * FROM sessions WHERE token_hash=? AND kind=? AND expires_ms>?").bind(h, kind, c.now).first<any>();
   if (!r) throw err(401, "not_signed_in", "Please sign in again.");
-  if (r.device_hash && (!c.deviceId || (await pepperHash(c.env, "dev", c.deviceId)) !== r.device_hash)) throw err(403, "wrong_device", "This session belongs to another phone. Ask the Attendance Officer to link this phone.");
+  if (r.device_hash) { // bound session: this phone (device id) or this browser (server-issued cookie) must be the one that was linked
+    const sameDevice = !!c.deviceId && (await pepperHash(c.env, "dev", c.deviceId)) === r.device_hash;
+    const sameBrowser = !!c.bid && !!r.browser_hash && (await pepperHash(c.env, "bid", c.bid)) === r.browser_hash;
+    if (!sameDevice && !sameBrowser) throw err(403, "wrong_device", "This session belongs to another phone. Ask the Attendance Officer to link this phone.");
+  }
   return { tokenHash: h, kind: r.kind, eventId: r.event_id, personId: r.person_id, flatNo: r.flat_no };
 }
 

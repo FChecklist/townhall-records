@@ -2,7 +2,7 @@
 // Routes and rules: docs/design/API.md. There is no DELETE route and no route that edits history.
 import rulePacks from "../../../docs/research/rule-packs.json";
 import {
-  type Bytes, BRAND, HANDSHAKE_MAX_TRIES, HANDSHAKE_TTL_MS, codeHash, openLink, voterConfirm, monitorConfirm, type Handshake, hmacHex, newSerial, paperToken, parsePaperToken, paperLayout, renderPaperSvg, LANGUAGES, coverage, dictionary, isLang, playbook,
+  type Bytes, BRAND, journeyFor, HANDSHAKE_MAX_TRIES, HANDSHAKE_TTL_MS, codeHash, openLink, voterConfirm, monitorConfirm, type Handshake, hmacHex, newSerial, paperToken, parsePaperToken, paperLayout, renderPaperSvg, LANGUAGES, coverage, dictionary, isLang, playbook,
   defaultSchedule, validateSchedule, type Schedule, TERMS_VERSION, TERMS_TEXT, termsSha256, priceFor, isCountry, formatPrice, renderReportPdf, pdfSha256, extractSeal, normalizeBallotDesign, defaultBallotDesign, ballotInstruction, type Actor,
   CUSTOM_WORLD_PACK, OPTIONS, PARAMS, RuleError, aesDecrypt, aesEncrypt, applyRecommended, b64url, buildReportModel, canAmendPoint, canChangeRoll, canChangeRule, canDo, canVote, cloneTemplate,
   deriveKey32, effectiveWeight, extractData, fromB64url, issuePasscode, loadAllPacks, maskEmail, maskName, maskPhone, newRuleSet, parseMajority, progressOf, proxyAllowed, randomHex, renderReportHtml,
@@ -67,11 +67,27 @@ async function auditKey(c: Ctx, eid: string): Promise<{ key: Bytes; scope: "even
 const routeName = (path: string) => path.replace(/\b[0-9a-f]{32,}\b/g, ":id").replace(/\bp_[0-9a-f]{16}\b/g, ":pid").replace(/\bpt_[0-9a-f]{16}\b/g, ":pt");
 /** Writes one audit row. Choices, receipts and passcodes are never part of it. Throws if the row cannot be written (the caller then refuses the request). */
 async function writeAudit(c: Ctx, phase: "request" | "result", status: number | null): Promise<number> {
-  const eid = c.eventId ?? "platform"; const { key, scope } = await auditKey(c, eid);
-  const ct = await aesEncrypt(key, JSON.stringify({ ip: c.ip, device: c.deviceId || null, ua: (c.req.headers.get("user-agent") ?? "").slice(0, 200) }), "audit|" + eid);
-  const r = await c.db.prepare("INSERT INTO access_audit(at_ms,event_id,phase,ref_id,method,route,actor_kind,actor_ref,status,log_seq,ct,ip_idx,dev_idx,key_scope) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?) RETURNING id")
-    .bind(c.now, eid, phase, phase === "result" ? c.auditId ?? null : null, c.req.method, routeName(c.url.pathname), c.actor?.kind ?? "anon", c.actor?.ref ?? null, status, phase === "result" ? c.lastSeq ?? null : null, ct, (await pepperHash(c.env, "ip", c.ip)).slice(0, 24), (await pepperHash(c.env, "dev", c.deviceId || "none")).slice(0, 24), scope).first<{ id: number }>();
+  const eid = c.eventId ?? "platform"; const { key, scope } = await auditKey(c, eid); const h = c.req.headers;
+  const everything = { ip: c.ip, device: c.deviceId || null, browserSession: c.bsid || null, browserCookie: c.bid || c.newBid || null, ua: (h.get("user-agent") ?? "").slice(0, 300), acceptLanguage: (h.get("accept-language") ?? "").slice(0, 120), referer: (h.get("referer") ?? "").slice(0, 200), secChUa: (h.get("sec-ch-ua") ?? "").slice(0, 200), secChUaPlatform: (h.get("sec-ch-ua-platform") ?? "").slice(0, 40), secChUaMobile: (h.get("sec-ch-ua-mobile") ?? "").slice(0, 8), client: c.client, network: c.cf, forwardedFor: (h.get("x-forwarded-for") ?? "").slice(0, 200) };
+  const ct = await aesEncrypt(key, JSON.stringify(everything), "audit|" + eid);
+  const bidNow = c.bid || c.newBid || "";
+  const r = await c.db.prepare("INSERT INTO access_audit(at_ms,event_id,phase,ref_id,method,route,actor_kind,actor_ref,status,log_seq,ct,ip_idx,dev_idx,key_scope,bsid_idx,bid_idx) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) RETURNING id")
+    .bind(c.now, eid, phase, phase === "result" ? c.auditId ?? null : null, c.req.method, routeName(c.url.pathname), c.actor?.kind ?? "anon", c.actor?.ref ?? null, status, phase === "result" ? c.lastSeq ?? null : null, ct, (await pepperHash(c.env, "ip", c.ip)).slice(0, 24), (await pepperHash(c.env, "dev", c.deviceId || "none")).slice(0, 24), scope,
+      c.bsid ? (await pepperHash(c.env, "bsid", c.bsid)).slice(0, 24) : null, bidNow ? (await pepperHash(c.env, "bid", bidNow)).slice(0, 24) : null).first<{ id: number }>();
   return r!.id;
+}
+/** Whitelist of what the browser may tell us about itself (screen, language, time zone ...). Anything else is dropped. */
+function sanitizeClient(raw: string | null): Record<string, string | number | boolean> {
+  const out: Record<string, string | number | boolean> = {}; if (!raw || raw.length > 1500) return out;
+  let o: any; try { o = JSON.parse(raw); } catch { return out; } if (!o || typeof o !== "object") return out;
+  for (const k of ["screen", "viewport", "dpr", "tz", "lang", "langs", "platform", "touch", "memory", "cores", "colorDepth", "orientation", "online", "connection", "standalone", "cookiesEnabled", "storage", "appVersion"]) { const v = o[k]; if (typeof v === "string") out[k] = v.slice(0, 80); else if (typeof v === "number" && Number.isFinite(v)) out[k] = v; else if (typeof v === "boolean") out[k] = v; }
+  return out;
+}
+function pickCf(req: Request): Record<string, string | number> | null {
+  const cf = (req as any).cf as Record<string, unknown> | undefined; const out: Record<string, string | number> = {};
+  for (const k of ["country", "region", "regionCode", "city", "postalCode", "timezone", "continent", "asn", "asOrganization", "colo", "latitude", "longitude", "tlsVersion", "httpProtocol", "isEUCountry"]) { const v = cf?.[k]; if (typeof v === "string" || typeof v === "number") out[k] = typeof v === "string" ? v.slice(0, 80) : v; }
+  const ipc = req.headers.get("cf-ipcountry"); if (ipc && !out.country) out.country = ipc.slice(0, 4);
+  return Object.keys(out).length ? out : null;
 }
 const maskIp = (ip: string) => (ip.includes(":") ? ip.split(":").slice(0, 2).join(":") + ":*" : ip.split(".").slice(0, 2).join(".") + ".*.*");
 async function readAudit(c: Ctx, eid: string, full: boolean): Promise<any[]> {
@@ -645,6 +661,7 @@ async function hsComplete(c: Ctx, h: Handshake, monitorPid: string): Promise<voi
     c.db.prepare("UPDATE sessions SET expires_ms=? WHERE kind='voter' AND event_id=? AND flat_no=? AND expires_ms>?").bind(c.now, h.eventId, h.flatNo, c.now), // the earlier session of this voter ends
     c.db.prepare("INSERT INTO sessions(token_hash,event_id,person_id,flat_no,kind,voter_kind,device_hash,ua_hash,created_ms,expires_ms) VALUES(?,?,NULL,?,'voter',?,?,?,?,?)").bind(await pepperHash(c.env, "session", token), h.eventId, h.flatNo, h.kind, h.deviceHash, h.uaHash, c.now, c.now + VOTER_TTL),
     c.db.prepare("UPDATE handshakes SET completed_ms=?, voter_token=? WHERE id=?").bind(c.now, token, h.id),
+    c.db.prepare("UPDATE sessions SET browser_hash=(SELECT browser_hash FROM handshakes WHERE id=?) WHERE token_hash=?").bind(h.id, await pepperHash(c.env, "session", token)),
   ]);
 }
 route("POST", "/api/events/:id/handshakes", async (c, m) => {
@@ -682,9 +699,24 @@ route("POST", "/api/events/:id/handshakes/:hid/confirm", async (c, m) => {
 });
 route("GET", "/api/h/:token", async (c, m) => {
   let h = await hsByToken(c, m[1]!); if (!c.deviceId) throw err(400, "device_required", "A device identifier is required.");
-  const res = openLink(h, c.now, await pepperHash(c.env, "dev", c.deviceId), (await pepperHash(c.env, "ua", c.req.headers.get("user-agent") ?? "")).slice(0, 24), (await pepperHash(c.env, "ip", c.ip)).slice(0, 24));
+  const devH = await pepperHash(c.env, "dev", c.deviceId); const bidNow = c.bid || (c.newBid = randomHex(16)); const bidH = await pepperHash(c.env, "bid", bidNow);
+  const row = await c.db.prepare("SELECT browser_hash FROM handshakes WHERE id=?").bind(h.id).first<{ browser_hash: string | null }>();
+  const byDevice = !!h.deviceHash && h.deviceHash === devH, byCookie = !!c.bid && !!row?.browser_hash && row.browser_hash === bidH;
+  if (h.completedMs) { // the same link opened again after check-in: recognise the person and put them back where they left
+    if (!byDevice && !byCookie) throw err(403, "not_recognised", "This link was used on another phone. Ask the Attendance Officer to link this phone.");
+    const tx = await Tx.load(c, h.eventId); const st = await tx.st(); const token = randomHex(32);
+    await tx.add("session_resumed", { flat: h.flatNo }, { flatNo: h.flatNo, handshakeId: h.id, via: byDevice && byCookie ? "device_and_browser" : byDevice ? "device" : "browser_cookie", deviceChanged: !byDevice });
+    await tx.commit([
+      c.db.prepare("UPDATE sessions SET expires_ms=? WHERE kind='voter' AND event_id=? AND flat_no=? AND expires_ms>?").bind(c.now, h.eventId, h.flatNo, c.now), // the earlier session ends: one live session per voter
+      c.db.prepare("INSERT INTO sessions(token_hash,event_id,person_id,flat_no,kind,voter_kind,device_hash,ua_hash,browser_hash,created_ms,expires_ms) VALUES(?,?,NULL,?,'voter',?,?,?,?,?,?)").bind(await pepperHash(c.env, "session", token), h.eventId, h.flatNo, h.kind, devH, (await pepperHash(c.env, "ua", c.req.headers.get("user-agent") ?? "")).slice(0, 24), row?.browser_hash ?? bidH, c.now, c.now + VOTER_TTL),
+    ]);
+    c.eventId = h.eventId; c.actor = { kind: "voter", ref: h.flatNo };
+    return json({ resume: true, token, flatNo: h.flatNo, kind: h.kind, journey: journeyFor(await tx.st(), h.flatNo, c.now), recognisedBy: byDevice && byCookie ? "device_and_browser" : byDevice ? "device" : "browser_cookie" });
+  }
+  if (h.deviceHash && !byDevice && byCookie) h = { ...h, deviceHash: devH }; // same browser, device id was cleared: keep the person, adopt the new device id
+  const res = openLink(h, c.now, devH, (await pepperHash(c.env, "ua", c.req.headers.get("user-agent") ?? "")).slice(0, 24), (await pepperHash(c.env, "ip", c.ip)).slice(0, 24));
   if (!res.ok) throw hsError(res.reason);
-  h = res.h; await hsSave(c, h);
+  h = res.h; await hsSave(c, h); if (!row?.browser_hash) await c.db.prepare("UPDATE handshakes SET browser_hash=? WHERE id=?").bind(bidH, h.id).run();
   const tx = await Tx.load(c, h.eventId); const st = await tx.st(); const codes = await hsCodes(c, h.id);
   let smsLink: string | null = null; // optional number check: the voter sends an SMS from their own phone to the OFFICER's phone (no cost to the platform)
   if (h.mobileFp) { try { const ph = (await contactOf(c, h.eventId, h.monitorPid)).phone.replace(/[^\d+]/g, ""); if (ph) smsLink = `sms:${ph}?body=${encodeURIComponent("AOA " + h.id.slice(3, 9))}`; } catch { /* no officer phone known */ } }
@@ -800,6 +832,55 @@ route("GET", "/api/guide/:role", async (c, m) => {
   const eid = c.url.searchParams.get("event"); let current: string | null = null;
   if (eid && /^[0-9a-f]{32}$/.test(eid) && m[1] === "organizer") { const pr = progressOf(await (await Tx.load(c, eid)).st()); current = pr.currentId; return json({ role: m[1], lang, steps: steps.map((s) => ({ ...s, status: pr.steps.find((x) => x.id === s.id)?.status ?? "todo" })), current, percent: pr.percent }); }
   return json({ role: m[1], lang, steps, current });
+});
+
+// ------------------------------------------------------------------------------------------------ resume and evidence per person
+async function lastSeen(c: Ctx, eid: string, flatNo: string) {
+  const r = await c.db.prepare("SELECT route, at_ms, status FROM access_audit WHERE event_id=? AND actor_kind='voter' AND actor_ref=? AND phase='result' AND route NOT LIKE '/api/vote/resume%' ORDER BY id DESC LIMIT 1").bind(eid, flatNo).first<any>();
+  return r ? { route: r.route, atMs: r.at_ms, status: r.status } : null;
+}
+route("GET", "/api/vote/resume", async (c) => {
+  const s = await requireSession(c, "voter"); const st = await (await Tx.load(c, s.eventId!)).st();
+  return json({ journey: journeyFor(st, s.flatNo!, c.now), lastSeen: await lastSeen(c, s.eventId!, s.flatNo!) });
+});
+/** Everything the system knows about one flat's participation, built from the log and the audit trail. */
+async function flatEvidence(c: Ctx, tx: Tx, flatNo: string, full: boolean) {
+  const eid = tx.eid, st = await tx.st();
+  const ledger = (await c.db.prepare("SELECT l.point_id, l.voted_ms, l.channel, l.log_seq, l.kind FROM voter_ledger l WHERE l.event_id=? AND l.flat_no=? ORDER BY l.id").bind(eid, flatNo).all<any>()).results;
+  const hs = (await c.db.prepare("SELECT id, kind, created_ms, completed_ms, voter_confirmed_ms, monitor_confirmed_ms, tries_voter, tries_monitor, sms_confirmed_ms, mobile_masked, device_hash, browser_hash, voided_ms FROM handshakes WHERE event_id=? AND flat_no=? ORDER BY created_ms").bind(eid, flatNo).all<any>()).results;
+  const ses = (await c.db.prepare("SELECT created_ms, expires_ms, device_hash, browser_hash, voter_kind FROM sessions WHERE event_id=? AND flat_no=? AND kind='voter' ORDER BY created_ms").bind(eid, flatNo).all<any>()).results;
+  const att = (await c.db.prepare("SELECT at_ms, mode, method, marked_by, independent, log_seq FROM attendance WHERE event_id=? AND flat_no=? ORDER BY id").bind(eid, flatNo).all<any>()).results;
+  const devs = [...new Set([...hs, ...ses].map((x) => (x.device_hash as string | null)?.slice(0, 24)).filter(Boolean))] as string[], bids = [...new Set([...hs, ...ses].map((x) => (x.browser_hash as string | null)?.slice(0, 24)).filter(Boolean))] as string[];
+  const q = "SELECT * FROM access_audit WHERE event_id=? AND phase='result' AND (actor_ref=? " + (devs.length ? `OR dev_idx IN (${devs.map(() => "?").join(",")}) ` : "") + (bids.length ? `OR bid_idx IN (${bids.map(() => "?").join(",")}) ` : "") + ") ORDER BY id LIMIT 800";
+  const rows = (await c.db.prepare(q).bind(eid, flatNo, ...devs, ...bids).all<any>()).results;
+  const key = await auditKey(c, eid).then((k) => k.key).catch(() => null);
+  const decode = async (r: any) => { try { const k = r.key_scope === "event" ? await eventKey(c, eid) : await deriveKey32(c.env.MASTER_SECRET, "platform-audit"); return JSON.parse(await aesDecrypt(k, r.ct, "audit|" + eid)); } catch { return null; } };
+  void key;
+  const view = (d: any) => (!d ? { erased: true } : full ? d : { ip: maskIp(d.ip), device: String(d.device ?? "").slice(0, 6) + "...", browserSession: d.browserSession ? String(d.browserSession).slice(0, 4) + "..." : null, browser: String(d.ua ?? "").split(/[ /]/)[0], country: d.network?.country ?? null });
+  const activity = []; const byLogSeq = new Map<number, any>();
+  for (const r of rows) { const a = { id: r.id, atMs: r.at_ms, method: r.method, route: r.route, actor: r.actor_kind, status: r.status, logSeq: r.log_seq, ipFingerprint: r.ip_idx.slice(0, 8), deviceFingerprint: r.dev_idx.slice(0, 8), browserSessionFingerprint: r.bsid_idx?.slice(0, 8) ?? null, browserCookieFingerprint: r.bid_idx?.slice(0, 8) ?? null, ...view(await decode(r)) }; activity.push(a); if (r.log_seq && r.route === "/api/vote/cast" && r.status === 201) byLogSeq.set(r.log_seq, a); }
+  const journey = journeyFor(st, flatNo, c.now);
+  const voted = ledger.map((l) => { const p = st.points.get(l.point_id)!; return { pointId: l.point_id, number: p?.def.number, title: p?.def.title, secret: !!p?.def.secret, votedMs: l.voted_ms, channel: l.channel, kind: l.kind, logSeq: l.log_seq, castRequest: byLogSeq.get(l.log_seq) ?? null, choice: p && !p.def.secret ? (st.ledger.get(l.point_id)?.get(flatNo)?.choices ?? null) : "secret ballot: never recorded with the person" }; });
+  const sh = (h: string | null) => (h ? h.slice(0, 8) : null);
+  return {
+    flatNo, journey, statement: voted.length ? `Flat ${flatNo} is recorded as having voted on ${voted.map((v) => "point " + v.number).join(", ")}.` : `Flat ${flatNo} has not voted on any point yet.`,
+    attendance: att.map((a) => ({ atMs: a.at_ms, mode: a.mode, method: a.method, independent: !!a.independent, logSeq: a.log_seq })),
+    handshakes: hs.map((h) => ({ id: h.id, kind: h.kind, createdMs: h.created_ms, voterConfirmedMs: h.voter_confirmed_ms, monitorConfirmedMs: h.monitor_confirmed_ms, completedMs: h.completed_ms, voidedMs: h.voided_ms, wrongTries: { voter: h.tries_voter, officer: h.tries_monitor }, mobileConfirmed: !!h.sms_confirmed_ms, mobile: h.mobile_masked, deviceFingerprint: sh(h.device_hash), browserFingerprint: sh(h.browser_hash) })),
+    sessions: ses.map((x) => ({ createdMs: x.created_ms, endedOrExpiresMs: x.expires_ms, deviceFingerprint: sh(x.device_hash), browserFingerprint: sh(x.browser_hash), kind: x.voter_kind })),
+    voted, activity,
+    resumes: tx.entries.filter((e) => e.entry.type === "session_resumed" && (e.entry.payload as any).flatNo === flatNo).map((e) => ({ seq: e.entry.seq, atMs: e.entry.ts, via: (e.entry.payload as any).via, deviceChanged: (e.entry.payload as any).deviceChanged })),
+  };
+}
+route("GET", "/api/vote/me", async (c) => {
+  const s = await requireSession(c, "voter"); const tx = await Tx.load(c, s.eventId!); return json(await flatEvidence(c, tx, s.flatNo!, false));
+});
+route("GET", "/api/events/:id/flats/:flat/evidence", async (c, m) => {
+  const { tx } = await staff(c, m[1]!, "read_contacts"); return json(await flatEvidence(c, tx, decodeURIComponent(m[2]!), false)); // shortened addresses and ids for office-bearers
+});
+route("GET", "/api/super/events/:id/flats/:flat/dossier", async (c, m) => {
+  await requireSession(c, "super"); const tx = await Tx.load(c, m[1]!); const reason = str(c.url.searchParams.get("reason"), "reason", 5, 300); const flat = decodeURIComponent(m[2]!);
+  await tx.add("platform_action", { system: true }, { action: "dossier_read", reason, flatNo: flat }, (seq) => [c.db.prepare("INSERT INTO super_admin_actions(at_ms,actor_hash,action,event_id,reason,log_seq) VALUES(?,?,?,?,?,?)").bind(c.now, "super", "dossier_read", tx.eid, reason, seq)]);
+  await tx.commit(); return json(await flatEvidence(c, tx, flat, true)); // full values; the viewing is on the public page
 });
 
 // ------------------------------------------------------------------------------------------------ voter
@@ -921,7 +1002,7 @@ export async function handle(req: Request, env: Env, now = Date.now()): Promise<
     if (!hit) throw err(404, "not_found", "Not found.");
     const body = await readBody(req, url.pathname.endsWith("/evidence") ? 400_000 : 65_536);
     const dev = req.headers.get("x-device-id") ?? "";
-    const c: Ctx = { req, env, db: env.DB, now, url, ip: (req.headers.get("cf-connecting-ip") ?? "local").slice(0, 64), body, deviceId: DEVICE_RE.test(dev) ? dev : "" };
+    const c: Ctx = { req, env, db: env.DB, now, url, ip: (req.headers.get("cf-connecting-ip") ?? "local").slice(0, 64), body, deviceId: DEVICE_RE.test(dev) ? dev : "", bsid: /^[A-Za-z0-9_-]{8,64}$/.test(req.headers.get("x-browser-session") ?? "") ? req.headers.get("x-browser-session")! : "", bid: /(?:^|;\s*)tw_bid=([0-9a-f]{32})/.exec(req.headers.get("cookie") ?? "")?.[1] ?? "", client: sanitizeClient(req.headers.get("x-client-info")), cf: pickCf(req) };
     if (req.method !== "GET") await rateLimit(c, "any-ip", c.ip, 600, 60); else await rateLimit(c, "read-ip", c.ip, 240, 60);
     c.eventId = /\/api\/(?:events|r|vote)\/([0-9a-f]{32})/.exec(url.pathname)?.[1] ?? (typeof body.eventId === "string" && /^[0-9a-f]{32}$/.test(body.eventId) ? body.eventId : undefined);
     const bearer = /^Bearer ([0-9a-f]{64})$/.exec(req.headers.get("authorization") ?? "");
@@ -936,6 +1017,7 @@ export async function handle(req: Request, env: Env, now = Date.now()): Promise<
     try { res = await hit.h(c, url.pathname.match(hit.re)!); status = res.status; }
     catch (e3: any) { status = e3 instanceof ApiError ? e3.status : String(e3?.message ?? "").startsWith("log payload not masked") ? 400 : 500; if (mustAudit) await writeAudit(c, "result", status).catch(() => {}); throw e3; }
     if (mustAudit) await writeAudit(c, "result", status).catch((e4) => console.error("audit result failed", String(e4)));
+    if (c.newBid) res.headers.append("set-cookie", `tw_bid=${c.newBid}; Path=/; Max-Age=31536000; HttpOnly; Secure; SameSite=Lax`); // recognises this browser when the same link is opened again
     return res;
   } catch (e: any) {
     if (e instanceof ApiError) return json({ error: e.code, message: e.message, ...e.extra }, e.status);
