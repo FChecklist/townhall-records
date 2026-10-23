@@ -1,0 +1,2 @@
+ok   log chain: random edit, drop, swap, duplicate, forge or truncation is always detected (and the untouched chain always verifies): 6000 cases, 0 failures, 59208 ms
+ok   masking: no complete e-mail, phone number or name survives; the originals are always caught by the scanner: 1000000 cases, 0 failures, 76006 ms

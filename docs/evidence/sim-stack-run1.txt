@@ -1,0 +1,68 @@
+... 10/240 events, 2053 API calls, 1424 checks, 0 failures
+... 20/240 events, 3402 API calls, 2430 checks, 0 failures
+... 30/240 events, 5027 API calls, 3864 checks, 0 failures
+... 40/240 events, 6302 API calls, 4678 checks, 0 failures
+... 50/240 events, 7358 API calls, 5553 checks, 0 failures
+... 60/240 events, 8747 API calls, 6471 checks, 0 failures
+... 70/240 events, 9966 API calls, 7270 checks, 0 failures
+... 80/240 events, 10969 API calls, 7989 checks, 0 failures
+... 90/240 events, 12013 API calls, 8781 checks, 0 failures
+FAIL event 97 crashed: undefined is not an object (evaluating 'e.eid')
+... 100/240 events, 13406 API calls, 9905 checks, 1 failures
+... 110/240 events, 14741 API calls, 11032 checks, 1 failures
+FAIL event 112 crashed: undefined is not an object (evaluating 'e.eid')
+... 120/240 events, 15630 API calls, 11680 checks, 2 failures
+... 130/240 events, 17111 API calls, 13024 checks, 2 failures
+FAIL event 135 pdf leaks {"kind":"phone","sample":"5833036363"}
+... 140/240 events, 18993 API calls, 14499 checks, 3 failures
+... 150/240 events, 20382 API calls, 15420 checks, 3 failures
+... 160/240 events, 22192 API calls, 16868 checks, 3 failures
+... 170/240 events, 23452 API calls, 17745 checks, 3 failures
+... 180/240 events, 24691 API calls, 18681 checks, 3 failures
+... 190/240 events, 26074 API calls, 19707 checks, 3 failures
+... 200/240 events, 27106 API calls, 20492 checks, 3 failures
+... 210/240 events, 28616 API calls, 21639 checks, 3 failures
+... 220/240 events, 30591 API calls, 23226 checks, 3 failures
+... 230/240 events, 31760 API calls, 24217 checks, 3 failures
+... 240/240 events, 33168 API calls, 25256 checks, 3 failures
+{
+ "seed": 11,
+ "events": 240,
+ "completed": 238,
+ "apiCalls": 33168,
+ "checks": 25256,
+ "failures": 3,
+ "seconds": 632,
+ "upperBoundPerCheck95": 0.00011861467665323052,
+ "upperBoundPerEvent95": 0.012587110393083991,
+ "stats": {
+  "check_in_direct": 1532,
+  "check_in_handshake": 1469,
+  "online_vote": 2733,
+  "double_vote_refused": 2733,
+  "results_checked": 375,
+  "tamper_probes": 716,
+  "mode_online": 85,
+  "kind_meeting": 131,
+  "pack_in-generic-rwa-societies-act-1860": 29,
+  "paper_issued": 2564,
+  "paper_counted": 2352,
+  "mode_either": 68,
+  "kind_election": 107,
+  "pack_in-mh-coop-society": 25,
+  "pack_us-ca": 32,
+  "mode_printed": 85,
+  "pack_custom-world": 25,
+  "pack_us-tx": 25,
+  "paper_invalid": 98,
+  "pack_in-up-aoa": 23,
+  "pack_us-hoa-generic": 39,
+  "quorum_refused": 44,
+  "pack_us-fl": 40
+ },
+ "firstFailures": [
+  "event 97: crashed: undefined is not an object (evaluating 'e.eid')",
+  "event 112: crashed: undefined is not an object (evaluating 'e.eid')",
+  "event 135: pdf leaks {\"kind\":\"phone\",\"sample\":\"5833036363\"}"
+ ]
+}

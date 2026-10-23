@@ -1,0 +1,80 @@
+... 10/240 events, 1531 API calls, 1173 checks, 0 failures
+... 20/240 events, 2985 API calls, 2130 checks, 0 failures
+... 30/240 events, 4755 API calls, 3420 checks, 0 failures
+... 40/240 events, 6422 API calls, 4659 checks, 0 failures
+... 50/240 events, 7716 API calls, 5725 checks, 0 failures
+... 60/240 events, 8772 API calls, 6525 checks, 0 failures
+... 70/240 events, 9988 API calls, 7389 checks, 0 failures
+... 80/240 events, 11434 API calls, 8426 checks, 0 failures
+... 90/240 events, 13237 API calls, 9738 checks, 0 failures
+... 100/240 events, 14489 API calls, 10533 checks, 0 failures
+FAIL event 107 crashed: TypeError: undefined is not an object (evaluating 'e.eid') |     at verifyChain (C:\ct\aoa-rwa\packages\engine\src\log.ts:44:9) |     at async verifyReportHtml (C:\ct\aoa-rwa\packages\engine\src\model.ts:147:23) |     at async oneEvent (C:\ct\aoa-rwa\scripts\sim-stack.ts:169:178)
+... 110/240 events, 15957 API calls, 11658 checks, 1 failures
+... 120/240 events, 17536 API calls, 12714 checks, 1 failures
+... 130/240 events, 18956 API calls, 13770 checks, 1 failures
+... 140/240 events, 20576 API calls, 14999 checks, 1 failures
+... 150/240 events, 21793 API calls, 15943 checks, 1 failures
+... 160/240 events, 23213 API calls, 16968 checks, 1 failures
+... 170/240 events, 24990 API calls, 18342 checks, 1 failures
+... 180/240 events, 26586 API calls, 19516 checks, 1 failures
+... 190/240 events, 27785 API calls, 20434 checks, 1 failures
+... 200/240 events, 29188 API calls, 21577 checks, 1 failures
+... 210/240 events, 30752 API calls, 22852 checks, 1 failures
+m-stack.ts:167:178)
+... 110/240 events, 15761 API calls, 11631 checks, 5 failures
+... 120/240 events, 17322 API calls, 12687 checks, 5 failures
+... 130/240 events, 18726 API calls, 13743 checks, 5 failures
+... 140/240 events, 20328 API calls, 14972 checks, 5 failures
+... 150/240 events, 21531 API calls, 15916 checks, 5 failures
+... 160/240 events, 22934 API calls, 16941 checks, 5 failures
+... 170/240 events, 24693 API calls, 18315 checks, 5 failures
+... 180/240 events, 26270 API calls, 19489 checks, 5 failures
+... 190/240 events, 27453 API calls, 20407 checks, 5 failures
+... 200/240 events, 28839 API calls, 21550 checks, 5 failures
+... 210/240 events, 30384 API calls, 22825 checks, 5 failures
+... 220/240 events, 32137 API calls, 24209 checks, 5 failures
+... 230/240 events, 33597 API calls, 25246 checks, 5 failures
+... 240/240 events, 34760 API calls, 26243 checks, 5 failures
+{
+ "seed": 11,
+ "events": 240,
+ "completed": 239,
+ "apiCalls": 34760,
+ "checks": 26243,
+ "failures": 5,
+ "seconds": 657,
+ "upperBoundPerCheck95": 0.0001141535751840106,
+ "upperBoundPerEvent95": 0.012534444659221716,
+ "stats": {
+  "check_in_direct": 1518,
+  "check_in_handshake": 1618,
+  "paper_issued": 2616,
+  "online_vote": 3092,
+  "double_vote_refused": 3092,
+  "paper_counted": 2421,
+  "paper_invalid": 95,
+  "results_checked": 373,
+  "tamper_probes": 716,
+  "mode_either": 71,
+  "kind_meeting": 116,
+  "pack_in-mh-coop-society": 33,
+  "mode_online": 92,
+  "pack_us-tx": 30,
+  "kind_election": 122,
+  "pack_us-ca": 29,
+  "pack_in-generic-rwa-societies-act-1860": 34,
+  "mode_printed": 75,
+  "pack_custom-world": 29,
+  "pack_us-fl": 31,
+  "pack_us-hoa-generic": 27,
+  "quorum_refused": 43,
+  "pack_in-up-aoa": 25
+ },
+ "firstFailures": [
+  "event 4: pdf leaks {\"kind\":\"phone\",\"sample\":\"9761113379\"} in \"idden with * to protect privacy.\\n1. Identification\\nEvent ID\\n9761113379ed0885690c5a2f4f890b11\\nType\\nMeeting | AGM\\nRules in use\\nMahar\"",
+  "event 11: quorum decision: API 403, oracle true (present 9/20, need 9, mh false)",
+  "event 32: pdf leaks {\"kind\":\"phone\",\"sample\":\"9025317773\"} in \"dden with * to protect privacy.\\n1. Identification\\nEvent ID\\ne9025317773b087c208aa8a762d8a65f\\nType\\nElection | AGM\\nRules in use\\nRWA r\"",
+  "event 80: pdf leaks {\"kind\":\"phone\",\"sample\":\"4179030891\"} in \"den with * to protect privacy.\\n1. Identification\\nEvent ID\\n9f41790308910b8fd951b77e9b9814f2\\nType\\nMeeting | AGM\\nRules in use\\nFlorida\"",
+  "event 107: crashed: TypeError: undefined is not an object (evaluating 'e.eid') |     at verifyChain (C:\\ct\\aoa-rwa\\packages\\engine\\src\\log.ts:44:9) |     at async verifyReportHtml (C:\\ct\\aoa-rwa\\packages\\engine\\src\\model.ts:147:23) |     at async oneEvent (C:\\ct\\aoa-rwa\\scripts\\sim-stack.ts:167:178)"
+ ]
+}

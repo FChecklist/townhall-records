@@ -252,3 +252,18 @@ describe("progress (the step-by-step console)", () => {
   });
 });
 void stripSeal; void fileDigest; void extractSeal;
+
+describe("a damaged or hostile report never crashes the verifier", () => {
+  test("missing keys, wrong types, null entries, empty logs and garbage all produce 'not verified', never an exception", async () => {
+    const s = await Scenario.fullMeeting(); const k = await testKey(); const model = buildReportModel(await s.state());
+    const { html } = await sealReport(renderReportHtml(model, s.entries, k.publicKeyRaw, k.kid), model, k.privateKeyPkcs8, k.kid);
+    const swap = (mut: (d: any) => void) => { const d = extractData(html)!; mut(d); return html.replace(/<script type="application\/json" id="aoa-data">[\s\S]*?<\/script>/, `<script type="application/json" id="aoa-data">${JSON.stringify(d)}</script>`); };
+    const variants = [
+      swap((d) => { d.log[0].ontry = d.log[0].entry; delete d.log[0].entry; }), swap((d) => { d.log[2] = null; }), swap((d) => { d.log = []; }), swap((d) => { d.log = "x"; }), swap((d) => { d.log[1].entry.seq = "1"; }),
+      swap((d) => { d.log[1].hash = 5; }), swap((d) => { d.log[0].entry.eid = 7; }), swap((d) => { delete d.model; }), swap((d) => { d.publicKey = 5; }), "<html></html>", "", "<!--SEAL--><!--/SEAL-->", html.replace('id="aoa-data">', 'id="aoa-data">{{{'),
+    ];
+    for (const v of variants) { const r = await verifyReportHtml(v); expect(r.ok).toBe(false); expect(Array.isArray(r.problems)).toBe(true); }
+    expect((await verifyEmbedded({ log: [{}] } as any)).ok).toBe(false); expect((await verifyEmbedded(null as any)).ok).toBe(false);
+    for (const bad of [[{}], [null], [{ entry: {} }], "x" as any]) expect((await verifyChain(bad, k.publicKeyRaw)).ok).toBe(false);
+  });
+});

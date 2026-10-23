@@ -1,0 +1,70 @@
+ok   tally, majority, vote %, ranking, ticked/not-ticked counts vs oracle: 3000000 cases, 0 failures, 170467 ms
+ok   quorum (weight or flats, strict, cap, ineligible flats) vs oracle: 3000000 cases, 0 failures, 102292 ms
+ok   ballot validation (min, max, duplicates, unknown option, shape) vs oracle: 10000000 cases, 0 failures, 19918 ms
+ok   6-digit passcode lifecycle (issue, wrong tries, lock, expiry, single use, replay, re-issue) vs model: 40000 cases, 0 failures, 253043 ms
+FAIL log chain: random edit, drop, swap, duplicate, forge or truncation is always detected (and the untouched chain always verifies): 6000 cases, 28 failures, 35612 ms  e.g. undetected change (kind 0.59)
+FAIL masking: no complete e-mail, phone number or name survives; the originals are always caught by the scanner: 1000000 cases, 35 failures, 72308 ms  e.g. e-mail local part leaks or****@i****.org
+ok   4-digit code handshake (open, wrong tries, both confirmations, devices, expiry) vs model: 120000 cases, 0 failures, 153749 ms
+ok   printed ballot reading: ticked boxes read as ticked and empty boxes as empty under noise, offsets and mark styles (a doubtful box is flagged, never guessed): 3000 cases, 0 failures, 131539 ms
+{
+ "seed": 20261023,
+ "scale": 1,
+ "properties": 8,
+ "totalCases": 17169000,
+ "failures": 63,
+ "uncertainTickReads": "0 of 18000",
+ "upperBound95": 1.7448495972706563e-7,
+ "upperBound999": 4.02338824566494e-7,
+ "results": [
+  {
+   "property": "tally, majority, vote %, ranking, ticked/not-ticked counts vs oracle",
+   "cases": 3000000,
+   "failures": 0,
+   "ms": 170467
+  },
+  {
+   "property": "quorum (weight or flats, strict, cap, ineligible flats) vs oracle",
+   "cases": 3000000,
+   "failures": 0,
+   "ms": 102292
+  },
+  {
+   "property": "ballot validation (min, max, duplicates, unknown option, shape) vs oracle",
+   "cases": 10000000,
+   "failures": 0,
+   "ms": 19918
+  },
+  {
+   "property": "6-digit passcode lifecycle (issue, wrong tries, lock, expiry, single use, replay, re-issue) vs model",
+   "cases": 40000,
+   "failures": 0,
+   "ms": 253043
+  },
+  {
+   "property": "log chain: random edit, drop, swap, duplicate, forge or truncation is always detected (and the untouched chain always verifies)",
+   "cases": 6000,
+   "failures": 28,
+   "ms": 35612,
+   "example": "undetected change (kind 0.59)"
+  },
+  {
+   "property": "masking: no complete e-mail, phone number or name survives; the originals are always caught by the scanner",
+   "cases": 1000000,
+   "failures": 35,
+   "ms": 72308,
+   "example": "e-mail local part leaks or****@i****.org"
+  },
+  {
+   "property": "4-digit code handshake (open, wrong tries, both confirmations, devices, expiry) vs model",
+   "cases": 120000,
+   "failures": 0,
+   "ms": 153749
+  },
+  {
+   "property": "printed ballot reading: ticked boxes read as ticked and empty boxes as empty under noise, offsets and mark styles (a doubtful box is flagged, never guessed)",
+   "cases": 3000,
+   "failures": 0,
+   "ms": 131539
+  }
+ ]
+}

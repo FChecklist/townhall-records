@@ -2,7 +2,7 @@
 // A deterministic function of the sealed report (same report in, same bytes out): plain A4 text pages with the standard PDF fonts, no external resources.
 // Limit, stated: the standard fonts cover Latin text only. Characters outside Latin-1 (for example Devanagari) print as '?' in the PDF; the full text is always in the HTML report.
 import { dayParts, milestoneLabel, MILESTONE_KEYS } from "./schedule";
-import { sha256Hex } from "./crypto";
+import { sha256Hex, type Bytes } from "./crypto";
 import type { EmbeddedData, Seal } from "./model";
 import { FORMAT_LABEL } from "./ballot";
 
@@ -50,7 +50,7 @@ class Doc {
     this.ensure(64); this.space(26); this.cur.push(`0.6 w ${M} ${this.y.toFixed(1)} m ${M + 230} ${this.y.toFixed(1)} l S`); this.cur.push(`0.6 w ${M + 270} ${this.y.toFixed(1)} m ${W - M} ${this.y.toFixed(1)} l S`);
     this.y -= 11; this.cur.push(`BT /F2 9 Tf ${M} ${this.y.toFixed(1)} Td (${esc(label)} - signature) Tj ET`); this.cur.push(`BT /F1 9 Tf ${M + 270} ${this.y.toFixed(1)} Td (Name, date and place) Tj ET`); this.y -= 4;
   }
-  bytes(): Uint8Array {
+  bytes(): Bytes {
     const n = this.pages.length, objs: string[] = [];
     const fonts = ["Helvetica", "Helvetica-Bold", "Courier"];
     objs[1] = "<< /Type /Catalog /Pages 2 0 R >>";
@@ -78,7 +78,7 @@ const isoZ = (ms: number) => new Date(ms).toISOString().replace("T", " ").slice(
 const pct = (bp: number) => `${Math.floor(bp / 100)}.${String(bp % 100).padStart(2, "0")}%`;
 
 export interface PdfOptions { reportUrl?: string }
-export async function renderReportPdf(data: EmbeddedData, seal: Seal | null, opts: PdfOptions = {}): Promise<Uint8Array> {
+export async function renderReportPdf(data: EmbeddedData, seal: Seal | null, opts: PdfOptions = {}): Promise<Bytes> {
   const m = data.model, kindWord = m.kind === "election" ? "Election" : "Meeting";
   const d = new Doc(`Event ${m.eid.slice(0, 12)}...  Log head ${m.head?.hash.slice(0, 16) ?? ""}...`);
   d.text(`AOA-RWA | Record of a ${kindWord}`, { size: 9, font: "F2" });
@@ -150,4 +150,4 @@ export async function renderReportPdf(data: EmbeddedData, seal: Seal | null, opt
   return d.bytes();
 }
 
-export const pdfSha256 = (b: Uint8Array) => sha256Hex(b);
+export const pdfSha256 = (b: Bytes) => sha256Hex(b);

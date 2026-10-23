@@ -104,6 +104,7 @@ describe("attendance by exchanging two 4-digit codes (no SMS cost)", () => {
   test("OPTIONAL SMS CHECK: the person sends an SMS from their own phone; the officer types the sender number from their own phone; a wrong number is refused; nothing is sent by us", async () => {
     const h = await H.make(); const e = await liveEvent(h); h.device = OFFICER_DEV;
     const hs = await ok(h.call("POST", `/api/events/${e.eid}/handshakes`, { flatNo: "A-101", attendeeName: "Owner One", mobile: "98765 43210" }, e.off.token)); expect(hs.body.smsHint).toContain("their own phone");
+    h.device = VOTER_DEV; const pg = await ok(h.call("GET", `/api/h/${hs.body.token}`)); h.device = OFFICER_DEV; expect(pg.body.smsLink === null || pg.body.smsLink.startsWith("sms:")).toBe(true);
     expect((await h.call("POST", `/api/events/${e.eid}/handshakes/${hs.body.handshakeId}/sms-confirm`, { senderNumber: "+91 98765 43211" }, e.off.token)).body.error).toBe("number_differs");
     const good = await ok(h.call("POST", `/api/events/${e.eid}/handshakes/${hs.body.handshakeId}/sms-confirm`, { senderNumber: "+91 98765 43210" }, e.off.token)); expect(good.body.maskedMobile).toBe("98******10");
     const log = JSON.stringify((await getLog(h, e.eid)).entries); expect(log).toContain("mobile_confirmed"); expect(scanPublic(log, { allow: ["REG/2020/118"], forbidden: ["9876543210", "98765 43210"] })).toEqual([]);

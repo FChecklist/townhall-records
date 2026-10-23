@@ -130,6 +130,11 @@ export interface ReportVerdict {
 }
 /** Verifies a saved report file. `publicKey` / `expectedFileSha256` (from /api/pubkey or the anchor) are optional extra anchors. */
 export async function verifyReportHtml(html: string, opts: { publicKey?: string; expectedFileSha256?: string } = {}): Promise<ReportVerdict> {
+  try { return await verifyReportHtmlUnsafe(html, opts); } catch (e) { // a damaged file must produce a verdict, never an exception
+    return { ok: false, problems: ["the file is damaged or not a report: " + String((e as Error)?.message ?? e).slice(0, 120)], seal: false, chain: false, model: false, keyMatches: null, digestMatches: null, head: null, fileSha256: null, resultsMatch: false };
+  }
+}
+async function verifyReportHtmlUnsafe(html: string, opts: { publicKey?: string; expectedFileSha256?: string } = {}): Promise<ReportVerdict> {
   const problems: string[] = [];
   const v: ReportVerdict = { ok: false, problems, seal: false, chain: false, model: false, keyMatches: null, digestMatches: null, head: null, fileSha256: null, resultsMatch: false };
   const data = extractData(html); const seal = extractSeal(html);
@@ -161,6 +166,9 @@ export async function verifyReportHtml(html: string, opts: { publicKey?: string;
 
 /** Live pages are not sealed, but chain + replay + model can still be verified. */
 export async function verifyEmbedded(data: EmbeddedData, expectedHead?: { seq: number; hash: string }): Promise<{ ok: boolean; problems: string[]; head: { seq: number; hash: string } | null }> {
+  try { return await verifyEmbeddedUnsafe(data, expectedHead); } catch (e) { return { ok: false, problems: ["the data is damaged: " + String((e as Error)?.message ?? e).slice(0, 120)], head: null }; }
+}
+async function verifyEmbeddedUnsafe(data: EmbeddedData, expectedHead?: { seq: number; hash: string }): Promise<{ ok: boolean; problems: string[]; head: { seq: number; hash: string } | null }> {
   const problems: string[] = [];
   const chain = await verifyChain(data.log, data.publicKey, expectedHead);
   if (!chain.ok) problems.push(`log chain fails at entry ${chain.problems[0]?.seq}: ${chain.problems[0]?.reason}`);

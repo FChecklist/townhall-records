@@ -243,7 +243,7 @@ describe("the report is published within 120 seconds of the end, and a published
     const c = await e.ok(h.call("POST", `/api/events/${e.eid}/passcodes/voter`, { flatNo: "A-101" }, off.token)); const l = await e.ok(h.call("POST", "/api/vote/login", { eventId: e.eid, flatNo: "A-101", code: c.body.code, turnstile: "test-ok" }));
     await e.ok(h.call("POST", "/api/vote/cast", { pointId: e.pointId, choices: ["no"] }, l.body.token));
     const pub = await h.call("GET", `/api/events/${e.eid}/log`); expect(pub.status).toBe(200);
-    expect(pub.entries ?? pub.body.entries.some((x: any) => x.entry.type === "vote_cast_open" && x.entry.payload.flatNo === "A-101" && x.entry.payload.choices[0] === "no")).toBe(true); // open vote: who chose what is public
+    expect(pub.body.entries.some((x: any) => x.entry.type === "vote_cast_open" && x.entry.payload.flatNo === "A-101" && x.entry.payload.choices[0] === "no")).toBe(true); // open vote: who chose what is public
     expect((await h.call("GET", `/api/r/${e.eid}`)).text).toContain("How each flat voted");
   });
 });

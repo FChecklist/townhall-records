@@ -19,7 +19,7 @@ export interface PointRun {
 }
 export interface Presence { flatNo: string; maskedName: string; mode: string; method: string; docType: string | null; docLast4: string | null; by: string; independent: boolean; evidenceHash: string | null; seq: number; ts: number }
 export interface PaperStats { serials: number; counted: number; invalid: number; voided: number; uncounted: number; imagesDigest: string }
-export interface Seal { n: number; receipts: string[]; counts: Record<string, { weight: number; count: number }>; castWeight: number; digest: string; split: Aggregate["split"]; paper: PaperStats | null }
+export interface BoxSeal { n: number; receipts: string[]; counts: Record<string, { weight: number; count: number }>; castWeight: number; digest: string; split: Aggregate["split"]; paper: PaperStats | null }
 export interface RuleChange { seq: number; ts: number; scope: string; param: string; old: Json | null; new: Json | null; reason: string; by: string | null }
 
 export interface EventState {
@@ -33,7 +33,7 @@ export interface EventState {
   attendance: Map<string, Presence>; attendanceLog: Presence[];
   ledger: Map<string, Map<string, { kind: "official" | "proxy"; choices: string[] | null; seq: number; channel: "online" | "paper" }>>;
   devices: Array<{ seq: number; flatNo: string; replaced: boolean }>; handshakes: number;
-  seals: Map<string, Seal>; results: Map<string, PointTally>;
+  seals: Map<string, BoxSeal>; results: Map<string, PointTally>;
   agenda: null | { seq: number; ts: number; givenDays: number; minDays: number | null; maxDays: number | null; met: boolean | null };
   startedTs: number | null; closedInfo: null | { seq: number; ts: number };
   clones: Array<{ direction: string; eventId: string }>; platformActions: Array<{ seq: number; action: string; reason: string }>;
@@ -107,7 +107,7 @@ export async function replayLog(entries: SignedEntry[]): Promise<EventState> {
       case "rules_initialized": s.rules = { packId: p.packId, params: { ...p.params }, options: { ...p.options }, locked: { ...p.locked } }; s.packInfo = { name: asStr(p.packName), confidence: asStr(p.packConfidence), needsLawyer: p.packNeedsLawyer !== false }; s.initialRules = copyRules(s.rules); break;
       case "role_appointed": {
         const role = p.role as Role;
-        const ex = s.people.get(p.pid) ?? { pid: p.pid, maskedName: p.maskedName ?? "", maskedEmail: p.maskedEmail ?? "", flatNo: p.flatNo ?? null, verified: false, roles: [], label: null, appointedBy: {}, appointedSeq: {} };
+        const ex: PersonState = s.people.get(p.pid) ?? { pid: p.pid, maskedName: p.maskedName ?? "", maskedEmail: p.maskedEmail ?? "", flatNo: p.flatNo ?? null, verified: false, roles: [], label: null, appointedBy: {}, appointedSeq: {} };
         if (!ex.roles.includes(role)) ex.roles.push(role);
         ex.appointedBy[role] = p.appointedBy ?? null; ex.appointedSeq[role] = seq;
         if (p.maskedName) ex.maskedName = p.maskedName;

@@ -2,20 +2,21 @@
 const enc = new TextEncoder();
 const subtle = (): SubtleCrypto => globalThis.crypto.subtle;
 
-export const utf8 = (s: string): Uint8Array => enc.encode(s);
+export type Bytes = Uint8Array<ArrayBuffer>;
+export const utf8 = (s: string): Bytes => new Uint8Array(enc.encode(s));
 export const hex = (b: ArrayBuffer | Uint8Array): string => Array.from(b instanceof Uint8Array ? b : new Uint8Array(b), (x) => x.toString(16).padStart(2, "0")).join("");
-export const fromHex = (h: string): Uint8Array => new Uint8Array((h.match(/../g) ?? []).map((x) => parseInt(x, 16)));
+export const fromHex = (h: string): Bytes => new Uint8Array((h.match(/../g) ?? []).map((x) => parseInt(x, 16)));
 export function b64url(b: ArrayBuffer | Uint8Array): string {
   const u = b instanceof Uint8Array ? b : new Uint8Array(b);
   let s = ""; for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode(...u.subarray(i, i + 0x8000));
   return btoa(s).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
-export function fromB64url(s: string): Uint8Array {
+export function fromB64url(s: string): Bytes {
   const p = s.replace(/-/g, "+").replace(/_/g, "/") + "=".repeat((4 - (s.length % 4)) % 4);
   const bin = atob(p); const u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return u;
 }
 
-export async function sha256Hex(s: string | Uint8Array): Promise<string> {
+export async function sha256Hex(s: string | Bytes): Promise<string> {
   return hex(await subtle().digest("SHA-256", typeof s === "string" ? utf8(s) : s));
 }
 
@@ -77,16 +78,16 @@ export async function verifyMessage(publicKeyRaw: string, message: string, sig: 
 }
 
 // ---- AES-GCM for the private store (per-event data key, wrapped by the master secret) ----
-async function aesKey(raw: Uint8Array, usages: KeyUsage[]): Promise<CryptoKey> { return subtle().importKey("raw", raw, "AES-GCM", false, usages); }
-export async function aesEncrypt(rawKey32: Uint8Array, plaintext: string, aad = ""): Promise<string> {
+async function aesKey(raw: Bytes, usages: KeyUsage[]): Promise<CryptoKey> { return subtle().importKey("raw", raw, "AES-GCM", false, usages); }
+export async function aesEncrypt(rawKey32: Bytes, plaintext: string, aad = ""): Promise<string> {
   const iv = globalThis.crypto.getRandomValues(new Uint8Array(12));
   const ct = new Uint8Array(await subtle().encrypt({ name: "AES-GCM", iv, additionalData: utf8(aad) }, await aesKey(rawKey32, ["encrypt"]), utf8(plaintext)));
   return b64url(new Uint8Array([...iv, ...ct]));
 }
-export async function aesDecrypt(rawKey32: Uint8Array, packed: string, aad = ""): Promise<string> {
+export async function aesDecrypt(rawKey32: Bytes, packed: string, aad = ""): Promise<string> {
   const u = fromB64url(packed);
   const pt = await subtle().decrypt({ name: "AES-GCM", iv: u.slice(0, 12), additionalData: utf8(aad) }, await aesKey(rawKey32, ["decrypt"]), u.slice(12));
   return new TextDecoder().decode(pt);
 }
 /** Master-secret -> 32-byte key for wrapping event keys. */
-export async function deriveKey32(secret: string, label: string): Promise<Uint8Array> { return fromHex(await hmacHex(secret, "aoa-rwa/key/" + label)); }
+export async function deriveKey32(secret: string, label: string): Promise<Bytes> { return fromHex(await hmacHex(secret, "aoa-rwa/key/" + label)); }

@@ -37,6 +37,9 @@ export interface ChainResult { ok: boolean; count: number; head: { seq: number; 
 export async function verifyChain(entries: SignedEntry[], publicKey: string, expectedHead?: { seq: number; hash: string }): Promise<ChainResult> {
   const fail = (seq: number, reason: VerifyProblem["reason"], count = 0): ChainResult => ({ ok: false, count, head: null, problems: [{ seq, reason }] });
   if (!entries.length) return fail(0, "empty");
+  // a damaged or hostile file may contain anything: never throw, always answer "not verified"
+  const wellFormed = (x: any) => !!x && typeof x === "object" && !!x.entry && typeof x.entry === "object" && typeof x.entry.eid === "string" && Number.isSafeInteger(x.entry.seq) && typeof x.hash === "string" && typeof x.sig === "string" && typeof x.entry.prev === "string" && typeof x.entry.type === "string";
+  if (!Array.isArray(entries) || entries.some((x) => !wellFormed(x))) return fail(0, "hash_mismatch");
   const eid = entries[0]!.entry.eid;
   let prevHash = await genesisHash(eid);
   for (let i = 0; i < entries.length; i++) {

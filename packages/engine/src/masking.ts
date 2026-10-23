@@ -44,10 +44,13 @@ const PHONE_SHAPES: RegExp[] = [
   /(?<![\w-])\d{5}[\s-]\d{5}(?![\w-])/g, // 98765 43210
   /(?<![\w-])\d{3}[\s-]\d{3}[\s-]\d{4}(?![\w-])/g, // 987-654-3210
   /(?<!\d)91\d{10}(?!\d)/g, // 919876543210
+  /(?<!\d)0\d{10}(?!\d)/g, // 09876543210 (trunk prefix)
   /(?<!\d)\d{10}(?!\d)/g, // 9876543210
 ];
 /** Hashes, signatures and ids are long opaque tokens; they can contain runs of digits by chance, so they are not phone numbers. */
 const OPAQUE = /[A-Za-z0-9_-]{14,}/g;
+/** A run of 11+ hex characters / digits that includes at least one hex LETTER (an id or hash fragment). Real phone numbers have no letters. */
+const HEXID = /(?<![A-Za-z0-9_-])(?=[0-9a-fA-F_-]*[a-fA-F])[0-9a-fA-F_-]{11,}(?![A-Za-z0-9_-])/g;
 
 export function scanPublic(text: string, opt: ScanOptions = {}): ScanFinding[] {
   const out: ScanFinding[] = [];
@@ -56,7 +59,8 @@ export function scanPublic(text: string, opt: ScanOptions = {}): ScanFinding[] {
   for (const m of t.match(EMAIL) ?? []) out.push({ kind: "email", sample: m });
   // opaque tokens that contain a letter are ids/hashes; pure digit tokens (13-digit timestamps) are numbers, kept visible only if exactly 10 or 12 digits
   const stripped = t.replace(OPAQUE, (tok) => (/[A-Za-z]/.test(tok) || /^\d{13,}$/.test(tok) ? " " : tok));
-  for (const re of PHONE_SHAPES) for (const m of stripped.match(re) ?? []) out.push({ kind: "phone", sample: m });
+  const strippedHex = stripped.replace(HEXID, " "); // short id fragments such as 9761113379ed (digits then hex letters) are ids, not phone numbers
+  for (const re of PHONE_SHAPES) for (const m of strippedHex.match(re) ?? []) out.push({ kind: "phone", sample: m });
   const low = text.toLowerCase();
   for (const f of opt.forbidden ?? []) if (f && low.includes(f.toLowerCase())) out.push({ kind: "forbidden", sample: f });
   return out;

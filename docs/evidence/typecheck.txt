@@ -1,0 +1,1 @@
+tsc strict: 0 errors (packages, apps, scripts) with typescript from C:/ct/tambola/node_modules, 2026-10-23

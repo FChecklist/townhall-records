@@ -5,9 +5,9 @@
   "type": "module",
   "workspaces": ["packages/*", "apps/*"],
   "scripts": {
-    "test": "bun test --isolate packages apps",
-    "test:engine": "bun test --isolate packages/engine",
-    "test:api": "bun test --isolate apps/api",
+    "test": "bun test --isolate --timeout 60000 packages apps",
+    "test:engine": "bun test --isolate --timeout 60000 packages/engine",
+    "test:api": "bun test --isolate --timeout 60000 apps/api",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "dev:api": "bun run apps/api/dev.mjs"
   },

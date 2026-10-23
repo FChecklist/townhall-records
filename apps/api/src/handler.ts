@@ -2,7 +2,7 @@
 // Routes and rules: docs/design/API.md. There is no DELETE route and no route that edits history.
 import rulePacks from "../../../docs/research/rule-packs.json";
 import {
-  HANDSHAKE_MAX_TRIES, HANDSHAKE_TTL_MS, codeHash, openLink, voterConfirm, monitorConfirm, type Handshake, hmacHex, newSerial, paperToken, parsePaperToken, paperLayout, renderPaperSvg, LANGUAGES, coverage, dictionary, isLang, playbook,
+  type Bytes, HANDSHAKE_MAX_TRIES, HANDSHAKE_TTL_MS, codeHash, openLink, voterConfirm, monitorConfirm, type Handshake, hmacHex, newSerial, paperToken, parsePaperToken, paperLayout, renderPaperSvg, LANGUAGES, coverage, dictionary, isLang, playbook,
   defaultSchedule, validateSchedule, type Schedule, TERMS_VERSION, TERMS_TEXT, termsSha256, priceFor, isCountry, formatPrice, renderReportPdf, pdfSha256, extractSeal, normalizeBallotDesign, defaultBallotDesign, ballotInstruction, type Actor,
   CUSTOM_WORLD_PACK, OPTIONS, PARAMS, RuleError, aesDecrypt, aesEncrypt, applyRecommended, b64url, buildReportModel, canAmendPoint, canChangeRoll, canChangeRule, canDo, canVote, cloneTemplate,
   deriveKey32, effectiveWeight, extractData, fromB64url, issuePasscode, loadAllPacks, maskEmail, maskName, maskPhone, newRuleSet, parseMajority, progressOf, proxyAllowed, randomHex, renderReportHtml,
@@ -32,13 +32,13 @@ async function newEventKeyStmt(c: Ctx, eid: string): Promise<D1Stmt> {
   const wrapped = await aesEncrypt(await wrapKey(c.env), b64url(key), eid);
   return c.db.prepare("INSERT INTO event_keys(event_id,wrapped_key,created_ms,destroyed_ms) VALUES(?,?,?,NULL)").bind(eid, wrapped, c.now);
 }
-async function eventKey(c: Ctx, eid: string): Promise<Uint8Array> {
+async function eventKey(c: Ctx, eid: string): Promise<Bytes> {
   const r = await c.db.prepare("SELECT wrapped_key FROM event_keys WHERE event_id=?").bind(eid).first<{ wrapped_key: string | null }>();
   if (!r?.wrapped_key) throw err(410, "data_erased", "The private details of this event have been erased.");
   return fromB64url(await aesDecrypt(await wrapKey(c.env), r.wrapped_key, eid));
 }
 interface Contact { name: string; email: string; phone: string }
-async function personStmts(c: Ctx, eid: string, pid: string, p: Contact, flatNo: string | null, key: Uint8Array): Promise<D1Stmt[]> {
+async function personStmts(c: Ctx, eid: string, pid: string, p: Contact, flatNo: string | null, key: Bytes): Promise<D1Stmt[]> {
   const ct = await aesEncrypt(key, JSON.stringify(p), eid + "|" + pid);
   const idx = p.email ? await pepperHash(c.env, "email:" + eid, p.email) : "";
   return [
@@ -60,7 +60,7 @@ async function requireTerms(c: Ctx): Promise<void> {
 }
 const termsEntry = async (subject: "pid" | "flat", ref: string) => ({ subject, ref, version: TERMS_VERSION, termsSha256: await termsSha256() });
 const DEVICE_RE = /^[A-Za-z0-9_-]{16,64}$/;
-async function auditKey(c: Ctx, eid: string): Promise<{ key: Uint8Array; scope: "event" | "platform" }> {
+async function auditKey(c: Ctx, eid: string): Promise<{ key: Bytes; scope: "event" | "platform" }> {
   if (eid !== "platform") { try { return { key: await eventKey(c, eid), scope: "event" }; } catch { /* destroyed or none: platform key */ } }
   return { key: await deriveKey32(c.env.MASTER_SECRET, "platform-audit"), scope: "platform" };
 }
@@ -219,7 +219,7 @@ route("POST", "/api/events", async (c) => {
   await issueLogin(c, eid, pid, org.email, society.name);
   return json({ eventId: eid, personId: pid, next: "Enter the 6-digit code we e-mailed you." }, 201);
 });
-async function eventKey2(c: Ctx, eid: string, stmts: D1Stmt[]): Promise<Uint8Array> {
+async function eventKey2(c: Ctx, eid: string, stmts: D1Stmt[]): Promise<Bytes> {
   const key = crypto.getRandomValues(new Uint8Array(32));
   stmts.unshift(c.db.prepare("INSERT INTO event_keys(event_id,wrapped_key,created_ms,destroyed_ms) VALUES(?,?,?,NULL)").bind(eid, await aesEncrypt(await wrapKey(c.env), b64url(key), eid), c.now));
   return key;
@@ -592,7 +592,7 @@ async function reportBytes(c: Ctx, eid: string): Promise<{ html: string; pdf: Ui
 }
 route("GET", "/api/r/:id/pdf", async (c, m) => {
   const b = await reportBytes(c, m[1]!);
-  return new Response(b.pdf, { headers: { "content-type": "application/pdf", "cache-control": "no-store", "content-disposition": `attachment; filename="aoa-rwa-${m[1]!.slice(0, 8)}-report.pdf"`, "x-pdf-sha256": b.pdfSha256, "x-report-sha256": b.fileSha256, "x-content-type-options": "nosniff" } });
+  return new Response(b.pdf as unknown as BodyInit, { headers: { "content-type": "application/pdf", "cache-control": "no-store", "content-disposition": `attachment; filename="aoa-rwa-${m[1]!.slice(0, 8)}-report.pdf"`, "x-pdf-sha256": b.pdfSha256, "x-report-sha256": b.fileSha256, "x-content-type-options": "nosniff" } });
 });
 async function emailReport(c: Ctx, eid: string, to: string[], actor: Actor): Promise<void> {
   const tx = await Tx.load(c, eid); const st = await tx.st(); const b = await reportBytes(c, eid);
@@ -686,7 +686,9 @@ route("GET", "/api/h/:token", async (c, m) => {
   if (!res.ok) throw hsError(res.reason);
   h = res.h; await hsSave(c, h);
   const tx = await Tx.load(c, h.eventId); const st = await tx.st(); const codes = await hsCodes(c, h.id);
-  return json({ flatNo: h.flatNo, society: st.created?.society.name, title: st.created?.title, voterCode: codes.voter, termsVersion: TERMS_VERSION, termsRequired: !st.terms.has("flat:" + h.flatNo), voterConfirmed: !!h.voterConfirmedMs, expiresMs: h.expiresMs,
+  let smsLink: string | null = null; // optional number check: the voter sends an SMS from their own phone to the OFFICER's phone (no cost to the platform)
+  if (h.mobileFp) { try { const ph = (await contactOf(c, h.eventId, h.monitorPid)).phone.replace(/[^\d+]/g, ""); if (ph) smsLink = `sms:${ph}?body=${encodeURIComponent("AOA " + h.id.slice(3, 9))}`; } catch { /* no officer phone known */ } }
+  return json({ flatNo: h.flatNo, society: st.created?.society.name, title: st.created?.title, voterCode: codes.voter, smsLink, termsVersion: TERMS_VERSION, termsRequired: !st.terms.has("flat:" + h.flatNo), voterConfirmed: !!h.voterConfirmedMs, expiresMs: h.expiresMs,
     instruction: "Say this code to the officer. Type the code shown on the officer's screen below." });
 });
 route("POST", "/api/h/:token/confirm", async (c, m) => {
