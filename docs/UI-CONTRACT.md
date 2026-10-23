@@ -31,3 +31,12 @@ Step 1 screen collects the four milestones (start, voting start, voting end, end
 * **Prices** by country (`/api/schema` `priceText`): India Rs 499 / Rs 1499, elsewhere USD 5 / USD 15.
 * **Final report**: buttons "Download PDF" (`/api/r/:id/pdf`), "Save page", "E-mail report" (`/api/events/:id/report/email`).
 * Organizer view of the **audit trail** (`/api/events/:id/audit`).
+
+## Added 2026-10-23 (c): stages, desk flows, languages, guides
+* **Stage tracker** (`model.stage`): Rules, Attendance, Quorum, Vote, Count, Publish, one picture each (the public page already draws them). The Organizer console keeps its 8 setup steps (`progress.steps`) leading up to the first stage.
+* **Language drop-down in the upper right of every screen**: `GET /api/languages`, dictionary `GET /api/i18n/:lang`; right-to-left for Arabic and Urdu; remember the choice in local storage. The public page already has it.
+* **Every screen shows its guide**: `GET /api/guide/:role?lang=` gives, per step, WHAT / HOW / WHERE / WHEN / WHY / WITH WHOM / WHICH; show the current step big, the others small, with the picture key.
+* **Check-in desk (Attendance Officer)**: flat number + name -> Start; show the 4-digit code large and the link as a QR (the app draws the QR from `linkPath`); field for the code on the voter's phone; optional "SMS check" field; status line (waiting for the voter / for you / done). Never show both codes on one screen.
+* **Voter phone**: open the link, tick the terms, read the code aloud, type the officer's code, then the ballot. Keep the returned token only in memory / session storage; it works on this phone only.
+* **Paper desk**: Print ballot (render `svg`, draw the QR matrix of `qrText` into `<g id="qr">`, print); Capture: use the camera, find the four corner marks, straighten, decode the QR, run `detectTicks` (engine), show each box as ticked / empty / UNCERTAIN, let the officer fix uncertain ones, send `marks` + the photo's SHA-256 (+ optional encrypted photo); Void; Finish counting.
+* **Ballot designer**: live preview of the paper (`paper/preview`) and of the phone ballot.

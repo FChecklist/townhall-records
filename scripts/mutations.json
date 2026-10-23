@@ -166,7 +166,7 @@
   "scope": "engine",
   "claim": "stuffed ballot box flagged",
   "file": "packages/engine/src/replay.ts",
-  "find": "if (p.n !== led.size)",
+  "find": "if (!paper && p.n !== led.size)",
   "replace": "if (false)",
   "test": "packages/engine/test/log-report.test.ts"
  },
@@ -301,8 +301,8 @@
   "scope": "api",
   "claim": "DB refuses a second ballot per flat+point (UNIQUE)",
   "file": "migrations/0001_records.sql",
-  "find": "open_choice_json TEXT, voted_ms INTEGER NOT NULL, log_seq INTEGER, UNIQUE (event_id, point_id, flat_no)",
-  "replace": "open_choice_json TEXT, voted_ms INTEGER NOT NULL, log_seq INTEGER",
+  "find": "channel TEXT NOT NULL DEFAULT 'online' CHECK (channel IN ('online','paper')), UNIQUE (event_id, point_id, flat_no)",
+  "replace": "channel TEXT NOT NULL DEFAULT 'online' CHECK (channel IN ('online','paper'))",
   "test": "apps/api/test/security.test.ts"
  },
  {

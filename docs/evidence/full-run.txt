@@ -13,7 +13,7 @@ api error TypeError: e.actor is not an Object. (evaluating '"pid" in e.actor')
     at async handle (C:\ct\aoa-rwa\apps\api\src\handler.ts:936:27)
     at async call (C:\ct\aoa-rwa\apps\api\test\harness.ts:21:21)
     at async <anonymous> (C:\ct\aoa-rwa\apps\api\test\features.test.ts:231:25)
-api error Error
+api error TypeError: e.actor is not an Object. (evaluating '"pid" in e.actor')
     at replayLog (C:\ct\aoa-rwa\packages\engine\src\replay.ts:94:31)
     at async refresh (C:\ct\aoa-rwa\apps\api\src\core.ts:197:40)
     at async load (C:\ct\aoa-rwa\apps\api\src\core.ts:193:44)
@@ -49,7 +49,7 @@ api error TypeError: e.actor is not an Object. (evaluating '"pid" in e.actor')
     at async handle (C:\ct\aoa-rwa\apps\api\src\handler.ts:936:27)
     at async call (C:\ct\aoa-rwa\apps\api\test\harness.ts:21:21)
     at async <anonymous> (C:\ct\aoa-rwa\apps\api\test\features.test.ts:231:25)
-api error Error
+api error TypeError: e.actor is not an Object. (evaluating '"pid" in e.actor')
     at replayLog (C:\ct\aoa-rwa\packages\engine\src\replay.ts:94:31)
     at async refresh (C:\ct\aoa-rwa\apps\api\src\core.ts:197:40)
     at async load (C:\ct\aoa-rwa\apps\api\src\core.ts:193:44)
@@ -59,7 +59,7 @@ api error Error
     at async call (C:\ct\aoa-rwa\apps\api\test\harness.ts:21:21)
     at async <anonymous> (C:\ct\aoa-rwa\apps\api\test\features.test.ts:231:25)
 
- 241 pass
+ 243 pass
  0 fail
- 5178 expect() calls
-Ran 241 tests across 15 files. [17.31s]
+ 5206 expect() calls
+Ran 243 tests across 15 files. [16.37s]
