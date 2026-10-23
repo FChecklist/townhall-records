@@ -490,8 +490,8 @@
   "scope": "api",
   "claim": "anchor route needs the internal secret",
   "file": "apps/api/src/handler.ts",
-  "find": "if (!c.env.INTERNAL_SECRET || c.req.headers.get(\"x-internal-secret\") !== c.env.INTERNAL_SECRET) throw err(404, \"not_found\", \"Not found.\");",
-  "replace": "",
+  "find": "route(\"POST\", \"/api/internal/anchor\", async (c) => {\n  if (!c.env.INTERNAL_SECRET || c.req.headers.get(\"x-internal-secret\") !== c.env.INTERNAL_SECRET) throw err(404, \"not_found\", \"Not found.\");",
+  "replace": "route(\"POST\", \"/api/internal/anchor\", async (c) => {",
   "test": "apps/api/test/security.test.ts"
  },
  {
