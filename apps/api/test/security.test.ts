@@ -179,7 +179,7 @@ describe("roles", () => {
   });
   test("a token for one event does not work on another", async () => {
     const h = await H.make(); const a = await setup(h); const b = await newEvent(h);
-    expect((await h.call("PUT", `/api/events/${b.eid}/roll`, { flats: flatsOf(2) }, a.org)).status).toBe(403);
+    const x = await h.call("PUT", `/api/events/${b.eid}/roll`, { flats: flatsOf(2) }, a.org); expect(x.status).toBe(403); expect(x.body.error).toBe("wrong_event");
   });
   test("an Attendance Officer cannot pay, change rules or open points", async () => {
     const h = await H.make(); const e = await liveEvent(h);

@@ -1,0 +1,17 @@
+{
+ "flats": 120,
+ "points": 5,
+ "ballots": 500,
+ "logEntries": 736,
+ "voteCastMs": {
+  "p50": 5,
+  "p95": 15,
+  "max": 147.9
+ },
+ "closeEventMs": 64,
+ "replayMs": 8.9,
+ "verifyChainMs": 366,
+ "chainOk": true,
+ "reportKB": 588,
+ "logRowsReadPerVote": "up to 736"
+}

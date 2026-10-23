@@ -486,7 +486,8 @@ route("POST", "/api/events/:id/close", async (c, m) => {
 // ------------------------------------------------------------------------------------------------ voter
 route("POST", "/api/vote/login", async (c) => {
   const eid = str(c.body.eventId, "eventId", 10, 64), flatNo = str(c.body.flatNo, "flatNo", 1, 24), code = typeof c.body.code === "string" ? c.body.code : "";
-  await rateLimit(c, "vote-ip", c.ip, 20, 600); await rateLimit(c, "vote-event", eid, 300, 600);
+  // a hall full of voters shares one Wi-Fi address, so the per-address limit is generous; guessing is stopped by the per-passcode lock (5 tries) and the per-address+flat limit
+  await rateLimit(c, "vote-ip", c.ip, 400, 600); await rateLimit(c, "vote-ipflat", c.ip + "|" + flatNo, 20, 600); await rateLimit(c, "vote-event", eid, 600, 600);
   await checkTurnstile(c, c.body.turnstile);
   const res = await verifyPasscode({ store: new D1PasscodeStore(c.db), pepper: c.env.PEPPER, eventId: eid, purpose: "voter", subject: flatNo, code, nowMs: c.now });
   if (!res.ok) {

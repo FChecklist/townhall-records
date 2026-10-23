@@ -41,3 +41,6 @@ Limits, stated honestly: a database administrator can `DROP TRIGGER`. That is *d
 
 ## 5. What a public read may select
 Only `PUBLIC`-class columns, always through the report/view builders. The test `public output contains no full e-mail/phone/name` runs the scanner over `/api/events/:id`, `/api/events/:id/log` and the report HTML for an event whose organizer, hosts and attendees all have real-looking contacts.
+
+## Addendum: changes made while building
+`ballot_box.kind` (official/proxy, for the small-group rule), `passcodes.kind`, `sessions.voter_kind` (operational). Passcode and session tables are operational (mutable). Co-host and other titles are `person_labels`, never roles. Holder (flat owner) contacts are `people` rows with `flat_no` and an encrypted `private_contacts` row.

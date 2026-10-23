@@ -1,35 +1,506 @@
 [
-  { "id": "E01", "scope": "engine", "claim": "passcode replay refused", "file": "packages/engine/src/passcode.ts", "find": "if (row.usedMs) return { ok: false, reason: \"used\" }; // replay", "replace": "", "test": "packages/engine/test/passcode.test.ts" },
-  { "id": "E02", "scope": "engine", "claim": "passcode bound to purpose/subject/event", "file": "packages/engine/src/passcode.ts", "find": "[\"aoa-rwa/pass/v1\", p.purpose, p.subject, p.eventId, p.code]", "replace": "[\"aoa-rwa/pass/v1\", p.eventId, p.code]", "test": "packages/engine/test/passcode.test.ts" },
-  { "id": "E03", "scope": "engine", "claim": "wrong tries lock the passcode", "file": "packages/engine/src/passcode.ts", "find": "export const MAX_TRIES = 5;", "replace": "export const MAX_TRIES = 500;", "test": "packages/engine/test/passcode.test.ts" },
-  { "id": "E04", "scope": "engine", "claim": "locked passcode refuses even the right digits", "file": "packages/engine/src/passcode.ts", "find": "if (row.lockedUntilMs > a.nowMs) return { ok: false, reason: \"locked\" };", "replace": "", "test": "packages/engine/test/passcode.test.ts" },
-  { "id": "E05", "scope": "engine", "claim": "passcode expiry enforced", "file": "packages/engine/src/passcode.ts", "find": "if (row.expiresMs <= a.nowMs) return { ok: false, reason: \"expired\" };", "replace": "", "test": "packages/engine/test/passcode.test.ts" },
-  { "id": "E06", "scope": "engine", "claim": "only a keyed hash is stored, never digits", "file": "packages/engine/src/passcode.ts", "find": "hash: await passcodeHash(a.pepper, { purpose: a.purpose, subject: a.subject, eventId: a.eventId, code }), uniqHash: uniq,", "replace": "hash: code, uniqHash: uniq,", "test": "packages/engine/test/passcode.test.ts" },
-  { "id": "E07", "scope": "engine", "claim": "chain verifier checks signatures (forged re-hash flagged)", "file": "packages/engine/src/log.ts", "find": "if (!(await verifyMessage(publicKey, signingMessage(eid, e.seq, s.hash), s.sig))) return fail(e.seq, \"bad_signature\", i);", "replace": "", "test": "packages/engine/test/log-report.test.ts" },
-  { "id": "E08", "scope": "engine", "claim": "chain verifier checks content hash (edited row flagged)", "file": "packages/engine/src/log.ts", "find": "if (h !== s.hash) return fail(e.seq, \"hash_mismatch\", i);", "replace": "", "test": "packages/engine/test/log-report.test.ts" },
-  { "id": "E09", "scope": "engine", "claim": "dropped/reordered entry flagged (seq gap)", "file": "packages/engine/src/log.ts", "find": "if (e.seq !== i + 1) return fail(e.seq, \"seq_gap\", i);", "replace": "", "test": "packages/engine/test/log-report.test.ts" },
-  { "id": "E10", "scope": "engine", "claim": "anchored head exposes truncation", "file": "packages/engine/src/log.ts", "find": "if (entries.length < expectedHead.seq)", "replace": "if (false)", "test": "packages/engine/test/log-report.test.ts" },
-  { "id": "E11", "scope": "engine", "claim": "log refuses unmasked e-mail/phone payloads", "file": "packages/engine/src/log.ts", "find": "if (bad.length) throw new Error", "replace": "if (false) throw new Error", "test": "packages/engine/test/log-report.test.ts" },
-  { "id": "E12", "scope": "engine", "claim": "tampered downloaded report flagged (file seal)", "file": "packages/engine/src/model.ts", "find": "v.seal = sigOk;", "replace": "v.seal = true;", "test": "packages/engine/test/log-report.test.ts" },
-  { "id": "E13", "scope": "engine", "claim": "displayed figures must match the log", "file": "packages/engine/src/model.ts", "find": "v.model = canonical(rebuilt as unknown as Json) === canonical(data.model as unknown as Json);", "replace": "v.model = true;", "test": "packages/engine/test/log-report.test.ts" },
-  { "id": "E14", "scope": "engine", "claim": "replay flags a second vote by the same flat", "file": "packages/engine/src/replay.ts", "find": "if (led.has(p.flatNo)) bad(seq, `flat ${p.flatNo} voted twice on point ${pt.def.number}`);", "replace": "", "test": "packages/engine/test/log-report.test.ts" },
-  { "id": "E15", "scope": "engine", "claim": "replay flags a vote by a flat not marked present", "file": "packages/engine/src/replay.ts", "find": "if (!s.attendance.has(p.flatNo)) bad(seq,", "replace": "if (false) bad(seq,", "test": "packages/engine/test/log-report.test.ts" },
-  { "id": "E16", "scope": "engine", "claim": "replay flags a vote after the point closed", "file": "packages/engine/src/replay.ts", "find": "if (pt.state !== \"open\") bad(seq, `vote on point", "replace": "if (false) bad(seq, `vote on point", "test": "packages/engine/test/log-report.test.ts" },
-  { "id": "E17", "scope": "engine", "claim": "replay flags a rule change after the point opened", "file": "packages/engine/src/replay.ts", "find": "else if (pt.state !== \"pending\") bad(seq, `rule changed after point", "replace": "else if (false) bad(seq, `rule changed after point", "test": "packages/engine/test/log-report.test.ts" },
-  { "id": "E18", "scope": "engine", "claim": "replay recomputes and compares results", "file": "packages/engine/src/replay.ts", "find": "if (canonical(calc as unknown as Json) !== canonical(p.tally))", "replace": "if (false)", "test": "packages/engine/test/log-report.test.ts" },
-  { "id": "E19", "scope": "engine", "claim": "stuffed ballot box flagged", "file": "packages/engine/src/replay.ts", "find": "if (p.n !== led.size)", "replace": "if (false)", "test": "packages/engine/test/log-report.test.ts" },
-  { "id": "E20", "scope": "engine", "claim": "vote before present refused", "file": "packages/engine/src/machine.ts", "find": "if (!s.attendance.has(flatNo)) return no(\"not_present\"", "replace": "if (false) return no(\"not_present\"", "test": "packages/engine/test/machine.test.ts" },
-  { "id": "E21", "scope": "engine", "claim": "vote twice refused", "file": "packages/engine/src/machine.ts", "find": "if (s.ledger.get(pointId)?.has(flatNo)) return no(\"already_voted\"", "replace": "if (false) return no(\"already_voted\"", "test": "packages/engine/test/machine.test.ts" },
-  { "id": "E22", "scope": "engine", "claim": "vote after window end refused (server clock)", "file": "packages/engine/src/machine.ts", "find": "if (pt.endsMs !== null && nowMs > pt.endsMs)", "replace": "if (false)", "test": "packages/engine/test/machine.test.ts" },
-  { "id": "E23", "scope": "engine", "claim": "vote after close refused", "file": "packages/engine/src/machine.ts", "find": "if (pt.state === \"closed\") return no(\"point_closed\"", "replace": "if (false) return no(\"point_closed\"", "test": "packages/engine/test/machine.test.ts" },
-  { "id": "E24", "scope": "engine", "claim": "rule change after voting opened refused", "file": "packages/engine/src/machine.ts", "find": "if (pt.state !== \"pending\") return no(\"frozen\", \"Voting on this point has opened: its rules are frozen.\");", "replace": "", "test": "packages/engine/test/machine.test.ts" },
-  { "id": "E25", "scope": "engine", "claim": "nobody acts with an unverified e-mail (even a lone organizer)", "file": "packages/engine/src/machine.ts", "find": "if (!p.verified) return no(\"email_not_verified\"", "replace": "if (false) return no(\"email_not_verified\"", "test": "packages/engine/test/machine.test.ts" },
-  { "id": "E26", "scope": "engine", "claim": "officer exists -> organizer may not mark attendance", "file": "packages/engine/src/machine.ts", "find": "if (isOH && !anyOfficer(s)) return yes;", "replace": "if (isOH) return yes;", "test": "packages/engine/test/machine.test.ts" },
-  { "id": "E27", "scope": "engine", "claim": "unset required rule refuses to start", "file": "packages/engine/src/rules.ts", "find": "if (v === null || v === undefined) out.push(d.id);", "replace": "", "test": "packages/engine/test/machine.test.ts" },
-  { "id": "E28", "scope": "engine", "claim": "locked-by-law option cannot be changed", "file": "packages/engine/src/rules.ts", "find": "if (l && l.value !== value) throw", "replace": "if (false) throw", "test": "packages/engine/test/packs-tally.test.ts" },
-  { "id": "E29", "scope": "engine", "claim": "clone never copies people/contacts", "file": "packages/engine/src/clone.ts", "find": "    labels,\n", "replace": "    labels, people: [...s.people.values()],\n", "test": "packages/engine/test/log-report.test.ts" },
-  { "id": "E30", "scope": "engine", "claim": "masking hides e-mail", "file": "packages/engine/src/masking.ts", "find": "return l + \"@\" + d;", "replace": "return e;", "test": "packages/engine/test/basics.test.ts" },
-  { "id": "E31", "scope": "engine", "claim": "report shows 'not independently verified' with zero officers", "file": "packages/engine/src/model.ts", "find": ": \"Attendance was not independently verified.\";", "replace": ": \"Attendance was independently verified.\";", "test": "packages/engine/test/machine.test.ts" },
-  { "id": "E32", "scope": "engine", "claim": "elections name no winner unless the pack says so", "file": "packages/engine/src/tally.ts", "find": "if (rs.params[\"election.declareWinner\"] === true) {", "replace": "if (true) {", "test": "packages/engine/test/packs-tally.test.ts" },
-  { "id": "E33", "scope": "engine", "claim": "secret-ballot totals hidden while voting is open (live page)", "file": "packages/engine/src/model.ts", "find": "const showTally = secret ? finished && sealed : pt.state !== \"pending\";", "replace": "const showTally = pt.state !== \"pending\";", "test": "packages/engine/test/log-report.test.ts" }
+ {
+  "id": "E01",
+  "scope": "engine",
+  "claim": "passcode replay refused",
+  "file": "packages/engine/src/passcode.ts",
+  "find": "if (row.usedMs) return { ok: false, reason: \"used\" }; // replay",
+  "replace": "",
+  "test": "packages/engine/test/passcode.test.ts"
+ },
+ {
+  "id": "E02",
+  "scope": "engine",
+  "claim": "passcode bound to purpose/subject/event",
+  "file": "packages/engine/src/passcode.ts",
+  "find": "[\"aoa-rwa/pass/v1\", p.purpose, p.subject, p.eventId, p.code]",
+  "replace": "[\"aoa-rwa/pass/v1\", p.eventId, p.code]",
+  "test": "packages/engine/test/passcode.test.ts"
+ },
+ {
+  "id": "E03",
+  "scope": "engine",
+  "claim": "wrong tries lock the passcode",
+  "file": "packages/engine/src/passcode.ts",
+  "find": "export const MAX_TRIES = 5;",
+  "replace": "export const MAX_TRIES = 500;",
+  "test": "packages/engine/test/passcode.test.ts"
+ },
+ {
+  "id": "E04",
+  "scope": "engine",
+  "claim": "locked passcode refuses even the right digits",
+  "file": "packages/engine/src/passcode.ts",
+  "find": "if (row.lockedUntilMs > a.nowMs) return { ok: false, reason: \"locked\" };",
+  "replace": "",
+  "test": "packages/engine/test/passcode.test.ts"
+ },
+ {
+  "id": "E05",
+  "scope": "engine",
+  "claim": "passcode expiry enforced",
+  "file": "packages/engine/src/passcode.ts",
+  "find": "if (row.expiresMs <= a.nowMs) return { ok: false, reason: \"expired\" };",
+  "replace": "",
+  "test": "packages/engine/test/passcode.test.ts"
+ },
+ {
+  "id": "E06",
+  "scope": "engine",
+  "claim": "only a keyed hash is stored, never digits",
+  "file": "packages/engine/src/passcode.ts",
+  "find": "hash: await passcodeHash(a.pepper, { purpose: a.purpose, subject: a.subject, eventId: a.eventId, code }), uniqHash: uniq,",
+  "replace": "hash: code, uniqHash: uniq,",
+  "test": "packages/engine/test/passcode.test.ts"
+ },
+ {
+  "id": "E07",
+  "scope": "engine",
+  "claim": "chain verifier checks signatures (forged re-hash flagged)",
+  "file": "packages/engine/src/log.ts",
+  "find": "if (!(await verifyMessage(publicKey, signingMessage(eid, e.seq, s.hash), s.sig))) return fail(e.seq, \"bad_signature\", i);",
+  "replace": "",
+  "test": "packages/engine/test/log-report.test.ts"
+ },
+ {
+  "id": "E08",
+  "scope": "engine",
+  "claim": "chain verifier checks content hash (edited row flagged)",
+  "file": "packages/engine/src/log.ts",
+  "find": "if (h !== s.hash) return fail(e.seq, \"hash_mismatch\", i);",
+  "replace": "",
+  "test": "packages/engine/test/log-report.test.ts"
+ },
+ {
+  "id": "E09",
+  "scope": "engine",
+  "claim": "dropped/reordered entry flagged (seq gap)",
+  "file": "packages/engine/src/log.ts",
+  "find": "if (e.seq !== i + 1) return fail(e.seq, \"seq_gap\", i);",
+  "replace": "",
+  "test": "packages/engine/test/log-report.test.ts"
+ },
+ {
+  "id": "E10",
+  "scope": "engine",
+  "claim": "anchored head exposes truncation",
+  "file": "packages/engine/src/log.ts",
+  "find": "if (entries.length < expectedHead.seq)",
+  "replace": "if (false)",
+  "test": "packages/engine/test/log-report.test.ts"
+ },
+ {
+  "id": "E11",
+  "scope": "engine",
+  "claim": "log refuses unmasked e-mail/phone payloads",
+  "file": "packages/engine/src/log.ts",
+  "find": "if (bad.length) throw new Error",
+  "replace": "if (false) throw new Error",
+  "test": "packages/engine/test/log-report.test.ts"
+ },
+ {
+  "id": "E12",
+  "scope": "engine",
+  "claim": "tampered downloaded report flagged (file seal)",
+  "file": "packages/engine/src/model.ts",
+  "find": "v.seal = sigOk;",
+  "replace": "v.seal = true;",
+  "test": "packages/engine/test/log-report.test.ts"
+ },
+ {
+  "id": "E13",
+  "scope": "engine",
+  "claim": "displayed figures must match the log",
+  "file": "packages/engine/src/model.ts",
+  "find": "v.model = canonical(rebuilt as unknown as Json) === canonical(data.model as unknown as Json);",
+  "replace": "v.model = true;",
+  "test": "packages/engine/test/log-report.test.ts"
+ },
+ {
+  "id": "E14",
+  "scope": "engine",
+  "claim": "replay flags a second vote by the same flat",
+  "file": "packages/engine/src/replay.ts",
+  "find": "if (led.has(p.flatNo)) bad(seq, `flat ${p.flatNo} voted twice on point ${pt.def.number}`);",
+  "replace": "",
+  "test": "packages/engine/test/log-report.test.ts"
+ },
+ {
+  "id": "E15",
+  "scope": "engine",
+  "claim": "replay flags a vote by a flat not marked present",
+  "file": "packages/engine/src/replay.ts",
+  "find": "if (!s.attendance.has(p.flatNo)) bad(seq,",
+  "replace": "if (false) bad(seq,",
+  "test": "packages/engine/test/log-report.test.ts"
+ },
+ {
+  "id": "E16",
+  "scope": "engine",
+  "claim": "replay flags a vote after the point closed",
+  "file": "packages/engine/src/replay.ts",
+  "find": "if (pt.state !== \"open\") bad(seq, `vote on point",
+  "replace": "if (false) bad(seq, `vote on point",
+  "test": "packages/engine/test/log-report.test.ts"
+ },
+ {
+  "id": "E17",
+  "scope": "engine",
+  "claim": "replay flags a rule change after the point opened",
+  "file": "packages/engine/src/replay.ts",
+  "find": "else if (pt.state !== \"pending\") bad(seq, `rule changed after point",
+  "replace": "else if (false) bad(seq, `rule changed after point",
+  "test": "packages/engine/test/log-report.test.ts"
+ },
+ {
+  "id": "E18",
+  "scope": "engine",
+  "claim": "replay recomputes and compares results",
+  "file": "packages/engine/src/replay.ts",
+  "find": "if (canonical(calc as unknown as Json) !== canonical(p.tally))",
+  "replace": "if (false)",
+  "test": "packages/engine/test/log-report.test.ts"
+ },
+ {
+  "id": "E19",
+  "scope": "engine",
+  "claim": "stuffed ballot box flagged",
+  "file": "packages/engine/src/replay.ts",
+  "find": "if (p.n !== led.size)",
+  "replace": "if (false)",
+  "test": "packages/engine/test/log-report.test.ts"
+ },
+ {
+  "id": "E20",
+  "scope": "engine",
+  "claim": "vote before present refused",
+  "file": "packages/engine/src/machine.ts",
+  "find": "if (!s.attendance.has(flatNo)) return no(\"not_present\"",
+  "replace": "if (false) return no(\"not_present\"",
+  "test": "packages/engine/test/machine.test.ts"
+ },
+ {
+  "id": "E21",
+  "scope": "engine",
+  "claim": "vote twice refused",
+  "file": "packages/engine/src/machine.ts",
+  "find": "if (s.ledger.get(pointId)?.has(flatNo)) return no(\"already_voted\"",
+  "replace": "if (false) return no(\"already_voted\"",
+  "test": "packages/engine/test/machine.test.ts"
+ },
+ {
+  "id": "E22",
+  "scope": "engine",
+  "claim": "vote after window end refused (server clock)",
+  "file": "packages/engine/src/machine.ts",
+  "find": "if (pt.endsMs !== null && nowMs > pt.endsMs)",
+  "replace": "if (false)",
+  "test": "packages/engine/test/machine.test.ts"
+ },
+ {
+  "id": "E23",
+  "scope": "engine",
+  "claim": "vote after close refused",
+  "file": "packages/engine/src/machine.ts",
+  "find": "if (pt.state === \"closed\") return no(\"point_closed\"",
+  "replace": "if (false) return no(\"point_closed\"",
+  "test": "packages/engine/test/machine.test.ts"
+ },
+ {
+  "id": "E24",
+  "scope": "engine",
+  "claim": "rule change after voting opened refused",
+  "file": "packages/engine/src/machine.ts",
+  "find": "if (pt.state !== \"pending\") return no(\"frozen\", \"Voting on this point has opened: its rules are frozen.\");",
+  "replace": "",
+  "test": "packages/engine/test/machine.test.ts"
+ },
+ {
+  "id": "E25",
+  "scope": "engine",
+  "claim": "nobody acts with an unverified e-mail (even a lone organizer)",
+  "file": "packages/engine/src/machine.ts",
+  "find": "if (!p.verified) return no(\"email_not_verified\"",
+  "replace": "if (false) return no(\"email_not_verified\"",
+  "test": "packages/engine/test/machine.test.ts"
+ },
+ {
+  "id": "E26",
+  "scope": "engine",
+  "claim": "officer exists -> organizer may not mark attendance",
+  "file": "packages/engine/src/machine.ts",
+  "find": "if (isOH && !anyOfficer(s)) return yes;",
+  "replace": "if (isOH) return yes;",
+  "test": "packages/engine/test/machine.test.ts"
+ },
+ {
+  "id": "E27",
+  "scope": "engine",
+  "claim": "unset required rule refuses to start",
+  "file": "packages/engine/src/rules.ts",
+  "find": "if (v === null || v === undefined) out.push(d.id);",
+  "replace": "",
+  "test": "packages/engine/test/machine.test.ts"
+ },
+ {
+  "id": "E28",
+  "scope": "engine",
+  "claim": "locked-by-law option cannot be changed",
+  "file": "packages/engine/src/rules.ts",
+  "find": "if (l && l.value !== value) throw",
+  "replace": "if (false) throw",
+  "test": "packages/engine/test/packs-tally.test.ts"
+ },
+ {
+  "id": "E29",
+  "scope": "engine",
+  "claim": "clone never copies people/contacts",
+  "file": "packages/engine/src/clone.ts",
+  "find": "    labels,\n",
+  "replace": "    labels, people: [...s.people.values()],\n",
+  "test": "packages/engine/test/log-report.test.ts"
+ },
+ {
+  "id": "E30",
+  "scope": "engine",
+  "claim": "masking hides e-mail",
+  "file": "packages/engine/src/masking.ts",
+  "find": "return l + \"@\" + d;",
+  "replace": "return e;",
+  "test": "packages/engine/test/basics.test.ts"
+ },
+ {
+  "id": "E31",
+  "scope": "engine",
+  "claim": "report shows 'not independently verified' with zero officers",
+  "file": "packages/engine/src/model.ts",
+  "find": ": \"Attendance was not independently verified.\";",
+  "replace": ": \"Attendance was independently verified.\";",
+  "test": "packages/engine/test/machine.test.ts"
+ },
+ {
+  "id": "E32",
+  "scope": "engine",
+  "claim": "elections name no winner unless the pack says so",
+  "file": "packages/engine/src/tally.ts",
+  "find": "if (rs.params[\"election.declareWinner\"] === true) {",
+  "replace": "if (true) {",
+  "test": "packages/engine/test/packs-tally.test.ts"
+ },
+ {
+  "id": "E33",
+  "scope": "engine",
+  "claim": "secret-ballot totals hidden while voting is open (live page)",
+  "file": "packages/engine/src/model.ts",
+  "find": "const showTally = secret ? finished && sealed : pt.state !== \"pending\";",
+  "replace": "const showTally = pt.state !== \"pending\";",
+  "test": "packages/engine/test/log-report.test.ts"
+ },
+ {
+  "id": "A01",
+  "scope": "api",
+  "claim": "DB refuses a second ballot per flat+point (UNIQUE)",
+  "file": "migrations/0001_records.sql",
+  "find": "open_choice_json TEXT, voted_ms INTEGER NOT NULL, log_seq INTEGER, UNIQUE (event_id, point_id, flat_no)",
+  "replace": "open_choice_json TEXT, voted_ms INTEGER NOT NULL, log_seq INTEGER",
+  "test": "apps/api/test/security.test.ts"
+ },
+ {
+  "id": "A02",
+  "scope": "api",
+  "claim": "voter_ledger rejects UPDATE (append-only trigger)",
+  "file": "migrations/0001_records.sql",
+  "find": "CREATE TRIGGER voter_ledger_no_update BEFORE UPDATE ON voter_ledger BEGIN SELECT RAISE(ABORT, 'append-only: UPDATE refused on voter_ledger'); END;",
+  "replace": "",
+  "test": "apps/api/test/security.test.ts"
+ },
+ {
+  "id": "A03",
+  "scope": "api",
+  "claim": "log_entries rejects DELETE (append-only trigger)",
+  "file": "migrations/0001_records.sql",
+  "find": "CREATE TRIGGER log_entries_no_delete BEFORE DELETE ON log_entries BEGIN SELECT RAISE(ABORT, 'append-only: DELETE refused on log_entries'); END;",
+  "replace": "",
+  "test": "apps/api/test/security.test.ts"
+ },
+ {
+  "id": "A04",
+  "scope": "api",
+  "claim": "DB refuses a gapped log (chain trigger)",
+  "file": "migrations/0001_records.sql",
+  "find": "SELECT RAISE(ABORT, 'log chain: seq gap') WHERE",
+  "replace": "SELECT RAISE(ABORT, 'log chain: seq gap') WHERE 0 AND",
+  "test": "apps/api/test/security.test.ts"
+ },
+ {
+  "id": "A05",
+  "scope": "api",
+  "claim": "ballot box has no flat column",
+  "file": "migrations/0001_records.sql",
+  "find": "receipt_hash TEXT PRIMARY KEY, event_id TEXT NOT NULL, point_id TEXT NOT NULL, choice_json TEXT NOT NULL, weight INTEGER NOT NULL,",
+  "replace": "receipt_hash TEXT PRIMARY KEY, event_id TEXT NOT NULL, point_id TEXT NOT NULL, choice_json TEXT NOT NULL, weight INTEGER NOT NULL, flat_no TEXT,",
+  "test": "apps/api/test/security.test.ts"
+ },
+ {
+  "id": "A06",
+  "scope": "api",
+  "claim": "rejected rule changes are logged (visible)",
+  "file": "apps/api/src/handler.ts",
+  "find": "for (const k of Object.keys(changes)) await tx.add(\"rule_change_rejected\", ENTRY_ACTOR(st, pid), { scope, param: k, reason: d.code });",
+  "replace": "",
+  "test": "apps/api/test/security.test.ts"
+ },
+ {
+  "id": "A07",
+  "scope": "api",
+  "claim": "private contact roll only for the verified Organizer of the source",
+  "file": "apps/api/src/handler.ts",
+  "find": "cloneIsVerifiedOrganizerOfSource: isSrcOrg",
+  "replace": "cloneIsVerifiedOrganizerOfSource: true",
+  "test": "apps/api/test/security.test.ts"
+ },
+ {
+  "id": "A08",
+  "scope": "api",
+  "claim": "contact reads are logged",
+  "file": "apps/api/src/handler.ts",
+  "find": "await tx.add(\"contacts_read\", ENTRY_ACTOR(st, pid), { by: pid, scope: \"all\" }); await tx.commit();",
+  "replace": "await tx.commit();",
+  "test": "apps/api/test/security.test.ts"
+ },
+ {
+  "id": "A09",
+  "scope": "api",
+  "claim": "Turnstile fails closed",
+  "file": "apps/api/src/core.ts",
+  "find": "if (c.env.TEST_MODE === \"1\" && t === \"test-ok\") return;\n  throw err(403, \"turnstile\", \"Please complete the check and try again.\");",
+  "replace": "return;",
+  "test": "apps/api/test/security.test.ts"
+ },
+ {
+  "id": "A10",
+  "scope": "api",
+  "claim": "rate limits bite",
+  "file": "apps/api/src/core.ts",
+  "find": "if ((row?.n ?? 0) > limit) throw err(429",
+  "replace": "if ((row?.n ?? 0) > limit * 1000) throw err(429",
+  "test": "apps/api/test/security.test.ts"
+ },
+ {
+  "id": "A11",
+  "scope": "api",
+  "claim": "mail quota enforced",
+  "file": "apps/api/src/core.ts",
+  "find": "if ((row?.n ?? 0) >= limit) continue;",
+  "replace": "",
+  "test": "apps/api/test/security.test.ts"
+ },
+ {
+  "id": "A12",
+  "scope": "api",
+  "claim": "payments only in TEST mode",
+  "file": "apps/api/src/handler.ts",
+  "find": "if (c.env.TEST_MODE !== \"1\") throw err(503, \"pay_disabled\", \"Payments are not switched on yet.\");",
+  "replace": "",
+  "test": "apps/api/test/security.test.ts"
+ },
+ {
+  "id": "A13",
+  "scope": "api",
+  "claim": "super console can suspend only a future event",
+  "file": "apps/api/src/handler.ts",
+  "find": "if (st.status !== \"setup\" && st.status !== \"agenda_published\") throw err(409, \"not_future\"",
+  "replace": "if (false) throw err(409, \"not_future\"",
+  "test": "apps/api/test/security.test.ts"
+ },
+ {
+  "id": "A14",
+  "scope": "api",
+  "claim": "a staff token only works for its own event",
+  "file": "apps/api/src/handler.ts",
+  "find": "if (s.eventId !== eid) throw err(403, \"wrong_event\"",
+  "replace": "if (false) throw err(403, \"wrong_event\"",
+  "test": "apps/api/test/security.test.ts"
+ },
+ {
+  "id": "A15",
+  "scope": "api",
+  "claim": "people table holds masked e-mail only",
+  "file": "apps/api/src/handler.ts",
+  "find": "p.email ? maskEmail(p.email) : \"\", p.phone ? maskPhone(p.phone) : \"\", flatNo, c.now)",
+  "replace": "p.email, p.phone ? maskPhone(p.phone) : \"\", flatNo, c.now)",
+  "test": "apps/api/test/security.test.ts"
+ },
+ {
+  "id": "A16",
+  "scope": "api",
+  "claim": "no DELETE route (405)",
+  "file": "apps/api/src/handler.ts",
+  "find": "if (req.method === \"DELETE\") throw err(405, \"no_delete\", \"Nothing can be deleted here.\");",
+  "replace": "",
+  "test": "apps/api/test/security.test.ts"
+ },
+ {
+  "id": "A17",
+  "scope": "api",
+  "claim": "secret-ballot log entry carries no choice",
+  "file": "apps/api/src/handler.ts",
+  "find": "await tx.add(\"vote_recorded\", { flat: flatNo }, { pointId, flatNo, kind },",
+  "replace": "await tx.add(\"vote_recorded\", { flat: flatNo }, { pointId, flatNo, kind, choices: bc.choices },",
+  "test": "apps/api/test/security.test.ts"
+ },
+ {
+  "id": "A18",
+  "scope": "api",
+  "claim": "crypto-shred destroys the data key",
+  "file": "apps/api/src/handler.ts",
+  "find": "UPDATE event_keys SET wrapped_key=NULL, destroyed_ms=? WHERE event_id=?",
+  "replace": "UPDATE event_keys SET destroyed_ms=? WHERE event_id=?",
+  "test": "apps/api/test/security.test.ts"
+ },
+ {
+  "id": "A19",
+  "scope": "api",
+  "claim": "voter code only for a flat marked present",
+  "file": "apps/api/src/handler.ts",
+  "find": "if (!st.attendance.has(flatNo)) throw err(409, \"not_present\", \"Mark this flat present before giving out a code.\");",
+  "replace": "",
+  "test": "apps/api/test/security.test.ts"
+ },
+ {
+  "id": "A20",
+  "scope": "api",
+  "claim": "private contacts are encrypted at rest",
+  "file": "apps/api/src/handler.ts",
+  "find": "const ct = await aesEncrypt(key, JSON.stringify(p), eid + \"|\" + pid);",
+  "replace": "const ct = JSON.stringify(p);",
+  "test": "apps/api/test/security.test.ts"
+ },
+ {
+  "id": "A21",
+  "scope": "api",
+  "claim": "vote login is single-use and bound to the flat (generic failure)",
+  "file": "apps/api/src/handler.ts",
+  "find": "throw err(401, \"invalid_code\", \"That code did not work. Ask the person at the desk for a new one.\");",
+  "replace": "return json({ token: \"x\" });",
+  "test": "apps/api/test/security.test.ts"
+ },
+ {
+  "id": "A22",
+  "scope": "api",
+  "claim": "anchor route needs the internal secret",
+  "file": "apps/api/src/handler.ts",
+  "find": "if (!c.env.INTERNAL_SECRET || c.req.headers.get(\"x-internal-secret\") !== c.env.INTERNAL_SECRET) throw err(404, \"not_found\", \"Not found.\");",
+  "replace": "",
+  "test": "apps/api/test/security.test.ts"
+ },
+ {
+  "id": "A23",
+  "scope": "api",
+  "claim": "text with phone/e-mail is refused, not published",
+  "file": "packages/engine/src/log.ts",
+  "find": "if (bad.length) throw new Error",
+  "replace": "if (false) throw new Error",
+  "test": "apps/api/test/security.test.ts"
+ }
 ]

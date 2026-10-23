@@ -79,3 +79,12 @@ Exceeded -> `429 {error:"rate_limited", retryAfterSec}`.
 
 ### Internal
 POST `/api/internal/anchor` (header `x-internal-secret`) appends `anchor` entries for live events; used by the owner-only scheduler later.
+
+## Addendum: as built (2026-10-23)
+Routes added during the build, all in `apps/api/src/handler.ts`:
+* PUB `GET /api/schema` (rule parameter and option definitions, event types, prices) · `GET /api/r/:id/head` (`{seq,hash,status}` for the live page refresh) · `GET /api/r/:id/data` (model + log).
+* STAFF `POST /api/events/:id/holders` (add a flat holder's contact to the PRIVATE roll; log entry `holder_added`, masked) · `POST /api/events/:id/people/:pid/remove` · `POST /api/events/:id/crypto-shred` (Organizer only; allowed after close).
+* `GET /api/events/:id` returns `{model, progress}`: the public view and the 8-step console state in one call.
+* Rate limits as built: AUTH per address 20/10 min, per person 5/10 min, per event 60/10 min · VOTE-LOGIN per address 400/10 min (a hall shares one Wi-Fi address), per address+flat 20/10 min, per event 600/10 min, plus the 5-try lock on the passcode itself · CREATE 5 events per address per hour · WRITE 120/min per session · all writes 600/min per address, reads 240/min.
+* Failed passcode attempts are counted (5 tries then a 15-minute lock) but not chained one by one, so nobody can flood the public log; the lock itself, every issue, every success and every refused vote (`vote_rejected`) are logged.
+* A text field containing a complete e-mail address or phone number is refused with `contains_personal_data` instead of being published.

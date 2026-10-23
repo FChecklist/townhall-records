@@ -59,3 +59,8 @@ Rules for payloads: integers only; no e-mail, phone, full name, passcode digits,
 
 ## 6. What breaks what (each is a test)
 Edit any payload byte -> hash mismatch. Reorder/drop an entry -> seq gap / prev mismatch. Replace an entry with a re-hashed one -> signature fails. Re-sign with another key -> signature fails against the published key. Append after a truncated head -> `expectedHead` check fails. Edit the downloaded report -> section 3 and the file seal (REPORT-SPEC) fail.
+
+## Addendum: entry types added during the build
+`rules_initialized {packId, params, options, locked}` (the complete starting rules, so the report can show every later change) · `holder_added {pid, flatNo, maskedName}` · `vote_rejected {pointId, flatNo, reason}` (informational) · `key_destroyed {by}` (crypto-shredding) · `passcode_issued` also carries `kind` (official/proxy) and `voided` count.
+Entries are always written in one atomic D1 batch together with their record-table rows. `ballot_box_sealed` carries `n`, `castWeight`, sorted `receipts`, per-option `counts` {weight,count}, optional `split` (official/proxy, only when each side meets the small-group threshold) and `digest`; it never carries per-ballot weights.
+The replay (engine `replayLog`) re-checks: one vote per flat per point, voting only while the point is open and the flat is present, rules frozen once a point opens, roll frozen once voting starts, ballot-box size and weight equal to the flats that voted, and every `result_computed` equals the recomputed tally.
