@@ -27,7 +27,7 @@ export interface PointView {
   labels: Record<string, string>; minChoices: number; format: EventFormat | null; seats: string[]; topN: number | null; design: BallotDesign; instruction: string;
 }
 export interface ReportModel {
-  v: 1; eid: string; live: boolean; phase: string; percent: number;
+  v: 1; eid: string; live: boolean; phase: string; stage: Stage; percent: number;
   title: string; kind: string; eventType: string; venue: string; scheduledMs: number; schedule: Schedule; scheduleChanges: number; timezone: string; country: string; closedMs: number | null; packId: string;
   society: { name: string; address: string; registrationNo: string; kind: string }; createdFrom: string | null;
   head: { seq: number; hash: string } | null; status: string;
@@ -48,6 +48,18 @@ export interface ReportModel {
   compliance: Compliance; access: { termsAccepted: number; entriesWithAccessFingerprint: number; entries: number };
 }
 
+export type Stage = "rules" | "attendance" | "quorum" | "vote" | "count" | "publish";
+/** Where the event is, in the six steps of the real room: Rules, Attendance, Quorum, Vote, Count, Publish. */
+export function stageOf(s: EventState): Stage {
+  if (s.status === "closed") return "publish";
+  if (s.status === "setup" || s.status === "suspended") return "rules";
+  if (s.status === "agenda_published") return "attendance";
+  const pts = [...s.points.values()].filter((p) => p.def.kind !== "discussion");
+  if (pts.some((p) => p.state === "open")) return "vote";
+  if (pts.some((p) => p.state === "closed" && !s.results.has(p.def.pointId)) || (pts.length > 0 && pts.every((p) => p.state === "closed"))) return "count";
+  if (s.rules?.options.quorum_check) { try { return computeQuorum(s.rules, s.roll, presentFlatNos(s)).met && s.attendance.size > 0 ? "quorum" : "attendance"; } catch { return "attendance"; } }
+  return s.attendance.size > 0 ? "quorum" : "attendance";
+}
 export function buildReportModel(s: EventState): ReportModel {
   const c = s.created;
   const rules = s.rules;
@@ -79,7 +91,7 @@ export function buildReportModel(s: EventState): ReportModel {
   });
   const prog = progressOf(s);
   return {
-    v: 1, eid: s.eid, live: s.status !== "closed", phase: prog.phase, percent: prog.percent,
+    v: 1, eid: s.eid, live: s.status !== "closed", phase: prog.phase, stage: stageOf(s), percent: prog.percent,
     title: c?.title ?? "", kind: c?.kind ?? "", eventType: c?.eventType ?? "", venue: c?.venue ?? "", scheduledMs: c?.scheduledMs ?? 0, schedule: c?.schedule ?? defaultSchedule(0, ""), scheduleChanges: s.scheduleChanges.length, country: c?.country ?? "IN", closedMs: s.closedInfo?.ts ?? null, timezone: c?.timezone ?? "UTC", packId: c?.packId ?? "",
     society: c?.society ?? { name: "", address: "", registrationNo: "", kind: "" }, createdFrom: c?.createdFrom ?? null,
     head: s.head, status: s.status,

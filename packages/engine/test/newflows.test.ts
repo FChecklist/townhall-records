@@ -180,3 +180,29 @@ describe("the public page has a language drop-down in the upper right", () => {
     expect(html).toContain('/pdf" data-i18n="btn.pdf"'); // the final report offers the PDF and a byte-identical copy
   });
 });
+
+describe("the six steps of the real room, and the brand line", () => {
+  test("stage follows the event: Rules, Attendance, Quorum, Vote, Count, Publish", async () => {
+    const { stageOf, BRAND, BRAND_STEPS } = await import("../src");
+    const s = await Scenario.create();
+    expect(stageOf(await s.state())).toBe("rules");
+    await s.addPoint("pt_1", "1"); await s.pay(); await s.publish(); expect(stageOf(await s.state())).toBe("attendance");
+    await s.start(); expect(stageOf(await s.state())).toBe("attendance"); // started, nobody checked in yet
+    await s.attend("A-101"); expect(stageOf(await s.state())).toBe("attendance"); // 1 present, quorum (30% of 10 = 3) not met
+    await s.attend("A-102"); await s.attend("A-103"); expect(stageOf(await s.state())).toBe("quorum");
+    await s.open("pt_1"); expect(stageOf(await s.state())).toBe("vote");
+    await s.add("point_closed", s.org, { pointId: "pt_1", by: "x" }); expect(stageOf(await s.state())).toBe("count"); // closed, not yet counted
+    await s.add("result_computed", { system: true }, resultPayload(await s.state(), "pt_1")); expect(stageOf(await s.state())).toBe("count"); // every point closed
+    await s.closeEvent(); expect(stageOf(await s.state())).toBe("publish");
+    expect([...BRAND_STEPS]).toEqual(["Rules", "Attendance", "Quorum", "Vote", "Count", "Publish"]); expect(BRAND).toBe("Townhall");
+  });
+  test("the page shows the brand, the six steps with pictures, highlights the current one, and the terms/mails carry the brand", async () => {
+    const s = await Scenario.fullMeeting(); const k = await testKey(); const m = buildReportModel(await s.state()); const html = renderReportHtml(m, s.entries, k.publicKeyRaw, k.kid);
+    expect(m.stage).toBe("publish"); expect(html).toContain('<p class="brandline"><b>Townhall</b>'); expect(html).toContain("Rules · Attendance · Quorum · Vote · Count · Publish");
+    for (const id of ["rules", "attendance", "quorum", "vote", "count", "publish"]) expect(html).toContain(`data-i18n="stage.${id}"`);
+    expect((html.match(/<li class="(done|now)?"?>?<svg/g) ?? []).length + (html.match(/<ol class="track">/g) ?? []).length).toBeGreaterThan(0);
+    expect(html).toContain('<li class="now"><svg'); expect(html.split('<li class="done"><svg').length - 1).toBe(5); // five steps done, the last one is now
+    expect(html).toContain("<title>Green Park Apartments · Annual General Meeting 2026 · Townhall</title>");
+    const { TERMS_TEXT } = await import("../src"); expect(TERMS_TEXT.startsWith("By using Townhall you agree")).toBe(true);
+  });
+});

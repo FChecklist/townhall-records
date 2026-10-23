@@ -772,5 +772,32 @@
   "find": "tied: same(i - 1) || same(i + 1) };",
   "replace": "tied: false };",
   "test": "packages/engine/test/ballot.test.ts"
+ },
+ {
+  "id": "E48",
+  "scope": "engine",
+  "claim": "stage shows Vote while a point is open",
+  "file": "packages/engine/src/model.ts",
+  "find": "if (pts.some((p) => p.state === \"open\")) return \"vote\";",
+  "replace": "",
+  "test": "packages/engine/test/newflows.test.ts"
+ },
+ {
+  "id": "E49",
+  "scope": "engine",
+  "claim": "verifier never throws on a damaged chain",
+  "file": "packages/engine/src/log.ts",
+  "find": "if (!Array.isArray(entries) || entries.some((x) => !wellFormed(x))) return fail(0, \"hash_mismatch\");",
+  "replace": "",
+  "test": "packages/engine/test/log-report.test.ts"
+ },
+ {
+  "id": "E50",
+  "scope": "engine",
+  "claim": "privacy scanner catches a 0-prefixed phone number",
+  "file": "packages/engine/src/masking.ts",
+  "find": "  /(?<!\\d)0\\d{10}(?!\\d)/g, // 09876543210 (trunk prefix)\n",
+  "replace": "",
+  "test": "packages/engine/test/basics.test.ts"
  }
 ]

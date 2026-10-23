@@ -1,8 +1,8 @@
-// AOA-RWA API: one framework-free entry point, `handle(request, env, now)`. The Pages Function only forwards to it.
+// Townhall API: one framework-free entry point, `handle(request, env, now)`. The Pages Function only forwards to it.
 // Routes and rules: docs/design/API.md. There is no DELETE route and no route that edits history.
 import rulePacks from "../../../docs/research/rule-packs.json";
 import {
-  type Bytes, HANDSHAKE_MAX_TRIES, HANDSHAKE_TTL_MS, codeHash, openLink, voterConfirm, monitorConfirm, type Handshake, hmacHex, newSerial, paperToken, parsePaperToken, paperLayout, renderPaperSvg, LANGUAGES, coverage, dictionary, isLang, playbook,
+  type Bytes, BRAND, HANDSHAKE_MAX_TRIES, HANDSHAKE_TTL_MS, codeHash, openLink, voterConfirm, monitorConfirm, type Handshake, hmacHex, newSerial, paperToken, parsePaperToken, paperLayout, renderPaperSvg, LANGUAGES, coverage, dictionary, isLang, playbook,
   defaultSchedule, validateSchedule, type Schedule, TERMS_VERSION, TERMS_TEXT, termsSha256, priceFor, isCountry, formatPrice, renderReportPdf, pdfSha256, extractSeal, normalizeBallotDesign, defaultBallotDesign, ballotInstruction, type Actor,
   CUSTOM_WORLD_PACK, OPTIONS, PARAMS, RuleError, aesDecrypt, aesEncrypt, applyRecommended, b64url, buildReportModel, canAmendPoint, canChangeRoll, canChangeRule, canDo, canVote, cloneTemplate,
   deriveKey32, effectiveWeight, extractData, fromB64url, issuePasscode, loadAllPacks, maskEmail, maskName, maskPhone, newRuleSet, parseMajority, progressOf, proxyAllowed, randomHex, renderReportHtml,
@@ -233,7 +233,7 @@ async function issueLogin(c: Ctx, eid: string, pid: string, to: string, society:
   const { code, voidedIds } = await issuePasscode({ store: new D1PasscodeStore(c.db), pepper: c.env.PEPPER, eventId: eid, purpose: "login", subject: pid, nowMs: c.now, ttlMs: LOGIN_TTL_MS, newId: () => newId("pc_"), issuedBy: null });
   await tx.add("passcode_issued", { system: true }, { purpose: "login", subjectKind: "person", subject: pid, voided: voidedIds.length });
   await tx.commit();
-  await sendMail(c, to, "Your AOA-RWA code", `Your 6-digit code for ${society} is ${code}.\nIt works once and expires in 15 minutes. Never share it.\n`);
+  await sendMail(c, to, `Your ${BRAND} code`, `Your 6-digit code for ${society} is ${code}.\nIt works once and expires in 15 minutes. Never share it.\n`);
 }
 route("POST", "/api/auth/request", async (c) => {
   const { eventId, personId } = c.body; const eid = str(eventId, "eventId", 10, 64), pid = str(personId, "personId", 3, 40);

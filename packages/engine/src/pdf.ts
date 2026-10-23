@@ -5,6 +5,7 @@ import { dayParts, milestoneLabel, MILESTONE_KEYS } from "./schedule";
 import { sha256Hex, type Bytes } from "./crypto";
 import type { EmbeddedData, Seal } from "./model";
 import { FORMAT_LABEL } from "./ballot";
+import { BRAND } from "./brand";
 
 const W = 595, H = 842, M = 48, LEAD = 1.28;
 type FontKey = "F1" | "F2" | "F3";
@@ -81,7 +82,7 @@ export interface PdfOptions { reportUrl?: string }
 export async function renderReportPdf(data: EmbeddedData, seal: Seal | null, opts: PdfOptions = {}): Promise<Bytes> {
   const m = data.model, kindWord = m.kind === "election" ? "Election" : "Meeting";
   const d = new Doc(`Event ${m.eid.slice(0, 12)}...  Log head ${m.head?.hash.slice(0, 16) ?? ""}...`);
-  d.text(`AOA-RWA | Record of a ${kindWord}`, { size: 9, font: "F2" });
+  d.text(`${BRAND} | Record of a ${kindWord}`, { size: 9, font: "F2" });
   d.text(m.title, { size: 20, font: "F2", gap: 4 });
   d.text(`${m.society.name} (${m.society.kind}) | Registration no. ${m.society.registrationNo}`, { size: 11, font: "F2" });
   d.text(m.society.address, { size: 10 });

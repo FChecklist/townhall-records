@@ -125,7 +125,7 @@ export async function mailsToday(c: Ctx): Promise<Array<{ provider: string; n: n
 export async function sendMail(c: Ctx, to: string, subject: string, text: string, attachments: Attachment[] = []): Promise<void> {
   const providers: Mailer[] = [];
   if (c.env.MAILER) providers.push(c.env.MAILER);
-  else if (c.env.RESEND_API_KEY) providers.push(new ResendMailer(c.env.RESEND_API_KEY, c.env.MAIL_FROM ?? "AOA-RWA <noreply@example.invalid>"));
+  else if (c.env.RESEND_API_KEY) providers.push(new ResendMailer(c.env.RESEND_API_KEY, c.env.MAIL_FROM ?? "Townhall <noreply@example.invalid>"));
   else providers.push(new OutboxMailer(c.db, c.now));
   if (c.env.MAILER2) providers.push(c.env.MAILER2);
   const day = dayOf(c.now), limit = mailLimit(c.env);

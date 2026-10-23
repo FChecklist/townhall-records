@@ -14,6 +14,7 @@ export * from "./model";
 export * from "./render";
 export * from "./schedule";
 export * from "./ballot";
+export * from "./brand";
 export * from "./handshake";
 export * from "./paper";
 export * from "./i18n";

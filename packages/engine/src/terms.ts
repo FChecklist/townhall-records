@@ -1,9 +1,10 @@
 // Terms and conditions every person must tick before acting (organizers, hosts, attendance officers) or voting (every flat).
 // The acceptance is a signed log entry that names the exact version and the SHA-256 of this text. Plain words; Hindi text is added by the UI session under the same version key.
 import { sha256Hex } from "./crypto";
+import { BRAND } from "./brand";
 
-export const TERMS_VERSION = "2026-10-23.1";
-export const TERMS_TEXT = `By using AOA-RWA you agree to the following.
+export const TERMS_VERSION = "2026-10-23.2";
+export const TERMS_TEXT = `By using ${BRAND} you agree to the following.
 
 1. Everything is recorded. Every action you take on this service is written to a tamper-evident record. For each action we also keep, privately and encrypted: your IP address, a device identifier created by your browser, your browser type and the time. This is required, for everyone, so that the meeting or election can be checked afterwards.
 

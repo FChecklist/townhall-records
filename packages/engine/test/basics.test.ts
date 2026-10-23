@@ -35,11 +35,13 @@ describe("masking (Amendment A6 examples)", () => {
     const masked = [maskEmail("rajat@gmail.com"), maskPhone("9876543210"), maskName("Rajat Agarwal")].join(" ");
     expect(scanPublic(masked)).toEqual([]);
     expect(scanPublic("write to rajat@gmail.com").some((f) => f.kind === "email")).toBe(true);
-    for (const p of ["9876543210", "98765 43210", "98765-43210", "+91 98765 43210", "987-654-3210", "919876543210"]) expect(scanPublic("call " + p).some((f) => f.kind === "phone")).toBe(true);
+    for (const p of ["9876543210", "98765 43210", "98765-43210", "+91 98765 43210", "987-654-3210", "919876543210", "09876543210"]) expect(scanPublic("call " + p).some((f) => f.kind === "phone")).toBe(true);
   });
   test("hashes, ids and 13-digit timestamps are not mistaken for phone numbers", () => {
     const hash = "a1234567890b".repeat(5) + "abcd", ts = '"ts":1790000000000', id = "p_1234567890abcdef";
     expect(scanPublic(`${hash} ${ts} ${id}`)).toEqual([]);
+    expect(scanPublic("Event 9761113379ed... and 9761113379ed0885690c")).toEqual([]); // the start of an id is not a phone number
+    expect(scanPublic("tel9876543210").length).toBeGreaterThan(0);
   });
   test("allow-list lets a public 10-digit registration number through; forbidden strings are caught", () => {
     expect(scanPublic("Reg 1234567890", { allow: ["1234567890"] })).toEqual([]);
