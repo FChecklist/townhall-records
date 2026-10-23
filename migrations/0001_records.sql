@@ -58,7 +58,7 @@ CREATE TABLE attendance (           -- PUBLIC (flat number, method; no images, n
 CREATE INDEX att_ev ON attendance(event_id, flat_no, id);
 CREATE TABLE voter_ledger (         -- PUBLIC for who-voted (by flat). open_choice_json only when the point is an OPEN vote.
   id INTEGER PRIMARY KEY AUTOINCREMENT, event_id TEXT NOT NULL, point_id TEXT NOT NULL, flat_no TEXT NOT NULL, kind TEXT NOT NULL CHECK (kind IN ('official','proxy')),
-  open_choice_json TEXT, voted_ms INTEGER NOT NULL, log_seq INTEGER, UNIQUE (event_id, point_id, flat_no)
+  open_choice_json TEXT, voted_ms INTEGER NOT NULL, log_seq INTEGER, channel TEXT NOT NULL DEFAULT 'online' CHECK (channel IN ('online','paper')), UNIQUE (event_id, point_id, flat_no)
 );
 CREATE TABLE ballot_box (           -- PUBLIC only as receipts + totals. NO flat, NO time, random primary key, physical order unrelated to cast order.
   receipt_hash TEXT PRIMARY KEY, event_id TEXT NOT NULL, point_id TEXT NOT NULL, choice_json TEXT NOT NULL, weight INTEGER NOT NULL,

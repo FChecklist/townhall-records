@@ -257,7 +257,7 @@ describe("append-only database and tamper evidence", () => {
     const h = await H.make(); const e = await setup(h);
     for (const p of [`/api/events/${e.eid}`, `/api/events/${e.eid}/points/${e.pointId}`, `/api/events/${e.eid}/people/${e.pid}`, `/api/r/${e.eid}`, "/api/super/events/x"]) expect((await h.call("DELETE", p, undefined, e.org)).status).toBe(405);
     expect(await Bun.file("apps/api/src/handler.ts").text()).not.toMatch(/route\("DELETE"/);
-    expect(await Bun.file("apps/api/src/handler.ts").text()).not.toMatch(/prepare\("(DELETE|UPDATE) (?!passcodes|sessions|event_keys|kv_state)/);
+    expect(await Bun.file("apps/api/src/handler.ts").text()).not.toMatch(/prepare\("(DELETE|UPDATE) (?!passcodes|sessions|event_keys|kv_state|handshakes)/);
   });
 });
 

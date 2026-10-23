@@ -41,6 +41,7 @@ export function canDo(s: EventState, pid: string | null, action: Action, ctx: { 
       if (miss.length) return no("rules_unset", "Some required rules are not set yet: " + miss.join(", "));
       if (![...s.points.values()].length) return no("no_points", "Add at least one agenda point.");
       if (!s.roll.some((f) => f.eligible)) return no("no_flats", "Add the flats first.");
+      if (s.rules && s.rules.params["ballot.mode"] && s.rules.params["ballot.mode"] !== "online" && [...s.points.values()].some((x) => x.def.kind !== "discussion" && !x.def.secret)) return no("paper_needs_secret", "Printed ballots cannot show who voted, so every point voted on paper must be a secret ballot. Make those points secret or choose online ballots.");
       return yes;
     }
     case "start":

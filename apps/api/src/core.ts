@@ -172,6 +172,7 @@ export async function requireSession(c: Ctx, kind: Session["kind"]): Promise<Ses
   const h = await pepperHash(c.env, "session", m[1]!);
   const r = await c.db.prepare("SELECT * FROM sessions WHERE token_hash=? AND kind=? AND expires_ms>?").bind(h, kind, c.now).first<any>();
   if (!r) throw err(401, "not_signed_in", "Please sign in again.");
+  if (r.device_hash && (!c.deviceId || (await pepperHash(c.env, "dev", c.deviceId)) !== r.device_hash)) throw err(403, "wrong_device", "This session belongs to another phone. Ask the Attendance Officer to link this phone.");
   return { tokenHash: h, kind: r.kind, eventId: r.event_id, personId: r.person_id, flatNo: r.flat_no };
 }
 

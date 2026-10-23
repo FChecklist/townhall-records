@@ -18,7 +18,8 @@ export interface PointRun {
   frozen: RuleSet | null; presentWeightAtClose: number | null; totalWeightAtClose: number | null; quorumAtOpen: QuorumResult | null;
 }
 export interface Presence { flatNo: string; maskedName: string; mode: string; method: string; docType: string | null; docLast4: string | null; by: string; independent: boolean; evidenceHash: string | null; seq: number; ts: number }
-export interface Seal { n: number; receipts: string[]; counts: Record<string, { weight: number; count: number }>; castWeight: number; digest: string; split: Aggregate["split"] }
+export interface PaperStats { serials: number; counted: number; invalid: number; voided: number; uncounted: number; imagesDigest: string }
+export interface Seal { n: number; receipts: string[]; counts: Record<string, { weight: number; count: number }>; castWeight: number; digest: string; split: Aggregate["split"]; paper: PaperStats | null }
 export interface RuleChange { seq: number; ts: number; scope: string; param: string; old: Json | null; new: Json | null; reason: string; by: string | null }
 
 export interface EventState {
@@ -30,7 +31,8 @@ export interface EventState {
   roll: Flat[]; rollRev: number;
   points: Map<string, PointRun>; pointOrder: string[];
   attendance: Map<string, Presence>; attendanceLog: Presence[];
-  ledger: Map<string, Map<string, { kind: "official" | "proxy"; choices: string[] | null; seq: number }>>;
+  ledger: Map<string, Map<string, { kind: "official" | "proxy"; choices: string[] | null; seq: number; channel: "online" | "paper" }>>;
+  devices: Array<{ seq: number; flatNo: string; replaced: boolean }>; handshakes: number;
   seals: Map<string, Seal>; results: Map<string, PointTally>;
   agenda: null | { seq: number; ts: number; givenDays: number; minDays: number | null; maxDays: number | null; met: boolean | null };
   startedTs: number | null; closedInfo: null | { seq: number; ts: number };
@@ -47,7 +49,7 @@ export function emptyState(eid: string): EventState {
   return {
     eid, seqCount: 0, head: null, firstTs: null, lastTs: null, created: null, rules: null, initialRules: null, ruleHistory: [], rejectedChanges: [], status: "setup", paid: false, payments: [],
     people: new Map(), roleLog: [], roll: [], rollRev: 0, points: new Map(), pointOrder: [], attendance: new Map(), attendanceLog: [], ledger: new Map(),
-    seals: new Map(), results: new Map(), agenda: null, startedTs: null, closedInfo: null, clones: [], platformActions: [], contactsReads: 0, anchors: [], scheduleChanges: [], terms: new Set(), accEntries: 0, packInfo: { name: "", confidence: "", needsLawyer: true }, problems: [],
+    seals: new Map(), results: new Map(), devices: [], handshakes: 0, agenda: null, startedTs: null, closedInfo: null, clones: [], platformActions: [], contactsReads: 0, anchors: [], scheduleChanges: [], terms: new Set(), accEntries: 0, packInfo: { name: "", confidence: "", needsLawyer: true }, problems: [],
   };
 }
 
@@ -173,18 +175,37 @@ export async function replayLog(entries: SignedEntry[]): Promise<EventState> {
         if (open === pt.def.secret) bad(seq, `vote entry type does not match the secrecy of point ${pt.def.number}`);
         const led = s.ledger.get(p.pointId) ?? new Map(); s.ledger.set(p.pointId, led);
         if (led.has(p.flatNo)) bad(seq, `flat ${p.flatNo} voted twice on point ${pt.def.number}`);
-        led.set(p.flatNo, { kind: p.kind, choices: open ? p.choices : null, seq });
+        led.set(p.flatNo, { kind: p.kind, choices: open ? p.choices : null, seq, channel: "online" });
         break;
       }
+      case "paper_issued": {
+        const pt = s.points.get(p.pointId);
+        if (!pt) { bad(seq, "paper ballot for unknown point"); break; }
+        if (pt.state !== "open") bad(seq, `paper ballot given on point ${pt.def.number} while it was ${pt.state}`);
+        if (!s.attendance.has(p.flatNo)) bad(seq, `flat ${p.flatNo} was given a paper ballot without being marked present`);
+        if (!pt.def.secret && false) bad(seq, "unreachable");
+        const led = s.ledger.get(p.pointId) ?? new Map(); s.ledger.set(p.pointId, led);
+        if (led.has(p.flatNo)) bad(seq, `flat ${p.flatNo} voted twice on point ${pt.def.number}`);
+        led.set(p.flatNo, { kind: p.kind, choices: null, seq, channel: "paper" });
+        break;
+      }
+      case "paper_voided": { const pt = s.points.get(p.pointId); if (!pt) bad(seq, "void for unknown point"); else if (!s.ledger.get(p.pointId)?.has(p.flatNo)) bad(seq, `paper voided for flat ${p.flatNo} that was never given one`); break; }
+      case "handshake_started": s.handshakes += 1; break;
+      case "device_bound": s.devices.push({ seq, flatNo: p.flatNo, replaced: !!p.replaced }); break;
       case "ballot_box_sealed": {
         const pt = s.points.get(p.pointId); if (!pt || pt.state !== "closed") { bad(seq, "box sealed before the point closed"); break; }
         const led = s.ledger.get(p.pointId) ?? new Map();
         const rules = pt.frozen ?? s.rules ?? rs0();
         const wsum = [...led.keys()].reduce((a, f) => a + flatWeight(s, rules, f), 0);
-        if (p.n !== led.size) bad(seq, `ballot box holds ${p.n} ballots but ${led.size} flats voted`);
-        if (p.castWeight !== wsum) bad(seq, "ballot box weight does not match the flats that voted");
+        const paper: PaperStats | null = p.paper ?? null; const online = [...led.values()].filter((v) => v.channel === "online").length;
+        if (!paper && p.n !== led.size) bad(seq, `ballot box holds ${p.n} ballots but ${led.size} flats voted`);
+        if (paper) {
+          if (p.n !== online + paper.counted) bad(seq, `ballot box holds ${p.n} ballots but ${online} online votes and ${paper.counted} counted papers were recorded`);
+          if (paper.serials !== paper.counted + paper.invalid + paper.voided + paper.uncounted) bad(seq, "paper ballot accounts do not add up");
+          if (p.castWeight > wsum) bad(seq, "ballot box weight is more than the flats that voted can have");
+        } else if (p.castWeight !== wsum) bad(seq, "ballot box weight does not match the flats that voted");
         if ((p.receipts as string[]).length !== p.n) bad(seq, "receipt list length does not match");
-        s.seals.set(p.pointId, { n: p.n, receipts: p.receipts, counts: p.counts, castWeight: p.castWeight, digest: p.digest, split: p.split ?? null }); break;
+        s.seals.set(p.pointId, { n: p.n, receipts: p.receipts, counts: p.counts, castWeight: p.castWeight, digest: p.digest, split: p.split ?? null, paper }); break;
       }
       case "result_computed": {
         const pt = s.points.get(p.pointId); if (!pt) { bad(seq, "result for unknown point"); break; }

@@ -7,7 +7,7 @@ CREATE TABLE passcodes (            -- hash only; digits are never stored
 CREATE INDEX pass_subject ON passcodes(event_id, purpose, subject);
 CREATE INDEX pass_uniq ON passcodes(event_id, purpose, uniq_hash);
 CREATE TABLE sessions (             -- token hash only
-  token_hash TEXT PRIMARY KEY, event_id TEXT, person_id TEXT, flat_no TEXT, kind TEXT NOT NULL CHECK (kind IN ('staff','voter','super')), voter_kind TEXT, created_ms INTEGER NOT NULL, expires_ms INTEGER NOT NULL
+  token_hash TEXT PRIMARY KEY, event_id TEXT, person_id TEXT, flat_no TEXT, kind TEXT NOT NULL CHECK (kind IN ('staff','voter','super')), voter_kind TEXT, device_hash TEXT, ua_hash TEXT, created_ms INTEGER NOT NULL, expires_ms INTEGER NOT NULL
 );
 CREATE TABLE rate_limits (          -- key = salted hash of ip / email, never raw
   k TEXT NOT NULL, bucket INTEGER NOT NULL, n INTEGER NOT NULL, PRIMARY KEY (k, bucket)

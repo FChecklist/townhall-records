@@ -50,6 +50,8 @@ export function complianceChecks(s: EventState): Compliance {
   const bad = [...s.ledger.values()].flatMap((m) => [...m.keys()]).filter((f) => !eligible.has(f));
   add("eligibility", "Only eligible flats voted", bad.length ? "fail" : "pass", bad.length ? `Flat(s) ${[...new Set(bad)].join(", ")} voted but are not on the voting list.` : "Every ballot came from a flat on the voting list.");
 
+  const papers = [...s.seals.values()].map((x) => x.paper).filter((x): x is NonNullable<typeof x> => !!x);
+  if (papers.length) { const U = papers.reduce((a, x) => a + x.uncounted, 0), I = papers.reduce((a, x) => a + x.invalid, 0); add("paper", "Paper ballots accounted for", U ? "info" : "pass", `${papers.reduce((a, x) => a + x.serials, 0)} issued; ${papers.reduce((a, x) => a + x.counted, 0)} counted; ${I} invalid; ${papers.reduce((a, x) => a + x.voided, 0)} voided; ${U} not returned.`); }
   add("one_vote", "One vote per flat per point", s.problems.some((x) => /voted twice/.test(x)) ? "fail" : "pass", s.problems.some((x) => /voted twice/.test(x)) ? "A flat voted twice." : "No flat voted twice on any point.");
   add("attendance", "Attendance", "info", s.attendance.size ? `${s.attendance.size} flat(s) present; ${[...s.attendance.values()].filter((a) => a.independent).length} marked by an Attendance Officer.` : "No attendance recorded yet.");
   add("rules_frozen", "Rules unchanged once voting opened", s.problems.some((x) => /rule changed after point|frozen rules/.test(x)) ? "fail" : "pass", s.rejectedChanges.length ? `${s.rejectedChanges.length} attempt(s) to change rules after voting opened were refused.` : "No rule was changed after voting opened.");

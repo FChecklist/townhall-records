@@ -2,6 +2,7 @@
 // Routes and rules: docs/design/API.md. There is no DELETE route and no route that edits history.
 import rulePacks from "../../../docs/research/rule-packs.json";
 import {
+  HANDSHAKE_MAX_TRIES, HANDSHAKE_TTL_MS, codeHash, openLink, voterConfirm, monitorConfirm, type Handshake, hmacHex, newSerial, paperToken, parsePaperToken, paperLayout, renderPaperSvg, LANGUAGES, coverage, dictionary, isLang, playbook,
   defaultSchedule, validateSchedule, type Schedule, TERMS_VERSION, TERMS_TEXT, termsSha256, priceFor, isCountry, formatPrice, renderReportPdf, pdfSha256, extractSeal, normalizeBallotDesign, defaultBallotDesign, ballotInstruction, type Actor,
   CUSTOM_WORLD_PACK, OPTIONS, PARAMS, RuleError, aesDecrypt, aesEncrypt, applyRecommended, b64url, buildReportModel, canAmendPoint, canChangeRoll, canChangeRule, canDo, canVote, cloneTemplate,
   deriveKey32, effectiveWeight, extractData, fromB64url, issuePasscode, loadAllPacks, maskEmail, maskName, maskPhone, newRuleSet, parseMajority, progressOf, proxyAllowed, randomHex, renderReportHtml,
@@ -17,6 +18,7 @@ export const PACKS: Map<string, EnginePack> = loadAllPacks(rulePacks);
 const EVENT_TYPES = ["agm", "sgm", "monthly", "committee", "custom"];
 const PRICES_PUBLIC = { india: { meeting: priceFor("meeting", "IN"), election: priceFor("election", "IN") }, world: { meeting: priceFor("meeting", "US"), election: priceFor("election", "US") } };
 const STAFF_TTL = 12 * 3600_000, VOTER_TTL = 8 * 3600_000;
+const _unused = 0; void _unused;
 const ENTRY_ACTOR = (st: EventState, pid: string) => actorOf(pid, st.people.get(pid)?.roles[0] ?? "none");
 
 type Handler = (c: Ctx, m: RegExpMatchArray) => Promise<Response>;
@@ -62,7 +64,7 @@ async function auditKey(c: Ctx, eid: string): Promise<{ key: Uint8Array; scope: 
   if (eid !== "platform") { try { return { key: await eventKey(c, eid), scope: "event" }; } catch { /* destroyed or none: platform key */ } }
   return { key: await deriveKey32(c.env.MASTER_SECRET, "platform-audit"), scope: "platform" };
 }
-const routeName = (path: string) => path.replace(/\b[0-9a-f]{32}\b/g, ":id").replace(/\bp_[0-9a-f]{16}\b/g, ":pid").replace(/\bpt_[0-9a-f]{16}\b/g, ":pt");
+const routeName = (path: string) => path.replace(/\b[0-9a-f]{32,}\b/g, ":id").replace(/\bp_[0-9a-f]{16}\b/g, ":pid").replace(/\bpt_[0-9a-f]{16}\b/g, ":pt");
 /** Writes one audit row. Choices, receipts and passcodes are never part of it. Throws if the row cannot be written (the caller then refuses the request). */
 async function writeAudit(c: Ctx, phase: "request" | "result", status: number | null): Promise<number> {
   const eid = c.eventId ?? "platform"; const { key, scope } = await auditKey(c, eid);
@@ -526,15 +528,20 @@ route("POST", "/api/events/:id/points/:pid/extend", async (c, m) => {
 async function closePoint(c: Ctx, tx: Tx, pid: string | null, pointId: string): Promise<void> {
   let st = await tx.st(); const actor: Actor = pid ? ENTRY_ACTOR(st, pid) : { system: true };
   await tx.add("point_closed", actor, { pointId, by: pid ?? "system" }, (seq) => [c.db.prepare("INSERT INTO point_state(point_id,event_id,state,ends_ms,log_seq,at_ms) VALUES(?,?,'closed',NULL,?,?)").bind(pointId, tx.eid, seq, c.now)]);
-  st = await tx.st(); const pt = st.points.get(pointId)!;
+  // a point voted partly on paper stays open for COUNTING (photographing the returned papers) until finishCount; all other points are counted at once
+  if (!(await paperStats(c, tx.eid, pointId))) await finishCount(c, tx, pid, pointId);
+}
+/** Seals the ballot box (secret points), then computes and records the result. For paper points the account of papers is part of the seal. */
+async function finishCount(c: Ctx, tx: Tx, pid: string | null, pointId: string): Promise<void> {
+  let st = await tx.st(); const pt = st.points.get(pointId)!;
   if (pt.def.secret) {
     const rows = (await c.db.prepare("SELECT receipt_hash, choice_json, weight, kind FROM ballot_box WHERE point_id=?").bind(pointId).all<any>()).results;
     const box: BoxBallot[] = rows.map((r) => ({ receipt: r.receipt_hash, choices: JSON.parse(r.choice_json), weight: r.weight, kind: r.kind }));
-    const payload = await sealBoxPayload(st, pointId, box);
+    const payload = await sealBoxPayload(st, pointId, box); const paper = await paperStats(c, tx.eid, pointId); if (paper) payload.paper = paper as any;
     await tx.add("ballot_box_sealed", { system: true }, payload, (seq) => [c.db.prepare("INSERT INTO box_seals(event_id,point_id,n,counts_json,digest,log_seq) VALUES(?,?,?,?,?,?)").bind(tx.eid, pointId, payload.n as number, JSON.stringify(payload.counts), payload.digest as string, seq)]);
     st = await tx.st();
   }
-  await tx.add("result_computed", { system: true }, resultPayload(st, pointId));
+  await tx.add("result_computed", { system: true }, resultPayload(st, pointId)); void pid;
 }
 route("POST", "/api/events/:id/points/:pid/close", async (c, m) => {
   const { tx, pid } = await staff(c, m[1]!, "close_point", { pointId: m[2]!, nowMs: c.now });
@@ -544,6 +551,7 @@ route("POST", "/api/events/:id/points/:pid/close", async (c, m) => {
 async function closeAndPublish(c: Ctx, tx: Tx, pid: string | null): Promise<{ fileSha256: string; headSeq: number }> {
   let st = await tx.st();
   for (const id of st.pointOrder) if (st.points.get(id)!.state === "open") { await closePoint(c, tx, pid, id); st = await tx.st(); }
+  for (const id of st.pointOrder) { const p = st.points.get(id)!; if (p.state === "closed" && !st.results.has(id) && p.def.kind !== "discussion") { await finishCount(c, tx, pid, id); st = await tx.st(); } }
   st = await tx.st(); const actor: Actor = pid ? ENTRY_ACTOR(st, pid) : { system: true };
   await tx.add("event_closed", actor, { headSeq: tx.nextSeq, auto: pid === null }, (seq) => [statusStmt(c, tx.eid, "closed", seq)]);
   st = await tx.st(); const model = buildReportModel(st); const pk = await publicKey(c.env);
@@ -600,6 +608,198 @@ route("POST", "/api/events/:id/report/email", async (c, m) => {
   await emailReport(c, tx.eid, [...new Set(to)], ENTRY_ACTOR(st, pid)); return json({ ok: true, sent: new Set(to).size });
 });
 
+// ------------------------------------------------------------------------------------------------ attendance handshake (two screens, two 4-digit codes)
+const hsFrom = (r: any): Handshake => ({
+  id: r.id, eventId: r.event_id, flatNo: r.flat_no, monitorPid: r.monitor_pid, monitorHash: r.monitor_hash, voterHash: r.voter_hash, linkHash: r.link_hash,
+  deviceHash: r.device_hash, uaHash: r.ua_hash, ipHash: r.ip_hash, voterConfirmedMs: r.voter_confirmed_ms, monitorConfirmedMs: r.monitor_confirmed_ms, triesVoter: r.tries_voter, triesMonitor: r.tries_monitor,
+  createdMs: r.created_ms, expiresMs: r.expires_ms, voidedMs: r.voided_ms, completedMs: r.completed_ms, kind: r.kind, attendeeName: r.attendee_name, mobileMasked: r.mobile_masked, mobileFp: r.mobile_fp, smsConfirmedMs: r.sms_confirmed_ms,
+});
+const hsSave = (c: Ctx, h: Handshake) => c.db.prepare("UPDATE handshakes SET device_hash=?, ua_hash=?, ip_hash=?, voter_confirmed_ms=?, monitor_confirmed_ms=?, tries_voter=?, tries_monitor=?, voided_ms=?, completed_ms=?, sms_confirmed_ms=? WHERE id=?")
+  .bind(h.deviceHash, h.uaHash, h.ipHash, h.voterConfirmedMs, h.monitorConfirmedMs, h.triesVoter, h.triesMonitor, h.voidedMs, h.completedMs, h.smsConfirmedMs, h.id).run();
+/** The two codes are derived from the handshake id with the server secret (so the officer's screen can show its code again after a reload) and only their hashes are compared. */
+async function hsCodes(c: Ctx, id: string): Promise<{ monitor: string; voter: string }> {
+  const hex = await hmacHex(c.env.PEPPER, "aoa-rwa/hs-codes/" + id); const out: string[] = [];
+  for (let i = 0; i + 8 <= hex.length && out.length < 2; i += 8) { const n = parseInt(hex.slice(i, i + 8), 16); if (n < 4_294_960_000) out.push(String(n % 10_000).padStart(4, "0")); }
+  if (out.length < 2) throw new Error("hs codes");
+  return { monitor: out[0]!, voter: out[1]! };
+}
+const hsError = (reason: string): ApiError => err(reason === "wrong_code" ? 401 : reason === "wrong_device" || reason === "same_device" ? 403 : reason === "not_opened" ? 409 : 410,
+  reason, ({ expired: "This handshake has expired. Ask the officer to start a new one.", voided: "This handshake was replaced by a newer one.", dead: "Too many wrong codes. Ask the officer to start a new handshake.", wrong_code: "That code is not right. Check the other person's screen.", wrong_device: "This link was opened on another phone.", same_device: "The officer's device and the voter's device must be different.", done: "This handshake is already complete.", not_opened: "The voter has not opened the link yet." } as Record<string, string>)[reason] ?? "Not possible.");
+async function hsByToken(c: Ctx, token: string): Promise<Handshake> {
+  const r = await c.db.prepare("SELECT * FROM handshakes WHERE link_hash=?").bind(await pepperHash(c.env, "hs-link", token)).first<any>();
+  if (!r) throw err(404, "no_handshake", "This link is not valid."); c.eventId = r.event_id; return hsFrom(r);
+}
+/** Marks the flat present (method: mutual code exchange), binds the voter's device, ends any earlier binding for the flat, hands the voter session over once. */
+async function hsComplete(c: Ctx, h: Handshake, monitorPid: string): Promise<void> {
+  const tx = await Tx.load(c, h.eventId); const st = await tx.st(); const actor = ENTRY_ACTOR(st, monitorPid);
+  const independent = !!st.people.get(monitorPid)?.roles.includes("attendance_officer");
+  const key = await eventKey(c, h.eventId); const ct = await aesEncrypt(key, JSON.stringify({ attendee: h.attendeeName }), h.eventId + "|att|" + h.flatNo);
+  await tx.add("attendance_marked", actor, { flatNo: h.flatNo, mode: "physical", method: "mutual_code_exchange", docType: null, docLast4: null, maskedName: maskName(h.attendeeName), by: monitorPid, independent, evidenceHash: null, present: true },
+    (seq) => [c.db.prepare("INSERT INTO attendance(event_id,flat_no,attendee_masked_name,mode,method,doc_type,doc_last4,marked_by,independent,evidence_hash,supersedes_id,log_seq,at_ms) VALUES(?,?,?,?,?,?,?,?,?,?,NULL,?,?)").bind(h.eventId, h.flatNo, maskName(h.attendeeName), "physical", "mutual_code_exchange", null, null, monitorPid, independent ? 1 : 0, null, seq, c.now),
+      c.db.prepare("INSERT INTO private_evidence(event_id,flat_no,kind,ct,evidence_hash,created_ms) VALUES(?,?,'attendee_name',?,?,?)").bind(h.eventId, h.flatNo, ct, "", c.now)]);
+  const prev = await c.db.prepare("SELECT COUNT(*) c FROM sessions WHERE kind='voter' AND event_id=? AND flat_no=? AND expires_ms>? AND device_hash IS NOT NULL").bind(h.eventId, h.flatNo, c.now).first<{ c: number }>();
+  const replaced = (prev?.c ?? 0) > 0;
+  await tx.add("device_bound", { flat: h.flatNo }, { flatNo: h.flatNo, handshakeId: h.id, replaced, kind: h.kind });
+  const token = randomHex(32);
+  await tx.commit([
+    c.db.prepare("UPDATE sessions SET expires_ms=? WHERE kind='voter' AND event_id=? AND flat_no=? AND expires_ms>?").bind(c.now, h.eventId, h.flatNo, c.now), // the earlier session of this voter ends
+    c.db.prepare("INSERT INTO sessions(token_hash,event_id,person_id,flat_no,kind,voter_kind,device_hash,ua_hash,created_ms,expires_ms) VALUES(?,?,NULL,?,'voter',?,?,?,?,?)").bind(await pepperHash(c.env, "session", token), h.eventId, h.flatNo, h.kind, h.deviceHash, h.uaHash, c.now, c.now + VOTER_TTL),
+    c.db.prepare("UPDATE handshakes SET completed_ms=?, voter_token=? WHERE id=?").bind(c.now, token, h.id),
+  ]);
+}
+route("POST", "/api/events/:id/handshakes", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!, "mark_attendance"); const st = await tx.st();
+  const flatNo = str(c.body.flatNo, "flatNo", 1, 24), f = st.roll.find((x) => x.flatNo === flatNo);
+  if (!f || !f.eligible) throw err(400, "no_flat", "That flat is not on the voting list.");
+  const attendeeName = str(c.body.attendeeName, "attendeeName", 2, 80), kind = c.body.kind === "proxy" ? "proxy" : "official";
+  if (kind === "proxy") { const pa = proxyAllowed(st.rules!, 0); if (!pa.ok) throw err(403, pa.reason!, "Proxy voting is switched off for this event."); }
+  let mobileMasked: string | null = null, mobileFp: string | null = null;
+  if (c.body.mobile) { const mob = str(c.body.mobile, "mobile", 8, 20); mobileMasked = maskPhone(mob); mobileFp = await pepperHash(c.env, "mobile:" + tx.eid, mob.replace(/\D/g, "").slice(-10)); }
+  const id = newId("hs_", 8), token = randomHex(24), mkHash = await pepperHash(c.env, "hs-link", token);
+  const codes = await hsCodes(c, id);
+  const monitorHash = await codeHash(c.env.PEPPER, { id, eventId: tx.eid, flatNo, side: "monitor", code: codes.monitor }), voterHash = await codeHash(c.env.PEPPER, { id, eventId: tx.eid, flatNo, side: "voter", code: codes.voter });
+  await c.db.batch([
+    c.db.prepare("UPDATE handshakes SET voided_ms=? WHERE event_id=? AND flat_no=? AND voided_ms IS NULL AND completed_ms IS NULL").bind(c.now, tx.eid, flatNo), // one live handshake per flat
+    c.db.prepare("INSERT INTO handshakes(id,event_id,flat_no,monitor_pid,monitor_hash,voter_hash,link_hash,created_ms,expires_ms,kind,attendee_name,mobile_masked,mobile_fp) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)").bind(id, tx.eid, flatNo, pid, monitorHash, voterHash, mkHash, c.now, c.now + HANDSHAKE_TTL_MS, kind, attendeeName, mobileMasked, mobileFp),
+  ]);
+  await tx.add("handshake_started", ENTRY_ACTOR(st, pid), { handshakeId: id, flatNo, by: pid }); await tx.commit();
+  return json({ handshakeId: id, monitorCode: codes.monitor, token, linkPath: `/h/${token}`, expiresMs: c.now + HANDSHAKE_TTL_MS, smsHint: mobileFp ? "Ask the person to send an SMS from their own phone to yours; then use sms-confirm with the sender number you see." : null,
+    instruction: "Read your code to the person. They open the link on THEIR phone, read you the code that shows there. Type their code here." }, 201);
+});
+route("GET", "/api/events/:id/handshakes/:hid", async (c, m) => {
+  const { tx } = await staff(c, m[1]!, "mark_attendance"); const r = await c.db.prepare("SELECT * FROM handshakes WHERE id=? AND event_id=?").bind(m[2]!, tx.eid).first<any>(); if (!r) throw err(404, "no_handshake", "No such handshake.");
+  const h = hsFrom(r), codes = await hsCodes(c, h.id);
+  return json({ handshakeId: h.id, flatNo: h.flatNo, monitorCode: h.completedMs || h.voidedMs ? null : codes.monitor, voterOpened: !!h.deviceHash, voterConfirmed: !!h.voterConfirmedMs, monitorConfirmed: !!h.monitorConfirmedMs, complete: !!h.completedMs, expired: h.expiresMs <= c.now, voided: !!h.voidedMs, mobileMasked: h.mobileMasked, smsConfirmed: !!h.smsConfirmedMs });
+});
+route("POST", "/api/events/:id/handshakes/:hid/confirm", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!, "mark_attendance");
+  const r = await c.db.prepare("SELECT * FROM handshakes WHERE id=? AND event_id=?").bind(m[2]!, tx.eid).first<any>(); if (!r) throw err(404, "no_handshake", "No such handshake.");
+  let h = hsFrom(r); if (h.monitorPid !== pid) throw err(403, "not_your_handshake", "Another officer started this one.");
+  const res = await monitorConfirm(h, c.now, c.env.PEPPER, typeof c.body.code === "string" ? c.body.code : "", await pepperHash(c.env, "dev", c.deviceId));
+  await hsSave(c, res.h); if (!res.ok) throw hsError(res.reason);
+  if (res.complete) { await hsComplete(c, res.h, pid); return json({ ok: true, complete: true, flatNo: h.flatNo }); }
+  return json({ ok: true, complete: false, waitingFor: "voter" });
+});
+route("GET", "/api/h/:token", async (c, m) => {
+  let h = await hsByToken(c, m[1]!); if (!c.deviceId) throw err(400, "device_required", "A device identifier is required.");
+  const res = openLink(h, c.now, await pepperHash(c.env, "dev", c.deviceId), (await pepperHash(c.env, "ua", c.req.headers.get("user-agent") ?? "")).slice(0, 24), (await pepperHash(c.env, "ip", c.ip)).slice(0, 24));
+  if (!res.ok) throw hsError(res.reason);
+  h = res.h; await hsSave(c, h);
+  const tx = await Tx.load(c, h.eventId); const st = await tx.st(); const codes = await hsCodes(c, h.id);
+  return json({ flatNo: h.flatNo, society: st.created?.society.name, title: st.created?.title, voterCode: codes.voter, termsVersion: TERMS_VERSION, termsRequired: !st.terms.has("flat:" + h.flatNo), voterConfirmed: !!h.voterConfirmedMs, expiresMs: h.expiresMs,
+    instruction: "Say this code to the officer. Type the code shown on the officer's screen below." });
+});
+route("POST", "/api/h/:token/confirm", async (c, m) => {
+  const h0 = await hsByToken(c, m[1]!); await rateLimit(c, "hs-voter", h0.id, 30, 600);
+  const tx = await Tx.load(c, h0.eventId); const st = await tx.st(); const needTerms = !st.terms.has("flat:" + h0.flatNo); if (needTerms) await requireTerms(c);
+  const res = await voterConfirm(h0, c.now, c.env.PEPPER, typeof c.body.code === "string" ? c.body.code : "", await pepperHash(c.env, "dev", c.deviceId));
+  await hsSave(c, res.h); if (!res.ok) { if (res.reason === "wrong_code" && res.h.triesVoter >= HANDSHAKE_MAX_TRIES) { await tx.add("passcode_locked", { system: true }, { purpose: "handshake", subjectKind: "flat", subject: h0.flatNo }); await tx.commit(); } throw hsError(res.reason); }
+  if (needTerms) { await tx.add("terms_accepted", { flat: h0.flatNo }, await termsEntry("flat", h0.flatNo)); await tx.commit(); }
+  if (res.complete) { await hsComplete(c, res.h, res.h.monitorPid); return json({ ok: true, complete: true }); }
+  return json({ ok: true, complete: false, waitingFor: "officer" });
+});
+route("GET", "/api/h/:token/status", async (c, m) => {
+  const r = await c.db.prepare("SELECT * FROM handshakes WHERE link_hash=?").bind(await pepperHash(c.env, "hs-link", m[1]!)).first<any>(); if (!r) throw err(404, "no_handshake", "This link is not valid.");
+  c.eventId = r.event_id; const h = hsFrom(r);
+  if (!h.deviceHash || h.deviceHash !== (await pepperHash(c.env, "dev", c.deviceId))) throw err(403, "wrong_device", "This link was opened on another phone.");
+  if (h.completedMs && r.voter_token) { await c.db.prepare("UPDATE handshakes SET voter_token=NULL WHERE id=?").bind(h.id).run(); return json({ state: "complete", token: r.voter_token, flatNo: h.flatNo, kind: h.kind }); } // handed over once
+  const state = h.voidedMs ? "replaced" : h.completedMs ? "complete" : h.expiresMs <= c.now ? "expired" : h.triesVoter >= HANDSHAKE_MAX_TRIES || h.triesMonitor >= HANDSHAKE_MAX_TRIES ? "dead" : h.voterConfirmedMs ? "waiting_for_officer" : "waiting_for_you";
+  return json({ state, flatNo: h.flatNo });
+});
+route("POST", "/api/events/:id/handshakes/:hid/sms-confirm", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!, "mark_attendance"); const st = await tx.st();
+  const r = await c.db.prepare("SELECT * FROM handshakes WHERE id=? AND event_id=?").bind(m[2]!, tx.eid).first<any>(); if (!r) throw err(404, "no_handshake", "No such handshake.");
+  const h = hsFrom(r); if (!h.mobileFp) throw err(409, "no_mobile", "No mobile number was entered when this handshake started.");
+  const typed = str(c.body.senderNumber, "senderNumber", 8, 20);
+  if ((await pepperHash(c.env, "mobile:" + tx.eid, typed.replace(/\D/g, "").slice(-10))) !== h.mobileFp) throw err(409, "number_differs", "The number on the SMS is not the number entered for this person.");
+  await tx.add("mobile_confirmed", ENTRY_ACTOR(st, pid), { handshakeId: h.id, flatNo: h.flatNo, maskedMobile: h.mobileMasked ?? "", method: "sms_from_voter_phone" });
+  await tx.commit([c.db.prepare("UPDATE handshakes SET sms_confirmed_ms=? WHERE id=?").bind(c.now, h.id)]); return json({ ok: true, maskedMobile: h.mobileMasked });
+});
+
+// ------------------------------------------------------------------------------------------------ printed ballot papers
+async function paperPoint(c: Ctx, tx: Tx, pointId: string, forScan = false) {
+  const st = await tx.st(); const pt = st.points.get(pointId); if (!pt) throw err(404, "unknown_point", "No such agenda point.");
+  const rules = pt.frozen ?? st.rules!; const mode = (rules.params["ballot.mode"] as string) ?? "online";
+  if (mode === "online") throw err(403, "online_only", "This event uses online ballots only.");
+  if (pt.def.kind === "discussion" || !pt.def.secret) throw err(409, "paper_needs_secret", "Only secret ballot points can be voted on paper.");
+  if (st.seals.has(pointId)) throw err(409, "box_sealed", "Counting for this point is finished.");
+  if (!forScan && pt.state !== "open") throw err(409, "point_not_open", "Voting on this point is not open.");
+  if (forScan && pt.state === "pending") throw err(409, "point_not_open", "Voting on this point has not opened.");
+  return { st, pt, rules };
+}
+const reissueKey = (eid: string, pointId: string, flat: string) => `reissue:${eid}:${pointId}:${flat}`;
+route("POST", "/api/events/:id/points/:pid/paper", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!, "issue_voter_code"); const { st, pt, rules } = await paperPoint(c, tx, m[2]!);
+  const flatNo = str(c.body.flatNo, "flatNo", 1, 24); if (!st.attendance.has(flatNo)) throw err(409, "not_present", "Mark this flat present before giving out a paper ballot.");
+  const flat = st.roll.find((f) => f.flatNo === flatNo)!; const weight = effectiveWeight(flat, !!rules.options.weightage);
+  const kind = c.body.kind === "proxy" ? "proxy" : "official"; if (kind === "proxy" && !proxyAllowed(rules, 0).ok) throw err(403, "proxy_off", "Proxy voting is switched off for this event.");
+  const had = st.ledger.get(m[2]!)?.has(flatNo); const allowance = parseInt((await c.db.prepare("SELECT v FROM kv_state WHERE k=?").bind(reissueKey(tx.eid, m[2]!, flatNo)).first<{ v: string }>())?.v ?? "0", 10);
+  if (had && allowance < 1) throw err(409, "already_voted", "This flat has already received a ballot for this point.");
+  const serial = newSerial(), token = await paperToken(c.env.PEPPER, tx.eid, m[2]!, serial);
+  const stmts: D1Stmt[] = [c.db.prepare("INSERT INTO paper_serials(serial,event_id,point_id,weight,kind) VALUES(?,?,?,?,?)").bind(serial, tx.eid, m[2]!, weight, kind)];
+  if (!had) await tx.add("paper_issued", ENTRY_ACTOR(st, pid), { pointId: m[2]!, flatNo, kind }, (seq) => [c.db.prepare("INSERT INTO voter_ledger(event_id,point_id,flat_no,kind,open_choice_json,voted_ms,log_seq,channel) VALUES(?,?,?,?,NULL,?,?,'paper')").bind(tx.eid, m[2]!, flatNo, kind, c.now, seq)]);
+  else { await tx.add("paper_reissued", ENTRY_ACTOR(st, pid), { pointId: m[2]!, flatNo }); stmts.push(c.db.prepare("UPDATE kv_state SET v=CAST(v AS INTEGER)-1 WHERE k=?").bind(reissueKey(tx.eid, m[2]!, flatNo))); }
+  await tx.commit(stmts);
+  const design = pt.def.design!; const layout = paperLayout({ options: pt.def.options, labels: pt.def.labels, maxChoices: pt.def.maxChoices, minChoices: pt.def.minChoices ?? 1 }, design, ballotInstruction(pt.def.minChoices ?? 1, pt.def.maxChoices), pt.def.title);
+  return json({ serial, token, qrText: token, svg: renderPaperSvg(layout, token, design), layout, note: "Do not write the voter's name or flat on the paper. The serial is not stored with the flat." }, 201);
+});
+route("GET", "/api/events/:id/points/:pid/paper/preview", async (c, m) => {
+  const { tx } = await staff(c, m[1]!, "edit_setup"); const st = await tx.st(); const pt = st.points.get(m[2]!); if (!pt) throw err(404, "unknown_point", "No such agenda point.");
+  const design = pt.def.design!; const layout = paperLayout({ options: pt.def.options, labels: pt.def.labels, maxChoices: pt.def.maxChoices, minChoices: pt.def.minChoices ?? 1 }, design, ballotInstruction(pt.def.minChoices ?? 1, pt.def.maxChoices), pt.def.title);
+  return json({ svg: renderPaperSvg(layout, "SAMPLE.0000000000000000", design, { sample: true }), layout });
+});
+route("POST", "/api/events/:id/points/:pid/paper/void", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!, "issue_voter_code"); const { st } = await paperPoint(c, tx, m[2]!, true);
+  const tk = await parsePaperToken(c.env.PEPPER, tx.eid, m[2]!, c.body.token); if (!tk.ok) throw err(400, "bad_token", "This QR code is not a ballot paper of this vote.");
+  const flatNo = str(c.body.flatNo, "flatNo", 1, 24); if (!st.ledger.get(m[2]!)?.has(flatNo)) throw err(409, "no_paper_for_flat", "That flat was not given a paper ballot.");
+  if (await c.db.prepare("SELECT 1 x FROM paper_marks WHERE serial=?").bind(tk.serial).first()) throw err(409, "already_handled", "This paper was already counted or voided.");
+  await tx.add("paper_voided", ENTRY_ACTOR(st, pid), { pointId: m[2]!, flatNo, serialDigest: await sha256Hex(tk.serial) });
+  await tx.commit([c.db.prepare("INSERT INTO paper_marks(event_id,point_id,serial,kind,reason,image_sha256,by_pid,at_ms) VALUES(?,?,?,'voided',?,NULL,?,?)").bind(tx.eid, m[2]!, tk.serial, optStr(c.body.reason, "reason", 200) || "spoiled", pid, c.now),
+    c.db.prepare("INSERT INTO kv_state(k,v) VALUES(?,'1') ON CONFLICT(k) DO UPDATE SET v=CAST(v AS INTEGER)+1").bind(reissueKey(tx.eid, m[2]!, flatNo))]);
+  return json({ ok: true, note: "Another paper may now be given to this flat." });
+});
+route("POST", "/api/events/:id/points/:pid/paper/scan", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!, "issue_voter_code"); await rateLimit(c, "paper-scan", tx.eid, 600, 60);
+  const { pt } = await paperPoint(c, tx, m[2]!, true);
+  const tk = await parsePaperToken(c.env.PEPPER, tx.eid, m[2]!, c.body.token); if (!tk.ok) throw err(400, "bad_token", "This QR code is not a ballot paper of this vote.");
+  const sr = await c.db.prepare("SELECT weight, kind FROM paper_serials WHERE serial=? AND point_id=? AND event_id=?").bind(tk.serial, m[2]!, tx.eid).first<{ weight: number; kind: string }>(); if (!sr) throw err(400, "bad_token", "This paper was not issued for this vote.");
+  if (await c.db.prepare("SELECT 1 x FROM paper_marks WHERE serial=?").bind(tk.serial).first()) throw err(409, "already_handled", "This paper was already counted or voided.");
+  const image = optStr(c.body.imageSha256, "imageSha256", 64); if (!/^[0-9a-f]{64}$/.test(image)) throw err(400, "image_required", "Every paper must be photographed: send the photo's SHA-256.");
+  let raw = c.body.choices; if (c.body.marks !== undefined) { const mk = c.body.marks; if (!mk || typeof mk !== "object" || Array.isArray(mk)) throw err(400, "bad_ballot", "marks must list each box as true or false."); raw = Object.entries(mk).filter(([, v]) => v === true).map(([k]) => k); for (const [k, v] of Object.entries(mk)) if (!pt.def.options.includes(k) || typeof v !== "boolean") throw err(400, "bad_ballot", "That box is not on this ballot."); }
+  if (c.body.imageCt) await c.db.prepare("INSERT INTO private_evidence(event_id,flat_no,kind,ct,evidence_hash,created_ms) VALUES(?,?,'paper',?,?,?)").bind(tx.eid, "paper", str(c.body.imageCt, "imageCt", 16, 300_000), image, c.now).run();
+  const bc = validateBallot(pt.def as PointDef, raw);
+  if (!bc.ok) { await c.db.prepare("INSERT INTO paper_marks(event_id,point_id,serial,kind,reason,image_sha256,by_pid,at_ms) VALUES(?,?,?,'invalid',?,?,?,?)").bind(tx.eid, m[2]!, tk.serial, bc.reason, image, pid, c.now).run(); return json({ result: "invalid", reason: bc.reason, note: "Recorded as an invalid ballot and not counted." }); }
+  const receipt = await receiptOf(m[2]!, bc.choices, tk.serial);
+  await c.db.batch([
+    c.db.prepare("INSERT INTO ballot_box(receipt_hash,event_id,point_id,choice_json,weight,kind) VALUES(?,?,?,?,?,?)").bind(receipt, tx.eid, m[2]!, JSON.stringify(bc.choices), sr.weight, sr.kind),
+    c.db.prepare("INSERT INTO paper_marks(event_id,point_id,serial,kind,reason,image_sha256,by_pid,at_ms) VALUES(?,?,?,'counted',NULL,?,?,?)").bind(tx.eid, m[2]!, tk.serial, image, pid, c.now),
+  ]);
+  return json({ result: "counted", receipt, note: "The receipt is the fingerprint of this paper; it appears in the public list when counting finishes." }, 201);
+});
+/** Stats of the paper ballots of a point, from the pool and the marks. */
+async function paperStats(c: Ctx, eid: string, pointId: string): Promise<{ serials: number; counted: number; invalid: number; voided: number; uncounted: number; imagesDigest: string } | null> {
+  const S = (await c.db.prepare("SELECT COUNT(*) c FROM paper_serials WHERE point_id=? AND event_id=?").bind(pointId, eid).first<{ c: number }>())!.c; if (!S) return null;
+  const rows = (await c.db.prepare("SELECT kind, image_sha256 FROM paper_marks WHERE point_id=? AND event_id=?").bind(pointId, eid).all<{ kind: string; image_sha256: string | null }>()).results;
+  const n = (k: string) => rows.filter((r) => r.kind === k).length;
+  return { serials: S, counted: n("counted"), invalid: n("invalid"), voided: n("voided"), uncounted: S - rows.length, imagesDigest: await sha256Hex(rows.map((r) => r.image_sha256 ?? "").filter(Boolean).sort().join("\n")) };
+}
+route("POST", "/api/events/:id/points/:pid/count/finish", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!, "close_event"); const st = await tx.st(); const pt = st.points.get(m[2]!);
+  if (!pt || pt.state !== "closed") throw err(409, "point_not_closed", "Close voting on this point first."); if (st.seals.has(m[2]!)) throw err(409, "box_sealed", "Counting for this point is already finished.");
+  await finishCount(c, tx, pid, m[2]!); await tx.commit(); return json({ ok: true, result: (await tx.st()).results.get(m[2]!) });
+});
+
+// ------------------------------------------------------------------------------------------------ languages and step guides
+route("GET", "/api/languages", async () => json({ languages: LANGUAGES, coverage: coverage(), note: "English and Hindi are complete. The others cover the core words and fall back to English; they are drafts for a native reader to check." }));
+route("GET", "/api/i18n/:lang", async (c, m) => { if (!isLang(m[1])) throw err(404, "no_language", "No such language."); return json({ lang: m[1], dir: LANGUAGES.find((l) => l.code === m[1])!.dir, dictionary: dictionary(m[1]!) }); });
+route("GET", "/api/guide/:role", async (c, m) => {
+  if (!["organizer", "host", "attendance_officer", "voter"].includes(m[1]!)) throw err(404, "no_role", "No such role.");
+  const lang = isLang(c.url.searchParams.get("lang")) ? c.url.searchParams.get("lang")! : "en"; const steps = playbook(m[1] as any, lang);
+  const eid = c.url.searchParams.get("event"); let current: string | null = null;
+  if (eid && /^[0-9a-f]{32}$/.test(eid) && m[1] === "organizer") { const pr = progressOf(await (await Tx.load(c, eid)).st()); current = pr.currentId; return json({ role: m[1], lang, steps: steps.map((s) => ({ ...s, status: pr.steps.find((x) => x.id === s.id)?.status ?? "todo" })), current, percent: pr.percent }); }
+  return json({ role: m[1], lang, steps, current });
+});
+
 // ------------------------------------------------------------------------------------------------ voter
 route("POST", "/api/vote/login", async (c) => {
   const eid = str(c.body.eventId, "eventId", 10, 64), flatNo = str(c.body.flatNo, "flatNo", 1, 24), code = typeof c.body.code === "string" ? c.body.code : "";
@@ -633,6 +833,7 @@ route("POST", "/api/vote/cast", async (c) => {
     throw err(d.code === "already_voted" ? 409 : 403, d.code, d.message);
   }
   const pt = st.points.get(pointId)!;
+  if (((pt.frozen ?? st.rules)?.params["ballot.mode"] ?? "online") === "printed") throw err(403, "printed_only", "This vote is on printed ballot papers only.");
   let rawChoices = c.body.choices;
   if (c.body.marks !== undefined) { // checkbox form: ticked = yes (selected), not ticked = no (not selected)
     const mk = c.body.marks; if (!mk || typeof mk !== "object" || Array.isArray(mk)) throw err(400, "bad_ballot", "marks must list each box as true or false.");
@@ -723,7 +924,7 @@ export async function handle(req: Request, env: Env, now = Date.now()): Promise<
     c.eventId = /\/api\/(?:events|r|vote)\/([0-9a-f]{32})/.exec(url.pathname)?.[1] ?? (typeof body.eventId === "string" && /^[0-9a-f]{32}$/.test(body.eventId) ? body.eventId : undefined);
     const bearer = /^Bearer ([0-9a-f]{64})$/.exec(req.headers.get("authorization") ?? "");
     if (bearer) { const sr = await env.DB.prepare("SELECT kind, person_id, flat_no, event_id FROM sessions WHERE token_hash=? AND expires_ms>?").bind(await pepperHash(env, "session", bearer[1]!), now).first<any>(); if (sr) { c.actor = { kind: sr.kind, ref: sr.person_id ?? sr.flat_no ?? sr.kind }; c.eventId ??= sr.event_id ?? undefined; } }
-    const mustAudit = req.method !== "GET" || !!bearer || env.AUDIT_PUBLIC_READS === "1";
+    const mustAudit = req.method !== "GET" || !!bearer || url.pathname.startsWith("/api/h/") || env.AUDIT_PUBLIC_READS === "1";
     if (mustAudit) {
       // mandatory: every action carries a device identifier and an IP address, and is audited BEFORE it is processed
       if (!c.deviceId) { try { await writeAudit(c, "result", 400); } catch { /* nothing more to do */ } throw err(400, "device_required", "This action needs a device identifier (header x-device-id, 16 to 64 letters or digits)."); }

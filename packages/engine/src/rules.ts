@@ -31,6 +31,15 @@ export const PARAMS: ParamDef[] = [
   { id: "proxy.maxPerHolder", label: "Proxies one person may hold", type: "int", min: 1, max: 20, default: 1, help: "" },
   { id: "election.declareWinner", label: "Report names the leader(s) (pack permits)", type: "bool", default: false, help: "Default: numbers only. The returning officer / chair declares the result." },
   { id: "smallCell.threshold", label: "Hide official/proxy split below (votes)", type: "int", min: 0, max: 50, default: 5, help: "" },
+  { id: "ballot.mode", label: "How ballots are issued", type: "enum", enumValues: ["online", "printed", "either"], default: "online", help: "online = on the voter's phone; printed = paper with its own QR code, photographed and counted by the system; either = the officer chooses per voter." },
+  { id: "quorum.countProxies", label: "Proxies count towards the quorum", type: "bool", default: true, help: "Some rules count only members present in person." },
+  { id: "nomination.days", label: "Nomination period (days)", type: "int", min: 0, max: 365, default: null, help: "Information shown on the report." },
+  { id: "nomination.withdrawalDays", label: "Withdrawal of nomination (days before the vote)", type: "int", min: 0, max: 365, default: null, help: "Information shown on the report." },
+  { id: "term.years", label: "Term of office (years)", type: "int", min: 0, max: 20, default: null, help: "Information shown on the report." },
+  { id: "term.maxConsecutive", label: "Most consecutive terms one person may serve", type: "int", min: 0, max: 20, default: null, help: "Information shown on the report." },
+  { id: "requisition.percentBp", label: "Share of members who can demand a special meeting (basis points)", type: "int", min: 0, max: 10000, default: null, help: "Information shown on the report." },
+  { id: "notice.delivery", label: "How notice must be delivered", type: "enum", enumValues: ["any", "post", "email", "posting"], default: "any", help: "Information shown on the report." },
+  { id: "reserved.seats", label: "Seats reserved by law (for example for women)", type: "int", min: 0, max: 100, default: null, help: "Information shown on the report." },
   { id: "minutes.deadlineDays", label: "Minutes deadline (days)", type: "int", min: 0, max: 365, default: null, help: "Information only." },
   { id: "retention.years", label: "Retention (years)", type: "int", min: 0, max: 100, default: null, help: "Information only." },
 ];
@@ -105,7 +114,7 @@ export function missingRequired(rs: RuleSet): string[] {
 
 /** Stable digest input for a point's frozen rules. */
 export function effectiveForPoint(rs: RuleSet, p: { majorityClass: string; secret: boolean; maxChoices: number }): Record<string, Json> {
-  const keep = ["quorum.basis", "quorum.percentBp", "quorum.strict", "quorum.capFlats", "majority.simple.basis", "majority.special.basis", "tie.break", "abstain.inBase", "election.declareWinner", "smallCell.threshold"];
+  const keep = ["ballot.mode", "quorum.basis", "quorum.percentBp", "quorum.strict", "quorum.capFlats", "majority.simple.basis", "majority.special.basis", "tie.break", "abstain.inBase", "election.declareWinner", "smallCell.threshold"];
   const o: Record<string, Json> = { majorityClass: p.majorityClass, secret: p.secret, maxChoices: p.maxChoices, weightage: !!rs.options.weightage, open_vote_by_flat: !!rs.options.open_vote_by_flat, quorum_check: !!rs.options.quorum_check };
   for (const k of keep) o[k] = rs.params[k] ?? null;
   return o;

@@ -23,6 +23,7 @@ export interface PointView {
   pointId: string; number: string; title: string; body: string; kind: string; options: string[]; maxChoices: number; majorityClass: string; secret: boolean;
   state: string; endsMs: number | null; extensions: number; voted: string[]; openVotes: Array<{ flatNo: string; kind: string; choices: string[] }> | null;
   receipts: string[] | null; tally: PointTally | null; countsHidden: boolean;
+  paper: { serials: number; counted: number; invalid: number; voided: number; uncounted: number; imagesDigest: string } | null;
   labels: Record<string, string>; minChoices: number; format: EventFormat | null; seats: string[]; topN: number | null; design: BallotDesign; instruction: string;
 }
 export interface ReportModel {
@@ -72,6 +73,7 @@ export function buildReportModel(s: EventState): ReportModel {
       state: pt.state, endsMs: pt.endsMs, extensions: pt.extensions, voted: [...led.keys()].sort(),
       openVotes: secret ? null : [...led.entries()].sort((a, b) => (a[0] < b[0] ? -1 : 1)).map(([flatNo, v]) => ({ flatNo, kind: v.kind, choices: v.choices ?? [] })),
       receipts: secret && sealed ? s.seals.get(id)!.receipts : null, tally, countsHidden: secret && !(finished && sealed),
+      paper: s.seals.get(id)?.paper ?? null,
       labels: pt.def.labels ?? {}, minChoices: pt.def.minChoices ?? 1, format: (pt.def.format ?? null) as EventFormat | null, seats: pt.def.seats ?? [], topN: pt.def.topN ?? null, design: pt.def.design!, instruction: pt.def.kind === "discussion" ? "" : ballotInstruction(pt.def.minChoices ?? 1, pt.def.maxChoices),
     };
   });

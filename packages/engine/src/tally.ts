@@ -3,17 +3,18 @@ import type { RuleSet } from "./rules";
 import type { BallotDesign, EventFormat } from "./ballot";
 
 export interface Flat { flatNo: string; weight: number; eligible: boolean }
-export type MajorityClass = "simple" | "two_thirds" | "three_quarters" | { num: number; den: number; strict?: boolean };
+export type MajorityClass = "simple" | "two_thirds" | "three_quarters" | "unanimous" | { num: number; den: number; strict?: boolean };
 
 export function fractionOf(c: MajorityClass): { num: number; den: number; strict: boolean } {
   if (c === "simple") return { num: 1, den: 2, strict: true };
   if (c === "two_thirds") return { num: 2, den: 3, strict: false };
   if (c === "three_quarters") return { num: 3, den: 4, strict: false };
+  if (c === "unanimous") return { num: 1, den: 1, strict: false };
   if (!Number.isInteger(c.num) || !Number.isInteger(c.den) || c.den <= 0 || c.num <= 0 || c.num > c.den) throw new Error("bad custom majority");
   return { num: c.num, den: c.den, strict: !!c.strict };
 }
 export const parseMajority = (s: string): MajorityClass => {
-  if (s === "simple" || s === "two_thirds" || s === "three_quarters") return s;
+  if (s === "simple" || s === "two_thirds" || s === "three_quarters" || s === "unanimous") return s;
   const m = /^(\d+)\/(\d+)(s?)$/.exec(s); // custom e.g. "3/5" or "1/2s"
   if (!m) throw new Error("bad majority class " + s);
   return { num: +m[1]!, den: +m[2]!, strict: m[3] === "s" };

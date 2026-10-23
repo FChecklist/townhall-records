@@ -47,6 +47,7 @@ function pointHtml(m: ReportModel, p: ReportModel["points"][number]): string {
       else if (p.kind === "election_post") h += `<p>Numbers only. The returning officer or chair declares the result.${t.leaders ? " Leading: " + t.leaders.map(L).join(", ") : ""}</p>`;
       if (t.split) h += `<p class="note">Official voters: ${esc(JSON.stringify(t.split.official))} · Proxy voters: ${esc(JSON.stringify(t.split.proxy))}</p>`;
     }
+    if (p.paper) h += `<p class="meta">Paper ballots: ${p.paper.serials} issued, ${p.paper.counted} counted, ${p.paper.invalid} invalid, ${p.paper.voided} voided, ${p.paper.uncounted} not returned. Fingerprint of the photographs: <span class="mono">${esc(p.paper.imagesDigest.slice(0, 20))}</span></p>`;
     if (p.openVotes && p.openVotes.length) h += `<details><summary>How each flat voted</summary><table><tr><th>Flat</th><th>Voter</th><th>Choice</th></tr>${p.openVotes.map((v) => `<tr><td>${esc(v.flatNo)}</td><td>${esc(v.kind)}</td><td>${esc(v.choices.map((c) => p.labels[c] ?? c).join(", "))}</td></tr>`).join("")}</table></details>`;
     if (p.receipts) h += `<details><summary>${p.receipts.length} receipt codes (check yours is in the list)</summary><p class="mono">${p.receipts.map(esc).join("<br>")}</p></details>`;
   }
