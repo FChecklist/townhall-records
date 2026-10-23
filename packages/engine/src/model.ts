@@ -6,6 +6,7 @@ import { currentRoles, officerCount, presentFlatNos, provenanceTree, replayLog, 
 import { OPTIONS } from "./rules";
 import { computeQuorum, type PointTally } from "./tally";
 import { progressOf } from "./progress";
+import { defaultSchedule, type Schedule } from "./schedule";
 
 export const NOT_PUBLISHED: Array<{ item: string; why: string }> = [
   { item: "Passcodes", why: "They are secrets. Only a keyed hash exists on the server and it is never shown." },
@@ -23,7 +24,7 @@ export interface PointView {
 }
 export interface ReportModel {
   v: 1; eid: string; live: boolean; phase: string; percent: number;
-  title: string; kind: string; eventType: string; venue: string; scheduledMs: number; timezone: string; packId: string;
+  title: string; kind: string; eventType: string; venue: string; scheduledMs: number; schedule: Schedule; scheduleChanges: number; timezone: string; packId: string;
   society: { name: string; address: string; registrationNo: string; kind: string }; createdFrom: string | null;
   head: { seq: number; hash: string } | null; status: string;
   people: Array<{ pid: string; maskedName: string; maskedEmail: string; roles: string[]; label: string | null; verified: boolean }>;
@@ -72,7 +73,7 @@ export function buildReportModel(s: EventState): ReportModel {
   const prog = progressOf(s);
   return {
     v: 1, eid: s.eid, live: s.status !== "closed", phase: prog.phase, percent: prog.percent,
-    title: c?.title ?? "", kind: c?.kind ?? "", eventType: c?.eventType ?? "", venue: c?.venue ?? "", scheduledMs: c?.scheduledMs ?? 0, timezone: c?.timezone ?? "UTC", packId: c?.packId ?? "",
+    title: c?.title ?? "", kind: c?.kind ?? "", eventType: c?.eventType ?? "", venue: c?.venue ?? "", scheduledMs: c?.scheduledMs ?? 0, schedule: c?.schedule ?? defaultSchedule(0, ""), scheduleChanges: s.scheduleChanges.length, timezone: c?.timezone ?? "UTC", packId: c?.packId ?? "",
     society: c?.society ?? { name: "", address: "", registrationNo: "", kind: "" }, createdFrom: c?.createdFrom ?? null,
     head: s.head, status: s.status,
     people: currentRoles(s).map((p) => ({ pid: p.pid, maskedName: p.maskedName, maskedEmail: p.maskedEmail, roles: [...p.roles], label: p.label, verified: p.verified })),

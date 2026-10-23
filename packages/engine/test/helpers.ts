@@ -20,9 +20,9 @@ export class Scenario {
   eid = "e".repeat(32);
   ballots = new Map<string, BoxBallot[]>();
   private constructor() {}
-  static async create(opts: { pack?: string; kind?: "meeting" | "election"; flats?: number; weights?: (i: number) => number; eventType?: string } = {}) {
+  static async create(opts: { pack?: string; kind?: "meeting" | "election"; flats?: number; weights?: (i: number) => number; eventType?: string; schedule?: unknown } = {}) {
     const s = new Scenario(); s.key = await testKey();
-    await s.add("event_created", { pid: ORG.pid, role: "organizer" }, { kind: opts.kind ?? "meeting", eventType: opts.eventType ?? "agm", title: "Annual General Meeting 2026", venue: "Clubhouse", scheduledMs: s.t + 10 * 86_400_000, packId: opts.pack ?? "in-up-aoa", timezone: "Asia/Kolkata", society: { name: "Green Park Apartments", address: "12 Park Road, Lucknow", registrationNo: "REG/2020/118", kind: "AOA" }, createdFrom: null });
+    await s.add("event_created", { pid: ORG.pid, role: "organizer" }, { kind: opts.kind ?? "meeting", eventType: opts.eventType ?? "agm", title: "Annual General Meeting 2026", venue: "Clubhouse", scheduledMs: s.t + 10 * 86_400_000, packId: opts.pack ?? "in-up-aoa", timezone: "Asia/Kolkata", society: { name: "Green Park Apartments", address: "12 Park Road, Lucknow", registrationNo: "REG/2020/118", kind: "AOA" }, createdFrom: null, ...(opts.schedule ? { schedule: opts.schedule } : {}) });
     const pack = PACKS.get(opts.pack ?? "in-up-aoa")!;
     s.rules0 = applyRecommended(newRuleSet(pack, opts.kind ?? "meeting", (opts.eventType ?? "agm") as any));
     await s.add("rules_initialized", { system: true }, { packId: s.rules0.packId, params: s.rules0.params as any, options: s.rules0.options as any, locked: s.rules0.locked as any });

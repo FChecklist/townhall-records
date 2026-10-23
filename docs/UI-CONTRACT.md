@@ -19,3 +19,6 @@ The back end is finished; these are the screens it expects. Keep every screen to
 | Super console | owner | `/api/super/*` (WebAuthn passkey goes here; e-mail code is the fallback already built) |
 
 Rules the UI must respect: show the server's `message` text for errors; never keep a passcode after display; do the camera/ID image compression and encryption on the device before `POST .../evidence`; show the "locked by the rules" reason beside locked ticks; never claim "100% cheat-proof".
+
+## Schedule and timers
+Step 1 screen collects the four milestones (start, voting start, voting end, end), each with a date-time picker and a place, plus the time zone (default: the browser's). Use `PUT /api/events/:id/schedule` to change before the event starts. The public page already draws the schedule table and the count-down; a UI that shows its own timers should use `countdowns()` from `packages/engine/src/schedule.ts` and the `serverNow` from `/api/r/:id/head`.

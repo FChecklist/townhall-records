@@ -4,6 +4,7 @@ import { canonical, type Json } from "./canonical";
 import { sha256Hex } from "./crypto";
 import type { SignedEntry } from "./log";
 import { effectiveForPoint, type RuleSet } from "./rules";
+import { defaultSchedule, validateSchedule, type Schedule } from "./schedule";
 import { aggregate, computeQuorum, effectiveWeight, tallyAgg, type Aggregate, type Flat, type PointDef, type PointTally, type QuorumResult } from "./tally";
 
 export type EventStatus = "setup" | "agenda_published" | "live" | "closed" | "suspended";
@@ -21,7 +22,7 @@ export interface RuleChange { seq: number; ts: number; scope: string; param: str
 
 export interface EventState {
   eid: string; seqCount: number; head: { seq: number; hash: string } | null; firstTs: number | null; lastTs: number | null;
-  created: null | { kind: "meeting" | "election"; eventType: string; title: string; venue: string; scheduledMs: number; packId: string; timezone: string; society: { name: string; address: string; registrationNo: string; kind: string }; createdFrom: string | null };
+  created: null | { kind: "meeting" | "election"; eventType: string; title: string; venue: string; scheduledMs: number; schedule: Schedule; packId: string; timezone: string; society: { name: string; address: string; registrationNo: string; kind: string }; createdFrom: string | null };
   rules: RuleSet | null; initialRules: RuleSet | null; ruleHistory: RuleChange[]; rejectedChanges: RuleChange[];
   status: EventStatus; paid: boolean; payments: Array<{ paymentId: string; state: string; amountMinor: number; mode: string; seq: number }>;
   people: Map<string, PersonState>; roleLog: Array<{ seq: number; ts: number; action: "appoint" | "remove"; pid: string; role: Role; by: string | null }>;
@@ -34,6 +35,7 @@ export interface EventState {
   startedTs: number | null; closedInfo: null | { seq: number; ts: number };
   clones: Array<{ direction: string; eventId: string }>; platformActions: Array<{ seq: number; action: string; reason: string }>;
   contactsReads: number; anchors: Array<{ headSeq: number; headHash: string }>;
+  scheduleChanges: Array<{ seq: number; ts: number; reason: string }>;
   problems: string[];
 }
 
@@ -42,7 +44,7 @@ export function emptyState(eid: string): EventState {
   return {
     eid, seqCount: 0, head: null, firstTs: null, lastTs: null, created: null, rules: null, initialRules: null, ruleHistory: [], rejectedChanges: [], status: "setup", paid: false, payments: [],
     people: new Map(), roleLog: [], roll: [], rollRev: 0, points: new Map(), pointOrder: [], attendance: new Map(), attendanceLog: [], ledger: new Map(),
-    seals: new Map(), results: new Map(), agenda: null, startedTs: null, closedInfo: null, clones: [], platformActions: [], contactsReads: 0, anchors: [], problems: [],
+    seals: new Map(), results: new Map(), agenda: null, startedTs: null, closedInfo: null, clones: [], platformActions: [], contactsReads: 0, anchors: [], scheduleChanges: [], problems: [],
   };
 }
 
@@ -86,7 +88,13 @@ export async function replayLog(entries: SignedEntry[]): Promise<EventState> {
     s.seqCount = seq; s.head = { seq, hash: se.hash }; s.firstTs ??= e.ts; s.lastTs = e.ts;
     const actorPid = "pid" in e.actor ? e.actor.pid : null;
     switch (e.type) {
-      case "event_created": s.created = { kind: p.kind, eventType: p.eventType, title: p.title, venue: p.venue, scheduledMs: p.scheduledMs, packId: p.packId, timezone: p.timezone ?? "UTC", society: p.society, createdFrom: p.createdFrom ?? null }; break;
+      case "event_created": s.created = { kind: p.kind, eventType: p.eventType, title: p.title, venue: p.venue, scheduledMs: p.scheduledMs, schedule: p.schedule ?? defaultSchedule(p.scheduledMs, p.venue), packId: p.packId, timezone: p.timezone ?? "UTC", society: p.society, createdFrom: p.createdFrom ?? null }; break;
+      case "schedule_set": {
+        if (!s.created) { bad(seq, "schedule set before the event existed"); break; }
+        if (s.status === "live" || s.status === "closed") bad(seq, "schedule changed after the event started");
+        const why = validateSchedule(p.schedule); if (why) bad(seq, "invalid schedule: " + why);
+        s.created.schedule = p.schedule; s.created.scheduledMs = p.schedule.start.atMs; s.scheduleChanges.push({ seq, ts: e.ts, reason: asStr(p.reason) }); break;
+      }
       case "rules_initialized": s.rules = { packId: p.packId, params: { ...p.params }, options: { ...p.options }, locked: { ...p.locked } }; s.initialRules = copyRules(s.rules); break;
       case "role_appointed": {
         const role = p.role as Role;

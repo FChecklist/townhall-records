@@ -502,5 +502,68 @@
   "find": "if (bad.length) throw new Error",
   "replace": "if (false) throw new Error",
   "test": "apps/api/test/security.test.ts"
+ },
+ {
+  "id": "E34",
+  "scope": "engine",
+  "claim": "schedule milestones must be in order",
+  "file": "packages/engine/src/schedule.ts",
+  "find": "if (m.atMs < prev) return",
+  "replace": "if (false) return",
+  "test": "packages/engine/test/schedule.test.ts"
+ },
+ {
+  "id": "E35",
+  "scope": "engine",
+  "claim": "timer follows the real end of the open vote (extensions count)",
+  "file": "packages/engine/src/schedule.ts",
+  "find": "const at = k === \"votingEnd\" && openPointEndsMs ? openPointEndsMs : s[k].atMs;",
+  "replace": "const at = s[k].atMs;",
+  "test": "packages/engine/test/schedule.test.ts"
+ },
+ {
+  "id": "E36",
+  "scope": "engine",
+  "claim": "timer never goes negative",
+  "file": "packages/engine/src/schedule.ts",
+  "find": "remainingMs: Math.max(0, remainingMs)",
+  "replace": "remainingMs",
+  "test": "packages/engine/test/schedule.test.ts"
+ },
+ {
+  "id": "E37",
+  "scope": "engine",
+  "claim": "election uses the word Election, meeting the word Meeting",
+  "file": "packages/engine/src/schedule.ts",
+  "find": "const what = kind === \"election\" ? \"Election\" : \"Meeting\";\n  return key === \"start\" ? `${what} starts`",
+  "replace": "const what = \"Meeting\";\n  return key === \"start\" ? `${what} starts`",
+  "test": "packages/engine/test/schedule.test.ts"
+ },
+ {
+  "id": "E38",
+  "scope": "engine",
+  "claim": "replay flags a schedule change after the event started",
+  "file": "packages/engine/src/replay.ts",
+  "find": "if (s.status === \"live\" || s.status === \"closed\") bad(seq, \"schedule changed after the event started\");",
+  "replace": "",
+  "test": "packages/engine/test/schedule.test.ts"
+ },
+ {
+  "id": "A24",
+  "scope": "api",
+  "claim": "schedule frozen once the event has started",
+  "file": "apps/api/src/handler.ts",
+  "find": "if (st.status === \"live\" || st.status === \"closed\") throw err(403, \"frozen\", \"The schedule can no longer be changed once the event has started.\");",
+  "replace": "",
+  "test": "apps/api/test/lifecycle.test.ts"
+ },
+ {
+  "id": "A25",
+  "scope": "api",
+  "claim": "bad schedule order refused at creation",
+  "file": "apps/api/src/handler.ts",
+  "find": "{ const sv = validateSchedule(schedule); if (sv) throw err(400, \"bad_schedule\", sv); }",
+  "replace": "",
+  "test": "apps/api/test/lifecycle.test.ts"
  }
 ]

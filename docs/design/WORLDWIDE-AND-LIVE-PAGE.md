@@ -27,3 +27,19 @@ Each step has: `icon` (picture key), `title` and `hint` in English and Hindi (on
 * Advanced settings (rule numbers, majority classes, proxy limits) are collapsed by default. Every feature is a checkbox with a default; law-locked ticks show the one-line reason.
 * Voters see only: enter flat + 6-digit code, read the question, tap an option, get a receipt. Nothing else.
 * The public page already draws its tracker with inline pictograms and works without JavaScript for reading.
+
+## 5. Schedule and count-down timers (owner addition, same day)
+Every event, meeting or election, has **four milestones**, each with date, time, day of the week and place (`packages/engine/src/schedule.ts`):
+
+| Meeting | Election |
+|---|---|
+| Meeting starts | Election starts |
+| Voting starts | Voting starts |
+| Voting ends | Voting ends |
+| Meeting ends | Election ends |
+
+* Entered at creation (`schedule` in `POST /api/events`; a single `scheduledMs` still works and gets defaults), changed with `PUT /api/events/:id/schedule` (reason required, logged as `schedule_set` with old and new, refused once the event has started, order checked: start <= voting start <= voting end <= end, a place for each).
+* Day, date and 24-hour time are computed in the event's own IANA time zone (`timezone`), so it works in any country; unknown zones fall back to UTC.
+* The public page shows the schedule table and **count-down timers that run backwards**: "Meeting opens in 2:00:05", "Voting opens in", "Voting closes in", "Meeting closes in" (for an election: "Election opens in", ... "Election closes in"), the next step in big type. While a vote is open the timer follows the **real end of that voting window** (including extensions), not the plan.
+* The page timers use server time: `GET /api/r/:id/head` returns `serverNow` and the page corrects its offset, so a wrong phone clock does not mislead. The server clock alone decides whether a vote is accepted; the timer is display only.
+* After the event closes the sealed report shows the schedule and "This event has ended." instead of timers.

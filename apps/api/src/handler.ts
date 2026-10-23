@@ -2,6 +2,7 @@
 // Routes and rules: docs/design/API.md. There is no DELETE route and no route that edits history.
 import rulePacks from "../../../docs/research/rule-packs.json";
 import {
+  defaultSchedule, validateSchedule, type Schedule,
   CUSTOM_WORLD_PACK, OPTIONS, PARAMS, RuleError, aesDecrypt, aesEncrypt, applyRecommended, b64url, buildReportModel, canAmendPoint, canChangeRoll, canChangeRule, canDo, canVote, cloneTemplate,
   deriveKey32, effectiveWeight, extractData, fromB64url, issuePasscode, loadAllPacks, maskEmail, maskName, maskPhone, newRuleSet, parseMajority, progressOf, proxyAllowed, randomHex, renderReportHtml,
   sealReport, setOption, validateBallot, validateParam, verifyPasscode, LOGIN_TTL_MS, sha256Hex, type EnginePack, type EventState, type PointDef, type RuleSet, type Json, type Role,
@@ -66,7 +67,7 @@ const needPack = (id: unknown): EnginePack => { const p = PACKS.get(String(id));
 // ------------------------------------------------------------------------------------------------ public reads
 route("GET", "/api/health", async () => json({ ok: true }));
 route("GET", "/api/pubkey", async (c) => json({ alg: "Ed25519", ...(await publicKey(c.env)) }));
-route("GET", "/api/schema", async () => json({ params: PARAMS.map(({ requiredWhen, ...p }) => ({ ...p, conditional: !!requiredWhen })), options: OPTIONS, eventTypes: EVENT_TYPES, prices: PRICE_MINOR }));
+route("GET", "/api/schema", async () => json({ params: PARAMS.map(({ requiredWhen, ...p }) => ({ ...p, conditional: !!requiredWhen })), options: OPTIONS, eventTypes: EVENT_TYPES, prices: PRICE_MINOR, milestones: ["start", "votingStart", "votingEnd", "end"] }));
 route("GET", "/api/packs", async () => json([...PACKS.values()].map((p) => ({ id: p.id, name: p.name, jurisdiction: p.jurisdiction, confidence: p.confidence, needsLawyer: p.needsLawyer, recommended: p.recommended }))));
 route("GET", "/api/packs/:id", async (c, m) => json(needPack(m[1])));
 
@@ -101,7 +102,7 @@ route("GET", "/api/r/:id/head", async (c, m) => {
   const last = await c.db.prepare("SELECT seq, hash FROM log_entries WHERE event_id=? ORDER BY seq DESC LIMIT 1").bind(m[1]!).first<{ seq: number; hash: string }>();
   if (!last) throw err(404, "no_event", "No such event.");
   const s = await c.db.prepare("SELECT status FROM event_status WHERE event_id=? ORDER BY id DESC LIMIT 1").bind(m[1]!).first<{ status: string }>();
-  return json({ seq: last.seq, hash: last.hash, status: s?.status ?? "setup" });
+  return json({ seq: last.seq, hash: last.hash, status: s?.status ?? "setup", serverNow: c.now });
 });
 route("GET", "/api/r/:id/data", async (c, m) => { const tx = await Tx.load(c, m[1]!); const pk = await publicKey(c.env); return json({ model: buildReportModel(await tx.st()), log: tx.entries, ...pk }); });
 
@@ -130,7 +131,9 @@ route("POST", "/api/events", async (c) => {
     registrationNo: str(soc.registrationNo ?? tpl?.society.registrationNo, "registration number", 1, 60), kind: str(soc.kind ?? tpl?.society.kind ?? "AOA", "society kind", 2, 30),
   };
   const pack = needPack(b.packId ?? tpl?.packId);
-  const scheduledMs = int(b.scheduledMs, "scheduledMs", c.now - 86_400_000, c.now + 3 * 366 * 86_400_000);
+  const scheduledMs = int(b.schedule?.start?.atMs ?? b.scheduledMs, "scheduledMs", c.now - 86_400_000, c.now + 3 * 366 * 86_400_000);
+  let schedule: Schedule = b.schedule ?? defaultSchedule(scheduledMs, str(b.venue, "venue", 2, 200));
+  { const sv = validateSchedule(schedule); if (sv) throw err(400, "bad_schedule", sv); }
   const title = str(b.title ?? tpl?.title, "title", 3, 120), venue = str(b.venue, "venue", 2, 200), timezone = optStr(b.timezone ?? tpl?.timezone, "timezone", 60) || "UTC";
 
   let rs: RuleSet = tpl ? { packId: pack.id, params: { ...tpl.params }, options: { ...tpl.options }, locked: { ...pack.locked } } : newRuleSet(pack, kind, eventType as any);
@@ -140,10 +143,10 @@ route("POST", "/api/events", async (c) => {
   const tx = Tx.fresh(c, eid); tx.regAllow = [society.registrationNo];
   const stmts: D1Stmt[] = [];
   const { db } = c;
-  await tx.add("event_created", { pid, role: "organizer" }, { kind, eventType, title, venue, scheduledMs, packId: pack.id, timezone, society, createdFrom: tpl ? tpl.createdFrom : null } as any,
+  await tx.add("event_created", { pid, role: "organizer" }, { kind, eventType, title, venue, scheduledMs: schedule.start.atMs, schedule: schedule as any, packId: pack.id, timezone, society, createdFrom: tpl ? tpl.createdFrom : null } as any,
     () => [
       db.prepare("INSERT INTO societies(id,name,address,registration_no,kind,created_ms) VALUES(?,?,?,?,?,?)").bind(eid, society.name, society.address, society.registrationNo, society.kind, c.now),
-      db.prepare("INSERT INTO events(id,society_id,kind,event_type,title,venue,scheduled_ms,pack_id,created_from_event_id,organizer_person_id,created_ms) VALUES(?,?,?,?,?,?,?,?,?,?,?)").bind(eid, eid, kind, eventType, title, venue, scheduledMs, pack.id, tpl?.createdFrom ?? null, pid, c.now),
+      db.prepare("INSERT INTO events(id,society_id,kind,event_type,title,venue,scheduled_ms,pack_id,created_from_event_id,organizer_person_id,created_ms) VALUES(?,?,?,?,?,?,?,?,?,?,?)").bind(eid, eid, kind, eventType, title, venue, schedule.start.atMs, pack.id, tpl?.createdFrom ?? null, pid, c.now),
     ]);
   await tx.add("rules_initialized", { system: true }, { packId: rs.packId, params: rs.params as any, options: rs.options as any, locked: rs.locked as any }, (seq) => [
     ...OPTIONS.map((o) => db.prepare("INSERT INTO event_options(event_id,key,value,locked,locked_reason,rev,log_seq) VALUES(?,?,?,?,?,1,?)").bind(eid, o.key, rs.options[o.key] === true ? 1 : 0, rs.locked[o.key] ? 1 : 0, rs.locked[o.key]?.reason ?? null, seq)),
@@ -396,6 +399,15 @@ route("POST", "/api/events/:id/agenda/publish", async (c, m) => {
 route("POST", "/api/events/:id/start", async (c, m) => {
   const { tx, pid } = await staff(c, m[1]!, "start"); const st = await tx.st();
   await tx.add("event_started", ENTRY_ACTOR(st, pid), {}, (seq) => [statusStmt(c, tx.eid, "live", seq)]); await tx.commit(); return json({ ok: true });
+});
+route("PUT", "/api/events/:id/schedule", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!, "edit_setup"); const st = await tx.st();
+  if (st.status === "live" || st.status === "closed") throw err(403, "frozen", "The schedule can no longer be changed once the event has started.");
+  const schedule = c.body.schedule as Schedule; const why = validateSchedule(schedule); if (why) throw err(400, "bad_schedule", why);
+  const reason = str(c.body.reason, "reason", 3, 300);
+  await tx.add("schedule_set", ENTRY_ACTOR(st, pid), { schedule: schedule as any, reason, old: st.created!.schedule as any });
+  await tx.commit([c.db.prepare("INSERT INTO event_rules(event_id,scope,param,value_json,rev,changed_by,reason,log_seq,at_ms) VALUES(?,?,?,?,?,?,?,?,?)").bind(tx.eid, "event", "schedule", JSON.stringify(schedule), st.scheduleChanges.length + 2, pid, reason, tx.entries.length, c.now)]);
+  return json({ ok: true, progress: progressOf(await tx.st()) });
 });
 route("POST", "/api/events/:id/attendance", async (c, m) => {
   const { tx, pid } = await staff(c, m[1]!, "mark_attendance"); const st = await tx.st();
