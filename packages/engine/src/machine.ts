@@ -5,7 +5,7 @@ import { currentRoles, hasRole, presentFlatNos, type EventState, type Role } fro
 
 export type Action =
   | "edit_setup" | "pay" | "publish_agenda" | "start" | "open_point" | "close_point" | "extend_point" | "close_event"
-  | "mark_attendance" | "issue_voter_code" | "read_contacts" | "change_rules";
+  | "mark_attendance" | "issue_voter_code" | "read_contacts" | "change_rules" | "erase_data";
 export type Refusal = { ok: false; code: string; message: string };
 export type Allowed = { ok: true };
 export type Decision = Allowed | Refusal;
@@ -24,13 +24,14 @@ export function canDo(s: EventState, pid: string | null, action: Action, ctx: { 
   const isOH = roles.includes("organizer") || roles.includes("host");
   const isOfficer = roles.includes("attendance_officer");
   if (s.status === "suspended") return no("suspended", "This event has been suspended.");
-  if (s.status === "closed" && action !== "read_contacts") return no("event_closed", "This event is closed.");
+  if (s.status === "closed" && action !== "read_contacts" && action !== "erase_data") return no("event_closed", "This event is closed.");
 
   switch (action) {
     case "edit_setup": case "change_rules":
       if (!isOH) return no("not_allowed", "Only the Organizer or a Host can do this.");
       return yes;
     case "pay": return hasRole(s, p.pid, "organizer") ? yes : no("not_allowed", "Only the Organizer pays.");
+    case "erase_data": return hasRole(s, p.pid, "organizer") ? yes : no("not_allowed", "Only the Organizer can erase the private details.");
     case "read_contacts": return isOH ? yes : no("not_allowed", "Only the Organizer or a Host can see contact details.");
     case "publish_agenda": {
       if (!isOH) return no("not_allowed", "Only the Organizer or a Host can do this.");

@@ -1,0 +1,75 @@
+bun test v1.3.14 (0d9b296a)
+
+apps\api\test\security.test.ts:
+20 |     return { status: r.status, body: b, text };
+21 |   }
+22 |   /** The last 6-digit code mailed to this address (local outbox stub). */
+23 |   codeFor(to: string): string {
+24 |     const rows = this.raw.query("SELECT body FROM mail_outbox WHERE to_addr=? ORDER BY id DESC").all(to) as any[];
+25 |     const m = rows.map((r) => /\b(\d{6})\b/.exec(r.body)).find(Boolean); if (!m) throw new Error("no mail code for " + to); return m[1]!;
+                                                                                                ^
+error: no mail code for rajat.agarwal@example.org
+      at codeFor (C:\ct\aoa-rwa\apps\api\test\harness.ts:25:92)
+      at <anonymous> (C:\ct\aoa-rwa\apps\api\test\security.test.ts:21:20)
+(fail) passcodes through the API > REPLAY: a login code works once; the same code again is refused [337.93ms]
+138 | 
+139 | describe("roles", () => {
+140 |   test("nobody acts without verifying their e-mail: no token, no staff action (organizer included)", async () => {
+141 |     const h = await H.make();
+142 |     const r = await h.call("POST", "/api/events", { kind: "meeting", eventType: "agm", title: "AGM", venue: "Hall", scheduledMs: h.now + 9 * DAY, packId: "in-up-aoa", society: { name: "S", address: "Addr 1", registrationNo: "R1", kind: "AOA" }, organizer: ORG, turnstile: "test-ok" });
+143 |     expect(r.status).toBe(201);
+                           ^
+error: expect(received).toBe(expected)
+
+Expected: 201
+Received: 400
+
+      at <anonymous> (C:\ct\aoa-rwa\apps\api\test\security.test.ts:143:22)
+(fail) roles > nobody acts without verifying their e-mail: no token, no staff action (organizer included) [13.32ms]
+292 |   });
+293 |   test("CRYPTO-SHRED: after the data key is destroyed the contacts are gone for good, the public record is unchanged and still verifies", async () => {
+294 |     const h = await H.make(); const e = await liveEvent(h);
+295 |     await h.call("POST", `/api/events/${e.eid}/close`, {}, e.org);
+296 |     const before = (await h.call("GET", `/api/r/${e.eid}`)).text;
+297 |     expect((await h.call("POST", `/api/events/${e.eid}/crypto-shred`, {}, e.org)).status).toBe(200);
+                                                                                                ^
+error: expect(received).toBe(expected)
+
+Expected: 200
+Received: 403
+
+      at <anonymous> (C:\ct\aoa-rwa\apps\api\test\security.test.ts:297:91)
+(fail) privacy: nothing personal in public output > CRYPTO-SHRED: after the data key is destroyed the contacts are gone for good, the public record is unchanged and still verifies [41.71ms]
+317 |     expect(stored).toEqual([...stored].sort());
+318 |     expect(h.count("SELECT COUNT(*) c FROM ballot_box")).toBe(8);
+319 |     // the ledger says WHO voted but not what; the log entry for a secret vote carries no choice
+320 |     const { entries } = await getLog(h, e.eid);
+321 |     expect(entries.filter((x) => x.entry.type === "vote_recorded").every((x) => !("choices" in x.entry.payload))).toBe(true);
+322 |     expect(JSON.stringify(h.raw.query("SELECT * FROM voter_ledger").all())).not.toMatch(/yes|no"/);
+                                                                                      ^
+error: expect(received).not.toMatch(expected)
+
+Expected substring or pattern: not /yes|no"/
+Received: "[{\"id\":1,\"event_id\":\"89e72d69e00b37f97bc7645f23227a55\",\"point_id\":\"pt_c170e87aa10ec79e\",\"flat_no\":\"A-101\",\"kind\":\"official\",\"open_choice_json\":null,\"voted_ms\":1793523600000,\"log_seq\":25},{\"id\":2,\"event_id\":\"89e72d69e00b37f97bc7645f23227a55\",\"point_id\":\"pt_c170e87aa10ec79e\",\"flat_no\":\"A-102\",\"kind\":\"official\",\"open_choice_json\":null,\"voted_ms\":1793523600000,\"log_seq\":27},{\"id\":3,\"event_id\":\"89e72d69e00b37f97bc7645f23227a55\",\"point_id\":\"pt_c170e87aa10ec79e\",\"flat_no\":\"A-103\",\"kind\":\"official\",\"open_choice_json\":null,\"voted_ms\":1793523600000,\"log_seq\":29},{\"id\":4,\"event_id\":\"89e72d69e00b37f97bc7645f23227a55\",\"point_id\":\"pt_c170e87aa10ec79e\",\"flat_no\":\"A-104\",\"kind\":\"official\",\"open_choice_json\":null,\"voted_ms\":1793523600000,\"log_seq\":31},{\"id\":5,\"event_id\":\"89e72d69e00b37f97bc7645f23227a55\",\"point_id\":\"pt_c170e87aa10ec79e\",\"flat_no\":\"A-105\",\"kind\":\"official\",\"open_choice_json\":null,\"voted_ms\":1793523600000,\"log_seq\":33},{\"id\":6,\"event_id\":\"89e72d69e00b37f97bc7645f23227a55\",\"point_id\":\"pt_c170e87aa10ec79e\",\"flat_no\":\"A-106\",\"kind\":\"official\",\"open_choice_json\":null,\"voted_ms\":1793523600000,\"log_seq\":35},{\"id\":7,\"event_id\":\"89e72d69e00b37f97bc7645f23227a55\",\"point_id\":\"pt_c170e87aa10ec79e\",\"flat_no\":\"A-107\",\"kind\":\"official\",\"open_choice_json\":null,\"voted_ms\":1793523600000,\"log_seq\":37},{\"id\":8,\"event_id\":\"89e72d69e00b37f97bc7645f23227a55\",\"point_id\":\"pt_c170e87aa10ec79e\",\"flat_no\":\"A-108\",\"kind\":\"official\",\"open_choice_json\":null,\"voted_ms\":1793523600000,\"log_seq\":39}]"
+
+      at <anonymous> (C:\ct\aoa-rwa\apps\api\test\security.test.ts:322:81)
+(fail) secret ballot > the ballot box has no flat and no time, and its physical order is the random receipt order, not the cast order [88.97ms]
+414 |     expect(r.status).toBe(201); expect(sent).toEqual(["second@example.org"]);
+415 |   });
+416 |   test("event creation is rate limited per IP and needs Turnstile", async () => {
+417 |     const h = await H.make(); const mk = (ip: string, t?: string) => h.call("POST", "/api/events", { kind: "meeting", eventType: "agm", title: "AGM", venue: "Hall", scheduledMs: h.now + 9 * DAY, packId: "custom-world", society: { name: "S", address: "Addr 1", registrationNo: "R1", kind: "AOA" }, organizer: { name: "Some Body", email: "a@example.org" }, ...(t ? { turnstile: t } : {}) }, undefined, ip);
+418 |     expect((await mk("5.5.5.5")).status).toBe(403);
+419 |     for (let i = 0; i < 5; i++) expect((await mk("6.6.6.6", "test-ok")).status).toBe(201);
+                                                                                      ^
+error: expect(received).toBe(expected)
+
+Expected: 201
+Received: 400
+
+      at <anonymous> (C:\ct\aoa-rwa\apps\api\test\security.test.ts:419:81)
+(fail) platform: payments, mail quota, abuse limits, super console > event creation is rate limited per IP and needs Turnstile [7.39ms]
+
+ 46 pass
+ 5 fail
+ 325 expect() calls
+Ran 51 tests across 2 files. [4.32s]

@@ -56,6 +56,13 @@ export async function generateSigningKey(): Promise<KeyMaterial> {
   const pub = new Uint8Array(await subtle().exportKey("raw", kp.publicKey));
   return { privateKeyPkcs8: b64url(priv), publicKeyRaw: b64url(pub), kid: (await sha256Hex(pub)).slice(0, 16) };
 }
+/** Public key (raw, base64url) of a PKCS8 private key, so a deployment only needs ONE secret. */
+export async function publicKeyFromPrivate(privateKeyPkcs8: string): Promise<string> {
+  const key = await tryAlg((a) => subtle().importKey("pkcs8", fromB64url(privateKeyPkcs8), a, true, ["sign"]));
+  const jwk = await subtle().exportKey("jwk", key) as JsonWebKey;
+  if (!jwk.x) throw new Error("cannot derive public key");
+  return jwk.x; // JWK 'x' for OKP/Ed25519 is the raw public key in base64url
+}
 export async function signMessage(privateKeyPkcs8: string, message: string): Promise<string> {
   const key = await tryAlg((a) => subtle().importKey("pkcs8", fromB64url(privateKeyPkcs8), a, false, ["sign"]));
   const alg = (key.algorithm as any).name === "Ed25519" ? { name: "Ed25519" } : { name: "NODE-ED25519" };

@@ -61,7 +61,8 @@ CREATE TABLE voter_ledger (         -- PUBLIC for who-voted (by flat). open_choi
   open_choice_json TEXT, voted_ms INTEGER NOT NULL, log_seq INTEGER, UNIQUE (event_id, point_id, flat_no)
 );
 CREATE TABLE ballot_box (           -- PUBLIC only as receipts + totals. NO flat, NO time, random primary key, physical order unrelated to cast order.
-  receipt_hash TEXT PRIMARY KEY, event_id TEXT NOT NULL, point_id TEXT NOT NULL, choice_json TEXT NOT NULL, weight INTEGER NOT NULL
+  receipt_hash TEXT PRIMARY KEY, event_id TEXT NOT NULL, point_id TEXT NOT NULL, choice_json TEXT NOT NULL, weight INTEGER NOT NULL,
+  kind TEXT NOT NULL DEFAULT 'official' CHECK (kind IN ('official','proxy'))
 ) WITHOUT ROWID;
 CREATE TABLE box_seals (            -- PUBLIC; one per closed secret point: counts + digest of the sorted box, committed in the log
   id INTEGER PRIMARY KEY AUTOINCREMENT, event_id TEXT NOT NULL, point_id TEXT NOT NULL, n INTEGER NOT NULL, counts_json TEXT NOT NULL, digest TEXT NOT NULL, log_seq INTEGER, UNIQUE (point_id)

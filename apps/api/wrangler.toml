@@ -1,0 +1,15 @@
+# AOA-RWA on Cloudflare Pages + Functions + D1. LOCAL USE ONLY until the owner orders a deploy (docs/DEPLOY-NOTES.md).
+# Secrets are never in this file: local ones go in apps/api/.dev.vars (gitignored, made by `bun scripts/gen-dev-vars.ts`),
+# production ones are set as Pages secrets by the deployment session.
+name = "aoa-rwa"
+pages_build_output_dir = "public"
+compatibility_date = "2026-09-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "aoa-rwa"
+database_id = "00000000-0000-0000-0000-000000000000"   # placeholder: local D1 only; the real id is filled in at deploy time
+migrations_dir = "../../migrations"
+
+[vars]
+TEST_MODE = "1"   # local only. Never set in production: it enables the Turnstile test token and the test-payment confirm.

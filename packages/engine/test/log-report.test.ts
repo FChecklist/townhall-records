@@ -149,6 +149,15 @@ describe("the public page / report", () => {
     const v = await verifyReportHtml(swapped);
     expect(v.ok).toBe(false); expect(s.entries.length).toBeGreaterThan(5);
   });
+  test("a validly SIGNED file whose displayed figures disagree with the log is flagged (a buggy or dishonest generator)", async () => {
+    const { s, k, st } = await built();
+    const model = structuredClone(buildReportModel(st)); model.points[0]!.tally!.options[0]!.count = 99; // report says 99 yes votes
+    const { html } = await sealReport(renderReportHtml(model, s.entries, k.publicKeyRaw, k.kid), model, k.privateKeyPkcs8, k.kid);
+    const v = await verifyReportHtml(html);
+    expect(v.seal).toBe(true); expect(v.chain).toBe(true); // the signature and the chain are fine ...
+    expect(v.model).toBe(false); expect(v.ok).toBe(false); // ... but the figures are not what the log produces
+    expect(v.problems.join()).toContain("displayed figures do not match the log");
+  });
   test("PUBLIC OUTPUT contains no complete e-mail, phone number or person name (scanner over HTML, JSON and log)", async () => {
     const { html, s, model } = await built();
     // staff and an attendee all have real-looking private contacts in the test data
