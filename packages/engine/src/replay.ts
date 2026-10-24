@@ -39,6 +39,8 @@ export interface EventState {
   agenda: null | { seq: number; ts: number; givenDays: number; minDays: number | null; maxDays: number | null; met: boolean | null };
   startedTs: number | null; closedInfo: null | { seq: number; ts: number; outcome: Outcome; reasonCodes: string[]; reason: string };
   outcome: Outcome | null; sitting: number;
+  overrides: Array<{ seq: number; ts: number; key: string; value: boolean; declaration: string; lawReason: string }>;
+  customRules: Map<string, { seq: number; ts: number; title: string; kind: "text" | "number" | "yes_no"; value: string | number | boolean; note: string }>;
   postponements: Array<{ seq: number; ts: number; phase: PostponePhase; sitting: number; reasonCodes: string[]; reason: string; feeMinor: number; paymentId: string | null; fromStartMs: number; to: Schedule }>;
   clones: Array<{ direction: string; eventId: string }>; platformActions: Array<{ seq: number; action: string; reason: string }>;
   contactsReads: number; anchors: Array<{ headSeq: number; headHash: string }>;
@@ -53,7 +55,7 @@ export function emptyState(eid: string): EventState {
   return {
     eid, seqCount: 0, head: null, firstTs: null, lastTs: null, created: null, rules: null, initialRules: null, ruleHistory: [], rejectedChanges: [], status: "setup", paid: false, payments: [],
     people: new Map(), roleLog: [], roll: [], rollRev: 0, points: new Map(), pointOrder: [], attendance: new Map(), attendanceLog: [], ledger: new Map(),
-    seals: new Map(), results: new Map(), devices: [], handshakes: 0, agenda: null, startedTs: null, closedInfo: null, outcome: null, sitting: 1, postponements: [], clones: [], platformActions: [], contactsReads: 0, anchors: [], scheduleChanges: [], terms: new Set(), accEntries: 0, packInfo: { name: "", confidence: "", needsLawyer: true }, problems: [],
+    seals: new Map(), results: new Map(), devices: [], handshakes: 0, agenda: null, startedTs: null, closedInfo: null, outcome: null, sitting: 1, postponements: [], overrides: [], customRules: new Map(), clones: [], platformActions: [], contactsReads: 0, anchors: [], scheduleChanges: [], terms: new Set(), accEntries: 0, packInfo: { name: "", confidence: "", needsLawyer: true }, problems: [],
   };
 }
 
@@ -123,6 +125,21 @@ export async function replayLog(entries: SignedEntry[]): Promise<EventState> {
       case "email_verified": { const pr = s.people.get(p.pid); if (pr) pr.verified = true; else bad(seq, "email_verified for unknown person"); break; }
       case "label_set": { const pr = s.people.get(p.pid); if (pr) pr.label = asStr(p.label) || null; break; }
       case "options_set": if (s.rules) for (const [k, v] of Object.entries(p.options as Record<string, boolean>)) { const l = s.rules.locked[k]; if (l && l.value !== v) bad(seq, `locked option ${k} changed`); s.rules.options[k] = v; } break;
+      case "option_overridden": {
+        const k = asStr(p.key); const lock = s.rules?.locked[k];
+        if (!s.rules || !lock) { bad(seq, `override of option ${k} that the law pack does not lock`); break; }
+        if ([...s.points.values()].some((x) => x.state !== "pending") || s.status === "live" || s.status === "closed") bad(seq, "option overridden after the event started");
+        const decl = asStr(p.declaration); if (decl.trim().length < 10) bad(seq, "override without a declaration");
+        s.overrides.push({ seq, ts: e.ts, key: k, value: !!p.value, declaration: decl, lawReason: lock.reason }); s.rules.options[k] = !!p.value; delete s.rules.locked[k]; break;
+      }
+      case "custom_rule_set": {
+        const title = asStr(p.title).trim(); if (title.length < 2 || title.length > 80) { bad(seq, "custom rule title"); break; }
+        if (s.status === "live" || s.status === "closed" || [...s.points.values()].some((x) => x.state !== "pending")) bad(seq, "custom rule changed after the event started");
+        if (p.value === null) { s.customRules.delete(title); break; }
+        const kind = p.kind as "text" | "number" | "yes_no"; const okv = (kind === "text" && typeof p.value === "string" && p.value.length <= 1000) || (kind === "number" && typeof p.value === "number" && Number.isFinite(p.value)) || (kind === "yes_no" && typeof p.value === "boolean");
+        if (!okv) { bad(seq, "custom rule value does not match its kind"); break; }
+        s.customRules.set(title, { seq, ts: e.ts, title, kind, value: p.value as string | number | boolean, note: asStr(p.note) }); break;
+      }
       case "rule_changed": {
         const ch: RuleChange = { seq, ts: e.ts, scope: p.scope, param: p.param, old: p.old ?? null, new: p.new ?? null, reason: asStr(p.reason), by: actorPid };
         if (p.scope !== "event") { const pt = s.points.get(p.scope); if (!pt) bad(seq, "rule change for unknown point"); else if (pt.state !== "pending") bad(seq, `rule changed after point ${pt.def.number} opened`); }

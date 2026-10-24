@@ -1,6 +1,7 @@
 // Townhall API: one framework-free entry point, `handle(request, env, now)`. The Pages Function only forwards to it.
 // Routes and rules: docs/design/API.md. There is no DELETE route and no route that edits history.
 import rulePacks from "../../../docs/research/rule-packs.json";
+import extraPacks from "../../../docs/research/rule-packs-extra.json";
 import {
   type Bytes, BRAND, journeyFor, OUTCOMES, REASON_CODES, REASON_IDS, postponeQuote, ROLE_LIMITS, roleCounts, appointProblem, missingChecks, geoFlags, buildRollTemplateXlsx, readPdfTable, parseRollTable, diffRoll, type SheetFlat, HANDSHAKE_MAX_TRIES, HANDSHAKE_TTL_MS, codeHash, openLink, voterConfirm, monitorConfirm, type Handshake, hmacHex, newSerial, paperToken, parsePaperToken, paperLayout, renderPaperSvg, LANGUAGES, coverage, dictionary, isLang, playbook,
   defaultSchedule, validateSchedule, type Schedule, TERMS_VERSION, TERMS_TEXT, termsSha256, priceFor, isCountry, formatPrice, renderReportPdf, pdfSha256, extractSeal, normalizeBallotDesign, defaultBallotDesign, ballotInstruction, type Actor,
@@ -14,7 +15,7 @@ import {
   sendMail, str, email as emailOf, type Ctx, type D1Stmt, type Env,
 } from "./core";
 
-export const PACKS: Map<string, EnginePack> = loadAllPacks(rulePacks);
+export const PACKS: Map<string, EnginePack> = loadAllPacks(rulePacks, [], extraPacks);
 const EVENT_TYPES = ["agm", "sgm", "monthly", "committee", "custom"];
 const PRICES_PUBLIC = { india: { meeting: priceFor("meeting", "IN"), election: priceFor("election", "IN") }, world: { meeting: priceFor("meeting", "US"), election: priceFor("election", "US") } };
 const STAFF_TTL = 12 * 3600_000, VOTER_TTL = 8 * 3600_000;
@@ -537,6 +538,24 @@ route("POST", "/api/pay/link/:token/payer", async (c, m) => {
 route("POST", "/api/pay/link/:token/test-pay", async (c, m) => {
   if (c.env.TEST_MODE !== "1") throw err(404, "not_found", "Not found."); const p = await payByToken(c, m[1]!);
   c.eventId = p.eventId; await markPaid(c, p.eventId, p.paymentId, "pay-link"); return json({ ok: true });
+});
+// ---- the society's own rules: say where its bye-laws differ from the law pack, and add any rule the pack has no field for
+route("POST", "/api/events/:id/options/override", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!, "edit_setup"); const st = await tx.st(); const key = str(c.body.key, "key", 2, 60);
+  if (typeof c.body.value !== "boolean") throw err(400, "bad_value", "value must be yes or no."); const declaration = str(c.body.declaration, "declaration", 10, 400);
+  const lock = st.rules?.locked[key]; if (!lock) throw err(409, "not_locked", "The law pack does not lock that option, so you can change it normally.");
+  if (st.status === "live" || [...st.points.values()].some((x) => x.state !== "pending")) throw err(403, "frozen", "This cannot change once the event has started.");
+  await tx.add("option_overridden", ENTRY_ACTOR(st, pid), { key, value: c.body.value, declaration, lawReason: lock.reason } as any, (seq) => [c.db.prepare("INSERT INTO event_options(event_id,key,value,locked,locked_reason,rev,log_seq) VALUES(?,?,?,0,NULL,?,?)").bind(tx.eid, key, c.body.value ? 1 : 0, 1000 + st.overrides.length, seq)]);
+  await tx.commit(); return json({ ok: true, shownOnReport: true, message: "Recorded. The report will show what the law pack said and your declaration." });
+});
+route("POST", "/api/events/:id/custom-rules", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!, "edit_setup"); const st = await tx.st(); const title = str(c.body.title, "title", 2, 80);
+  if (st.status === "live" || [...st.points.values()].some((x) => x.state !== "pending")) throw err(403, "frozen", "This cannot change once the event has started.");
+  const remove = c.body.remove === true; const kind = String(c.body.kind ?? "text");
+  if (!remove) { if (!["text", "number", "yes_no"].includes(kind)) throw err(400, "bad_kind", "kind must be text, number or yes_no."); if (st.customRules.size >= 60 && !st.customRules.has(title)) throw err(400, "too_many", "That is enough extra rules (60)."); }
+  const value = remove ? null : kind === "number" ? (Number.isFinite(Number(c.body.value)) && c.body.value !== "" && c.body.value !== null ? Number(c.body.value) : (() => { throw err(400, "bad_value", "Give a number."); })()) : kind === "yes_no" ? (typeof c.body.value === "boolean" ? c.body.value : (() => { throw err(400, "bad_value", "Give yes or no."); })()) : str(c.body.value, "value", 1, 1000);
+  await tx.add("custom_rule_set", ENTRY_ACTOR(st, pid), { title, kind, value, note: optStr(c.body.note, "note", 300) ?? "" } as any); await tx.commit();
+  return json({ ok: true, count: (await tx.st()).customRules.size });
 });
 function pointInput(b: any, cur?: any) {
   const kindIn = b.kind ?? cur?.kind;

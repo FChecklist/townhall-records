@@ -174,6 +174,8 @@ export interface CustomPackDef {
   params?: Record<string, Json | null>; options?: Record<string, boolean | null>;
   locked?: Record<string, LockedOption>;
   notice?: EnginePack["notice"]; recommended?: string[];
+  /** from the research: how sure the values are, and whether a lawyer must check them (default: low / yes). */
+  confidence?: "high" | "medium" | "low"; needsLawyer?: boolean; gaps?: string[];
 }
 const ID_RE = /^[a-z0-9][a-z0-9-]{2,60}$/;
 export function parseCustomPack(def: CustomPackDef): EnginePack {
@@ -188,7 +190,7 @@ export function parseCustomPack(def: CustomPackDef): EnginePack {
   // parameters are validated through the same rule used when an Organizer sets them
   let rs: RuleSet = { packId: def.id, params: {}, options: {}, locked: {} };
   for (const [k, v] of Object.entries(def.params ?? {})) rs = setParamRaw(rs, k, v);
-  return { id: def.id, name: def.name, jurisdiction: def.jurisdiction, params: rs.params, options, locked, notice: def.notice ?? {}, confidence: "low", needsLawyer: true, recommended: def.recommended ?? [] };
+  return { id: def.id, name: def.name, jurisdiction: def.jurisdiction, params: rs.params, options, locked, notice: def.notice ?? {}, confidence: def.confidence && ["high", "medium", "low"].includes(def.confidence) ? def.confidence : "low", needsLawyer: def.needsLawyer !== false, recommended: def.recommended ?? [] };
 }
 
 export const CUSTOM_WORLD_PACK: EnginePack = parseCustomPack({
@@ -197,10 +199,20 @@ export const CUSTOM_WORLD_PACK: EnginePack = parseCustomPack({
   recommended: ["Open your bye-laws and copy the notice period, quorum and majority rules into the steps that follow"],
 });
 
+/** Loads packs written by the research agents (docs/research/rule-packs-extra.json: { packs: CustomPackDef[] }). One bad pack never stops the others: it is skipped and named in `errors`. */
+export function loadExtraPacks(json: unknown, taken: Set<string> = new Set()): { packs: EnginePack[]; errors: string[] } {
+  const out: EnginePack[] = [], errors: string[] = []; const list = (json as { packs?: unknown })?.packs;
+  if (!Array.isArray(list)) return { packs: out, errors: ["extra packs file has no packs list"] };
+  for (const d of list as CustomPackDef[]) {
+    try { const p = parseCustomPack(d); if (taken.has(p.id) || out.some((x) => x.id === p.id)) throw new PackError(`duplicate pack id ${p.id}`); out.push(p); } catch (e) { errors.push(`${(d as any)?.id ?? "?"}: ${String((e as Error).message)}`); }
+  }
+  return { packs: out, errors };
+}
 /** Research-derived packs plus the worldwide custom pack, plus any extra packs supplied by the deployer. */
-export function loadAllPacks(researchJson: unknown, extra: CustomPackDef[] = []): Map<string, EnginePack> {
+export function loadAllPacks(researchJson: unknown, extra: CustomPackDef[] = [], extraJson: unknown = null): Map<string, EnginePack> {
   const m = loadEnginePacks(researchJson);
   m.set(CUSTOM_WORLD_PACK.id, CUSTOM_WORLD_PACK);
+  if (extraJson) for (const p of loadExtraPacks(extraJson, new Set(m.keys())).packs) m.set(p.id, p);
   for (const d of extra) { const p = parseCustomPack(d); if (m.has(p.id)) throw new PackError(`duplicate pack id ${p.id}`); m.set(p.id, p); }
   return m;
 }

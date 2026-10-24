@@ -46,6 +46,8 @@ export interface ReportModel {
   platformActions: Array<{ seq: number; action: string; reason: string }>;
   clones: Array<{ direction: string; eventId: string }>; anchors: Array<{ headSeq: number; headHash: string }>;
   problems: string[]; contactsReads: number;
+  overrides: Array<{ seq: number; ts: number; key: string; label: string; value: boolean; declaration: string; lawReason: string }>;
+  customRules: Array<{ seq: number; title: string; kind: string; value: string | number | boolean; note: string }>;
   outcome: string | null; outcomeLabel: string; outcomeInfo: { reasonCodes: string[]; reasons: string[]; reason: string; atTs: number } | null; sitting: number;
   postponements: Array<{ seq: number; ts: number; phase: string; sitting: number; reasons: string[]; reason: string; feeMinor: number; fromStartMs: number; to: Schedule }>;
   compliance: Compliance; access: { termsAccepted: number; entriesWithAccessFingerprint: number; entries: number };
@@ -112,6 +114,8 @@ export function buildReportModel(s: EventState): ReportModel {
     outcome: s.outcome ?? (s.status === "postponed" ? "postponed" : null), outcomeLabel: outcomeLabel(s.outcome ?? (s.status === "postponed" ? "postponed" : null)),
     outcomeInfo: s.closedInfo ? { reasonCodes: s.closedInfo.reasonCodes, reasons: s.closedInfo.reasonCodes.map((x) => REASON_CODES.find((r) => r.id === x)?.label ?? x), reason: s.closedInfo.reason, atTs: s.closedInfo.ts } : null,
     sitting: s.sitting,
+    overrides: s.overrides.map((o) => ({ seq: o.seq, ts: o.ts, key: o.key, label: OPTIONS.find((x) => x.key === o.key)?.label ?? o.key, value: o.value, declaration: o.declaration, lawReason: o.lawReason })),
+    customRules: [...s.customRules.values()].sort((a, b) => a.seq - b.seq).map((r) => ({ seq: r.seq, title: r.title, kind: r.kind, value: r.value, note: r.note })),
     postponements: s.postponements.map((x) => ({ seq: x.seq, ts: x.ts, phase: x.phase, sitting: x.sitting, reasons: x.reasonCodes.map((c) => REASON_CODES.find((r) => r.id === c)?.label ?? c), reason: x.reason, feeMinor: x.feeMinor, fromStartMs: x.fromStartMs, to: x.to })),
     compliance: complianceChecks(s), access: { termsAccepted: s.terms.size, entriesWithAccessFingerprint: s.accEntries, entries: s.seqCount },
   };
