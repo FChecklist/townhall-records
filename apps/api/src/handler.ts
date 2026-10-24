@@ -962,7 +962,17 @@ route("POST", "/api/internal/tick", async (c) => {
     if (st.status !== "live" || st.rules?.options.auto_publish === false || c.now < st.created!.schedule.end.atMs) continue;
     c.eventId = r.event_id; await closeAndPublish(c, tx, null); closed.push(r.event_id);
   }
-  return json({ closed: closed.length, events: closed });
+  // retention: once the keeping period after publication is over, the private details are erased for ever (the event key is destroyed); the public record is unchanged
+  const erased: string[] = [];
+  const old = (await c.db.prepare("SELECT r.event_id FROM reports r JOIN event_keys k ON k.event_id=r.event_id WHERE k.wrapped_key IS NOT NULL AND r.rev=(SELECT MAX(rev) FROM reports WHERE event_id=r.event_id) AND r.published_ms < ? LIMIT 25").bind(c.now - 30 * 86_400_000).all<{ event_id: string }>()).results;
+  for (const r of old) {
+    const tx = await Tx.load(c, r.event_id); const st = await tx.st(); const pub = st.closedInfo?.ts ?? 0; const params = st.rules?.params ?? {};
+    const days = Math.max((params["privacy.retentionDays"] as number | null) ?? 365, (((params["retention.years"] as number | null) ?? 0) * 365));
+    if (!pub || c.now < pub + days * 86_400_000) continue;
+    c.eventId = r.event_id; await tx.add("key_destroyed", { system: true }, { auto: true, reason: `retention period of ${days} days is over` } as any);
+    await tx.commit([c.db.prepare("UPDATE event_keys SET wrapped_key=NULL, destroyed_ms=? WHERE event_id=?").bind(c.now, r.event_id)]); erased.push(r.event_id);
+  }
+  return json({ closed: closed.length, events: closed, erased: erased.length });
 });
 async function reportBytes(c: Ctx, eid: string): Promise<{ html: string; pdf: Uint8Array; pdfSha256: string; fileSha256: string }> {
   const rep = await c.db.prepare("SELECT html FROM reports WHERE event_id=? ORDER BY rev DESC LIMIT 1").bind(eid).first<{ html: string }>();

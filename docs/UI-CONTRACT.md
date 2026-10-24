@@ -63,3 +63,9 @@ Team screen (Organizer/Host): "Hosts 3 of 5 · Attendance Monitors 7 of 10 (up t
 
 ## "Committee, officers and observers" screen (all optional)
 Heading: "Anyone else who runs or watches this meeting? (optional - skip if your society has none)". A list with an **Add** button; each row shows role, name, designation, authority and has **Edit** and **Delete** buttons (Delete asks "Are you sure?" Yes / No). The Add form: a pick-list (Election Conduct Committee, Returning Officer, Government Officer, Observer, Other) that fills a heading the Organizer may overwrite with their own words, then Name, Designation, Authority or status, Note - all plain text boxes. The same role may be added many times (many committee members, several observers). On the Attendance Monitor's screen the same people appear as a tick-box list ("present"). Locked once the meeting starts; open again between sittings of a postponed meeting.
+
+## Working screens versus the public page (owner directive 2026-10-24)
+* The public page and PDF never show a full name, e-mail or mobile number, for anyone. Do not add an "unhide" button to them.
+* Attendance Monitor screen: on picking a flat call `GET /verify/:flat`; show the full name and mobile in a highlighted "working" box with the words "visible only while you check this person in"; after "Mark present" replace it with the hidden form.
+* Voter screen when the ballot lock is on: Review -> shows the choice and the 4-digit number in large type -> a box to type it -> Cast.
+* Show the chronology as a time-line grouped by day with the time in the event's zone and UTC on hover.

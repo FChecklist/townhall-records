@@ -10,3 +10,7 @@
 
 ## Addendum 2026-10-23
 IP addresses, device identifiers and browser type are now recorded for every action, as the owner directed and as the terms (ticked by every person) state. They are private and encrypted, shortened for office-bearers, shown in full only to the platform owner with a written reason (which is itself published), and become unreadable if the event's private data is erased. The public page shows only a coded fingerprint per entry. This supersedes the earlier rule "raw IP is never stored" for audit purposes; the terms and the DPDP notice must be reviewed by a lawyer before launch.
+
+
+## UPDATE 2026-10-24: one universal rule (supersedes the examples above)
+Everything public (page, PDF, log, public answers) shows EVERY person, staff included, only in the hidden form: `Raj****** Aga******`, `********rwal@gmail.com`, `******3210`. Full values are visible only on the working screen of the person doing the verification, only while they do it. See docs/COMPLIANCE-MAP.md for the DPDP/GDPR mapping and docs/MASTER-CHECKLIST.md section 14.

@@ -41,6 +41,7 @@ export const PARAMS: ParamDef[] = [
   { id: "notice.delivery", label: "How notice must be delivered", type: "enum", enumValues: ["any", "post", "email", "posting"], default: "any", help: "Information shown on the report." },
   { id: "reserved.seats", label: "Seats reserved by law (for example for women)", type: "int", min: 0, max: 100, default: null, help: "Information shown on the report." },
   { id: "minutes.deadlineDays", label: "Minutes deadline (days)", type: "int", min: 0, max: 365, default: null, help: "Information only." },
+  { id: "privacy.retentionDays", label: "Keep the private details (full names, e-mails, mobile numbers, photos) for this many days after the report is published, then erase them for ever", type: "int", min: 30, max: 3650, default: 365, help: "DPDP / GDPR: no longer than needed. The public record stays; it only ever holds the hidden form. Never shorter than the law pack's own record-keeping period." },
   { id: "retention.years", label: "Retention (years)", type: "int", min: 0, max: 100, default: null, help: "Information only." },
 ];
 export const PARAM_BY_ID = new Map(PARAMS.map((p) => [p.id, p]));
