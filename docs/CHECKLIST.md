@@ -91,3 +91,10 @@ Evidence files are in `docs/evidence/`. Reproduce: `bun test --isolate --timeout
 - [x] photo of the attendee by the monitor with time, lat/long (phone) and network place, consent required, encrypted, hash + flags in the public log - `team.test.ts`
 - [x] tick-box list required before marking present (option `attendance_checklist`) - `team.test.ts`; screen designed in `docs/UI-CONTRACT.md`
 - [~] the phone's place can be faked; the network place is a rough cross-check (flags). Not proof. UI not built. No mutation entries yet for these routes.
+
+## Outcomes, postponing, payment links, own rules (owner directive, 2026-10-24)
+- [x] completed / stopped / postponed / cancelled / rescheduled, tick-box reasons, "are you sure", 4-digit typed number, shown on the public page - `apps/api/test/postpone.test.ts`
+- [x] postponing: free before start (unlimited); after start first free, then 50% of the price; fee checked again on replay (a forged log is flagged) - `postpone.test.ts`
+- [x] payment link anyone can pay (Organizer/Host creates and forwards it); reschedule fee takes effect when paid - `postpone.test.ts`
+- [x] override of a locked option with a declaration; custom rules; both on the page - `apps/api/test/ownrules.test.ts`
+- [~] real Razorpay is not connected (test mode); refunds: none by decision; "cancel after votes" refusal not covered by a test; research packs: see docs/research/extra/*.COVERAGE.md

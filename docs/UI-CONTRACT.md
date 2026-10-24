@@ -52,3 +52,11 @@ Order on the screen, top to bottom; each line is a big tick-box (min 48 px). The
 6. [ ] The person has checked their name, flat and status on their own phone - `person_checked`; both sides then enter the 4-digit number.
 7. **Mark present** -> `POST /attendance` with `checks`. If the event requires the check-list (`attendance_checklist`) the API refuses until all required boxes are true and (with photos on) a photo exists for the flat.
 Team screen (Organizer/Host): "Hosts 3 of 5 · Attendance Monitors 7 of 10 (up to 15 if the Organizer or Hosts also monitor)" from `GET /api/events/:id/team`; the Add button greys out when `canAdd` is false, with the reason in words. Tick-box "I will also act as an Attendance Monitor" on the Organizer's and each Host's own row.
+
+## "End or move this event" screen (owner directive 2026-10-24)
+1. Four big tick-boxes (one choice): [ ] Completed  [ ] Stopped in between  [ ] Postponed (new date, time, place)  [ ] Cancelled. Disabled ones say why (`end-options`).
+2. Reason tick-boxes (several allowed): quorum not complete, venue unavailable, emergency, power/network problem, dispute, notice not proper, court/authority order, members asked, chair absent, other + a text box. For Postponed also: new date, time, place for each of the four milestones.
+3. For Postponed after the start time the screen shows the price in words ("Free - first postponement" or "Half the price: Rs 249.50"). Nothing is charged for a move before the start time.
+4. Button -> pop-up: "Are you sure? ..." [Yes] [No]. Yes -> the 4-digit number is shown in large type; the user types it into the box and presses Submit. Wrong number: "That number is not right. N tries left."
+5. If a fee is due: the screen shows the payment link with Copy / Share buttons ("Anyone can pay this"); the page updates by itself when paid.
+6. The public page then shows a large COMPLETED / STOPPED IN BETWEEN / POSTPONED / CANCELLED / RESCHEDULED box with the reasons, the new date and place, and the history of every move with its fee.
