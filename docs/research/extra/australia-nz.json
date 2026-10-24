@@ -1,0 +1,3096 @@
+{
+  "_disclaimer": "Research data, NOT legal advice. Compiled 2026-10-24 from primary legislation where it could be opened (NZ, Queensland, Victoria, ACT, Tasmania, WA 2020 version, NT 2023 versions) and from government/legal-aid summaries elsewhere (NSW, SA). Every leaf: value/note/source/confidence/needsLawyer; null = not read or not verified, never a guess. Each value must be re-verified against current legislation and reviewed by a lawyer before a society relies on it.",
+  "_region": "australia-nz",
+  "_compiled": "2026-10-24",
+  "packs": [
+    {
+      "research": {
+        "id": "nz-unit-titles",
+        "name": "New Zealand body corporate (Unit Titles Act 2010 + Unit Titles Regulations 2011)",
+        "jurisdiction": "NZ",
+        "instruments": [
+          {
+            "value": "Unit Titles Act 2010 (2010 No 22), Part 3 (body corporate meetings ss 88-104, committees ss 112-114B)",
+            "note": "Version read: latest as at 10 July 2026, read in full on the official site. Applies to every unit title development.",
+            "source": "Unit Titles Act 2010 (NZ), https://www.legislation.govt.nz/act/public/2010/22/en/latest/",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          {
+            "value": "Unit Titles Regulations 2011 (SR 2011/122): regs 5-16A (notices, chairperson, quorum, proxies, postal, electronic, written resolutions), regs 24-27A (committee)",
+            "note": "Read in full on the official site (latest version).",
+            "source": "Unit Titles Regulations 2011 (SR 2011/122), https://www.legislation.govt.nz/secondary-legislation/pco-drafted/2011/122/en/latest/",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          {
+            "value": "Body corporate operational rules (s 105; default rules prescribed by regulation under s 217(i))",
+            "note": "A body corporate may amend its own rules by ordinary resolution (s 106(3)). The default rules were NOT read, so any meeting rule that the body corporate rules add on top is unverified.",
+            "source": "Unit Titles Act 2010 (NZ), https://www.legislation.govt.nz/act/public/2010/22/en/latest/ s105-106",
+            "confidence": "medium",
+            "needsLawyer": true
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "annual general meeting",
+            "calledBy": {
+              "value": "Chairperson (body corporate itself for the first AGM). First AGM within 6 months of plan deposit or first sale settlement; later AGMs once every calendar year and not more than 15 months after the previous one",
+              "note": "",
+              "source": "Unit Titles Act 2010 (NZ), https://www.legislation.govt.nz/act/public/2010/22/en/latest/ ss 89, 90(1)",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": 14,
+                "max": null,
+                "note": "2 weeks for an ordinary development, 3 weeks for a 'parent' unit title development"
+              },
+              "note": "Two-step process: a notice of INTENTION (inviting nominations and proposals) at least 3 weeks before (6 weeks for a parent development) and the NOTICE OF MEETING at least 2 weeks before (3 weeks for a parent development). Both go to each owner by the owner's preferred contact method. Agenda, motion text, candidate names, remote-attendance and voting instructions, proxy form, postal voting form and the last financial statements must be included.",
+              "source": "Unit Titles Regulations 2011 (SR 2011/122), https://www.legislation.govt.nz/secondary-legislation/pco-drafted/2011/122/en/latest/ regs 5, 6",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeContent": {
+              "value": "Date/time/venue, agenda, text of motions, candidate names, how to attend remotely, proxy and postal voting procedure, electronic voting information, what happens without a quorum; accompanied by proxy form, postal voting form, last financial statements, committee interests register",
+              "note": "",
+              "source": "Unit Titles Regulations 2011 (SR 2011/122), https://www.legislation.govt.nz/secondary-legislation/pco-drafted/2011/122/en/latest/ reg 6(4),(5)",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "chair": {
+              "value": "Chairperson chairs unless the meeting agrees at the start that someone else will",
+              "note": "",
+              "source": "Unit Titles Regulations 2011 (SR 2011/122), https://www.legislation.govt.nz/secondary-legislation/pco-drafted/2011/122/en/latest/ reg 11(1)(c)",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          },
+          {
+            "type": "extraordinary general meeting (requisitioned by 25% of principal units)",
+            "calledBy": {
+              "value": "Chairperson must call it when a notice signed by or for owners of at least 25% of principal units is received",
+              "note": "",
+              "source": "Unit Titles Act 2010 (NZ), https://www.legislation.govt.nz/act/public/2010/22/en/latest/ ss 89A, 90(2)",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": 7,
+                "max": 21,
+                "note": "notice must go out within 5 working days of receiving the requisition and at least 1 week before the meeting; the meeting itself must be held within 3 weeks of receipt"
+              },
+              "note": "",
+              "source": "Unit Titles Regulations 2011 (SR 2011/122), https://www.legislation.govt.nz/secondary-legislation/pco-drafted/2011/122/en/latest/ reg 8A",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeContent": {
+              "value": "Same content as an ordinary EGM notice, including the motions proposed in the requisition",
+              "note": "",
+              "source": "Unit Titles Regulations 2011 (SR 2011/122), https://www.legislation.govt.nz/secondary-legislation/pco-drafted/2011/122/en/latest/ reg 8A(5),(6)",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          },
+          {
+            "type": "extraordinary general meeting (other)",
+            "calledBy": {
+              "value": "Chairperson or the body corporate committee, at any time",
+              "note": "",
+              "source": "Unit Titles Act 2010 (NZ), https://www.legislation.govt.nz/act/public/2010/22/en/latest/ s 90(3)",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": 7,
+                "max": null,
+                "note": "at least 1 week; if the purpose is to elect a chairperson, subsidiary representative or committee member, a notice of intention is needed at least 2 weeks before (4 weeks for a parent development). In an emergency the chairperson or committee may give shorter notice if reasonable efforts are made to notify every owner."
+              },
+              "note": "",
+              "source": "Unit Titles Regulations 2011 (SR 2011/122), https://www.legislation.govt.nz/secondary-legislation/pco-drafted/2011/122/en/latest/ regs 7, 8, 9",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          },
+          {
+            "type": "body corporate committee meeting",
+            "calledBy": {
+              "value": null,
+              "note": "not read / not verified: who calls committee meetings and the notice period were not found in the parts read (reg 27 says the committee meets as often as it considers necessary)",
+              "source": "Unit Titles Regulations 2011 (SR 2011/122), https://www.legislation.govt.nz/secondary-legislation/pco-drafted/2011/122/en/latest/ reg 27",
+              "confidence": "low",
+              "needsLawyer": true
+            },
+            "noticeDays": {
+              "value": null,
+              "note": "not read / not verified: no committee-meeting notice period found in Part 3 or regs 24-27A",
+              "source": "not read / not verified",
+              "confidence": "low",
+              "needsLawyer": true
+            }
+          }
+        ],
+        "quorum": {
+          "value": {
+            "basis": "number of principal units",
+            "percent": 25,
+            "minimumPersons": "2 persons if the body corporate has 2 or more members"
+          },
+          "note": "Persons attending (in person, by remote link, or by proxy) who are eligible and entitled to exercise the voting power for at least 25% of all principal units. A meeting may also proceed if postal voters plus those present reach 25% of principal units. Owners with unpaid levies do not count towards the quorum (they are not eligible).",
+          "source": "Unit Titles Act 2010 (NZ), https://www.legislation.govt.nz/act/public/2010/22/en/latest/ s 95(1),(1A); Unit Titles Regulations 2011 (SR 2011/122), https://www.legislation.govt.nz/secondary-legislation/pco-drafted/2011/122/en/latest/ reg 13(1)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "adjournedQuorum": {
+          "value": {
+            "minHoursLater": 168,
+            "noQuorum": true
+          },
+          "note": "If there is no quorum the meeting adjourns to the same day one week later, same time and place (3 days' notice if the place or time is changed); the reconvened meeting proceeds whether or not a quorum is present.",
+          "source": "Unit Titles Regulations 2011 (SR 2011/122), https://www.legislation.govt.nz/secondary-legislation/pco-drafted/2011/122/en/latest/ reg 13(2)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "majorities": {
+          "ordinary": {
+            "value": "More than half in number of the eligible voters who vote (one vote per principal unit); then any eligible voter or proxy who voted may ask for a poll, which is decided by a majority of the ownership interest represented by those voting, and the poll result is the decision",
+            "note": "",
+            "source": "Unit Titles Act 2010 (NZ), https://www.legislation.govt.nz/act/public/2010/22/en/latest/ ss 97, 99, 100(3)",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "special": {
+            "value": "75% of the eligible voters who vote (one vote per unit); on a poll, 75% of the ownership interest represented by those voting",
+            "note": "",
+            "source": "Unit Titles Act 2010 (NZ), https://www.legislation.govt.nz/act/public/2010/22/en/latest/ ss 98, 100(4)",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "unanimous": {
+            "value": "No general 'unanimous resolution' type found in the Act (the word appears only in a consequential amendment). Default is ordinary resolution unless the Act requires special resolution (s 101).",
+            "note": "Individual sections that demand owner consent were not catalogued.",
+            "source": "Unit Titles Act 2010 (NZ), https://www.legislation.govt.nz/act/public/2010/22/en/latest/ s 101(1),(2)",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          "resolutionWithoutMeeting": {
+            "value": "Written resolution signed by a majority of eligible voters (ordinary) or at least 75% of eligible voters (special); no poll can be requested",
+            "note": "",
+            "source": "Unit Titles Act 2010 (NZ), https://www.legislation.govt.nz/act/public/2010/22/en/latest/ s 104(3); Unit Titles Regulations 2011 (SR 2011/122), https://www.legislation.govt.nz/secondary-legislation/pco-drafted/2011/122/en/latest/ reg 16",
+            "confidence": "high",
+            "needsLawyer": false
+          }
+        },
+        "weightageModels": {
+          "value": {
+            "model": "one vote per principal unit",
+            "poll": "by ownership interest"
+          },
+          "note": "Weighting only appears on a poll.",
+          "source": "Unit Titles Act 2010 (NZ), https://www.legislation.govt.nz/act/public/2010/22/en/latest/ ss 97(2), 100(3)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "proxy": {
+          "value": {
+            "allowed": true,
+            "form": "written notice signed by the eligible voter; co-owners appoint jointly",
+            "limit": null,
+            "validity": "for one meeting (and its adjournment); revocable until it expires"
+          },
+          "note": "A proxy may attend and be heard as the owner. The form must be delivered as the body corporate requires by the start of the meeting (or before the first vote if appointed during the meeting). The chairperson need not make sure the proxy follows the owner's instructions. No cap on how many proxies one person may hold was found.",
+          "source": "Unit Titles Act 2010 (NZ), https://www.legislation.govt.nz/act/public/2010/22/en/latest/ s 102; Unit Titles Regulations 2011 (SR 2011/122), https://www.legislation.govt.nz/secondary-legislation/pco-drafted/2011/122/en/latest/ reg 14",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "votingMethods": {
+          "value": [
+            "in person",
+            "audio/audiovisual link",
+            "proxy",
+            "postal vote",
+            "electronic vote",
+            "written resolution without a meeting",
+            "poll on request"
+          ],
+          "note": "",
+          "source": "Unit Titles Act 2010 (NZ), https://www.legislation.govt.nz/act/public/2010/22/en/latest/ ss 88(3), 99, 102-104",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "electronicVoting": {
+          "value": {
+            "allowed": true,
+            "detail": "Body corporate must take reasonable steps to let eligible voters vote electronically, open from the last date notice could be issued, and verify identity. Remote attendance facilities must be provided."
+          },
+          "note": "Electronic and postal votes cast before a motion is materially amended at the meeting are not counted for that motion (they still count for the 25% quorum).",
+          "source": "Unit Titles Act 2010 (NZ), https://www.legislation.govt.nz/act/public/2010/22/en/latest/ ss 88(3),(4), 103, 103A; Unit Titles Regulations 2011 (SR 2011/122), https://www.legislation.govt.nz/secondary-legislation/pco-drafted/2011/122/en/latest/ regs 12A, 15, 15A",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "minutesDeadlineDays": {
+          "value": null,
+          "note": "not read / not verified: no deadline for general-meeting minutes found; committee minutes must go to all owners promptly and within 1 month",
+          "source": "Unit Titles Regulations 2011 (SR 2011/122), https://www.legislation.govt.nz/secondary-legislation/pco-drafted/2011/122/en/latest/ regs 11(1)(d), 27A",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "recordRetentionYears": {
+          "value": null,
+          "note": "Only found: proxy forms, postal votes, electronic votes and other voting records must be kept for 28 days after the meeting or written vote result (reg 16A). Wider record-keeping duties (reg 36A) were not read.",
+          "source": "Unit Titles Regulations 2011 (SR 2011/122), https://www.legislation.govt.nz/secondary-legislation/pco-drafted/2011/122/en/latest/ reg 16A",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "memberInspectionRight": {
+          "value": null,
+          "note": "not read / not verified: owner inspection rights over records not read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "electionRoles": {
+          "value": {
+            "returningOfficer": null,
+            "chairperson": "elected by ordinary resolution at every AGM; candidate must be nominated by another owner who is a principal-unit owner, and consent",
+            "committee": "body corporate decides by ordinary resolution at the AGM how many elected members (and the committee quorum) and elects them; candidates may nominate themselves; a committee is compulsory for a large development unless disapproved by special resolution (9 or fewer units: optional)",
+            "tieBreak": null
+          },
+          "note": "No returning officer or scrutineer role is prescribed. Pre-meeting electronic and postal voting is allowed in elections.",
+          "source": "Unit Titles Regulations 2011 (SR 2011/122), https://www.legislation.govt.nz/secondary-legislation/pco-drafted/2011/122/en/latest/ regs 10, 24; Unit Titles Act 2010 (NZ), https://www.legislation.govt.nz/act/public/2010/22/en/latest/ s 112",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "termYears": {
+          "value": {
+            "years": null,
+            "description": "From the close of the meeting that elects the person until the close of the next annual general meeting; eligible for re-election"
+          },
+          "note": "Chairperson and committee members both. Removal by ordinary resolution at an EGM.",
+          "source": "Unit Titles Regulations 2011 (SR 2011/122), https://www.legislation.govt.nz/secondary-legislation/pco-drafted/2011/122/en/latest/ regs 10(6),(7), 12, 24(7),(8), 25",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "eligibility": {
+          "value": "Chairperson/committee: owner of a principal unit (or director/representative of a corporate owner); no overdue levies when nominations close; nominee must consent. Voters must be 16 or over.",
+          "note": "Mortgagee consent may be required to vote if the mortgage says so.",
+          "source": "Unit Titles Regulations 2011 (SR 2011/122), https://www.legislation.govt.nz/secondary-legislation/pco-drafted/2011/122/en/latest/ regs 10(2),(4), 24(3); Unit Titles Act 2010 (NZ), https://www.legislation.govt.nz/act/public/2010/22/en/latest/ s 96",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "defaulterDisqualification": {
+          "value": "An eligible voter cannot vote unless all levies and amounts payable for the unit are paid; disputed amounts paid only to vote do not waive the dispute",
+          "note": "",
+          "source": "Unit Titles Act 2010 (NZ), https://www.legislation.govt.nz/act/public/2010/22/en/latest/ s 96(3),(6)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "requisition": {
+          "value": {
+            "percentOfLots": 25,
+            "meetingDeadlineWeeks": 3
+          },
+          "note": "Owners of at least 25% of principal units may require an EGM; the chairperson has 5 working days to issue notice.",
+          "source": "Unit Titles Act 2010 (NZ), https://www.legislation.govt.nz/act/public/2010/22/en/latest/ s 89A; Unit Titles Regulations 2011 (SR 2011/122), https://www.legislation.govt.nz/secondary-legislation/pco-drafted/2011/122/en/latest/ reg 8A",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "notes": [
+          "Notices go by each owner's preferred contact method (reg 6(1)), so the product's notice.delivery should stay 'any'.",
+          "A body corporate can also decide matters by ordinary resolution without delegating to the committee (s 101).",
+          "Not read: body corporate operational rules default text, reg 36A records, the Disputes Tribunal / Tenancy Tribunal route for unfair meeting conduct."
+        ]
+      },
+      "engine": {
+        "id": "nz-unit-titles",
+        "name": "NZ Unit Titles Act 2010 + Regulations 2011 (body corporate)",
+        "jurisdiction": "NZ",
+        "confidence": "high",
+        "needsLawyer": false,
+        "params": {
+          "notice.minDays": 14,
+          "quorum.basis": "flats",
+          "quorum.percentBp": 2500,
+          "quorum.strict": false,
+          "quorum.countProxies": true,
+          "adjourned.noQuorum": true,
+          "adjourned.minHoursLater": 168,
+          "majority.simple.basis": "cast",
+          "majority.special.basis": "cast",
+          "requisition.percentBp": 2500,
+          "notice.delivery": "any"
+        },
+        "options": {
+          "proxy_voting": true,
+          "absentee_voting": true,
+          "quorum_check": true,
+          "minutes": true,
+          "notices": true
+        },
+        "notice": {
+          "agm": {
+            "min": 14,
+            "max": null
+          },
+          "sgm": {
+            "min": 7,
+            "max": null
+          }
+        },
+        "recommended": [
+          "Send BOTH notices for an AGM: notice of intention at least 3 weeks before (6 weeks for a parent development) to invite nominations, then the notice of meeting at least 2 weeks before (3 weeks for a parent development) (Regs 2011 regs 5-6).",
+          "A meeting called only to elect the chairperson or committee needs a notice of intention at least 2 weeks before (reg 7).",
+          "Offer remote attendance and electronic voting for every meeting and include the proxy and postal voting forms in the notice (Act ss 88(3), 103, 103A; regs 6, 12A, 15A).",
+          "A poll can be requested after any ordinary or special resolution and is then counted by ownership interest (Act ss 99-100); the product's per-flat count is only the first step.",
+          "Owners with unpaid levies cannot vote or count towards the quorum (Act s 96(3), s 95(1)(b)); keep the levy status list current."
+        ],
+        "gaps": [
+          "Poll after a show of votes, counted by ownership interest, which can reverse the result (ss 99-100).",
+          "Special resolution needs 75% of those who vote; the product has no percentage setting for the special majority.",
+          "Quorum minimum of 2 persons when the body corporate has 2+ members (s 95(1A)).",
+          "Two-step AGM notice (intention + meeting) and parent-development longer notices.",
+          "Notice for an owner-requisitioned EGM must go out within 5 working days of the request and the meeting held within 3 weeks.",
+          "Postal and electronic votes are void for a motion that is materially amended at the meeting (regs 15, 15A)."
+        ]
+      }
+    },
+    {
+      "research": {
+        "id": "nz-incorporated-society",
+        "name": "New Zealand incorporated society, e.g. a residents' group (Incorporated Societies Act 2022)",
+        "jurisdiction": "NZ",
+        "instruments": [
+          {
+            "value": "Incorporated Societies Act 2022 (2022 No 12), meetings ss 84-93, committee ss 45-47",
+            "note": "Read the meeting and committee sections on the official site. The Act sets few numbers: notice period, quorum, majorities, proxy limits and election procedure are left to the society's constitution (ss 26(1)(k), 87(3), 93).",
+            "source": "Incorporated Societies Act 2022 (NZ), https://www.legislation.govt.nz/act/public/2022/12/en/latest/",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          {
+            "value": null,
+            "note": "not read / not verified: model/default constitution text (checklist on is-register.companiesoffice.govt.nz) and the Incorporated Societies Act 1908 that still applies to societies not yet re-registered",
+            "source": "https://www.is-register.companiesoffice.govt.nz/ (not opened)",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "annual general meeting",
+            "calledBy": {
+              "value": "Society must call an AGM within 6 months of its balance date and within 15 months of the previous AGM (first AGM within 18 months of incorporation)",
+              "note": "Committee presents annual report, financial statements and a summary of disclosed conflicts of interest. Minutes must be kept.",
+              "source": "Incorporated Societies Act 2022 (NZ), https://www.legislation.govt.nz/act/public/2022/12/en/latest/ ss 84, 86",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": null,
+              "note": "not read / not verified: the Act does not set a notice period; the society's constitution does",
+              "source": "Incorporated Societies Act 2022 (NZ), https://www.legislation.govt.nz/act/public/2022/12/en/latest/ ss 26(1)(k), 85",
+              "confidence": "low",
+              "needsLawyer": true
+            }
+          }
+        ],
+        "quorum": {
+          "value": null,
+          "note": "not read / not verified: set by the society's constitution; the Act only says a general meeting is held by a quorum of persons present or linked electronically",
+          "source": "Incorporated Societies Act 2022 (NZ), https://www.legislation.govt.nz/act/public/2022/12/en/latest/ s 87",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "adjournedQuorum": {
+          "value": null,
+          "note": "not read / not verified: constitution decides",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "majorities": {
+          "ordinary": {
+            "value": null,
+            "note": "not read / not verified: constitution decides",
+            "source": "not read / not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          },
+          "special": {
+            "value": null,
+            "note": "not read / not verified: constitution decides (constitution amendments follow s 30, not read)",
+            "source": "not read / not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        },
+        "weightageModels": {
+          "value": null,
+          "note": "not read / not verified: constitution decides",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "proxy": {
+          "value": {
+            "allowed": null
+          },
+          "note": "Proxy, postal and electronic voting are allowed only if the constitution permits them.",
+          "source": "Incorporated Societies Act 2022 (NZ), https://www.legislation.govt.nz/act/public/2022/12/en/latest/ s 93",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "votingMethods": {
+          "value": [
+            "in person",
+            "audio/audiovisual link or other electronic communication (unless the constitution says otherwise)",
+            "proxy / postal / electronic if the constitution permits",
+            "resolution in lieu of a meeting (ss 89-92)"
+          ],
+          "note": "",
+          "source": "Incorporated Societies Act 2022 (NZ), https://www.legislation.govt.nz/act/public/2022/12/en/latest/ ss 87, 89, 93",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "electronicVoting": {
+          "value": {
+            "allowed": true,
+            "detail": "General meetings may be held wholly or partly by audio/audiovisual link by default, subject to the constitution."
+          },
+          "note": "",
+          "source": "Incorporated Societies Act 2022 (NZ), https://www.legislation.govt.nz/act/public/2022/12/en/latest/ s 87",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "minutesDeadlineDays": {
+          "value": null,
+          "note": "not read / not verified: no deadline found; members have a right of access to minutes (s 88)",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "recordRetentionYears": {
+          "value": null,
+          "note": "not read / not verified: not read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "memberInspectionRight": {
+          "value": "Members have a right of access to the financial statements and the minutes of meetings",
+          "note": "Detail of the right not read.",
+          "source": "Incorporated Societies Act 2022 (NZ), https://www.legislation.govt.nz/act/public/2022/12/en/latest/ s 88",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "electionRoles": {
+          "value": null,
+          "note": "not read / not verified: election procedure is for the constitution; the Act requires a committee of at least 3 officers, a majority of them members (s 45)",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "termYears": {
+          "value": null,
+          "note": "not read / not verified: constitution decides",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "notes": [
+          "Societies registered before 5 Oct 2023 that have not re-registered still run under the 1908 Act (secondary statement from the Companies Office guidance; not verified here).",
+          "Useful mostly as a reminder to the Organizer to enter their own constitution values: the Act itself fixes almost nothing."
+        ]
+      },
+      "engine": {
+        "id": "nz-incorporated-society",
+        "name": "NZ incorporated society (residents' group) - enter your constitution values",
+        "jurisdiction": "NZ",
+        "confidence": "medium",
+        "needsLawyer": true,
+        "params": {},
+        "options": {
+          "proxy_voting": null,
+          "absentee_voting": null,
+          "quorum_check": true,
+          "minutes": true
+        },
+        "recommended": [
+          "Open the society's constitution and enter its notice period, quorum and majorities in the steps that follow: the Act leaves these to the constitution (Act ss 26(1)(k), 87(3)).",
+          "Proxy, postal and electronic voting are lawful only if the constitution says so (s 93)."
+        ],
+        "gaps": [
+          "The Act sets no numbers for notice, quorum or majorities, so nothing can be pre-filled."
+        ]
+      }
+    },
+    {
+      "research": {
+        "id": "au-qld-bccm-standard",
+        "name": "Queensland body corporate - BCCM Act 1997 + Standard Module Regulation 2020",
+        "jurisdiction": "AU-QLD",
+        "instruments": [
+          {
+            "value": "Body Corporate and Community Management Act 1997, ss 104-111 (meetings, counting of votes)",
+            "note": "Read on the official Queensland site (current in-force text).",
+            "source": "Body Corporate and Community Management Act 1997 (Qld), https://www.legislation.qld.gov.au/view/whole/html/inforce/current/act-1997-028",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          {
+            "value": "BCCM (Standard Module) Regulation 2020, regs 81-117 (meetings), 123-131 (proxies), 9-39 (committee)",
+            "note": "Read in full on the official site. The Standard Module is one of five modules: a scheme's community management statement picks which applies.",
+            "source": "Body Corporate and Community Management (Standard Module) Regulation 2020 (Qld, SL 2020 No 233), https://www.legislation.qld.gov.au/view/whole/html/inforce/current/sl-2020-0233",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          {
+            "value": null,
+            "note": "not read / not verified: BCCM Accommodation Module 2020 (SL 2020 No 229), Commercial Module, Small Schemes Module and Specified Two-lot Schemes Module were NOT read; the Accommodation Module's meeting rules are likely similar but were not checked",
+            "source": "https://www.legislation.qld.gov.au/view/pdf/published.exp/sl-2020-0229 (not opened)",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "annual general meeting",
+            "calledBy": {
+              "value": "A committee member authorised by committee resolution calls it. Must be held within 3 months after the end of each financial year (first AGM has its own rules in reg 94)",
+              "note": "",
+              "source": "Body Corporate and Community Management (Standard Module) Regulation 2020 (Qld, SL 2020 No 233), https://www.legislation.qld.gov.au/view/whole/html/inforce/current/sl-2020-0233 regs 82, 83",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": 21,
+                "max": null,
+                "note": "meeting must be held at least 21 days after notice is given"
+              },
+              "note": "Written notice to each lot owner with agenda, time and place, proxy form, voting papers, secret-ballot materials and explanatory material.",
+              "source": "Body Corporate and Community Management (Standard Module) Regulation 2020 (Qld, SL 2020 No 233), https://www.legislation.qld.gov.au/view/whole/html/inforce/current/sl-2020-0233 regs 87, 91",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeContent": {
+              "value": "Time and place, agenda, proxy form, voting paper for each open motion, secret ballot papers/instructions, explanatory material, and other documents the regulation requires",
+              "note": "",
+              "source": "Body Corporate and Community Management (Standard Module) Regulation 2020 (Qld, SL 2020 No 233), https://www.legislation.qld.gov.au/view/whole/html/inforce/current/sl-2020-0233 reg 87(3)",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          },
+          {
+            "type": "extraordinary general meeting (requested by owners)",
+            "calledBy": {
+              "value": "Must be called when a notice is signed by or for owners of at least 25% of all lots and given to the secretary (or chairperson if the secretary is absent)",
+              "note": "Called within 14 days and held within 6 weeks after the request; if not called, the signing owners can ask another committee member to call it within a further 14 days.",
+              "source": "Body Corporate and Community Management (Standard Module) Regulation 2020 (Qld, SL 2020 No 233), https://www.legislation.qld.gov.au/view/whole/html/inforce/current/sl-2020-0233 regs 84, 85",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": 21,
+                "max": null
+              },
+              "note": "Same 21-day rule for every general meeting.",
+              "source": "Body Corporate and Community Management (Standard Module) Regulation 2020 (Qld, SL 2020 No 233), https://www.legislation.qld.gov.au/view/whole/html/inforce/current/sl-2020-0233 reg 91",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          },
+          {
+            "type": "committee meeting",
+            "calledBy": {
+              "value": null,
+              "note": "not read / not verified: who may call and notice of committee meetings (regs 54, 55) were listed but their text was not read",
+              "source": "not read / not verified",
+              "confidence": "low",
+              "needsLawyer": true
+            },
+            "noticeDays": {
+              "value": null,
+              "note": "not read / not verified: reg 55 text not read",
+              "source": "not read / not verified",
+              "confidence": "low",
+              "needsLawyer": true
+            }
+          }
+        ],
+        "quorum": {
+          "value": {
+            "basis": "voters",
+            "percent": 25,
+            "reducibleToPercent": 10,
+            "minimumPersonallyPresent": "2 voters if the scheme has 3 or more voters (1 if the body corporate decides so by special resolution, or if fewer than 3 voters)"
+          },
+          "note": "Quorum is 25% of voters unless the body corporate sets a lower percentage (not below 10%) by special resolution. A voter counts as present if they appointed a proxy or cast a hard-copy or electronic vote before the meeting. Co-owners and multiple roll entries for one owner count as one voter.",
+          "source": "Body Corporate and Community Management (Standard Module) Regulation 2020 (Qld, SL 2020 No 233), https://www.legislation.qld.gov.au/view/whole/html/inforce/current/sl-2020-0233 reg 99",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "adjournedQuorum": {
+          "value": {
+            "minHoursLater": 168,
+            "noQuorum": false,
+            "condition": "persons present form a quorum only if the chairperson (or an authorised body corporate manager) is present personally"
+          },
+          "note": "If no quorum within 30 minutes the meeting adjourns to the same place/day/time one week later; at the adjourned meeting, if still no quorum after 30 minutes, those present form a quorum provided the chairperson (or authorised manager) is there in person.",
+          "source": "Body Corporate and Community Management (Standard Module) Regulation 2020 (Qld, SL 2020 No 233), https://www.legislation.qld.gov.au/view/whole/html/inforce/current/sl-2020-0233 reg 100",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "majorities": {
+          "ordinary": {
+            "value": "More votes for than against (one vote per lot, in person, by proxy or in writing). If a valid poll is requested: more contribution-schedule lot entitlement for than against",
+            "note": "A poll can be asked for in person or on the voting paper; not available for secret-ballot motions.",
+            "source": "Body Corporate and Community Management Act 1997 (Qld), https://www.legislation.qld.gov.au/view/whole/html/inforce/current/act-1997-028 ss 108-110",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "special": {
+            "value": "At least two-thirds of votes cast in favour AND votes against are not more than 25% of the number of lots AND against-votes hold not more than 25% of total contribution-schedule lot entitlement",
+            "note": "",
+            "source": "Body Corporate and Community Management Act 1997 (Qld), https://www.legislation.qld.gov.au/view/whole/html/inforce/current/act-1997-028 s 106",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "resolutionWithoutDissent": {
+            "value": "No vote counted against (one vote per lot)",
+            "note": "Owners in debt may still vote on these.",
+            "source": "Body Corporate and Community Management Act 1997 (Qld), https://www.legislation.qld.gov.au/view/whole/html/inforce/current/act-1997-028 s 105; Body Corporate and Community Management (Standard Module) Regulation 2020 (Qld, SL 2020 No 233), https://www.legislation.qld.gov.au/view/whole/html/inforce/current/sl-2020-0233 reg 102(2)",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "majorityResolution": {
+            "value": "More than 50% of the lots entitled to vote, written votes only, no proxies",
+            "note": "",
+            "source": "Body Corporate and Community Management Act 1997 (Qld), https://www.legislation.qld.gov.au/view/whole/html/inforce/current/act-1997-028 s 107",
+            "confidence": "high",
+            "needsLawyer": false
+          }
+        },
+        "weightageModels": {
+          "value": {
+            "model": "one vote per lot",
+            "poll": "by contribution-schedule lot entitlement (ordinary resolutions only)",
+            "committeeElection": "same value for every lot"
+          },
+          "note": "",
+          "source": "Body Corporate and Community Management Act 1997 (Qld), https://www.legislation.qld.gov.au/view/whole/html/inforce/current/act-1997-028 ss 106-110; Body Corporate and Community Management (Standard Module) Regulation 2020 (Qld, SL 2020 No 233), https://www.legislation.qld.gov.au/view/whole/html/inforce/current/sl-2020-0233 reg 15(4)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "proxy": {
+          "value": {
+            "allowed": true,
+            "form": "approved form, English, separate from any contract, not irrevocable, not transferable, names an individual",
+            "limit": "scheme with 20 or more lots: no more than 5% of the number of lots; fewer than 20 lots: 1 proxy",
+            "deadline": "given to secretary before the meeting starts, or an earlier time fixed by the body corporate but not earlier than 24 hours before",
+            "prohibition": "body corporate may prohibit proxies altogether or for named matters by special resolution"
+          },
+          "note": "Committee-meeting proxies have a separate stricter rule (not more than 2 meetings a year; regs 124-125).",
+          "source": "Body Corporate and Community Management (Standard Module) Regulation 2020 (Qld, SL 2020 No 233), https://www.legislation.qld.gov.au/view/whole/html/inforce/current/sl-2020-0233 regs 123, 128",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "votingMethods": {
+          "value": [
+            "show of hands",
+            "ballot/poll",
+            "secret ballot (committee elections by default; also motions where the regulation requires)",
+            "hard-copy vote lodged before the meeting",
+            "electronic vote (only if the body corporate resolves by ordinary resolution and runs a compliant system)",
+            "proxy"
+          ],
+          "note": "Voting rule can be changed by special resolution.",
+          "source": "Body Corporate and Community Management (Standard Module) Regulation 2020 (Qld, SL 2020 No 233), https://www.legislation.qld.gov.au/view/whole/html/inforce/current/sl-2020-0233 regs 15, 104-107",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "electronicVoting": {
+          "value": {
+            "allowed": true,
+            "detail": "Body corporate must first pass an ordinary resolution allowing electronic votes and operate a system that rejects ineligible/duplicate votes and lets only the secretary receive them. Teleconference or videoconference presence can also be allowed by ordinary resolution."
+          },
+          "note": "",
+          "source": "Body Corporate and Community Management (Standard Module) Regulation 2020 (Qld, SL 2020 No 233), https://www.legislation.qld.gov.au/view/whole/html/inforce/current/sl-2020-0233 regs 99(2), 106",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "minutesDeadlineDays": {
+          "value": 21,
+          "note": "Copy of the minutes to each lot owner within 21 days after the meeting. Minimum contents are listed (attendance, proxies tabled, motion text, votes for/against/abstain, committee candidates' vote numbers).",
+          "source": "Body Corporate and Community Management (Standard Module) Regulation 2020 (Qld, SL 2020 No 233), https://www.legislation.qld.gov.au/view/whole/html/inforce/current/sl-2020-0233 reg 117",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "recordRetentionYears": {
+          "value": null,
+          "note": "not read / not verified: record retention rules not read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "memberInspectionRight": {
+          "value": null,
+          "note": "not read / not verified: inspection of records not read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "electionRoles": {
+          "value": {
+            "returningOfficer": null,
+            "process": "secretary invites nominations by notice 3-6 weeks before the end of the financial year; nominations close at year end; election is a ballot, secret unless the body corporate decides otherwise by ordinary resolution; ballot scrutiny and declaration rules in regs 31-39",
+            "ballotValue": "every lot has equal value"
+          },
+          "note": "Details of who counts the votes (regs 33-34) were listed, not read.",
+          "source": "Body Corporate and Community Management (Standard Module) Regulation 2020 (Qld, SL 2020 No 233), https://www.legislation.qld.gov.au/view/whole/html/inforce/current/sl-2020-0233 regs 15, 16, 21-39",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "termYears": {
+          "value": {
+            "years": null,
+            "description": "Committee is chosen at each annual general meeting"
+          },
+          "note": "No fixed number of years; it is re-chosen yearly. Small schemes of 2-3 owners have an automatic minor committee (reg 13).",
+          "source": "Body Corporate and Community Management (Standard Module) Regulation 2020 (Qld, SL 2020 No 233), https://www.legislation.qld.gov.au/view/whole/html/inforce/current/sl-2020-0233 reg 13",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "eligibility": {
+          "value": "Nominated individual who is an owner, a family member, an attorney, or a director/nominee of a corporate owner; not a body corporate manager, service contractor or letting agent (or their associates); owner must not owe the body corporate a debt. At least 3 voting members unless a minor committee.",
+          "note": "",
+          "source": "Body Corporate and Community Management (Standard Module) Regulation 2020 (Qld, SL 2020 No 233), https://www.legislation.qld.gov.au/view/whole/html/inforce/current/sl-2020-0233 regs 9, 10",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "defaulterDisqualification": {
+          "value": "An owner who owes a body corporate debt for the lot cannot vote on a motion (except a resolution without dissent) or in a committee election, and cannot be nominated or be a nominee",
+          "note": "",
+          "source": "Body Corporate and Community Management (Standard Module) Regulation 2020 (Qld, SL 2020 No 233), https://www.legislation.qld.gov.au/view/whole/html/inforce/current/sl-2020-0233 reg 102(2), reg 10(2)(d),(e)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "requisition": {
+          "value": {
+            "percentOfLots": 25,
+            "calledWithinDays": 14,
+            "heldWithinWeeks": 6
+          },
+          "note": "",
+          "source": "Body Corporate and Community Management (Standard Module) Regulation 2020 (Qld, SL 2020 No 233), https://www.legislation.qld.gov.au/view/whole/html/inforce/current/sl-2020-0233 reg 84",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "notes": [
+          "Standard Module is the default for most residential schemes, but the scheme's community management statement decides which module applies.",
+          "Motions submitted by owners for an AGM must reach the secretary before the end of the financial year (reg 86(6))."
+        ]
+      },
+      "engine": {
+        "id": "au-qld-bccm-standard",
+        "name": "Queensland BCCM Act 1997 + Standard Module 2020",
+        "jurisdiction": "AU-QLD",
+        "confidence": "high",
+        "needsLawyer": false,
+        "params": {
+          "notice.minDays": 21,
+          "quorum.basis": "flats",
+          "quorum.percentBp": 2500,
+          "quorum.strict": false,
+          "quorum.countProxies": true,
+          "adjourned.minHoursLater": 168,
+          "majority.simple.basis": "cast",
+          "majority.special.basis": "cast",
+          "tie.break": "none",
+          "abstain.inBase": false,
+          "requisition.percentBp": 2500,
+          "minutes.deadlineDays": 21,
+          "notice.delivery": "any"
+        },
+        "options": {
+          "proxy_voting": true,
+          "absentee_voting": true,
+          "quorum_check": true,
+          "minutes": true,
+          "notices": true,
+          "secret_ballot": null,
+          "weightage": null
+        },
+        "notice": {
+          "agm": {
+            "min": 21,
+            "max": null
+          },
+          "sgm": {
+            "min": 21,
+            "max": null
+          }
+        },
+        "recommended": [
+          "Every general meeting needs at least 21 days between giving notice and the meeting (Standard Module reg 91).",
+          "Committee elections are by secret ballot unless the body corporate decides on an open ballot by ordinary resolution (reg 15(3)); keep secret ballot on for elections.",
+          "Owners in debt cannot vote or stand (reg 102(2), reg 10(2)(d)): refresh the arrears list before the meeting.",
+          "Send the minutes to every owner within 21 days (reg 117(2)).",
+          "If the scheme has 20 or more lots, nobody may hold proxies for more than 5% of the lots; below 20 lots, one proxy only (reg 128(4))."
+        ],
+        "gaps": [
+          "Special resolution has THREE tests (two-thirds of votes cast; against-votes at most 25% of lots; against-votes at most 25% of contribution entitlement); the product models only one majority base.",
+          "Poll counted by contribution-schedule lot entitlement, which can reverse a show-of-votes result.",
+          "Proxy cap depends on scheme size (5% of lots, or 1 if under 20 lots).",
+          "Adjourned-meeting quorum needs the chairperson (or authorised manager) present in person.",
+          "Quorum floor of 2 voters present personally.",
+          "Resolution without dissent and majority resolution (more than 50% of all lots, written, no proxy) have no product equivalent.",
+          "Weighting applies only on a poll, so the weightage option is left for the Organizer."
+        ]
+      }
+    },
+    {
+      "research": {
+        "id": "au-vic-oc-act",
+        "name": "Victoria owners corporation (Owners Corporations Act 2006)",
+        "jurisdiction": "AU-VIC",
+        "instruments": [
+          {
+            "value": "Owners Corporations Act 2006 (Vic), Part 4 (meetings ss 69-90, resolutions ss 95-97) and Part 5 (committees ss 100-118)",
+            "note": "Read the authorised PDF of version 024 (in force 9 Sep 2026) in full for these Parts.",
+            "source": "Owners Corporations Act 2006 (Vic), authorised version 024 (in force 9 Sep 2026), https://content.legislation.vic.gov.au/sites/default/files/2026-09/06-69aa024-authorised.PDF",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          {
+            "value": null,
+            "note": "not read / not verified: Owners Corporations Regulations 2018 (proxy form, teleconferencing 'prescribed manner', default rules in Schedule 2) were NOT read",
+            "source": "https://www.legislation.vic.gov.au (not opened)",
+            "confidence": "low",
+            "needsLawyer": true
+          },
+          {
+            "value": null,
+            "note": "not read / not verified: Model rules / owners corporation rules - these can add meeting procedure; not read",
+            "source": "not read / not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "annual general meeting",
+            "calledBy": {
+              "value": "Convened by the chairperson, secretary or manager (on committee authority); required if the owners corporation receives or pays out money in a financial year; gap between AGMs must not exceed 15 months",
+              "note": "",
+              "source": "Owners Corporations Act 2006 (Vic), authorised version 024 (in force 9 Sep 2026), https://content.legislation.vic.gov.au/sites/default/files/2026-09/06-69aa024-authorised.PDF ss 69, 70",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": 14,
+                "max": null
+              },
+              "note": "Written notice (electronic allowed) with date, time, place, agenda, text of any special or unanimous resolution, financial statements, proposed budget, proxy statement, any reports, and the previous AGM minutes.",
+              "source": "Owners Corporations Act 2006 (Vic), authorised version 024 (in force 9 Sep 2026), https://content.legislation.vic.gov.au/sites/default/files/2026-09/06-69aa024-authorised.PDF s 72",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeContent": {
+              "value": "Date/time/place, agenda, text of special/unanimous resolutions, financial statements, budget, proxy right statement, reports, previous minutes",
+              "note": "",
+              "source": "Owners Corporations Act 2006 (Vic), authorised version 024 (in force 9 Sep 2026), https://content.legislation.vic.gov.au/sites/default/files/2026-09/06-69aa024-authorised.PDF s 72(2)",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          },
+          {
+            "type": "special general meeting",
+            "calledBy": {
+              "value": "Chairperson, secretary, a lot owner nominated by owners holding at least 25% of lot entitlements, or the manager (on committee authority, or nominated by 25% of lot entitlements, or when there is no committee)",
+              "note": "",
+              "source": "Owners Corporations Act 2006 (Vic), authorised version 024 (in force 9 Sep 2026), https://content.legislation.vic.gov.au/sites/default/files/2026-09/06-69aa024-authorised.PDF s 74",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": 14,
+                "max": null
+              },
+              "note": "Notice includes date/time/place, agenda, text of special or unanimous resolutions, and the proxy statement.",
+              "source": "Owners Corporations Act 2006 (Vic), authorised version 024 (in force 9 Sep 2026), https://content.legislation.vic.gov.au/sites/default/files/2026-09/06-69aa024-authorised.PDF s 76",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          },
+          {
+            "type": "ballot (decision without a meeting)",
+            "calledBy": {
+              "value": "Chairperson, secretary, a lot owner nominated by 25% of lot entitlements, or the manager as above",
+              "note": "",
+              "source": "Owners Corporations Act 2006 (Vic), authorised version 024 (in force 9 Sep 2026), https://content.legislation.vic.gov.au/sites/default/files/2026-09/06-69aa024-authorised.PDF s 83",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": 14,
+                "max": null,
+                "note": "closing date 14 days after notice, or less if urgent"
+              },
+              "note": "By post, telephone, fax, internet or other electronic communication.",
+              "source": "Owners Corporations Act 2006 (Vic), authorised version 024 (in force 9 Sep 2026), https://content.legislation.vic.gov.au/sites/default/files/2026-09/06-69aa024-authorised.PDF ss 84, 85",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          }
+        ],
+        "quorum": {
+          "value": {
+            "basis": "lots",
+            "percent": 50,
+            "fallback": "if 50% of lots is not available, 50% of total lot entitlement"
+          },
+          "note": "If there is no quorum the meeting may still proceed but all its resolutions are only interim resolutions. Quorum is also the minimum turnout for an ordinary resolution by ballot.",
+          "source": "Owners Corporations Act 2006 (Vic), authorised version 024 (in force 9 Sep 2026), https://content.legislation.vic.gov.au/sites/default/files/2026-09/06-69aa024-authorised.PDF ss 77, 78, 86(2)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "adjournedQuorum": {
+          "value": null,
+          "note": "No adjourned-meeting rule. Interim resolutions become real after 29 days unless a special general meeting is called within that period and held within 28 days after notice, where they must be confirmed; a manager can pass interim resolutions if no lot owner is present (limits: not on the manager's own contract, not above 10% of the annual budget, not for special or unanimous matters).",
+          "source": "Owners Corporations Act 2006 (Vic), authorised version 024 (in force 9 Sep 2026), https://content.legislation.vic.gov.au/sites/default/files/2026-09/06-69aa024-authorised.PDF s 78",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "majorities": {
+          "ordinary": {
+            "value": "Simple majority of votes cast at the meeting (one vote per lot); a lot owner may demand a written poll by lot entitlement before or after the vote and the poll decides. By ballot: majority of votes returned, with votes returned at least equal to a quorum",
+            "note": "",
+            "source": "Owners Corporations Act 2006 (Vic), authorised version 024 (in force 9 Sep 2026), https://content.legislation.vic.gov.au/sites/default/files/2026-09/06-69aa024-authorised.PDF ss 86(2), 87, 89",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "special": {
+            "value": "75% of total lot entitlements (ballot or poll) or 75% of the total votes for all lots (otherwise). 'Interim special resolution' if at least 50% in favour and not more than 25% against: becomes special after 29 days unless owners holding more than 25% of votes petition against it",
+            "note": "",
+            "source": "Owners Corporations Act 2006 (Vic), authorised version 024 (in force 9 Sep 2026), https://content.legislation.vic.gov.au/sites/default/files/2026-09/06-69aa024-authorised.PDF ss 96, 97",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "unanimous": {
+            "value": "All lot entitlements (ballot/poll) or all votes for all lots (otherwise)",
+            "note": "",
+            "source": "Owners Corporations Act 2006 (Vic), authorised version 024 (in force 9 Sep 2026), https://content.legislation.vic.gov.au/sites/default/files/2026-09/06-69aa024-authorised.PDF s 95",
+            "confidence": "high",
+            "needsLawyer": false
+          }
+        },
+        "weightageModels": {
+          "value": {
+            "model": "one vote per lot",
+            "poll": "one vote per unit of lot entitlement"
+          },
+          "note": "Joint owners of a lot have one vote between them.",
+          "source": "Owners Corporations Act 2006 (Vic), authorised version 024 (in force 9 Sep 2026), https://content.legislation.vic.gov.au/sites/default/files/2026-09/06-69aa024-authorised.PDF ss 87, 89(3)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "proxy": {
+          "value": {
+            "allowed": true,
+            "form": "written, in the prescribed form (form in Regulations not read), names an individual, delivered to the secretary",
+            "limit": "a person cannot vote as proxy for more than one lot owner (20 or fewer occupiable lots) or more than 5% of lot owners (more than 20 occupiable lots), unless the owners are family or prescribed circumstances apply",
+            "validity": "lapses after 12 months or earlier date stated; revocable by written notice to the secretary"
+          },
+          "note": "Not transferable. A proxy who is not an owner cannot vote on matters affecting themselves (delegations, manager's appointment). An owner in arrears cannot act as proxy for another owner. Power-of-attorney voting has the same count limits. Nobody may require an owner to grant a proxy (penalty 60 units).",
+          "source": "Owners Corporations Act 2006 (Vic), authorised version 024 (in force 9 Sep 2026), https://content.legislation.vic.gov.au/sites/default/files/2026-09/06-69aa024-authorised.PDF ss 89C-89G",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "votingMethods": {
+          "value": [
+            "show of hands",
+            "written poll by lot entitlement",
+            "teleconference or prescribed manner",
+            "proxy",
+            "ballot by post/phone/fax/internet/electronic communication",
+            "power of attorney"
+          ],
+          "note": "",
+          "source": "Owners Corporations Act 2006 (Vic), authorised version 024 (in force 9 Sep 2026), https://content.legislation.vic.gov.au/sites/default/files/2026-09/06-69aa024-authorised.PDF ss 80, 84, 89",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "electronicVoting": {
+          "value": {
+            "allowed": true,
+            "detail": "Ballots may be conducted electronically (s 84); electronic notices allowed under the Electronic Transactions (Victoria) Act 2000. How a person votes at a meeting by teleconference or other 'prescribed manner' depends on the Regulations (not read)."
+          },
+          "note": "",
+          "source": "Owners Corporations Act 2006 (Vic), authorised version 024 (in force 9 Sep 2026), https://content.legislation.vic.gov.au/sites/default/files/2026-09/06-69aa024-authorised.PDF ss 72 note, 84, 89(6)",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "minutesDeadlineDays": {
+          "value": null,
+          "note": "Minutes must be kept and contain minimum details (date/time/place, owners present, proxies, voting, resolution text) but no deadline for general-meeting minutes was found. Interim resolutions/special interim resolutions require notice and minutes to all owners within 14 days.",
+          "source": "Owners Corporations Act 2006 (Vic), authorised version 024 (in force 9 Sep 2026), https://content.legislation.vic.gov.au/sites/default/files/2026-09/06-69aa024-authorised.PDF ss 78(2), 81, 97(2)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "recordRetentionYears": {
+          "value": null,
+          "note": "not read / not verified: record retention not read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "memberInspectionRight": {
+          "value": null,
+          "note": "not read / not verified: inspection of records (Part 9) not read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "electionRoles": {
+          "value": {
+            "returningOfficer": null,
+            "committee": "an owners corporation affecting 10 or more lots must elect a committee at each AGM; fewer than 10 lots may",
+            "nomination": "in writing, or orally at the AGM by the lot owner or a proxy"
+          },
+          "note": "No returning officer or scrutineer role. Committee chooses its chairperson by majority vote and may revoke the appointment.",
+          "source": "Owners Corporations Act 2006 (Vic), authorised version 024 (in force 9 Sep 2026), https://content.legislation.vic.gov.au/sites/default/files/2026-09/06-69aa024-authorised.PDF ss 100, 103(4), 105",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "termYears": {
+          "value": {
+            "years": null,
+            "description": "Committee members hold office from election until a new committee is elected; owners can add, remove or replace members at an AGM or special general meeting"
+          },
+          "note": "",
+          "source": "Owners Corporations Act 2006 (Vic), authorised version 024 (in force 9 Sep 2026), https://content.legislation.vic.gov.au/sites/default/files/2026-09/06-69aa024-authorised.PDF s 103(5),(6)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "eligibility": {
+          "value": "Committee: 3 to 7 members (up to 12 by ordinary resolution), lot owners or proxies for lot owners, one member per lot; owners in arrears are ineligible (or suspended if already on the committee)",
+          "note": "",
+          "source": "Owners Corporations Act 2006 (Vic), authorised version 024 (in force 9 Sep 2026), https://content.legislation.vic.gov.au/sites/default/files/2026-09/06-69aa024-authorised.PDF s 103(1)-(3),(7)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "defaulterDisqualification": {
+          "value": "An owner in arrears cannot vote (in person, by ballot or by proxy) except on a special or unanimous resolution, and cannot act as another owner's proxy; arrears are treated as paid if paid in cash or at least 4 business days before voting",
+          "note": "",
+          "source": "Owners Corporations Act 2006 (Vic), authorised version 024 (in force 9 Sep 2026), https://content.legislation.vic.gov.au/sites/default/files/2026-09/06-69aa024-authorised.PDF ss 89B, 89C(10), 103(7)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "requisition": {
+          "value": {
+            "percentOfLotEntitlements": 25,
+            "effect": "owners holding at least 25% of lot entitlements may nominate a lot owner (or the manager) to convene a special general meeting or arrange a ballot"
+          },
+          "note": "The law gives them power to nominate a convener rather than forcing the committee to call the meeting.",
+          "source": "Owners Corporations Act 2006 (Vic), authorised version 024 (in force 9 Sep 2026), https://content.legislation.vic.gov.au/sites/default/files/2026-09/06-69aa024-authorised.PDF ss 74(c), 83(c)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "notes": [
+          "Version note: authorised version 024 is dated 9 Sep 2026 (read). Check later versions before relying on the numbers.",
+          "The chairperson has a casting vote only if the chairperson is a lot owner or a proxy; otherwise a tie means not passed (s 89A)."
+        ]
+      },
+      "engine": {
+        "id": "au-vic-oc-act",
+        "name": "Victoria Owners Corporations Act 2006",
+        "jurisdiction": "AU-VIC",
+        "confidence": "medium",
+        "needsLawyer": true,
+        "params": {
+          "notice.minDays": 14,
+          "quorum.basis": "flats",
+          "quorum.percentBp": 5000,
+          "quorum.strict": false,
+          "majority.simple.basis": "cast",
+          "majority.special.basis": "total",
+          "tie.break": "chair_casting_vote",
+          "requisition.percentBp": 2500,
+          "notice.delivery": "any"
+        },
+        "options": {
+          "proxy_voting": true,
+          "quorum_check": true,
+          "minutes": true,
+          "notices": true,
+          "weightage": null,
+          "absentee_voting": null
+        },
+        "notice": {
+          "agm": {
+            "min": 14,
+            "max": null
+          },
+          "sgm": {
+            "min": 14,
+            "max": null
+          }
+        },
+        "recommended": [
+          "Give at least 14 days' written notice for the AGM and any special general meeting (Act ss 72, 76).",
+          "The AGM notice must carry the financial statements, the proposed budget, the previous minutes and a statement of the right to appoint a proxy (s 72(2)).",
+          "Proxy rule: no one may vote as proxy for more than 1 owner (20 or fewer occupiable lots) or 5% of owners (more than 20 lots) (s 89D).",
+          "Owners in arrears cannot vote except on special or unanimous resolutions (s 89B): check the arrears list.",
+          "A tie fails unless the chairperson is an owner or proxy and uses the casting vote (s 89A)."
+        ],
+        "gaps": [
+          "Quorum: 50% of lots OR, if that is not available, 50% of lot entitlement (two bases).",
+          "No quorum does not stop the meeting: its resolutions become interim and need confirmation after 29 days (s 78).",
+          "Special resolution: 75% of ALL votes/lot entitlement, plus interim special resolution (50% in favour, 25% or less against, 29-day petition) (ss 96-97).",
+          "Poll by lot entitlement on ordinary resolutions can overturn a show of hands (s 89(3),(5)).",
+          "Proxy cap depends on number of occupiable lots and has family exceptions.",
+          "Ballot (post/electronic decision without a meeting) with its own 14-day closing date.",
+          "Regulations 2018 (proxy form, teleconference, Schedule 2 model rules) were not read, so confidence is held at medium."
+        ]
+      }
+    },
+    {
+      "research": {
+        "id": "au-act-unit-titles",
+        "name": "ACT owners corporation (Unit Titles (Management) Act 2011)",
+        "jurisdiction": "AU-ACT",
+        "instruments": [
+          {
+            "value": "Unit Titles (Management) Act 2011 (ACT), s 17, s 39 and Schedule 3 (General meetings)",
+            "note": "Read the current consolidated HTML on the ACT Legislation Register; note the Register flags proposed amendments by the Housing and Consumer Affairs Legislation Amendment Bill 2026.",
+            "source": "Unit Titles (Management) Act 2011 (ACT), current version effective 26 June 2026, https://www.legislation.act.gov.au/View/GetHTMLFile/a/2011-41/current/html/2011-41.html",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          {
+            "value": null,
+            "note": "not read / not verified: Unit Titles (Management) Regulation / default rules prescribed by regulation (the Act's 'default rules') were NOT read",
+            "source": "https://www.legislation.act.gov.au (not opened)",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "annual general meeting",
+            "calledBy": {
+              "value": "Executive committee (by notice). One AGM each financial year and not more than 15 months after the last; first AGM within 3 months of plan registration",
+              "note": "",
+              "source": "Unit Titles (Management) Act 2011 (ACT), current version effective 26 June 2026, https://www.legislation.act.gov.au/View/GetHTMLFile/a/2011-41/current/html/2011-41.html Sch 3 ss 3.2, 3.3, 3.5(1)",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": 14,
+                "max": null,
+                "note": "notice must reasonably be expected to be received at least 14 days before; 21 days if an unopposed or unanimous resolution is proposed"
+              },
+              "note": "Notice goes to every member and mortgagee's representative; must state time/date/place, who may vote, any unopposed/unanimous motion text, and include a proxy form and an absentee voting paper; AGM notice includes the financial statements and general fund budget.",
+              "source": "Unit Titles (Management) Act 2011 (ACT), current version effective 26 June 2026, https://www.legislation.act.gov.au/View/GetHTMLFile/a/2011-41/current/html/2011-41.html Sch 3 ss 3.6, 3.7",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeContent": {
+              "value": "Time/date/place, entitlement to vote, text of unopposed/unanimous motions, proxy form, absentee voting paper; AGM: financial statements and budget",
+              "note": "",
+              "source": "Unit Titles (Management) Act 2011 (ACT), current version effective 26 June 2026, https://www.legislation.act.gov.au/View/GetHTMLFile/a/2011-41/current/html/2011-41.html Sch 3 s 3.7",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          },
+          {
+            "type": "general meeting (other)",
+            "calledBy": {
+              "value": "Executive committee at any time, and it must hold a meeting within 28 days after receiving a written request from people entitled to vote holding at least 1/4 of total unit entitlement",
+              "note": "",
+              "source": "Unit Titles (Management) Act 2011 (ACT), current version effective 26 June 2026, https://www.legislation.act.gov.au/View/GetHTMLFile/a/2011-41/current/html/2011-41.html Sch 3 s 3.5",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": 14,
+                "max": null,
+                "note": "21 days for unopposed/unanimous resolutions"
+              },
+              "note": "Defective notice does not invalidate the meeting, but a person not given proper notice can ask in writing for an adjournment.",
+              "source": "Unit Titles (Management) Act 2011 (ACT), current version effective 26 June 2026, https://www.legislation.act.gov.au/View/GetHTMLFile/a/2011-41/current/html/2011-41.html Sch 3 ss 3.6, 3.8",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          },
+          {
+            "type": "executive committee meeting",
+            "calledBy": {
+              "value": null,
+              "note": "not read / not verified: s 37 (executive committee meetings) not read",
+              "source": "not read / not verified",
+              "confidence": "low",
+              "needsLawyer": true
+            },
+            "noticeDays": {
+              "value": null,
+              "note": "not read / not verified: not read",
+              "source": "not read / not verified",
+              "confidence": "low",
+              "needsLawyer": true
+            }
+          }
+        ],
+        "quorum": {
+          "value": {
+            "basis": "units",
+            "percent": 50,
+            "reducedQuorum": "2 or more people present who are entitled to vote, after 30 minutes without a standard quorum",
+            "twoMemberCorporation": "all entitled voters",
+            "retirementVillage": "one third of units"
+          },
+          "note": "Applies to corporations with 3 or more members. Standard quorum: people entitled to vote on the motion holding not less than 1/2 of the total number of units.",
+          "source": "Unit Titles (Management) Act 2011 (ACT), current version effective 26 June 2026, https://www.legislation.act.gov.au/View/GetHTMLFile/a/2011-41/current/html/2011-41.html Sch 3 ss 3.9, 3.12",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "adjournedQuorum": {
+          "value": {
+            "minHoursLater": 168,
+            "noQuorum": false
+          },
+          "note": "If even a reduced quorum is missing 30 minutes after a motion arises, the meeting adjourns to the same day, place and time next week; at the adjourned meeting a reduced quorum is made up of whoever is present. Decisions made with only a reduced quorum take effect after 28 days, can be disallowed by a petition signed by a majority of those entitled to vote, and must be notified to everyone within 14 days.",
+          "source": "Unit Titles (Management) Act 2011 (ACT), current version effective 26 June 2026, https://www.legislation.act.gov.au/View/GetHTMLFile/a/2011-41/current/html/2011-41.html Sch 3 ss 3.9-3.11",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "majorities": {
+          "ordinary": {
+            "value": "Votes in favour are more than votes against (one vote per unit); on a poll, voting value in favour is more than voting value against (value proportional to unit entitlement)",
+            "note": "",
+            "source": "Unit Titles (Management) Act 2011 (ACT), current version effective 26 June 2026, https://www.legislation.act.gov.au/View/GetHTMLFile/a/2011-41/current/html/2011-41.html Sch 3 ss 3.15, 3.28, 3.29",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "special": {
+            "value": "Votes in favour exceed votes against AND votes against are not more than 1/4 of the votes that could be cast by people present (including proxy votes); same test on a poll by voting value. For exactly 3 members: against-votes below 1/3",
+            "note": "",
+            "source": "Unit Titles (Management) Act 2011 (ACT), current version effective 26 June 2026, https://www.legislation.act.gov.au/View/GetHTMLFile/a/2011-41/current/html/2011-41.html Sch 3 s 3.16",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "unopposed": {
+            "value": "No vote cast against and at least one in favour",
+            "note": "",
+            "source": "Unit Titles (Management) Act 2011 (ACT), current version effective 26 June 2026, https://www.legislation.act.gov.au/View/GetHTMLFile/a/2011-41/current/html/2011-41.html Sch 3 s 3.17",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "unanimous": {
+            "value": "Everyone entitled to vote is present, represented by proxy, or has cast an absentee vote; nobody votes against; at least one votes in favour",
+            "note": "",
+            "source": "Unit Titles (Management) Act 2011 (ACT), current version effective 26 June 2026, https://www.legislation.act.gov.au/View/GetHTMLFile/a/2011-41/current/html/2011-41.html Sch 3 s 3.18",
+            "confidence": "high",
+            "needsLawyer": false
+          }
+        },
+        "weightageModels": {
+          "value": {
+            "model": "one vote per unit",
+            "poll": "voting value proportional to unit entitlement"
+          },
+          "note": "Any person present and entitled to vote may demand a poll on an ordinary or special resolution.",
+          "source": "Unit Titles (Management) Act 2011 (ACT), current version effective 26 June 2026, https://www.legislation.act.gov.au/View/GetHTMLFile/a/2011-41/current/html/2011-41.html Sch 3 ss 3.22, 3.28, 3.29",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "proxy": {
+          "value": {
+            "allowed": true,
+            "form": "proxy form must accompany the notice",
+            "limit": "more than 20 units: one person may exercise proxy votes for at most 5% of units; otherwise 1 (the chairperson is exempt and exercises excess proxies)",
+            "validity": "not more than 1 year; manager and service contractor cannot be proxies"
+          },
+          "note": "Developer proxy limits apply to contract-of-sale proxies (s 3.27).",
+          "source": "Unit Titles (Management) Act 2011 (ACT), current version effective 26 June 2026, https://www.legislation.act.gov.au/View/GetHTMLFile/a/2011-41/current/html/2011-41.html Sch 3 ss 3.26, 3.27",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "votingMethods": {
+          "value": [
+            "show of hands / votes counted by number",
+            "poll by unit entitlement",
+            "proxy",
+            "absentee vote (paper lodged before the meeting)",
+            "teleconference or similar link",
+            "alternative voting mechanism agreed by resolution at a general meeting"
+          ],
+          "note": "",
+          "source": "Unit Titles (Management) Act 2011 (ACT), current version effective 26 June 2026, https://www.legislation.act.gov.au/View/GetHTMLFile/a/2011-41/current/html/2011-41.html Sch 3 ss 3.1(2), 3.26, 3.29, 3.31, 3.31A",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "electronicVoting": {
+          "value": {
+            "allowed": true,
+            "detail": "Meetings may use phone/video/internet links so members can hear each other (s 3.1(2)); an owners corporation can resolve at a general meeting to adopt another way of voting (s 3.31A). Absentee votes are paper-based in form approved by the executive committee."
+          },
+          "note": "",
+          "source": "Unit Titles (Management) Act 2011 (ACT), current version effective 26 June 2026, https://www.legislation.act.gov.au/View/GetHTMLFile/a/2011-41/current/html/2011-41.html Sch 3 ss 3.1, 3.31, 3.31A",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "minutesDeadlineDays": {
+          "value": null,
+          "note": "not read / not verified: Schedule 3 sets no minutes deadline; requirements elsewhere in the Act not read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "recordRetentionYears": {
+          "value": null,
+          "note": "not read / not verified: not read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "memberInspectionRight": {
+          "value": null,
+          "note": "not read / not verified: not read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "electionRoles": {
+          "value": {
+            "returningOfficer": null,
+            "committee": "if 4 or more members, general meeting decides by ordinary resolution 3-7 executive members (8 or more by special resolution); elected by ordinary resolution at each AGM",
+            "removal": "an executive member can be removed by the ordinary resolution that elects a replacement"
+          },
+          "note": "Chairperson of the executive committee chairs general meetings unless absent or unwilling; chair has a deliberative and a casting vote (except in a two-member corporation).",
+          "source": "Unit Titles (Management) Act 2011 (ACT), current version effective 26 June 2026, https://www.legislation.act.gov.au/View/GetHTMLFile/a/2011-41/current/html/2011-41.html s 39(2),(4),(5); Sch 3 ss 3.13, 3.30",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "termYears": {
+          "value": {
+            "years": null,
+            "description": "Until the next annual general meeting (or earlier if no longer a qualified person)"
+          },
+          "note": "Casual vacancy: committee may appoint a qualified person until the next AGM.",
+          "source": "Unit Titles (Management) Act 2011 (ACT), current version effective 26 June 2026, https://www.legislation.act.gov.au/View/GetHTMLFile/a/2011-41/current/html/2011-41.html s 39(4),(6)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "eligibility": {
+          "value": "Executive member must be a 'qualified person': a unit owner (or a representative of a company or of co-owners), and not the manager or an associate of the manager. Persons under 18 cannot exercise the vote themselves (parent/guardian does).",
+          "note": "",
+          "source": "Unit Titles (Management) Act 2011 (ACT), current version effective 26 June 2026, https://www.legislation.act.gov.au/View/GetHTMLFile/a/2011-41/current/html/2011-41.html s 39(7); Sch 3 s 3.32",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "defaulterDisqualification": {
+          "value": "In a corporation with 3 or more members, a unit with money owing to the corporation cannot vote on ordinary or special resolutions",
+          "note": "",
+          "source": "Unit Titles (Management) Act 2011 (ACT), current version effective 26 June 2026, https://www.legislation.act.gov.au/View/GetHTMLFile/a/2011-41/current/html/2011-41.html Sch 3 s 3.20(3)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "requisition": {
+          "value": {
+            "percentOfUnitEntitlement": 25,
+            "executiveCommitteeMustHoldWithinDays": 28
+          },
+          "note": "",
+          "source": "Unit Titles (Management) Act 2011 (ACT), current version effective 26 June 2026, https://www.legislation.act.gov.au/View/GetHTMLFile/a/2011-41/current/html/2011-41.html Sch 3 s 3.5(2),(3)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "notes": [
+          "Retirement villages have different quorum and notice rules (Sch 3 ss 3.6(3), 3.9(1)(a)(i)).",
+          "A mortgagee can give a voting notice and then vote instead of the owner (ss 3.20(2), 3.23)."
+        ]
+      },
+      "engine": {
+        "id": "au-act-unit-titles",
+        "name": "ACT Unit Titles (Management) Act 2011",
+        "jurisdiction": "AU-ACT",
+        "confidence": "high",
+        "needsLawyer": false,
+        "params": {
+          "notice.minDays": 14,
+          "quorum.basis": "flats",
+          "quorum.percentBp": 5000,
+          "quorum.strict": false,
+          "adjourned.minHoursLater": 168,
+          "majority.simple.basis": "cast",
+          "majority.special.basis": "present",
+          "tie.break": "chair_casting_vote",
+          "requisition.percentBp": 2500,
+          "notice.delivery": "any"
+        },
+        "options": {
+          "proxy_voting": true,
+          "absentee_voting": true,
+          "quorum_check": true,
+          "minutes": true,
+          "notices": true,
+          "weightage": null
+        },
+        "notice": {
+          "agm": {
+            "min": 14,
+            "max": null
+          },
+          "sgm": {
+            "min": 14,
+            "max": null
+          }
+        },
+        "recommended": [
+          "Give 14 days' notice; make it 21 days when a motion needs an unopposed or unanimous resolution (Sch 3 s 3.6(2)).",
+          "Include a proxy form and an absentee voting paper in every notice (s 3.7(2)).",
+          "Wait 30 minutes: a reduced quorum of 2 people can then decide, but the decision only takes effect after 28 days and can be disallowed by a majority petition (ss 3.9-3.11).",
+          "Proxy cap: 1 per person, or 5% of units when there are more than 20 units; the chairperson is exempt (s 3.26(3)).",
+          "Unit owners with money owing cannot vote on ordinary or special resolutions (s 3.20(3))."
+        ],
+        "gaps": [
+          "Reduced quorum after 30 minutes and the 28-day disallow petition.",
+          "Special resolution test is 'for > against AND against <= 1/4 of votes that could be cast by people present'; there are 3-member and 1-2-member variants.",
+          "Unopposed and unanimous resolution types, with 21-day notice.",
+          "Absentee vote paper counts as present for voting but not for quorum.",
+          "Proxy cap by number of units (5% when above 20 units), with chairperson exemption."
+        ]
+      }
+    },
+    {
+      "research": {
+        "id": "au-wa-strata",
+        "name": "Western Australia strata company (Strata Titles Act 1985, as amended 2018)",
+        "jurisdiction": "AU-WA",
+        "instruments": [
+          {
+            "value": "Strata Titles Act 1985 (WA), Part 8 Division 3 (ss 120-134) and Division 4, Schedule 1 governance by-laws (by-law 4: constitution of council)",
+            "note": "Version read: 07-h0-01, as at 1 May 2020 (the date the 2018 reforms took effect). Later amendments were NOT checked; a Mondaq search summary mentions 2020 adjustments to quorum for special resolutions that may or may not post-date this version.",
+            "source": "Strata Titles Act 1985 (WA), version 07-h0-01 as at 1 May 2020, https://www.legislation.wa.gov.au/legislation/prod/filestore.nsf/FileURL/mrdoc_42774.pdf",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          {
+            "value": null,
+            "note": "not read / not verified: Strata Titles (General) Regulations 2019 (voting systems, strata-manager proxy limits under s 124(5), voting period variations) were NOT read",
+            "source": "https://www.legislation.wa.gov.au (not opened)",
+            "confidence": "low",
+            "needsLawyer": true
+          },
+          {
+            "value": null,
+            "note": "not read / not verified: Landgate fact sheet 'Meetings, voting and decision making' could not be opened (host did not resolve)",
+            "source": "https://srss.landgate.wa.gov.au (unreachable)",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "annual general meeting",
+            "calledBy": {
+              "value": "Required once in each 12 months and not more than 15 months after the previous AGM (not required for a two-lot scheme, which may adopt a by-law). Must include council election, accounts, and insurance certificates",
+              "note": "",
+              "source": "Strata Titles Act 1985 (WA), version 07-h0-01 as at 1 May 2020, https://www.legislation.wa.gov.au/legislation/prod/filestore.nsf/FileURL/mrdoc_42774.pdf s 127",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": 14,
+                "max": null
+              },
+              "note": "At least 14 days' notice to all lot owners and first mortgagees: date, time, venue, AGM business, the general nature of special business, and every acceptable method of voting (including electronic).",
+              "source": "Strata Titles Act 1985 (WA), version 07-h0-01 as at 1 May 2020, https://www.legislation.wa.gov.au/legislation/prod/filestore.nsf/FileURL/mrdoc_42774.pdf s 129",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          },
+          {
+            "type": "extraordinary general meeting",
+            "calledBy": {
+              "value": "Council, when it thinks fit; the council must convene one on written request of owners entitled to 25% or more of unit entitlements. If the council does not act within 21 days, the requesting owners (or any holding more than 50% of unit entitlements) can convene it, to be held within 3 months of the request",
+              "note": "",
+              "source": "Strata Titles Act 1985 (WA), version 07-h0-01 as at 1 May 2020, https://www.legislation.wa.gov.au/legislation/prod/filestore.nsf/FileURL/mrdoc_42774.pdf s 128",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": 14,
+                "max": null
+              },
+              "note": "",
+              "source": "Strata Titles Act 1985 (WA), version 07-h0-01 as at 1 May 2020, https://www.legislation.wa.gov.au/legislation/prod/filestore.nsf/FileURL/mrdoc_42774.pdf s 129",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          }
+        ],
+        "quorum": {
+          "value": {
+            "basis": "lots",
+            "percent": 50,
+            "twoLotScheme": "all lots"
+          },
+          "note": "Persons entitled to cast the votes for 50% of the lots; proxies count. If no quorum 30 minutes after the appointed time (not a 2-lot scheme) those entitled to vote who are present form the quorum.",
+          "source": "Strata Titles Act 1985 (WA), version 07-h0-01 as at 1 May 2020, https://www.legislation.wa.gov.au/legislation/prod/filestore.nsf/FileURL/mrdoc_42774.pdf s 130",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "adjournedQuorum": {
+          "value": null,
+          "note": "Rule is a 30-minute fallback at the same meeting rather than a separate adjourned meeting. A meeting can be adjourned by the chairperson with the meeting's consent; only unfinished business may be transacted when it resumes.",
+          "source": "Strata Titles Act 1985 (WA), version 07-h0-01 as at 1 May 2020, https://www.legislation.wa.gov.au/legislation/prod/filestore.nsf/FileURL/mrdoc_42774.pdf ss 130(4), 132(1)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "majorities": {
+          "ordinary": {
+            "value": "More than 50% of the lots for which votes are cast, counted by number (or, if any person entitled to vote demands it before the vote, more than 50% of the unit entitlements of lots that voted)",
+            "note": "A tie fails.",
+            "source": "Strata Titles Act 1985 (WA), version 07-h0-01 as at 1 May 2020, https://www.legislation.wa.gov.au/legislation/prod/filestore.nsf/FileURL/mrdoc_42774.pdf ss 122(1)(c), 123(7)",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "special": {
+            "value": "14 days' notice of the terms; votes in favour at least 50% of all lots AND at least 50% of all unit entitlements; votes against less than 25% of lots and less than 25% of unit entitlements. Counted both ways. Small schemes: 3-lot scheme needs 2 in favour, 4-lot needs 3, 5-lot needs 4, and 50% of unit entitlements; 2-lot scheme needs a unanimous resolution",
+            "note": "",
+            "source": "Strata Titles Act 1985 (WA), version 07-h0-01 as at 1 May 2020, https://www.legislation.wa.gov.au/legislation/prod/filestore.nsf/FileURL/mrdoc_42774.pdf ss 122(1)(b), 123(4)-(6)",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "resolutionWithoutDissent": {
+            "value": "14 days' notice of terms; no vote cast against (counted by number)",
+            "note": "",
+            "source": "Strata Titles Act 1985 (WA), version 07-h0-01 as at 1 May 2020, https://www.legislation.wa.gov.au/legislation/prod/filestore.nsf/FileURL/mrdoc_42774.pdf ss 122(1)(a), 123(2)",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "unanimous": {
+            "value": "14 days' notice of terms; the vote of every lot is cast in favour",
+            "note": "",
+            "source": "Strata Titles Act 1985 (WA), version 07-h0-01 as at 1 May 2020, https://www.legislation.wa.gov.au/legislation/prod/filestore.nsf/FileURL/mrdoc_42774.pdf s 123(1)",
+            "confidence": "high",
+            "needsLawyer": false
+          }
+        },
+        "weightageModels": {
+          "value": {
+            "model": "one vote per lot",
+            "poll": "unit entitlement on demand for ordinary resolutions; always for special resolutions (as a second count)"
+          },
+          "note": "",
+          "source": "Strata Titles Act 1985 (WA), version 07-h0-01 as at 1 May 2020, https://www.legislation.wa.gov.au/legislation/prod/filestore.nsf/FileURL/mrdoc_42774.pdf ss 120(2), 122",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "proxy": {
+          "value": {
+            "allowed": true,
+            "form": "written instrument signed by the owner or attorney",
+            "limit": null,
+            "validity": "for all general meetings unless the instrument limits it"
+          },
+          "note": "A sole-owner individual who is present must vote personally. A proxy may not vote on a resolution about goods or services in which they have an interest unless the notice disclosed it and the instrument expressly authorises it. Regulations may limit strata managers' proxies (not read). Proxies count for quorum.",
+          "source": "Strata Titles Act 1985 (WA), version 07-h0-01 as at 1 May 2020, https://www.legislation.wa.gov.au/legislation/prod/filestore.nsf/FileURL/mrdoc_42774.pdf ss 124, 125, 130(5)",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "votingMethods": {
+          "value": [
+            "in person",
+            "proxy",
+            "remote attendance and vote by phone/video/internet (per by-laws)",
+            "voting outside a general meeting",
+            "special/unanimous/without-dissent votes stay open 28 days after the meeting"
+          ],
+          "note": "",
+          "source": "Strata Titles Act 1985 (WA), version 07-h0-01 as at 1 May 2020, https://www.legislation.wa.gov.au/legislation/prod/filestore.nsf/FileURL/mrdoc_42774.pdf ss 120, 121, 131",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "electronicVoting": {
+          "value": {
+            "allowed": true,
+            "detail": "Voting systems (electronic or other) must protect integrity and meet regulations; remote attendance and voting by phone, video or internet in line with the scheme by-laws, unless an unreasonable burden."
+          },
+          "note": "",
+          "source": "Strata Titles Act 1985 (WA), version 07-h0-01 as at 1 May 2020, https://www.legislation.wa.gov.au/legislation/prod/filestore.nsf/FileURL/mrdoc_42774.pdf ss 120(8), 131",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "minutesDeadlineDays": {
+          "value": null,
+          "note": "not read / not verified: minutes rules not found in the parts read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "recordRetentionYears": {
+          "value": null,
+          "note": "not read / not verified: not read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "memberInspectionRight": {
+          "value": null,
+          "note": "not read / not verified: not read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "electionRoles": {
+          "value": {
+            "returningOfficer": null,
+            "voteCounting": "council election counted by number of lots unless a person entitled to vote demands a count by unit entitlement",
+            "nominationRight": "only a person entitled to vote may nominate or move a motion"
+          },
+          "note": "",
+          "source": "Strata Titles Act 1985 (WA), version 07-h0-01 as at 1 May 2020, https://www.legislation.wa.gov.au/legislation/prod/filestore.nsf/FileURL/mrdoc_42774.pdf ss 132(2), 135(3)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "termYears": {
+          "value": {
+            "years": null,
+            "description": "Council of 3 to 7 owners (all owners when 3 lots or fewer) elected at each annual general meeting; a member leaves office at the end of an AGM where they are not re-elected; removal by special resolution"
+          },
+          "note": "",
+          "source": "Strata Titles Act 1985 (WA), version 07-h0-01 as at 1 May 2020, https://www.legislation.wa.gov.au/legislation/prod/filestore.nsf/FileURL/mrdoc_42774.pdf Sch 1 by-law 4",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "eligibility": {
+          "value": "Council members are lot owners (one co-owner per lot)",
+          "note": "Corporate owners may be council members (s 136).",
+          "source": "Strata Titles Act 1985 (WA), version 07-h0-01 as at 1 May 2020, https://www.legislation.wa.gov.au/legislation/prod/filestore.nsf/FileURL/mrdoc_42774.pdf Sch 1 by-law 4(3),(6); s 136",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "defaulterDisqualification": {
+          "value": "An owner with an outstanding recoverable amount cannot cast the lot's vote, except on unanimous or without-dissent resolutions (and certain leasehold/termination resolutions)",
+          "note": "",
+          "source": "Strata Titles Act 1985 (WA), version 07-h0-01 as at 1 May 2020, https://www.legislation.wa.gov.au/legislation/prod/filestore.nsf/FileURL/mrdoc_42774.pdf s 120(3)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "requisition": {
+          "value": {
+            "percentOfUnitEntitlements": 25,
+            "councilMustConveneWithinDays": 21
+          },
+          "note": "",
+          "source": "Strata Titles Act 1985 (WA), version 07-h0-01 as at 1 May 2020, https://www.legislation.wa.gov.au/legislation/prod/filestore.nsf/FileURL/mrdoc_42774.pdf s 128(2)-(4)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "notes": [
+          "Version read is 1 May 2020; a post-2020 version was not retrieved. Treat quorum and voting details as 'check for later amendments'.",
+          "WA also has community titles and survey-strata variants under the same Act that were not treated separately."
+        ]
+      },
+      "engine": {
+        "id": "au-wa-strata",
+        "name": "Western Australia Strata Titles Act 1985 (2018 reforms)",
+        "jurisdiction": "AU-WA",
+        "confidence": "medium",
+        "needsLawyer": true,
+        "params": {
+          "notice.minDays": 14,
+          "quorum.basis": "flats",
+          "quorum.percentBp": 5000,
+          "quorum.strict": false,
+          "quorum.countProxies": true,
+          "majority.simple.basis": "cast",
+          "majority.special.basis": "total",
+          "tie.break": "none",
+          "requisition.percentBp": 2500,
+          "notice.delivery": "any"
+        },
+        "options": {
+          "proxy_voting": true,
+          "quorum_check": true,
+          "minutes": true,
+          "notices": true,
+          "weightage": null,
+          "absentee_voting": true
+        },
+        "notice": {
+          "agm": {
+            "min": 14,
+            "max": null
+          },
+          "sgm": {
+            "min": 14,
+            "max": null
+          }
+        },
+        "recommended": [
+          "Give at least 14 days' notice of every general meeting, and list every accepted voting method including electronic ones (Act s 129).",
+          "A special, unanimous or without-dissent resolution needs 14 days' notice of its exact wording (s 123).",
+          "If no quorum after 30 minutes, those present are the quorum, but in 2-lot schemes all owners must be present (s 130).",
+          "A sole-owner individual who attends must vote personally, not by proxy (s 125(1)).",
+          "Owners with outstanding recoverable amounts cannot vote except on unanimous or without-dissent resolutions (s 120(3))."
+        ],
+        "gaps": [
+          "Special resolution has FOUR tests (50% of lots and 50% of unit entitlements in favour; under 25% of each against), and small-scheme variants.",
+          "Votes on special, unanimous or without-dissent resolutions remain open for 28 days after the meeting (s 121).",
+          "Quorum falls back to 'whoever is present' after 30 minutes inside the same meeting.",
+          "A demand can switch an ordinary resolution from a count by number to a count by unit entitlement (s 122).",
+          "Proxy limits for strata managers depend on Regulations not read."
+        ]
+      }
+    },
+    {
+      "research": {
+        "id": "au-nt-unit-title-schemes",
+        "name": "Northern Territory body corporate (Unit Title Schemes Act 2009 + Management Module 1 - standard scheme)",
+        "jurisdiction": "AU-NT",
+        "instruments": [
+          {
+            "value": "Unit Title Schemes Act 2009, ss 74-80 (committee, meeting and voting, resolution types)",
+            "note": "Version read was 'as in force at 27 November 2023' from the NT legislation site; a newer consolidation may exist.",
+            "source": "Unit Title Schemes Act 2009 (NT), as in force at 27 Nov 2023, https://legislation.nt.gov.au/api/sitecore/Act/PDF?id=12243",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          {
+            "value": "Unit Title Schemes (Management Modules) Regulations 2009, Schedule 1 Management module 1 (standard scheme), Parts 2-3 (committee, meetings, voting)",
+            "note": "Version read: as in force at 12 May 2023. A scheme's scheme statement chooses its module; the other modules were not read.",
+            "source": "Unit Title Schemes (Management Modules) Regulations 2009 (NT), Schedule 1 Management module 1 (standard scheme), as in force at 12 May 2023, https://legislation.nt.gov.au/api/sitecore/Act/PDF?id=12245",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          {
+            "value": null,
+            "note": "not read / not verified: Unit Titles Act 1975 and Unit Titles (Management Modules) Regulations 2017 for older unit-titles schemes: only a document headed 'as in force at 12 April 2017' was opened and not used",
+            "source": "https://legislation.nt.gov.au/api/sitecore/Act/PDF?id=12248",
+            "confidence": "low",
+            "needsLawyer": true
+          },
+          {
+            "value": null,
+            "note": "not read / not verified: Management modules 2-5 (other module types) were not read",
+            "source": "not read / not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "annual general meeting",
+            "calledBy": {
+              "value": "Chairperson, secretary, body corporate manager, or a voter nominated by persons holding at least 25% of interest entitlements. At least once every calendar year and within 15 months of the last AGM; first AGM called by the original owner within 3 months of registration",
+              "note": "",
+              "source": "Unit Title Schemes (Management Modules) Regulations 2009 (NT), Schedule 1 Management module 1 (standard scheme), as in force at 12 May 2023, https://legislation.nt.gov.au/api/sitecore/Act/PDF?id=12245 cls 26, 29, 31",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": null,
+                "max": null,
+                "note": "14 working days (21 working days if a resolution without dissent, unanimous resolution, or termination resolution is proposed). 'Working days' cannot be turned into calendar days safely, so no day figure is given."
+              },
+              "note": "Written notice to each person with a right to vote. Notice must state date, time, place, agenda; for the AGM include the annual financial statement and proposed budget; include text of special/without-dissent/unanimous resolutions; two quotes for repairs over the spending limit.",
+              "source": "Unit Title Schemes (Management Modules) Regulations 2009 (NT), Schedule 1 Management module 1 (standard scheme), as in force at 12 May 2023, https://legislation.nt.gov.au/api/sitecore/Act/PDF?id=12245 cl 32",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeContent": {
+              "value": "Date/time/place, agenda, AGM financial statement and budget, full text of special/without-dissent/unanimous resolutions, two quotes if expenditure above the cl 24 limit",
+              "note": "",
+              "source": "Unit Title Schemes (Management Modules) Regulations 2009 (NT), Schedule 1 Management module 1 (standard scheme), as in force at 12 May 2023, https://legislation.nt.gov.au/api/sitecore/Act/PDF?id=12245 cl 32(2)",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          },
+          {
+            "type": "general meeting (other)",
+            "calledBy": {
+              "value": "Same callers as above (chairperson, secretary, manager, or a voter nominated by holders of 25% of interest entitlements)",
+              "note": "",
+              "source": "Unit Title Schemes (Management Modules) Regulations 2009 (NT), Schedule 1 Management module 1 (standard scheme), as in force at 12 May 2023, https://legislation.nt.gov.au/api/sitecore/Act/PDF?id=12245 cl 31",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": null,
+                "max": null,
+                "note": "14 working days; 21 working days for without-dissent / unanimous / termination resolutions"
+              },
+              "note": "Failure to give proper notice does not invalidate proceedings, but a late-notified voter can force an adjournment.",
+              "source": "Unit Title Schemes (Management Modules) Regulations 2009 (NT), Schedule 1 Management module 1 (standard scheme), as in force at 12 May 2023, https://legislation.nt.gov.au/api/sitecore/Act/PDF?id=12245 cl 32(1),(3),(4)",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          }
+        ],
+        "quorum": {
+          "value": {
+            "basis": "interest entitlements",
+            "percent": 50
+          },
+          "note": "Persons together holding the right to vote for at least 50% of the total interest entitlements of the scheme must be present.",
+          "source": "Unit Title Schemes (Management Modules) Regulations 2009 (NT), Schedule 1 Management module 1 (standard scheme), as in force at 12 May 2023, https://legislation.nt.gov.au/api/sitecore/Act/PDF?id=12245 cl 33",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "adjournedQuorum": {
+          "value": {
+            "noQuorum": null,
+            "interimResolutions": true
+          },
+          "note": "If no quorum, the meeting may proceed but every resolution is only an interim resolution (ordinary-resolution matters only). A further meeting can be called within 29 working days; the interim resolution becomes effective if confirmed at it, or if that meeting is not held within 28 working days of notice, at the end of that period, or otherwise after 29 working days. Secretary must circulate details and minutes within 14 working days.",
+          "source": "Unit Title Schemes (Management Modules) Regulations 2009 (NT), Schedule 1 Management module 1 (standard scheme), as in force at 12 May 2023, https://legislation.nt.gov.au/api/sitecore/Act/PDF?id=12245 cls 3, 34",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "majorities": {
+          "ordinary": {
+            "value": "Votes for exceed votes against (one vote per unit); if the management module so provides, contribution entitlements of for-votes must exceed those of against-votes (module 1 text read does not turn this on)",
+            "note": "The 'module provides' branch could not be matched to module 1; treat as per-unit unless the scheme's module says otherwise.",
+            "source": "Unit Title Schemes Act 2009 (NT), as in force at 27 Nov 2023, https://legislation.nt.gov.au/api/sitecore/Act/PDF?id=12243 s 79(2),(7)",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          "special": {
+            "value": "At least two-thirds of votes cast in favour AND contribution entitlements of against-votes not more than 25% of the total contribution entitlements",
+            "note": "",
+            "source": "Unit Title Schemes Act 2009 (NT), as in force at 27 Nov 2023, https://legislation.nt.gov.au/api/sitecore/Act/PDF?id=12243 s 79(8)",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "resolutionWithoutDissent": {
+            "value": "No vote counted against",
+            "note": "",
+            "source": "Unit Title Schemes Act 2009 (NT), as in force at 27 Nov 2023, https://legislation.nt.gov.au/api/sitecore/Act/PDF?id=12243 s 79(5)",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "unanimous": {
+            "value": "Votes in favour equal the total number of units",
+            "note": "",
+            "source": "Unit Title Schemes Act 2009 (NT), as in force at 27 Nov 2023, https://legislation.nt.gov.au/api/sitecore/Act/PDF?id=12243 s 79(4)",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "majority": {
+            "value": "Votes in favour exceed 50% of the total number of units",
+            "note": "",
+            "source": "Unit Title Schemes Act 2009 (NT), as in force at 27 Nov 2023, https://legislation.nt.gov.au/api/sitecore/Act/PDF?id=12243 s 79(6)",
+            "confidence": "high",
+            "needsLawyer": false
+          }
+        },
+        "weightageModels": {
+          "value": {
+            "model": "one vote per unit",
+            "specialTest": "contribution entitlements"
+          },
+          "note": "",
+          "source": "Unit Title Schemes Act 2009 (NT), as in force at 27 Nov 2023, https://legislation.nt.gov.au/api/sitecore/Act/PDF?id=12243 s 79(2)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "proxy": {
+          "value": {
+            "allowed": true,
+            "form": "in writing in the form approved by the committee, stating the period of appointment; co-owners sign jointly",
+            "limit": null
+          },
+          "note": "No cap on proxies per holder found in module 1. Absentee votes (paper in the letterbox 24 hours before, or to the secretary) are available only for without-dissent and unanimous resolutions.",
+          "source": "Unit Title Schemes (Management Modules) Regulations 2009 (NT), Schedule 1 Management module 1 (standard scheme), as in force at 12 May 2023, https://legislation.nt.gov.au/api/sitecore/Act/PDF?id=12245 cls 42, 43",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "votingMethods": {
+          "value": [
+            "show of hands",
+            "written poll (any voter present can call one; chair may call one)",
+            "proxy",
+            "absentee vote (without-dissent / unanimous resolutions only)",
+            "teleconference attendance on request"
+          ],
+          "note": "",
+          "source": "Unit Title Schemes (Management Modules) Regulations 2009 (NT), Schedule 1 Management module 1 (standard scheme), as in force at 12 May 2023, https://legislation.nt.gov.au/api/sitecore/Act/PDF?id=12245 cls 35, 39-43",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "electronicVoting": {
+          "value": {
+            "allowed": null,
+            "detail": "Teleconference attendance must be arranged on request (cl 35). No electronic ballot provision found in module 1 Parts 3-4; not exhaustively searched."
+          },
+          "note": "",
+          "source": "Unit Title Schemes (Management Modules) Regulations 2009 (NT), Schedule 1 Management module 1 (standard scheme), as in force at 12 May 2023, https://legislation.nt.gov.au/api/sitecore/Act/PDF?id=12245 cl 35",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "minutesDeadlineDays": {
+          "value": null,
+          "note": "not read / not verified: only the interim-resolution minutes deadline (14 working days) was found; general minutes duties not read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "recordRetentionYears": {
+          "value": null,
+          "note": "not read / not verified: not read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "memberInspectionRight": {
+          "value": null,
+          "note": "not read / not verified: clause on access to records exists in the table of provisions but was not read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "electionRoles": {
+          "value": {
+            "returningOfficer": null,
+            "committee": "At the first AGM the body corporate decides committee size (at least 2, max 7 unless special resolution) and elects members; committee is elected at each AGM; if there are 3 or fewer members the committee is everyone"
+          },
+          "note": "Chairperson and secretary are elected by the committee at its first meeting after the AGM.",
+          "source": "Unit Title Schemes (Management Modules) Regulations 2009 (NT), Schedule 1 Management module 1 (standard scheme), as in force at 12 May 2023, https://legislation.nt.gov.au/api/sitecore/Act/PDF?id=12245 cls 5-7",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "termYears": {
+          "value": {
+            "years": null,
+            "description": "Until immediately before the election at the next AGM"
+          },
+          "note": "A committee member also leaves office on ceasing to own a unit or on resigning.",
+          "source": "Unit Title Schemes (Management Modules) Regulations 2009 (NT), Schedule 1 Management module 1 (standard scheme), as in force at 12 May 2023, https://legislation.nt.gov.au/api/sitecore/Act/PDF?id=12245 cl 8",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "eligibility": {
+          "value": "Committee member must be an individual unit owner or an individual appointed by a corporate owner",
+          "note": "",
+          "source": "Unit Title Schemes Act 2009 (NT), as in force at 27 Nov 2023, https://legislation.nt.gov.au/api/sitecore/Act/PDF?id=12243 s 74(3)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "defaulterDisqualification": {
+          "value": "A unit owner who has not paid annual contributions or levies by the due date cannot vote on a motion while the amount is outstanding, except on unanimous or without-dissent resolutions",
+          "note": "",
+          "source": "Unit Title Schemes Act 2009 (NT), as in force at 27 Nov 2023, https://legislation.nt.gov.au/api/sitecore/Act/PDF?id=12243 s 79(9),(10)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "requisition": {
+          "value": {
+            "percentOfInterestEntitlements": 25,
+            "mechanism": "a voter nominated by persons holding at least 25% of total interest entitlements may call a general meeting"
+          },
+          "note": "",
+          "source": "Unit Title Schemes (Management Modules) Regulations 2009 (NT), Schedule 1 Management module 1 (standard scheme), as in force at 12 May 2023, https://legislation.nt.gov.au/api/sitecore/Act/PDF?id=12245 cl 31(d)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "notes": [
+          "Versions read are dated 2023; confirm no later amendments.",
+          "Notice is measured in WORKING days, which the product's day-based notice setting cannot express."
+        ]
+      },
+      "engine": {
+        "id": "au-nt-unit-title-schemes",
+        "name": "Northern Territory Unit Title Schemes Act 2009 + Management Module 1",
+        "jurisdiction": "AU-NT",
+        "confidence": "medium",
+        "needsLawyer": true,
+        "params": {
+          "quorum.basis": "weight",
+          "quorum.percentBp": 5000,
+          "quorum.strict": false,
+          "majority.simple.basis": "cast",
+          "majority.special.basis": "cast",
+          "tie.break": "chair_casting_vote",
+          "requisition.percentBp": 2500,
+          "notice.delivery": "any"
+        },
+        "options": {
+          "proxy_voting": true,
+          "quorum_check": true,
+          "minutes": true,
+          "notices": true,
+          "weightage": null,
+          "absentee_voting": null
+        },
+        "recommended": [
+          "Allow at least 14 WORKING days between notice and the meeting (21 working days if a resolution without dissent, unanimous resolution or termination is on the agenda) (Module 1 cl 32).",
+          "Attach the annual financial statement and budget to the AGM notice, and the text of every special/without-dissent/unanimous motion (cl 32(2)).",
+          "A lot owner with unpaid levies cannot vote except on unanimous or without-dissent resolutions (Act s 79(9),(10)).",
+          "A chair who is also a voter may cast an extra deciding vote on a tied ordinary resolution (cl 38)."
+        ],
+        "gaps": [
+          "Notice in working days (14 or 21), not calendar days: notice.minDays and the notice table are left empty on purpose.",
+          "Interim resolutions when there is no quorum, with confirmation within 28-29 working days (cls 3, 34).",
+          "Special resolution needs two-thirds of votes cast AND at most 25% of contribution entitlements against.",
+          "Absentee voting exists only for without-dissent and unanimous resolutions.",
+          "Resolution types: majority resolution (over 50% of all units), unanimous resolution (all units), without dissent."
+        ]
+      }
+    },
+    {
+      "research": {
+        "id": "au-tas-strata",
+        "name": "Tasmania body corporate (Strata Titles Act 1998)",
+        "jurisdiction": "AU-TAS",
+        "instruments": [
+          {
+            "value": "Strata Titles Act 1998 (Tas), s 3 (definitions), ss 75-80 (meetings, voting, committee), Schedule 1 model by-law 10 (quorum)",
+            "note": "Read on the official Tasmanian Legislation site (current in-force version). The Act is short on procedure and defers to the body corporate's constituent documents/by-laws.",
+            "source": "Strata Titles Act 1998 (Tas), current in-force text, https://www.legislation.tas.gov.au/view/whole/html/inforce/current/act-1998-017",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          {
+            "value": null,
+            "note": "not read / not verified: Body corporate's own constituent documents and other Schedule 1 model by-laws (committee elections, minutes) were not read; a 2020 government review paper reportedly notes the Act needs a defined 'special resolution'",
+            "source": "https://nre.tas.gov.au/Documents/Review%20of%20the%20Strata%20Titles%20Act%201998%20Discussion%20Paper.pdf (not opened)",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "annual general meeting",
+            "calledBy": {
+              "value": "Secretary (notice duty). First AGM called by the original proprietor within 3 months of registration or sale of half of the lots, whichever is earlier; later AGMs within 15 months of the last",
+              "note": "",
+              "source": "Strata Titles Act 1998 (Tas), current in-force text, https://www.legislation.tas.gov.au/view/whole/html/inforce/current/act-1998-017 s 75(1),(2),(4)",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": 7,
+                "max": null
+              },
+              "note": "Written notice to each member, at least 7 days before any general meeting, setting out date, time, place, business, and for a unanimous resolution its exact terms. Joint owners may be sent one notice.",
+              "source": "Strata Titles Act 1998 (Tas), current in-force text, https://www.legislation.tas.gov.au/view/whole/html/inforce/current/act-1998-017 s 75(4),(5)",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          },
+          {
+            "type": "special general meeting",
+            "calledBy": {
+              "value": "Committee of management or the secretary at any time; must call one if required by at least one-third of all members",
+              "note": "",
+              "source": "Strata Titles Act 1998 (Tas), current in-force text, https://www.legislation.tas.gov.au/view/whole/html/inforce/current/act-1998-017 s 75(3)",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": 7,
+                "max": null
+              },
+              "note": "",
+              "source": "Strata Titles Act 1998 (Tas), current in-force text, https://www.legislation.tas.gov.au/view/whole/html/inforce/current/act-1998-017 s 75(4)",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          },
+          {
+            "type": "committee of management meeting",
+            "calledBy": {
+              "value": null,
+              "note": "not read / not verified: not stated in the parts read",
+              "source": "not read / not verified",
+              "confidence": "low",
+              "needsLawyer": true
+            },
+            "noticeDays": {
+              "value": null,
+              "note": "not read / not verified: not stated",
+              "source": "not read / not verified",
+              "confidence": "low",
+              "needsLawyer": true
+            }
+          }
+        ],
+        "quorum": {
+          "value": {
+            "basis": "members",
+            "percent": 50,
+            "strict": true
+          },
+          "note": "Model by-law 10: a majority of the total number of members. Applies unless the body corporate's own by-laws say otherwise.",
+          "source": "Strata Titles Act 1998 (Tas), current in-force text, https://www.legislation.tas.gov.au/view/whole/html/inforce/current/act-1998-017 Sch 1 by-law 10",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "adjournedQuorum": {
+          "value": null,
+          "note": "not read / not verified: no adjourned-meeting rule found",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "majorities": {
+          "ordinary": {
+            "value": "Majority of the votes of members present and voting at a duly convened meeting; default for any resolution unless the Act says unanimous",
+            "note": "",
+            "source": "Strata Titles Act 1998 (Tas), current in-force text, https://www.legislation.tas.gov.au/view/whole/html/inforce/current/act-1998-017 s 3 ('ordinary resolution')",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "special": {
+            "value": null,
+            "note": "not read / not verified: the Act contains no defined 'special resolution' in the text read",
+            "source": "not read / not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          },
+          "unanimous": {
+            "value": "No member casts a dissentient vote at the meeting or later; members may vote at the meeting or by written notice within 28 days after it (the Recorder may shorten the 28 days if urgent)",
+            "note": "Exact terms must be in the meeting notice.",
+            "source": "Strata Titles Act 1998 (Tas), current in-force text, https://www.legislation.tas.gov.au/view/whole/html/inforce/current/act-1998-017 ss 3, 75(4)(c), 78",
+            "confidence": "high",
+            "needsLawyer": false
+          }
+        },
+        "weightageModels": {
+          "value": {
+            "model": "show of hands (one per member)",
+            "poll": "proportionate to the unit entitlement of the lot (strata scheme)"
+          },
+          "note": "Co-owners: a jointly appointed proxy, otherwise no vote on a show of hands (except for a unanimous resolution), but any co-owner may demand a poll and votes in proportion to their interest.",
+          "source": "Strata Titles Act 1998 (Tas), current in-force text, https://www.legislation.tas.gov.au/view/whole/html/inforce/current/act-1998-017 s 76(2),(3)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "proxy": {
+          "value": {
+            "allowed": true,
+            "form": null,
+            "limit": null
+          },
+          "note": "Members may vote personally or by proxy. Form, number and deadline for proxies not found in the Act (constituent documents decide).",
+          "source": "Strata Titles Act 1998 (Tas), current in-force text, https://www.legislation.tas.gov.au/view/whole/html/inforce/current/act-1998-017 s 76(1),(3)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "votingMethods": {
+          "value": [
+            "show of hands",
+            "poll on demand (by unit entitlement)",
+            "proxy",
+            "written notice of vote for unanimous resolutions within 28 days"
+          ],
+          "note": "",
+          "source": "Strata Titles Act 1998 (Tas), current in-force text, https://www.legislation.tas.gov.au/view/whole/html/inforce/current/act-1998-017 ss 76, 78",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "electronicVoting": {
+          "value": null,
+          "note": "not read / not verified: no electronic meeting or voting provision found in ss 75-78",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "minutesDeadlineDays": {
+          "value": null,
+          "note": "not read / not verified: only the committee duty to keep proper minutes and make them available to any member on request was found",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "recordRetentionYears": {
+          "value": null,
+          "note": "not read / not verified: not read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "memberInspectionRight": {
+          "value": "The committee of management must keep proper minutes and make them available for inspection by any member on request",
+          "note": "General-meeting records and accounts inspection rights not read.",
+          "source": "Strata Titles Act 1998 (Tas), current in-force text, https://www.legislation.tas.gov.au/view/whole/html/inforce/current/act-1998-017 s 79(6)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "electionRoles": {
+          "value": {
+            "returningOfficer": null,
+            "committee": "appointed, changed or removed by ordinary resolution; at least 3 members; a majority of members is its quorum and a majority of those present decides"
+          },
+          "note": "No election procedure is prescribed. Sectional-interest representation is allowed.",
+          "source": "Strata Titles Act 1998 (Tas), current in-force text, https://www.legislation.tas.gov.au/view/whole/html/inforce/current/act-1998-017 s 79(1)-(5)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "termYears": {
+          "value": null,
+          "note": "not read / not verified: no term of office found in the Act",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "eligibility": {
+          "value": "Committee members must be members of the body corporate (at least 3 of them)",
+          "note": "",
+          "source": "Strata Titles Act 1998 (Tas), current in-force text, https://www.legislation.tas.gov.au/view/whole/html/inforce/current/act-1998-017 s 79(3)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "defaulterDisqualification": {
+          "value": null,
+          "note": "not read / not verified: voting restriction for arrears not found in ss 75-78",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "requisition": {
+          "value": {
+            "percentOfMembers": 33.33,
+            "basis": "one-third of the total NUMBER of members (not entitlements)"
+          },
+          "note": "Rounded up to 3334 basis points in the engine block so the product never accepts fewer than one-third.",
+          "source": "Strata Titles Act 1998 (Tas), current in-force text, https://www.legislation.tas.gov.au/view/whole/html/inforce/current/act-1998-017 s 75(3)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "notes": [
+          "The Act is lighter than other states. Notice of just 7 days is the statutory minimum, but the body corporate's own by-laws may require more; check them.",
+          "A 2020 Tasmanian review of the Strata Titles Act proposed reforms; whether they have been enacted was not verified."
+        ]
+      },
+      "engine": {
+        "id": "au-tas-strata",
+        "name": "Tasmania Strata Titles Act 1998",
+        "jurisdiction": "AU-TAS",
+        "confidence": "medium",
+        "needsLawyer": true,
+        "params": {
+          "notice.minDays": 7,
+          "quorum.basis": "flats",
+          "quorum.percentBp": 5000,
+          "quorum.strict": true,
+          "majority.simple.basis": "cast",
+          "requisition.percentBp": 3334,
+          "notice.delivery": "any"
+        },
+        "options": {
+          "proxy_voting": true,
+          "quorum_check": true,
+          "minutes": true,
+          "notices": true,
+          "weightage": null
+        },
+        "notice": {
+          "agm": {
+            "min": 7,
+            "max": null
+          },
+          "sgm": {
+            "min": 7,
+            "max": null
+          }
+        },
+        "recommended": [
+          "Give written notice at least 7 days before any general meeting, with the business and, for a unanimous resolution, its exact terms (Act s 75(4)).",
+          "Check the scheme's own by-laws: they can require longer notice and a different quorum than Schedule 1 by-law 10.",
+          "A unanimous resolution stays open for 28 days after the meeting for written votes (s 78)."
+        ],
+        "gaps": [
+          "Unanimous resolution (no dissent, 28-day written voting window).",
+          "Show of hands by member versus poll by unit entitlement; co-owner rules (s 76).",
+          "No statutory term, election procedure, electronic voting or proxy rules; the body corporate's by-laws decide."
+        ]
+      }
+    },
+    {
+      "research": {
+        "id": "au-sa-community-titles",
+        "name": "South Australia community corporation (Community Titles Act 1996)",
+        "jurisdiction": "AU-SA",
+        "instruments": [
+          {
+            "value": "Community Titles Act 1996 (SA), ss 81-87 (meetings, voting), s 3 (resolution types), plus Community Titles Regulations (reg 19)",
+            "note": "SECONDARY SOURCE ONLY: summarised by the Law Handbook of the Legal Services Commission of SA. The Act and Regulations themselves could not be opened (legislation.sa.gov.au returned 403 / page not found). The Handbook pages say 'last revised 2018' yet cite the Community Titles Regulations 2026, so currency is uncertain.",
+            "source": "Law Handbook (Legal Services Commission of SA), https://lawhandbook.sa.gov.au/ch23s07s02s12.php , ch23s07s02s13.php , ch23s07s02s14.php",
+            "confidence": "medium",
+            "needsLawyer": true
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "annual general meeting",
+            "calledBy": {
+              "value": "Presiding officer, treasurer or secretary, any two management committee members, members holding 20% or more of aggregate lot entitlements, 20% or more of the community lots, or a Magistrates Court order. Primary corporations: within 3 months after the start of the end-of-financial-year period; secondary/tertiary: within 6 months after the start of each financial year",
+              "note": "",
+              "source": "Law Handbook (Legal Services Commission of SA), ch23s07s02s12.php (CTA ss 81, 82)",
+              "confidence": "medium",
+              "needsLawyer": true
+            },
+            "noticeDays": {
+              "value": {
+                "min": 14,
+                "max": null
+              },
+              "note": "Written notice of day, time, place and agenda; the time and place must be reasonably convenient for a majority of members; agenda must include text of special and unanimous resolutions and a motion confirming the previous minutes.",
+              "source": "Law Handbook (Legal Services Commission of SA), ch23s07s02s12.php (CTA s 81(2)-(5))",
+              "confidence": "medium",
+              "needsLawyer": true
+            }
+          }
+        ],
+        "quorum": {
+          "value": {
+            "basis": "members entitled to attend and vote",
+            "formula": "half of the members (fraction ignored) plus one, i.e. a majority"
+          },
+          "note": "Members may be present in person, by proxy, or by remote communication.",
+          "source": "Law Handbook (Legal Services Commission of SA), ch23s07s02s12.php (CTA s 83(4))",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "adjournedQuorum": {
+          "value": {
+            "minHoursLater": 168,
+            "maxDaysLater": 14,
+            "noQuorum": true
+          },
+          "note": "No quorum: adjourn for 7-14 days with written notice; at the adjourned meeting those present may act as the quorum.",
+          "source": "Law Handbook (Legal Services Commission of SA), ch23s07s02s12.php (CTA ss 83(5),(6))",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "majorities": {
+          "ordinary": {
+            "value": "Simple majority of the votes of members present and voting; used unless the Act or by-laws require otherwise",
+            "note": "",
+            "source": "Law Handbook (Legal Services Commission of SA), ch23s07s02s14.php (CTA s 3)",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          "special": {
+            "value": "14 days' written notice with text and reasons; for 2 lots both must agree; 3 lots: at most 1 vote against; 4 lots: votes against 25% or less of the total votes that could be cast with all owners present",
+            "note": "The handbook gave no explicit rule for 5 or more lots.",
+            "source": "Law Handbook (Legal Services Commission of SA), ch23s07s02s14.php (CTA s 3(1), s 88)",
+            "confidence": "low",
+            "needsLawyer": true
+          },
+          "unanimous": {
+            "value": "No vote against; owners who do not attend, send no proxy or abstain are not counted as dissenting; 14 days' notice with text and reasons",
+            "note": "",
+            "source": "Law Handbook (Legal Services Commission of SA), ch23s07s02s14.php",
+            "confidence": "medium",
+            "needsLawyer": true
+          }
+        },
+        "weightageModels": {
+          "value": {
+            "model": "one vote per lot (if at least one lot is residential)"
+          },
+          "note": "If no lot is residential the by-laws may set another number of votes. A developer and its associates cannot together out-vote all other members.",
+          "source": "Law Handbook (Legal Services Commission of SA), ch23s07s02s13.php (CTA s 87)",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "proxy": {
+          "value": {
+            "allowed": true,
+            "form": "in writing to the secretary; states whether it covers all meetings and matters or only listed ones; may carry voting conditions",
+            "limit": null,
+            "validity": "12 months or shorter period stated; revocable in writing"
+          },
+          "note": "A manager or the manager's employee can be a proxy but the appointment ends when they stop being manager. Proxy forms must be open to inspection before a vote. Non-compliance invalidates the appointment.",
+          "source": "Law Handbook (Legal Services Commission of SA), ch23s07s02s13.php (CTA s 84(3)-(6a))",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "votingMethods": {
+          "value": [
+            "show of hands",
+            "written ballot (demanded by any owner attending)",
+            "proxy",
+            "absentee vote (written notice to secretary at least 6 hours before)",
+            "remote attendance and vote (if by-laws allow, or secretary arranges on request)"
+          ],
+          "note": "",
+          "source": "Law Handbook (Legal Services Commission of SA), ch23s07s02s13.php (CTA ss 83(6a), 84(11),(12))",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "electronicVoting": {
+          "value": {
+            "allowed": true,
+            "detail": "By-laws may allow attendance and voting by phone, video or internet; otherwise a member may ask the secretary in writing to arrange it. The corporation is not obliged to provide remote facilities."
+          },
+          "note": "",
+          "source": "Law Handbook (Legal Services Commission of SA), ch23s07s02s12.php (CTA s 83(6a))",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "minutesDeadlineDays": {
+          "value": null,
+          "note": "not read / not verified: not covered by the Handbook pages read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "recordRetentionYears": {
+          "value": null,
+          "note": "not read / not verified: not read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "memberInspectionRight": {
+          "value": null,
+          "note": "not read / not verified: not read (only proxy-form inspection before a vote was noted)",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "electionRoles": {
+          "value": null,
+          "note": "not read / not verified: management committee election and term not covered by the pages read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "termYears": {
+          "value": null,
+          "note": "not read / not verified: not read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "eligibility": {
+          "value": null,
+          "note": "not read / not verified: not read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "defaulterDisqualification": {
+          "value": "A lot owner may attend and vote only if no amounts payable to the corporation for the lot are outstanding; development lot owners cannot vote as owner of that lot",
+          "note": "",
+          "source": "Law Handbook (Legal Services Commission of SA), ch23s07s02s13.php (CTA s 84(1),(2),(14))",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "requisition": {
+          "value": {
+            "percentOfLotEntitlements": 20,
+            "alternative": "20% or more of community lots"
+          },
+          "note": "",
+          "source": "Law Handbook (Legal Services Commission of SA), ch23s07s02s12.php (CTA s 81(1))",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "notes": [
+          "Primary text (Act and Regulations) NOT read. All values come from a Legal Services Commission summary; a lawyer must confirm against legislation.sa.gov.au before use.",
+          "A 2021 Bill proposed a 30-minute fallback quorum in SA community and strata titles legislation; whether it became law was not verified."
+        ]
+      },
+      "engine": {
+        "id": "au-sa-community-titles",
+        "name": "South Australia Community Titles Act 1996 (secondary-source summary)",
+        "jurisdiction": "AU-SA",
+        "confidence": "low",
+        "needsLawyer": true,
+        "params": {
+          "notice.minDays": 14,
+          "quorum.basis": "flats",
+          "quorum.percentBp": 5000,
+          "quorum.strict": true,
+          "adjourned.noQuorum": true,
+          "adjourned.minHoursLater": 168,
+          "majority.simple.basis": "cast",
+          "requisition.percentBp": 2000,
+          "notice.delivery": "any"
+        },
+        "options": {
+          "proxy_voting": true,
+          "absentee_voting": true,
+          "quorum_check": true,
+          "minutes": true,
+          "notices": true,
+          "weightage": false
+        },
+        "notice": {
+          "agm": {
+            "min": 14,
+            "max": null
+          },
+          "sgm": {
+            "min": 14,
+            "max": null
+          }
+        },
+        "recommended": [
+          "Give at least 14 days' written notice with the agenda; special and unanimous resolutions must be set out in full in the notice (CTA s 81).",
+          "Pick a day, time and place that suit most members (s 81(3)).",
+          "Absentee votes must reach the secretary at least 6 hours before the meeting (s 84(11)). All of these values come from a summary, not the Act: check the Act."
+        ],
+        "gaps": [
+          "Special resolution: at most 25% of the total possible votes against (small-lot variants for 2-3 lots), not a majority of those present.",
+          "Unanimous resolution (no dissent; absentees not counted).",
+          "Adjourned meeting must be 7-14 days later with written notice.",
+          "Requisition by 20% of entitlements OR 20% of lots (either)."
+        ]
+      }
+    },
+    {
+      "research": {
+        "id": "au-sa-strata-titles",
+        "name": "South Australia strata corporation (Strata Titles Act 1988)",
+        "jurisdiction": "AU-SA",
+        "instruments": [
+          {
+            "value": "Strata Titles Act 1988 (SA), ss 3, 33, 34, 34A, 41AA, 45; Strata Titles Regulations 2018 reg 15",
+            "note": "SECONDARY SOURCE ONLY (Law Handbook, Legal Services Commission of SA). Act text not opened (legislation.sa.gov.au unreachable).",
+            "source": "Law Handbook (Legal Services Commission of SA), https://lawhandbook.sa.gov.au/ch23s07s01s04.php , ch23s07s01s05.php , ch23s07s01s06.php , ch23s07s01s07.php",
+            "confidence": "medium",
+            "needsLawyer": true
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "annual general meeting",
+            "calledBy": {
+              "value": "Secretary, any two management committee members, one-fifth of unit holders, or a Magistrates Court order; AGM each calendar year and within 15 months of the last",
+              "note": "A strata manager may issue notice but cannot call the meeting.",
+              "source": "Law Handbook (Legal Services Commission of SA), ch23s07s01s04.php (STA s 33(1),(2),(4))",
+              "confidence": "medium",
+              "needsLawyer": true
+            },
+            "noticeDays": {
+              "value": {
+                "min": 14,
+                "max": null
+              },
+              "note": "Written notice of agenda to all unit holders; convenor must take reasonable steps to pick a day/time/place that suit a majority.",
+              "source": "Law Handbook (Legal Services Commission of SA), ch23s07s01s04.php (STA s 33(3))",
+              "confidence": "medium",
+              "needsLawyer": true
+            }
+          }
+        ],
+        "quorum": {
+          "value": {
+            "basis": "unit holders",
+            "percent": 50
+          },
+          "note": "At least half of all unit holders, present in person, by proxy or by remote communication.",
+          "source": "Law Handbook (Legal Services Commission of SA), ch23s07s01s04.php (STA s 33(5))",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "adjournedQuorum": {
+          "value": {
+            "minHoursLater": 168,
+            "maxDaysLater": 14,
+            "noQuorum": true
+          },
+          "note": "Adjourn 7-14 days with written notice; if fewer than half attend the adjourned meeting those present form a quorum, even for special and unanimous resolutions.",
+          "source": "Law Handbook (Legal Services Commission of SA), ch23s07s01s04.php (STA ss 33(6),(7))",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "majorities": {
+          "ordinary": {
+            "value": "Simple majority of the votes of unit holders present and voting",
+            "note": "",
+            "source": "Law Handbook (Legal Services Commission of SA), ch23s07s01s06.php (STA s 3(1))",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          "special": {
+            "value": "14 days' written notice with terms and reasons; at most 25% of the total possible votes against (all unit holders counted as attending); 2 units: both must agree; 3 residential units: at most 1 vote against",
+            "note": "",
+            "source": "Law Handbook (Legal Services Commission of SA), ch23s07s01s06.php (STA s 3(1))",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          "unanimous": {
+            "value": "Special resolution with no dissenting vote; absentees and abstainers not counted as dissent",
+            "note": "",
+            "source": "Law Handbook (Legal Services Commission of SA), ch23s07s01s06.php",
+            "confidence": "medium",
+            "needsLawyer": true
+          }
+        },
+        "weightageModels": {
+          "value": {
+            "model": "one vote per unit (possible exception for non-residential schemes)"
+          },
+          "note": "",
+          "source": "Law Handbook (Legal Services Commission of SA), ch23s07s01s05.php (STA s 34(1))",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "proxy": {
+          "value": {
+            "allowed": true,
+            "form": "in writing to the secretary; states the meetings/matters covered; may carry voting conditions",
+            "limit": null,
+            "validity": "12 months or shorter; revocable in writing"
+          },
+          "note": "Proxy may be another unit holder, tenant, relative, friend, or the strata manager (appointment ends if they stop being manager). Proxy forms must be open to inspection before any vote. Powers of attorney last 12 months.",
+          "source": "Law Handbook (Legal Services Commission of SA), ch23s07s01s05.php (STA s 34(2a),(3a)-(3f),(3d))",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "votingMethods": {
+          "value": [
+            "show of hands",
+            "written ballot on demand",
+            "proxy",
+            "absentee vote (written notice to secretary at least 6 hours before)",
+            "remote attendance if the articles allow it or the secretary arranges"
+          ],
+          "note": "",
+          "source": "Law Handbook (Legal Services Commission of SA), ch23s07s01s05.php (STA ss 33(11), 34(4)-(6))",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "electronicVoting": {
+          "value": {
+            "allowed": true,
+            "detail": "Remote attendance and vote if the articles allow; a unit holder can ask the secretary in writing; no duty to provide facilities."
+          },
+          "note": "",
+          "source": "Law Handbook (Legal Services Commission of SA), ch23s07s01s04.php (STA s 33(11); Regs reg 15(4))",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "minutesDeadlineDays": {
+          "value": null,
+          "note": "not read / not verified: not covered by the pages read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "recordRetentionYears": {
+          "value": null,
+          "note": "not read / not verified: not read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "memberInspectionRight": {
+          "value": null,
+          "note": "not read / not verified: not read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "electionRoles": {
+          "value": null,
+          "note": "not read / not verified: management committee election not covered by pages read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "termYears": {
+          "value": null,
+          "note": "not read / not verified: not read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "eligibility": {
+          "value": null,
+          "note": "not read / not verified: not read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "defaulterDisqualification": {
+          "value": "Normally only paid-up members vote; non-financial members may vote on unanimous resolutions",
+          "note": "",
+          "source": "Law Handbook (Legal Services Commission of SA), ch23s07s01s05.php (STA s 34(7))",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "requisition": {
+          "value": {
+            "shareOfUnitHolders": "one-fifth"
+          },
+          "note": "One-fifth of unit holders can call a meeting (the Handbook does not say whether this is by number or entitlement).",
+          "source": "Law Handbook (Legal Services Commission of SA), ch23s07s01s04.php (STA s 33(2))",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "notes": [
+          "Primary text NOT read; lawyer must confirm."
+        ]
+      },
+      "engine": {
+        "id": "au-sa-strata-titles",
+        "name": "South Australia Strata Titles Act 1988 (secondary-source summary)",
+        "jurisdiction": "AU-SA",
+        "confidence": "low",
+        "needsLawyer": true,
+        "params": {
+          "notice.minDays": 14,
+          "quorum.basis": "flats",
+          "quorum.percentBp": 5000,
+          "quorum.strict": false,
+          "adjourned.noQuorum": true,
+          "adjourned.minHoursLater": 168,
+          "majority.simple.basis": "cast",
+          "requisition.percentBp": 2000,
+          "notice.delivery": "any"
+        },
+        "options": {
+          "proxy_voting": true,
+          "absentee_voting": true,
+          "quorum_check": true,
+          "minutes": true,
+          "notices": true
+        },
+        "notice": {
+          "agm": {
+            "min": 14,
+            "max": null
+          },
+          "sgm": {
+            "min": 14,
+            "max": null
+          }
+        },
+        "recommended": [
+          "Give 14 days' written notice with the agenda; special and unanimous resolutions must be set out in full in the notice (STA s 33(3),(4a)).",
+          "Absentee votes must reach the secretary at least 6 hours before (s 34(4))."
+        ],
+        "gaps": [
+          "Special resolution: at most 25% of total possible votes against; unanimous resolution variant.",
+          "Adjourned meeting must be 7-14 days later.",
+          "Requisition by one-fifth of unit holders (basis unclear)."
+        ]
+      }
+    },
+    {
+      "research": {
+        "id": "au-nsw-strata-schemes",
+        "name": "New South Wales owners corporation (Strata Schemes Management Act 2015, Schedule 1 and Regulation 2016)",
+        "jurisdiction": "AU-NSW",
+        "instruments": [
+          {
+            "value": "Strata Schemes Management Act 2015 (NSW), Schedule 1 (meetings) and Strata Schemes Management Regulation 2016 (reg 14B electronic voting)",
+            "note": "PRIMARY TEXT NOT READ. legislation.nsw.gov.au is behind a bot challenge and AustLII refuses automated access (it returns 'Access denied for AI crawlers'). Everything below comes from two NSW Government (Fair Trading) guidance pages; those pages show no clause numbers apart from reg 14B.",
+            "source": "NSW Government 'Strata meetings' page, https://www.nsw.gov.au/housing-and-construction/strata/living/meetings ; NSW Government 'How to run a strata meeting' page, https://www.nsw.gov.au/housing-and-construction/strata/serving-on-a-committee/how-to-run-a-strata-meeting",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          {
+            "value": null,
+            "note": "not read / not verified: Community Land Management Act 2021 (NSW) - community, precinct and neighbourhood associations - was NOT read; a Fair Trading page on meetings for scheme associations appeared in search but was not opened",
+            "source": "https://www.fairtrading.nsw.gov.au (not opened)",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "annual general meeting",
+            "calledBy": {
+              "value": "Owners corporation must hold at least one AGM a year; written notice to all owners",
+              "note": "",
+              "source": "NSW Government 'Strata meetings' page, https://www.nsw.gov.au/housing-and-construction/strata/living/meetings",
+              "confidence": "medium",
+              "needsLawyer": true
+            },
+            "noticeDays": {
+              "value": {
+                "min": 14,
+                "max": null
+              },
+              "note": "Notice in writing with a detailed agenda and an explanation of the quorum. Tenants must get at least 7 days' notice of a tenant-representative election meeting, which must be called at least 14 days before the AGM.",
+              "source": "NSW Government 'Strata meetings' page, https://www.nsw.gov.au/housing-and-construction/strata/living/meetings ; NSW Government 'How to run a strata meeting' page, https://www.nsw.gov.au/housing-and-construction/strata/serving-on-a-committee/how-to-run-a-strata-meeting",
+              "confidence": "medium",
+              "needsLawyer": true
+            }
+          },
+          {
+            "type": "general meeting (other)",
+            "calledBy": {
+              "value": "Owners holding at least 25% of total unit entitlements can call one by writing to the secretary; it must be held within 14 days of the request",
+              "note": "",
+              "source": "NSW Government 'Strata meetings' page, https://www.nsw.gov.au/housing-and-construction/strata/living/meetings",
+              "confidence": "medium",
+              "needsLawyer": true
+            },
+            "noticeDays": {
+              "value": {
+                "min": 7,
+                "max": null
+              },
+              "note": "",
+              "source": "NSW Government 'Strata meetings' page, https://www.nsw.gov.au/housing-and-construction/strata/living/meetings ; NSW Government 'How to run a strata meeting' page, https://www.nsw.gov.au/housing-and-construction/strata/serving-on-a-committee/how-to-run-a-strata-meeting",
+              "confidence": "medium",
+              "needsLawyer": true
+            }
+          },
+          {
+            "type": "strata committee meeting",
+            "calledBy": {
+              "value": "Secretary or strata agent",
+              "note": "",
+              "source": "NSW Government 'How to run a strata meeting' page, https://www.nsw.gov.au/housing-and-construction/strata/serving-on-a-committee/how-to-run-a-strata-meeting",
+              "confidence": "medium",
+              "needsLawyer": true
+            },
+            "noticeDays": {
+              "value": {
+                "min": 3,
+                "max": null
+              },
+              "note": "Notify every owner (and the tenant representative, if any) at least 3 days before.",
+              "source": "NSW Government 'How to run a strata meeting' page, https://www.nsw.gov.au/housing-and-construction/strata/serving-on-a-committee/how-to-run-a-strata-meeting",
+              "confidence": "medium",
+              "needsLawyer": true
+            }
+          }
+        ],
+        "quorum": {
+          "value": {
+            "alternatives": "25% or more of the people entitled to vote, OR eligible owners holding 25% or more of total unit entitlements",
+            "strataCommittee": "at least half of the committee members"
+          },
+          "note": "The quorum must be reached within 30 minutes of the start time.",
+          "source": "NSW Government 'How to run a strata meeting' page, https://www.nsw.gov.au/housing-and-construction/strata/serving-on-a-committee/how-to-run-a-strata-meeting",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "adjournedQuorum": {
+          "value": {
+            "minHoursLater": 168,
+            "noQuorum": true
+          },
+          "note": "Without a quorum the meeting can be postponed 7 days or the chairperson can decide that those present are a quorum; the postponed meeting is described as going ahead after 7 days even without a quorum. The Government pages and a search summary are not fully consistent on the exact trigger.",
+          "source": "NSW Government 'How to run a strata meeting' page, https://www.nsw.gov.au/housing-and-construction/strata/serving-on-a-committee/how-to-run-a-strata-meeting",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "majorities": {
+          "ordinary": {
+            "value": "General resolution: simple majority, one vote per lot; more than 50% of people vote in favour. A poll (demanded before or just after a vote) switches the vote to unit entitlement",
+            "note": "The page words this loosely; whether the base is 'votes cast' or 'present' was not verified.",
+            "source": "NSW Government 'Strata meetings' page, https://www.nsw.gov.au/housing-and-construction/strata/living/meetings ; NSW Government 'How to run a strata meeting' page, https://www.nsw.gov.au/housing-and-construction/strata/serving-on-a-committee/how-to-run-a-strata-meeting",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          "special": {
+            "value": "By unit entitlement; passes if no more than 25% of the vote is against",
+            "note": "",
+            "source": "NSW Government 'Strata meetings' page, https://www.nsw.gov.au/housing-and-construction/strata/living/meetings",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          "unanimous": {
+            "value": "No votes against",
+            "note": "",
+            "source": "NSW Government 'Strata meetings' page, https://www.nsw.gov.au/housing-and-construction/strata/living/meetings",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          "other": {
+            "value": "Sustainability infrastructure and accessibility infrastructure resolutions: by unit entitlement, pass if votes against are under 50%",
+            "note": "",
+            "source": "NSW Government 'Strata meetings' page, https://www.nsw.gov.au/housing-and-construction/strata/living/meetings",
+            "confidence": "medium",
+            "needsLawyer": true
+          }
+        },
+        "weightageModels": {
+          "value": {
+            "model": "one vote per lot",
+            "poll": "by unit entitlement; special resolutions always by unit entitlement"
+          },
+          "note": "",
+          "source": "NSW Government 'Strata meetings' page, https://www.nsw.gov.au/housing-and-construction/strata/living/meetings",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "proxy": {
+          "value": {
+            "allowed": true,
+            "form": "prescribed form, given to the secretary; in schemes with more than 100 lots at least 24 hours before the meeting, otherwise before it starts",
+            "limit": "20 lots or fewer: the nominee cannot already hold a proxy for another owner; more than 20 lots: nominee cannot hold proxies for more than 5% of lots",
+            "other": "cannot be passed on; a building manager, strata agent or property manager cannot use a proxy for their own benefit; proxy has no effect if the owner votes personally"
+          },
+          "note": "Powers of attorney (non-family): one owner maximum in schemes of 20 lots or fewer, no more than 5% of owners in larger schemes.",
+          "source": "NSW Government 'Strata meetings' page, https://www.nsw.gov.au/housing-and-construction/strata/living/meetings ; NSW Government 'How to run a strata meeting' page, https://www.nsw.gov.au/housing-and-construction/strata/serving-on-a-committee/how-to-run-a-strata-meeting",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "votingMethods": {
+          "value": [
+            "in person",
+            "remote (video/phone) as stated in the notice",
+            "pre-meeting electronic vote (only if owners resolve to allow it; not for committee elections)",
+            "poll"
+          ],
+          "note": "Pre-meeting votes cannot elect strata committee members. Any electronic method must be named in the notice, and reasonable steps must be taken so all eligible people can vote (reg 14B).",
+          "source": "NSW Government 'Strata meetings' page, https://www.nsw.gov.au/housing-and-construction/strata/living/meetings ; NSW Government 'How to run a strata meeting' page, https://www.nsw.gov.au/housing-and-construction/strata/serving-on-a-committee/how-to-run-a-strata-meeting",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "electronicVoting": {
+          "value": {
+            "allowed": true,
+            "detail": "Allowed after the owners corporation passes a resolution; pre-meeting electronic votes and in-meeting votes are tallied together; if a motion is amended at the meeting, minutes must record this and how a voter can ask for a new meeting."
+          },
+          "note": "",
+          "source": "NSW Government 'How to run a strata meeting' page, https://www.nsw.gov.au/housing-and-construction/strata/serving-on-a-committee/how-to-run-a-strata-meeting",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "minutesDeadlineDays": {
+          "value": 7,
+          "note": "Secretary must give minutes of general meetings (and strata committee meetings) to all owners within 7 days; in large schemes only owners who request committee minutes need to receive them.",
+          "source": "NSW Government 'Strata meetings' page, https://www.nsw.gov.au/housing-and-construction/strata/living/meetings ; NSW Government 'How to run a strata meeting' page, https://www.nsw.gov.au/housing-and-construction/strata/serving-on-a-committee/how-to-run-a-strata-meeting",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "recordRetentionYears": {
+          "value": null,
+          "note": "not read / not verified: not read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "memberInspectionRight": {
+          "value": null,
+          "note": "not read / not verified: not read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "electionRoles": {
+          "value": {
+            "returningOfficer": null,
+            "committee": "AGM agenda must include a motion setting the committee size and a motion electing the committee; a tenant representative is elected if at least half the lots are rented"
+          },
+          "note": "The owners corporation can remove a committee member by majority resolution; the removed member cannot serve again for 12 months. Committee votes: one vote per member, simple majority.",
+          "source": "NSW Government 'How to run a strata meeting' page, https://www.nsw.gov.au/housing-and-construction/strata/serving-on-a-committee/how-to-run-a-strata-meeting",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "termYears": {
+          "value": null,
+          "note": "not read / not verified: term of office of the strata committee not stated on the pages read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "eligibility": {
+          "value": null,
+          "note": "not read / not verified: not stated on the pages read",
+          "source": "not read / not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "defaulterDisqualification": {
+          "value": "Owners who have not paid levies are not eligible to vote, unless the motion requires unanimous approval",
+          "note": "A mortgagee 'priority vote' can override some votes (insurance, budgets, levies, special or unanimous resolutions, payments over $1,000 x number of lots).",
+          "source": "NSW Government 'Strata meetings' page, https://www.nsw.gov.au/housing-and-construction/strata/living/meetings ; NSW Government 'How to run a strata meeting' page, https://www.nsw.gov.au/housing-and-construction/strata/serving-on-a-committee/how-to-run-a-strata-meeting",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "requisition": {
+          "value": {
+            "percentOfUnitEntitlements": 25,
+            "meetingWithinDays": 14
+          },
+          "note": "",
+          "source": "NSW Government 'Strata meetings' page, https://www.nsw.gov.au/housing-and-construction/strata/living/meetings",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "notes": [
+          "Medium confidence is the ceiling: the Act and Regulation text could not be read. A lawyer should confirm every figure against Schedule 1 of the 2015 Act.",
+          "Notice figures were consistent across the two Government pages and a search summary."
+        ]
+      },
+      "engine": {
+        "id": "au-nsw-strata-schemes",
+        "name": "New South Wales Strata Schemes Management Act 2015 (guidance-based)",
+        "jurisdiction": "AU-NSW",
+        "confidence": "medium",
+        "needsLawyer": true,
+        "params": {
+          "notice.minDays": 14,
+          "quorum.percentBp": 2500,
+          "quorum.strict": false,
+          "requisition.percentBp": 2500,
+          "minutes.deadlineDays": 7,
+          "notice.delivery": "any"
+        },
+        "options": {
+          "proxy_voting": true,
+          "quorum_check": true,
+          "minutes": true,
+          "notices": true,
+          "weightage": null,
+          "absentee_voting": null
+        },
+        "notice": {
+          "agm": {
+            "min": 14,
+            "max": null
+          },
+          "sgm": {
+            "min": 7,
+            "max": null
+          },
+          "committee": {
+            "min": 3,
+            "max": null
+          }
+        },
+        "recommended": [
+          "AGM needs 14 days' written notice; any other general meeting 7 days (NSW Government strata meetings guidance).",
+          "Name every voting method (remote, pre-meeting electronic) in the notice; pre-meeting electronic voting needs a resolution first and cannot elect the strata committee.",
+          "Send minutes to all owners within 7 days.",
+          "Unpaid-levy owners cannot vote except on unanimous motions."
+        ],
+        "gaps": [
+          "Quorum is met by EITHER 25% of the people entitled to vote OR 25% of unit entitlements: the quorum basis is left for the Organizer to choose.",
+          "Special resolution: no more than 25% of the unit-entitlement vote against; the product's special-majority setting does not model a cap on 'against' votes.",
+          "Sustainability/accessibility infrastructure resolutions (less than 50% against).",
+          "Poll switches the count from per-lot to unit entitlement.",
+          "Mortgagee priority votes.",
+          "Proxy limits depend on scheme size (20 lots / 5%).",
+          "Primary text unread: confidence stays medium."
+        ]
+      }
+    }
+  ]
+}

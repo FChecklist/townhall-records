@@ -1,0 +1,2133 @@
+{
+ "_disclaimer": "Research data compiled by an AI agent, NOT legal advice. Values were read from web pages, most through automated page summaries rather than verbatim statute text; null means not read or not verified, never a guess. German, Spanish, Portuguese and French sources were read in the original and paraphrased. A local lawyer must confirm every value before an Organizer relies on it.",
+ "_region": "world-b",
+ "_compiled": "2026-10-24",
+ "packs": [
+  {
+   "research": {
+    "id": "de-weg",
+    "name": "Germany: Wohnungseigentumsgesetz (WEG, reformed 2020), Eigentuemerversammlung",
+    "jurisdiction": "DE",
+    "instruments": {
+     "value": [
+      "Wohnungseigentumsgesetz (WEG) paras 23-25"
+     ],
+     "note": "German federal statute; text read on the official federal site (German original, read through an automated page summary; no official English text used). The administrator (Verwalter) convenes the owners' meeting.",
+     "source": "WEG (Wohnungseigentumsgesetz, as amended 2020) https://www.gesetze-im-internet.de/woeigg/__23.html, __24.html, __25.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "meetingTypes": {
+     "value": {
+      "annual": "administrator must convene at least once a year (s.24(1))",
+      "special": "administrator must convene if the owners' agreement says so, or if MORE than one quarter of owners demand it in text form stating purpose and reasons (s.24(2))",
+      "fallbackCaller": "no administrator or unlawful refusal: chair of the advisory board (Verwaltungsbeirat), deputy, or an owner authorised by resolution (s.24(3))",
+      "noticeForm": "text form (s.24(4))"
+     },
+     "note": "Paraphrased from s.24.",
+     "source": "WEG (Wohnungseigentumsgesetz, as amended 2020) https://www.gesetze-im-internet.de/woeigg/__24.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "quorum": {
+     "value": null,
+     "note": "s.25 as read states no quorum requirement. Read through a summary: confirm no quorum clause remains.",
+     "source": "WEG (Wohnungseigentumsgesetz, as amended 2020) https://www.gesetze-im-internet.de/woeigg/__25.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "adjournedQuorum": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "majorities": {
+     "value": {
+      "default": "simple majority of votes cast (s.25(1))",
+      "virtualMeetingResolution": "owners may resolve, by three-quarters of votes cast, to hold meetings without physical presence for up to 3 years (s.23(1a))",
+      "writtenCirculation": "valid if every owner agrees in text form; owners may resolve that a simple majority of votes cast suffices for one specified item (s.23(3))"
+     },
+     "note": "Other majorities for specific measures exist elsewhere in the WEG and were not read.",
+     "source": "WEG (Wohnungseigentumsgesetz, as amended 2020) https://www.gesetze-im-internet.de/woeigg/__23.html, __25.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "weightageModels": {
+     "value": "one vote per owner (s.25(2)); jointly owned unit: one combined vote",
+     "note": "The owners' agreement may change this (not read here).",
+     "source": "WEG (Wohnungseigentumsgesetz, as amended 2020) https://www.gesetze-im-internet.de/woeigg/__25.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "proxy": {
+     "value": {
+      "allowed": true,
+      "form": "text form only (s.25(3))"
+     },
+     "note": "No cap on the number of proxies found in s.25.",
+     "source": "WEG (Wohnungseigentumsgesetz, as amended 2020) https://www.gesetze-im-internet.de/woeigg/__25.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "votingMethods": {
+     "value": null,
+     "note": "not read: ss.23/25 do not prescribe show of hands vs ballot in the text read",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "electronicVoting": {
+     "value": "Allowed by owners' resolution: remote participation (s.23(1)); fully virtual meetings by 3/4 majority for up to 3 years (s.23(1a)); circulation in text form (s.23(3))",
+     "note": "As summarised; confirm the 3/4 majority and 3-year limit with the official text.",
+     "source": "WEG (Wohnungseigentumsgesetz, as amended 2020) https://www.gesetze-im-internet.de/woeigg/__23.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "minutesDeadlineDays": {
+     "value": null,
+     "note": "Minutes must be prepared 'without delay' (unverzueglich), no number of days (s.24(6)).",
+     "source": "WEG (Wohnungseigentumsgesetz, as amended 2020) https://www.gesetze-im-internet.de/woeigg/__24.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "recordRetentionYears": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "memberInspectionRight": {
+     "value": true,
+     "note": "Owners (or third parties they authorise) may inspect the resolution register (Beschluss-Sammlung) on request (s.24(7)).",
+     "source": "WEG (Wohnungseigentumsgesetz, as amended 2020) https://www.gesetze-im-internet.de/woeigg/__24.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "electionRoles": {
+     "value": "chair = administrator unless the meeting resolves otherwise (s.24(5)); minutes signed by chair, one owner, and the advisory-board chair or deputy if a board exists (s.24(6))",
+     "note": "No returning officer concept.",
+     "source": "WEG (Wohnungseigentumsgesetz, as amended 2020) https://www.gesetze-im-internet.de/woeigg/__24.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "termYears": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "eligibility": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "defaulterDisqualification": {
+     "value": "No general arrears bar found. An owner may not vote on a legal transaction between the community and that owner, or on a lawsuit against them, or after a final conviction under s.17 (s.25(4)).",
+     "note": "",
+     "source": "WEG (Wohnungseigentumsgesetz, as amended 2020) https://www.gesetze-im-internet.de/woeigg/__25.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "requisition": {
+     "value": "more than 25% of owners (by number), text form with purpose and reasons",
+     "note": "'More than a quarter'.",
+     "source": "WEG (Wohnungseigentumsgesetz, as amended 2020) https://www.gesetze-im-internet.de/woeigg/__24.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "nominationWithdrawal": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "reservedSeats": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "notes": {
+     "value": "Notice 'should' be at least 3 weeks unless especially urgent (s.24(4)): a soft rule. A resolution is valid only if the subject was named in the invitation (s.23(2)).",
+     "note": "Election of the advisory board and administrator is not covered by the sections read.",
+     "source": "WEG (Wohnungseigentumsgesetz, as amended 2020) https://www.gesetze-im-internet.de/woeigg/__23.html, __24.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    }
+   },
+   "engine": {
+    "id": "de-weg",
+    "name": "Germany: Wohnungseigentumsgesetz (WEG, reformed 2020), Eigentuemerversammlung",
+    "jurisdiction": "DE",
+    "confidence": "medium",
+    "needsLawyer": true,
+    "params": {
+     "notice.minDays": 21,
+     "majority.simple.basis": "cast",
+     "requisition.percentBp": 2500
+    },
+    "options": {
+     "proxy_voting": true,
+     "weightage": false,
+     "quorum_check": false,
+     "secret_ballot": null
+    },
+    "notice": {
+     "agm": {
+      "min": 21,
+      "max": null
+     },
+     "sgm": {
+      "min": 21,
+      "max": null
+     }
+    },
+    "recommended": [
+     "WEG s.24(4): send the invitation in text form at least 3 weeks ahead (a 'should', so shorter is lawful only if especially urgent).",
+     "WEG s.24(2): the administrator must call a meeting when MORE than a quarter of the owners demand it in text form with reasons.",
+     "WEG s.23(2): every item to be voted must be named in the invitation.",
+     "WEG s.25(3): a proxy must be in text form.",
+     "WEG s.25(4): an owner cannot vote on a deal or lawsuit between the community and that owner."
+    ],
+    "gaps": [
+     "Resolution register (Beschluss-Sammlung) and the rule that a resolution is void if the subject was not in the invitation are not expressible.",
+     "One-vote-per-owner is the legal default but the owners' agreement can change it; weightage left false.",
+     "Requisition is 'more than' 25%, engine value is 25%."
+    ]
+   }
+  },
+  {
+   "research": {
+    "id": "za-sectional-titles",
+    "name": "South Africa: Sectional Titles Schemes Management Act 8 of 2011 + Management Rules (Annexure 1, 2016)",
+    "jurisdiction": "ZA",
+    "instruments": {
+     "value": [
+      "Sectional Titles Schemes Management Act 8 of 2011 (s.10 prescribes management rules)",
+      "Management Rules, Annexure 1 to the Regulations, Notice R.1231 of 2016 (rules 5-7 trustees, 15-20 owner meetings)",
+      "Community Schemes Ombud Service Act 9 of 2011 (disputes): not read"
+     ],
+     "note": "Rules 7, 15, 17, 19, 20 read on acts.co.za (a legal publisher). Rule 6 (eligibility) is paywalled: not read.",
+     "source": "Sectional Titles Schemes Management Regulations 2016, Annexure 1 (Notice R.1231 of 2016) https://www.acts.co.za/sectional-titles-schemes-mana/",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "meetingTypes": {
+     "value": {
+      "annual": "AGM within 4 months after each financial year ends; may be waived if ALL members waive in writing before or within 1 month after year-end and consent to the AGM motions (rule 17(1)-(2))",
+      "special": "any other general meeting; trustees may call at will, and MUST call on a signed request by members holding 25% or more of total quotas, or by bondholders over at least 25% of primary sections by number; if not called within 14 days the requesters may call it (rule 17(4))"
+     },
+     "note": "",
+     "source": "Sectional Titles Schemes Management Regulations 2016, Annexure 1 (Notice R.1231 of 2016) https://www.acts.co.za/sectional-titles-schemes-mana/r1231_annexure_1_17__annual_an",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "quorum": {
+     "value": {
+      "fewerThan4Sections": "two-thirds of total votes",
+      "otherwise": "one-third of total votes (by value)",
+      "minimumPeople": "at least two persons present unless all sections are in one name",
+      "excluded": "developer's votes excluded from the quorum calculation; votes of sections held by the body corporate are disregarded"
+     },
+     "note": "Counted on value of votes (participation quotas).",
+     "source": "Sectional Titles Schemes Management Regulations 2016, Annexure 1 (Notice R.1231 of 2016) https://www.acts.co.za/sectional-titles-schemes-mana/r1231_annexure_1_19__quorum",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "adjournedQuorum": {
+     "value": "No quorum within 30 minutes: adjourned to the same day of the following week, same time and place; at that adjourned meeting, members present in person or by proxy form the quorum (rule 19)",
+     "note": "",
+     "source": "Sectional Titles Schemes Management Regulations 2016, Annexure 1 (Notice R.1231 of 2016) https://www.acts.co.za/sectional-titles-schemes-mana/r1231_annexure_1_19__quorum",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "majorities": {
+     "value": {
+      "ordinary": "majority of votes, calculated in value, of members present and voting (rule 20(1))",
+      "special_and_unanimous": "defined in the Act (s.1): not read",
+      "specialUnder50pct": "if a special resolution passes with less than 50% of total value of votes: wait one week; within 7 days members holding 25% of total votes may demand a special general meeting to reconsider (rule 20(9)-(10))"
+     },
+     "note": "No seconder needed. Body corporate's own sections count as abstentions.",
+     "source": "Sectional Titles Schemes Management Regulations 2016, Annexure 1 (Notice R.1231 of 2016) https://www.acts.co.za/sectional-titles-schemes-mana/r1231_annexure_1_20__voting_an",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "weightageModels": {
+     "value": "by value of votes (participation quota); co-owners of one section exercise one vote jointly",
+     "note": "",
+     "source": "Sectional Titles Schemes Management Regulations 2016, Annexure 1 (Notice R.1231 of 2016) https://www.acts.co.za/sectional-titles-schemes-mana/r1231_annexure_1_20__voting_an",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "proxy": {
+     "value": {
+      "allowed": true,
+      "deliveryDeadline": "form delivered 48 hours before the meeting, or handed to the chair before or at the start",
+      "eligibleProxy": "need not be a member, but may not be the managing agent or an employee of the managing agent or body corporate",
+      "form": "prescribed form (Form C) accompanies the notice"
+     },
+     "note": "",
+     "source": "Sectional Titles Schemes Management Regulations 2016, Annexure 1 (Notice R.1231 of 2016) https://www.acts.co.za/sectional-titles-schemes-mana/r1231_annexure_1_20__voting_an",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "votingMethods": {
+     "value": "votes announced with for/against numbers and recorded in the minutes (rule 20(8)); show of hands or poll not mentioned in rule 20",
+     "note": "",
+     "source": "Sectional Titles Schemes Management Regulations 2016, Annexure 1 (Notice R.1231 of 2016) https://www.acts.co.za/sectional-titles-schemes-mana/r1231_annexure_1_20__voting_an",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "electronicVoting": {
+     "value": "Meetings may be attended by phone or other means that is accessible to all, lets participants communicate, and lets the chair confirm identity; such participants count as present in person (rule 17(10)-(11)). Electronic ballot specifics: not read.",
+     "note": "",
+     "source": "Sectional Titles Schemes Management Regulations 2016, Annexure 1 (Notice R.1231 of 2016) https://www.acts.co.za/sectional-titles-schemes-mana/r1231_annexure_1_17__annual_an",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "minutesDeadlineDays": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "recordRetentionYears": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "memberInspectionRight": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "electionRoles": {
+     "value": "chair elected at the meeting if needed (rule 17(6)(c)); trustees elected at the AGM",
+     "note": "No returning officer.",
+     "source": "Sectional Titles Schemes Management Regulations 2016, Annexure 1 (Notice R.1231 of 2016) https://www.acts.co.za/sectional-titles-schemes-mana/r1231_annexure_1_17__annual_an",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "termYears": {
+     "value": 1,
+     "note": "Elected or replacement trustee holds office until the end of the next AGM and may stand again (rule 7(6)). No term limit found in rule 7.",
+     "source": "Sectional Titles Schemes Management Regulations 2016, Annexure 1 (Notice R.1231 of 2016) https://www.acts.co.za/sectional-titles-schemes-mana/r1231_annexure_1_part_2_7__nom",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "eligibility": {
+     "value": null,
+     "note": "rule 6 (requirements for office and disqualification) not read: paywalled",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "defaulterDisqualification": {
+     "value": "Except for special and unanimous resolutions, a member cannot vote if they have failed to pay an amount after a court/adjudicator order, or persist in breaching conduct rules after such an order (rule 20(2))",
+     "note": "Narrower than ordinary arrears: needs an order first.",
+     "source": "Sectional Titles Schemes Management Regulations 2016, Annexure 1 (Notice R.1231 of 2016) https://www.acts.co.za/sectional-titles-schemes-mana/r1231_annexure_1_20__voting_an",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "requisition": {
+     "value": "25% of total quotas (members) or 25% of primary sections by number (bondholders)",
+     "note": "",
+     "source": "Sectional Titles Schemes Management Regulations 2016, Annexure 1 (Notice R.1231 of 2016) https://www.acts.co.za/sectional-titles-schemes-mana/r1231_annexure_1_17__annual_an",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "nominationWithdrawal": {
+     "value": {
+      "nominationDeadline": "written, with nominee's written consent, delivered at least 48 hours before the AGM starts (rule 7(2)); if too few, more nominations may be taken at the AGM with consent (rule 7(3))"
+     },
+     "note": "Withdrawal period not found.",
+     "source": "Sectional Titles Schemes Management Regulations 2016, Annexure 1 (Notice R.1231 of 2016) https://www.acts.co.za/sectional-titles-schemes-mana/r1231_annexure_1_part_2_7__nom",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "reservedSeats": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "notes": {
+     "value": {
+      "notice": "at least 14 days' written notice to members, bondholders, development-rights holders and the managing agent, with agenda, copies/summary of documents and proxy form; 7 days if trustees resolve urgency; shorter by written agreement of all (rule 15)",
+      "delivery": "to the member's service address; failure to notify a person does not invalidate the vote if a reasonable attempt was made (rule 15(8))",
+      "trusteeQuorum": "50% of trustees, not less than two (rule 13; search summary only)"
+     },
+     "note": "",
+     "source": "Sectional Titles Schemes Management Regulations 2016, Annexure 1 (Notice R.1231 of 2016) https://www.acts.co.za/sectional-titles-schemes-mana/r1231_annexure_1_15__notice",
+     "confidence": "high",
+     "needsLawyer": false
+    }
+   },
+   "engine": {
+    "id": "za-sectional-titles",
+    "name": "South Africa: Sectional Titles Schemes Management Act 8 of 2011 + Management Rules (Annexure 1, 2016)",
+    "jurisdiction": "ZA",
+    "confidence": "high",
+    "needsLawyer": true,
+    "params": {
+     "notice.minDays": 14,
+     "quorum.basis": "weight",
+     "quorum.percentBp": 3333,
+     "adjourned.noQuorum": true,
+     "adjourned.minHoursLater": 168,
+     "majority.simple.basis": "cast",
+     "quorum.countProxies": true,
+     "term.years": 1,
+     "requisition.percentBp": 2500,
+     "notice.delivery": "any"
+    },
+    "options": {
+     "proxy_voting": true,
+     "weightage": true,
+     "quorum_check": true,
+     "secret_ballot": null,
+     "absentee_voting": null,
+     "minutes": true
+    },
+    "notice": {
+     "agm": {
+      "min": 14,
+      "max": null
+     },
+     "sgm": {
+      "min": 14,
+      "max": null
+     }
+    },
+    "recommended": [
+     "Rule 15(1): give 14 days' written notice with agenda, summary of documents and the proxy form. Rule 15(7) allows 7 days only if trustees record urgency.",
+     "Rule 7(2): trustee nominations are due in writing, with consent, 48 hours before the AGM.",
+     "Rule 20(5)-(6): proxies are due 48 hours before the meeting; a managing agent or its staff cannot be a proxy.",
+     "Rule 19: schemes with fewer than 4 sections need two-thirds of votes for a quorum; set quorum to 6667 in that case.",
+     "Rule 17(1): hold the AGM within 4 months of financial year end."
+    ],
+    "gaps": [
+     "Quorum is 33.33% generally but 66.67% for schemes with fewer than 4 sections: one value only.",
+     "Adjourned quorum is 'those present' after 30 minutes; engine has no 30-minute rule.",
+     "Special (usually 75%) and unanimous resolutions are defined in the Act (not read); majority.special not set.",
+     "Arrears vote-bar only after a court/adjudicator order, and not for special/unanimous resolutions: not expressible.",
+     "Special resolution passed by less than 50% triggers a one-week delay and a 25% re-vote demand: not expressible.",
+     "Developer's votes excluded from quorum: not expressible."
+    ]
+   }
+  },
+  {
+   "research": {
+    "id": "fr-copropriete-1965",
+    "name": "France: Loi n 65-557 du 10 juillet 1965 (copropriete) + Decret n 67-223 du 17 mars 1967",
+    "jurisdiction": "FR",
+    "instruments": {
+     "value": [
+      "Loi 65-557 du 10 juillet 1965 (statut de la copropriete)",
+      "Decret 67-223 du 17 mars 1967 (application; convocation and procedure)"
+     ],
+     "note": "Legifrance (403) and the court-of-appeal guide (maintenance) were unreachable. Values come only from the state information portal service-public.gouv.fr, NOT from the statute text.",
+     "source": "https://www.service-public.gouv.fr/particuliers/vosdroits/N31341 ; https://www.service-public.gouv.fr/particuliers/vosdroits/F2590 ; https://www.service-public.gouv.fr/particuliers/vosdroits/F2606",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "meetingTypes": {
+     "value": {
+      "caller": "the syndic sends the convocation; if the syndic cannot or fails to act, the president of the conseil syndical does",
+      "agenda": "prepared by the syndic; the conseil syndical or any co-owner may add items"
+     },
+     "note": "Share of owners who can force a meeting: not read.",
+     "source": "https://www.service-public.gouv.fr/particuliers/vosdroits/N31341",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "quorum": {
+     "value": null,
+     "note": "not read: service-public pages did not state a quorum; do not assume",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "adjournedQuorum": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "majorities": {
+     "value": {
+      "article24_simple": "majority of votes of owners present, represented or voting by correspondence",
+      "article25_absolute": "majority of the votes of ALL co-owners, present, represented or absent",
+      "article26_double": "not verified from the pages read"
+     },
+     "note": "Definitions as given on service-public. Which decisions need which majority: not read, except that changing the charge split is in principle unanimous, with listed exceptions.",
+     "source": "https://www.service-public.gouv.fr/particuliers/vosdroits/F2590",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "weightageModels": {
+     "value": null,
+     "note": "votes proportional to shares (tantiemes) is common knowledge but was NOT read here",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "proxy": {
+     "value": null,
+     "note": "not read: proxy limit not found; do not assume",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "votingMethods": {
+     "value": "correspondence vote exists (article 24 definition)",
+     "note": "Details not read.",
+     "source": "https://www.service-public.gouv.fr/particuliers/vosdroits/F2590",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "electronicVoting": {
+     "value": "Assemblies may be held remotely ('en distanciel') but rules not read",
+     "note": "",
+     "source": "https://www.service-public.gouv.fr/particuliers/vosdroits/N31341",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "minutesDeadlineDays": {
+     "value": 30,
+     "note": "Syndic must send the proces-verbal within one month after the assembly; contest deadline 2 months after it is sent, for opposing or absent co-owners.",
+     "source": "https://www.service-public.gouv.fr/particuliers/vosdroits/N31341",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "recordRetentionYears": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "memberInspectionRight": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "electionRoles": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "termYears": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "eligibility": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "defaulterDisqualification": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "requisition": {
+     "value": null,
+     "note": "not read: share of owners entitled to demand a meeting not found",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "nominationWithdrawal": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "reservedSeats": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "notes": {
+     "value": "Convocation at least 21 days before the assembly unless urgent or the regulation sets a longer period (service-public N31341; the Decret art.9 is cited by a search summary only).",
+     "note": "",
+     "source": "https://www.service-public.gouv.fr/particuliers/vosdroits/N31341",
+     "confidence": "medium",
+     "needsLawyer": true
+    }
+   },
+   "engine": {
+    "id": "fr-copropriete-1965",
+    "name": "France: Loi n 65-557 du 10 juillet 1965 (copropriete) + Decret n 67-223 du 17 mars 1967",
+    "jurisdiction": "FR",
+    "confidence": "low",
+    "needsLawyer": true,
+    "params": {
+     "notice.minDays": 21,
+     "majority.simple.basis": "present",
+     "minutes.deadlineDays": 30
+    },
+    "options": {
+     "proxy_voting": null,
+     "weightage": null,
+     "absentee_voting": true
+    },
+    "notice": {
+     "agm": {
+      "min": 21,
+      "max": null
+     },
+     "sgm": {
+      "min": 21,
+      "max": null
+     }
+    },
+    "recommended": [
+     "Service-public: send the convocation at least 21 days before the assembly (unless urgent, or the regulation sets longer).",
+     "Service-public: send the minutes within one month; opposing or absent co-owners have 2 months to contest."
+    ],
+    "gaps": [
+     "Statute text unavailable: quorum, proxy cap, requisition share, term of syndic and double-majority thresholds all left blank.",
+     "The article 24 / 25 / 26 majority ladder (present vs all owners vs two-thirds of all votes) is not fully expressible with one simple/special pair."
+    ]
+   }
+  },
+  {
+   "research": {
+    "id": "es-lph",
+    "name": "Spain: Ley 49/1960 de Propiedad Horizontal (LPH), Junta de Propietarios",
+    "jurisdiction": "ES",
+    "instruments": {
+     "value": [
+      "Ley 49/1960, de 21 de julio, sobre propiedad horizontal (arts 13-19: governing bodies, junta, majorities, minutes)"
+     ],
+     "note": "Official consolidated text on boe.es, read through an automated page summary (first 100,000 of 108,000 characters).",
+     "source": "Ley 49/1960 de Propiedad Horizontal, BOE consolidated text https://www.boe.es/buscar/act.php?id=BOE-A-1960-10906",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "meetingTypes": {
+     "value": {
+      "annual": "junta at least once a year to approve budget and accounts (art.16(1))",
+      "extraordinary": "at request of the president, of one quarter of the owners, or of owners holding at least 25% of participation shares (art.16(1))",
+      "caller": "the president, or failing that the promoters of the meeting (art.16(2))"
+     },
+     "note": "",
+     "source": "Ley 49/1960 de Propiedad Horizontal, BOE consolidated text https://www.boe.es/buscar/act.php?id=BOE-A-1960-10906",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "quorum": {
+     "value": "First call: majority of owners representing the majority of participation shares (art.16(2)). If not reached, second call without quorum.",
+     "note": "'Majority of owners' and 'majority of shares' are two tests at once.",
+     "source": "Ley 49/1960 de Propiedad Horizontal, BOE consolidated text https://www.boe.es/buscar/act.php?id=BOE-A-1960-10906",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "adjournedQuorum": {
+     "value": "Second call may be held the same day after half an hour; otherwise within 8 calendar days, with at least 3 days' notice (art.16(2)). No quorum needed at second call.",
+     "note": "",
+     "source": "Ley 49/1960 de Propiedad Horizontal, BOE consolidated text https://www.boe.es/buscar/act.php?id=BOE-A-1960-10906",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "majorities": {
+     "value": {
+      "general": "majority of owners representing the majority of shares (art.17(7))",
+      "secondCall": "majority of attendees representing more than half of the shares of those present (art.17(7))",
+      "threeFifths": "three-fifths of owners and of shares for doorkeeper/security services and innovation/structural works (art.17(3)-(4))",
+      "unanimity": "statute/title changes not otherwise regulated: all owners, 100% of shares (art.17(6))",
+      "oneThird": "telecom and renewable-energy infrastructure: one third of owners and shares (art.17(1))"
+     },
+     "note": "Other majorities in art.17 not read in this pass.",
+     "source": "Ley 49/1960 de Propiedad Horizontal, BOE consolidated text https://www.boe.es/buscar/act.php?id=BOE-A-1960-10906",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "weightageModels": {
+     "value": "by participation shares (cuotas de participacion) plus a per-owner count",
+     "note": "",
+     "source": "Ley 49/1960 de Propiedad Horizontal, BOE consolidated text https://www.boe.es/buscar/act.php?id=BOE-A-1960-10906",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "proxy": {
+     "value": {
+      "allowed": true,
+      "form": "a signed written statement by the owner is enough (art.15(1))"
+     },
+     "note": "Cap on number of proxies: not read.",
+     "source": "Ley 49/1960 de Propiedad Horizontal, BOE consolidated text https://www.boe.es/buscar/act.php?id=BOE-A-1960-10906",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "votingMethods": {
+     "value": null,
+     "note": "not read",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "electronicVoting": {
+     "value": null,
+     "note": "not read in the portion fetched",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "minutesDeadlineDays": {
+     "value": 10,
+     "note": "Minutes closed with the president's and secretary's signatures at the end of the meeting or within 10 natural days (art.19(3)).",
+     "source": "Ley 49/1960 de Propiedad Horizontal, BOE consolidated text https://www.boe.es/buscar/act.php?id=BOE-A-1960-10906",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "recordRetentionYears": {
+     "value": 5,
+     "note": "The secretary keeps minute books and the notices/relevant documents for 5 years (art.19(4)). The minute book must be stamped by the Property Registrar (art.19(1)).",
+     "source": "Ley 49/1960 de Propiedad Horizontal, BOE consolidated text https://www.boe.es/buscar/act.php?id=BOE-A-1960-10906",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "memberInspectionRight": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "electionRoles": {
+     "value": "president elected among owners, or failing that by rotation or lot; the post is mandatory but the person may ask a judge for relief within one month (art.13(2))",
+     "note": "",
+     "source": "Ley 49/1960 de Propiedad Horizontal, BOE consolidated text https://www.boe.es/buscar/act.php?id=BOE-A-1960-10906",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "termYears": {
+     "value": 1,
+     "note": "Governing posts last one year unless the statutes say otherwise; the junta may remove them in an extraordinary session (art.13(7)).",
+     "source": "Ley 49/1960 de Propiedad Horizontal, BOE consolidated text https://www.boe.es/buscar/act.php?id=BOE-A-1960-10906",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "eligibility": {
+     "value": "must be an owner",
+     "note": "",
+     "source": "Ley 49/1960 de Propiedad Horizontal, BOE consolidated text https://www.boe.es/buscar/act.php?id=BOE-A-1960-10906",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "defaulterDisqualification": {
+     "value": "Owners with overdue community debts may speak but cannot vote and do not count towards majorities, unless they challenged the debt or paid the amount into court (art.15(2))",
+     "note": "",
+     "source": "Ley 49/1960 de Propiedad Horizontal, BOE consolidated text https://www.boe.es/buscar/act.php?id=BOE-A-1960-10906",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "requisition": {
+     "value": "one quarter of owners, or owners with at least 25% of shares",
+     "note": "",
+     "source": "Ley 49/1960 de Propiedad Horizontal, BOE consolidated text https://www.boe.es/buscar/act.php?id=BOE-A-1960-10906",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "nominationWithdrawal": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "reservedSeats": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "notes": {
+     "value": "Annual junta needs at least 6 days' notice (art.16(3)); a junta needs no convocation if all owners attend and agree (art.16(3)).",
+     "note": "Notice period for extraordinary meetings was not seen separately.",
+     "source": "Ley 49/1960 de Propiedad Horizontal, BOE consolidated text https://www.boe.es/buscar/act.php?id=BOE-A-1960-10906",
+     "confidence": "medium",
+     "needsLawyer": true
+    }
+   },
+   "engine": {
+    "id": "es-lph",
+    "name": "Spain: Ley 49/1960 de Propiedad Horizontal (LPH), Junta de Propietarios",
+    "jurisdiction": "ES",
+    "confidence": "medium",
+    "needsLawyer": true,
+    "params": {
+     "notice.minDays": 6,
+     "quorum.basis": "weight",
+     "quorum.percentBp": 5000,
+     "quorum.strict": true,
+     "adjourned.noQuorum": true,
+     "term.years": 1,
+     "requisition.percentBp": 2500,
+     "minutes.deadlineDays": 10,
+     "retention.years": 5
+    },
+    "options": {
+     "proxy_voting": true,
+     "weightage": true,
+     "quorum_check": true,
+     "secret_ballot": null
+    },
+    "notice": {
+     "agm": {
+      "min": 6,
+      "max": null
+     },
+     "sgm": {
+      "min": null,
+      "max": null
+     }
+    },
+    "recommended": [
+     "LPH art.16(3): give at least 6 days' notice of the annual meeting.",
+     "LPH art.16(2): if the first call lacks the majority of owners and shares, hold a second call (half an hour later or within 8 days with 3 days' notice).",
+     "LPH art.15(2): owners with overdue debts cannot vote.",
+     "LPH art.19(3): sign the minutes within 10 natural days."
+    ],
+    "gaps": [
+     "Quorum and majority need BOTH a majority of owners and a majority of shares; engine counts only one basis.",
+     "Three-fifths and unanimity majorities (art.17) have no parameter.",
+     "Defaulter vote-ban with court-deposit exception not expressible."
+    ]
+   }
+  },
+  {
+   "research": {
+    "id": "br-condominio-edilicio",
+    "name": "Brazil: Codigo Civil arts 1331 ff. (condominio edilicio) - assembleia de condominos",
+    "jurisdiction": "BR",
+    "instruments": {
+     "value": [
+      "Codigo Civil, Lei 10.406/2002, arts 1331-1358 (arts 1347-1355 read)",
+      "Lei 4.591/1964: not read",
+      "Each condominium's convencao and regimento interno decide many details"
+     ],
+     "note": "Read on a private site reproducing the code, not planalto.gov.br; confirm against the official consolidated text.",
+     "source": "Codigo Civil (Lei 10.406/2002) arts 1347-1355, via https://modeloinicial.com.br/lei/CC/administracao-condominio-@_ESPECIAL_III_III_VII_II (planalto.gov.br unreachable; private host)",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "meetingTypes": {
+     "value": {
+      "annual": "sindico convenes an annual assembly, at the time set by the convention, to approve budget, contributions and accounts (art.1350)",
+      "extraordinary": "called by the sindico or by one quarter of the owners (art.1355)",
+      "sindicoFailsToCall": "one quarter of owners may call; if the assembly still does not meet, a judge decides at the request of any owner (art.1350 paras 1-2)"
+     },
+     "note": "Notice period in days: not stated in the articles read; left to the convention.",
+     "source": "Codigo Civil (Lei 10.406/2002) arts 1347-1355, via https://modeloinicial.com.br/lei/CC/administracao-condominio-@_ESPECIAL_III_III_VII_II (planalto.gov.br unreachable; private host)",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "quorum": {
+     "value": "Decisions need a majority of votes of those present who represent at least half of the ideal fractions, unless a special quorum applies (art.1352)",
+     "note": "",
+     "source": "Codigo Civil (Lei 10.406/2002) arts 1347-1355, via https://modeloinicial.com.br/lei/CC/administracao-condominio-@_ESPECIAL_III_III_VII_II (planalto.gov.br unreachable; private host)",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "adjournedQuorum": {
+     "value": "Second call: majority of those present decides, unless a special quorum applies (art.1353). If a special quorum is missed, attendees may vote a 'permanent session': follow-up within 60 days, whole process within 90 days (art.1353 paras 1-3).",
+     "note": "",
+     "source": "Codigo Civil (Lei 10.406/2002) arts 1347-1355, via https://modeloinicial.com.br/lei/CC/administracao-condominio-@_ESPECIAL_III_III_VII_II (planalto.gov.br unreachable; private host)",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "majorities": {
+     "value": {
+      "convention_change": "two-thirds of owners' votes (art.1351)",
+      "sindico_removal": "absolute majority of the assembly's members, in an assembly called for that purpose (art.1349)"
+     },
+     "note": "The page showed several historic versions of art.1351; confirm current text.",
+     "source": "Codigo Civil (Lei 10.406/2002) arts 1347-1355, via https://modeloinicial.com.br/lei/CC/administracao-condominio-@_ESPECIAL_III_III_VII_II (planalto.gov.br unreachable; private host)",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "weightageModels": {
+     "value": "by ideal fraction (fracao ideal) unless the convention says otherwise (art.1352)",
+     "note": "",
+     "source": "Codigo Civil (Lei 10.406/2002) arts 1347-1355, via https://modeloinicial.com.br/lei/CC/administracao-condominio-@_ESPECIAL_III_III_VII_II (planalto.gov.br unreachable; private host)",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "proxy": {
+     "value": null,
+     "note": "not read in the articles fetched",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "votingMethods": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "electronicVoting": {
+     "value": "Electronic or hybrid assemblies allowed unless the convention forbids; owners keep rights to speak, debate and vote; notice must say it is electronic and explain access and voting; minutes drawn after the tally (art.1354-A)",
+     "note": "",
+     "source": "Codigo Civil (Lei 10.406/2002) arts 1347-1355, via https://modeloinicial.com.br/lei/CC/administracao-condominio-@_ESPECIAL_III_III_VII_II (planalto.gov.br unreachable; private host)",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "minutesDeadlineDays": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "recordRetentionYears": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "memberInspectionRight": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "electionRoles": {
+     "value": "assembly elects the sindico, who need not be an owner (art.1347)",
+     "note": "",
+     "source": "Codigo Civil (Lei 10.406/2002) arts 1347-1355, via https://modeloinicial.com.br/lei/CC/administracao-condominio-@_ESPECIAL_III_III_VII_II (planalto.gov.br unreachable; private host)",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "termYears": {
+     "value": 2,
+     "note": "Sindico term capped at 2 years, renewable (art.1347).",
+     "source": "Codigo Civil (Lei 10.406/2002) arts 1347-1355, via https://modeloinicial.com.br/lei/CC/administracao-condominio-@_ESPECIAL_III_III_VII_II (planalto.gov.br unreachable; private host)",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "eligibility": {
+     "value": "sindico need not be an owner",
+     "note": "",
+     "source": "Codigo Civil (Lei 10.406/2002) arts 1347-1355, via https://modeloinicial.com.br/lei/CC/administracao-condominio-@_ESPECIAL_III_III_VII_II (planalto.gov.br unreachable; private host)",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "defaulterDisqualification": {
+     "value": null,
+     "note": "not read (arts 1335/1336 not fetched)",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "requisition": {
+     "value": "one quarter of owners",
+     "note": "",
+     "source": "Codigo Civil (Lei 10.406/2002) arts 1347-1355, via https://modeloinicial.com.br/lei/CC/administracao-condominio-@_ESPECIAL_III_III_VII_II (planalto.gov.br unreachable; private host)",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "nominationWithdrawal": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "reservedSeats": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "notes": {
+     "value": "The assembly cannot decide anything if any owner was not convened (art.1354).",
+     "note": "",
+     "source": "Codigo Civil (Lei 10.406/2002) arts 1347-1355, via https://modeloinicial.com.br/lei/CC/administracao-condominio-@_ESPECIAL_III_III_VII_II (planalto.gov.br unreachable; private host)",
+     "confidence": "medium",
+     "needsLawyer": true
+    }
+   },
+   "engine": {
+    "id": "br-condominio-edilicio",
+    "name": "Brazil: Codigo Civil arts 1331 ff. (condominio edilicio) - assembleia de condominos",
+    "jurisdiction": "BR",
+    "confidence": "medium",
+    "needsLawyer": true,
+    "params": {
+     "quorum.basis": "weight",
+     "quorum.percentBp": 5000,
+     "adjourned.noQuorum": true,
+     "term.years": 2,
+     "requisition.percentBp": 2500
+    },
+    "options": {
+     "weightage": true,
+     "proxy_voting": null,
+     "absentee_voting": null,
+     "quorum_check": true
+    },
+    "notice": {
+     "agm": {
+      "min": null,
+      "max": null
+     },
+     "sgm": {
+      "min": null,
+      "max": null
+     }
+    },
+    "recommended": [
+     "CC art.1354: every owner must be convened, otherwise the assembly cannot decide.",
+     "CC art.1355: one quarter of owners may call an extraordinary assembly.",
+     "CC art.1354-A: an electronic assembly is allowed unless the convention forbids it; say so in the notice and explain how to log in and vote.",
+     "Check the convention for the notice period and for proxy rules."
+    ],
+    "gaps": [
+     "Notice days come from the convention, not the Code: Organizer must enter them.",
+     "Permanent session (60/90 days) is not expressible.",
+     "Quorum is 'majority of those present who hold at least half the fractions': two tests."
+    ]
+   }
+  },
+  {
+   "research": {
+    "id": "co-ley-675-2001",
+    "name": "Colombia: Ley 675 de 2001, Regimen de propiedad horizontal - asamblea general",
+    "jurisdiction": "CO",
+    "instruments": {
+     "value": [
+      "Ley 675 de 2001 (arts 37-52 on assembly, council, administrator; arts 39-45 read)"
+     ],
+     "note": "Read on a legal text aggregator (leyes.co), not the official gazette; arts 39-40 only via a search summary.",
+     "source": "Ley 675 de 2001 https://leyes.co/el_regimen_de_propiedad_horizontal/ (arts 41, 42, 44, 45); arts 39-40 via search summary of actualicese.com",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "meetingTypes": {
+     "value": {
+      "ordinary": "at least once a year, on the date in the regulation; if silent, within 3 months after the budget period ends (art.39); convened by the administrator with at least 15 calendar days' notice (art.39, summary)",
+      "byRight": "if not convened, meets by right on the first business day of the 4th month after period end (art.40, summary)"
+     },
+     "note": "Extraordinary meetings and who may call them: not read.",
+     "source": "Ley 675 de 2001 https://leyes.co/el_regimen_de_propiedad_horizontal/ (arts 41, 42, 44, 45); arts 39-40 via search summary of actualicese.com",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "quorum": {
+     "value": "More than half (50%+1) of the ownership coefficients, unless the law or regulation sets a higher quorum (art.45)",
+     "note": "",
+     "source": "Ley 675 de 2001 https://leyes.co/el_regimen_de_propiedad_horizontal/ (arts 41, 42, 44, 45); arts 39-40 via search summary of actualicese.com",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "adjournedQuorum": {
+     "value": "Second call on the third business day after the first; validly decides with a plural number of owners whatever the coefficients represented; the regulation may set otherwise (art.41)",
+     "note": "The first notice must state this.",
+     "source": "Ley 675 de 2001 https://leyes.co/el_regimen_de_propiedad_horizontal/ (arts 41, 42, 44, 45); arts 39-40 via search summary of actualicese.com",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "majorities": {
+     "value": {
+      "general": "half plus one of the coefficients represented at the session (art.45)",
+      "cap": "except dissolution, no majority above 70% of building coefficients may be required; higher bylaws are treated as 70% (art.45)",
+      "violations": "decisions that breach art.45 are absolutely null"
+     },
+     "note": "Which decisions need 70% is in the Act and regulation: not read.",
+     "source": "Ley 675 de 2001 https://leyes.co/el_regimen_de_propiedad_horizontal/ (arts 41, 42, 44, 45); arts 39-40 via search summary of actualicese.com",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "weightageModels": {
+     "value": "by coefficients (coeficientes de copropiedad)",
+     "note": "",
+     "source": "Ley 675 de 2001 https://leyes.co/el_regimen_de_propiedad_horizontal/ (arts 41, 42, 44, 45); arts 39-40 via search summary of actualicese.com",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "proxy": {
+     "value": {
+      "allowed": true
+     },
+     "note": "Owners 'or their representatives or delegates' may take part (art.42). Limits not read.",
+     "source": "Ley 675 de 2001 https://leyes.co/el_regimen_de_propiedad_horizontal/ (arts 41, 42, 44, 45); arts 39-40 via search summary of actualicese.com",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "votingMethods": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "electronicVoting": {
+     "value": "Non-presential meetings allowed by any simultaneous or successive medium if provable; quorum still applies; the revisor fiscal certifies the sequence; proof of sender, content, time and copy of the convocation required (art.42). A decision is ineffective if an owner does not take part in the exchange (art.44).",
+     "note": "",
+     "source": "Ley 675 de 2001 https://leyes.co/el_regimen_de_propiedad_horizontal/ (arts 41, 42, 44, 45); arts 39-40 via search summary of actualicese.com",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "minutesDeadlineDays": {
+     "value": 10,
+     "note": "For non-presential decisions only: minutes recorded, signed by the legal representative and communicated to owners within 10 days (art.44). Ordinary minutes: not read.",
+     "source": "Ley 675 de 2001 https://leyes.co/el_regimen_de_propiedad_horizontal/ (arts 41, 42, 44, 45); arts 39-40 via search summary of actualicese.com",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "recordRetentionYears": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "memberInspectionRight": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "electionRoles": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "termYears": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "eligibility": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "defaulterDisqualification": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "requisition": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "nominationWithdrawal": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "reservedSeats": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "notes": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    }
+   },
+   "engine": {
+    "id": "co-ley-675-2001",
+    "name": "Colombia: Ley 675 de 2001, Regimen de propiedad horizontal - asamblea general",
+    "jurisdiction": "CO",
+    "confidence": "medium",
+    "needsLawyer": true,
+    "params": {
+     "notice.minDays": 15,
+     "quorum.basis": "weight",
+     "quorum.percentBp": 5000,
+     "quorum.strict": true,
+     "adjourned.noQuorum": true,
+     "majority.simple.basis": "present"
+    },
+    "options": {
+     "weightage": true,
+     "quorum_check": true,
+     "proxy_voting": null,
+     "absentee_voting": null
+    },
+    "notice": {
+     "agm": {
+      "min": 15,
+      "max": null
+     },
+     "sgm": {
+      "min": null,
+      "max": null
+     }
+    },
+    "recommended": [
+     "Ley 675 art.39: the administrator calls the ordinary assembly with at least 15 calendar days' notice.",
+     "Ley 675 art.41: say in the first notice that a second call follows on the third business day with a plural number of owners.",
+     "Ley 675 art.42: a non-presential assembly needs provable records (sender, content, time, copy of the convocation)."
+    ],
+    "gaps": [
+     "Notice is in calendar days; second-call timing is business days: neither expressible exactly.",
+     "No-majority-above-70% cap is not expressible."
+    ]
+   }
+  },
+  {
+   "research": {
+    "id": "ph-hoa-ra9904",
+    "name": "Philippines: Magna Carta for Homeowners and Homeowners' Associations (RA 9904) - HOA meetings and elections",
+    "jurisdiction": "PH",
+    "instruments": {
+     "value": [
+      "Republic Act 9904 (2010), ss.7, 9, 11, 13, 15, 16, 17, 22",
+      "Association by-laws fill almost everything else"
+     ],
+     "note": "Read on lawphil.net (Philippine Law Library), through an automated page summary.",
+     "source": "https://lawphil.net/statutes/repacts/ra2010/ra_9904_2010.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "meetingTypes": {
+     "value": "By-laws must set schedule, venue and manner of regular, special and emergency meetings of members and board (s.15(c),(f)) and the time and notice method of the regular director election (s.15(m))",
+     "note": "The Act itself sets no notice days, no annual-meeting deadline and no requisition share.",
+     "source": "https://lawphil.net/statutes/repacts/ra2010/ra_9904_2010.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "quorum": {
+     "value": null,
+     "note": "Set by the by-laws (s.15(c),(f)).",
+     "source": "https://lawphil.net/statutes/repacts/ra2010/ra_9904_2010.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "adjournedQuorum": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "majorities": {
+     "value": null,
+     "note": "not set by RA 9904 (by-laws)",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "weightageModels": {
+     "value": "by-laws may limit, broaden or deny voting rights (s.15(k)); members have the right to vote and hold office subject to by-law qualifications (s.7(c))",
+     "note": "",
+     "source": "https://lawphil.net/statutes/repacts/ra2010/ra_9904_2010.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "proxy": {
+     "value": {
+      "allowed": true,
+      "form": "in writing, signed by the member, filed with the secretary before the meeting; valid for that meeting only unless stated, and never longer than 3 years at a time unless revoked (s.16)"
+     },
+     "note": "Number of proxies per holder: not set.",
+     "source": "https://lawphil.net/statutes/repacts/ra2010/ra_9904_2010.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "votingMethods": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "electronicVoting": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "minutesDeadlineDays": {
+     "value": null,
+     "note": "Act does not set a minutes deadline.",
+     "source": "https://lawphil.net/statutes/repacts/ra2010/ra_9904_2010.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "recordRetentionYears": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "memberInspectionRight": {
+     "value": true,
+     "note": "Members may inspect association books and records in office hours (s.7(b)); records available on reasonable advance notice (s.17(b)).",
+     "source": "https://lawphil.net/statutes/repacts/ra2010/ra_9904_2010.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "electionRoles": {
+     "value": "by-laws may create election, grievance and audit committees (s.15(n))",
+     "note": "",
+     "source": "https://lawphil.net/statutes/repacts/ra2010/ra_9904_2010.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "termYears": {
+     "value": 2,
+     "note": "Board and officers' terms capped at two years (s.15(d),(e)).",
+     "source": "https://lawphil.net/statutes/repacts/ra2010/ra_9904_2010.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "eligibility": {
+     "value": "set by the by-laws (ss.7(c), 11)",
+     "note": "",
+     "source": "https://lawphil.net/statutes/repacts/ra2010/ra_9904_2010.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "defaulterDisqualification": {
+     "value": "By-laws must define delinquent members and sanctions with due process (s.9); the association may not stop members in good standing from attending meetings, elections or referenda (s.22(d)).",
+     "note": "",
+     "source": "https://lawphil.net/statutes/repacts/ra2010/ra_9904_2010.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "requisition": {
+     "value": null,
+     "note": "Not specified in the Act.",
+     "source": "https://lawphil.net/statutes/repacts/ra2010/ra_9904_2010.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "nominationWithdrawal": {
+     "value": null,
+     "note": "Not specified.",
+     "source": "https://lawphil.net/statutes/repacts/ra2010/ra_9904_2010.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "reservedSeats": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "notes": {
+     "value": "After a director is removed the remaining board must call an election within 60 days to fill the unexpired term (s.13).",
+     "note": "",
+     "source": "https://lawphil.net/statutes/repacts/ra2010/ra_9904_2010.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    }
+   },
+   "engine": {
+    "id": "ph-hoa-ra9904",
+    "name": "Philippines: Magna Carta for Homeowners and Homeowners' Associations (RA 9904) - HOA meetings and elections",
+    "jurisdiction": "PH",
+    "confidence": "medium",
+    "needsLawyer": true,
+    "params": {
+     "term.years": 2
+    },
+    "options": {
+     "proxy_voting": true,
+     "weightage": null,
+     "quorum_check": true
+    },
+    "recommended": [
+     "RA 9904 s.16: a proxy must be written, signed, and filed with the secretary before the meeting.",
+     "RA 9904 s.15(d): directors serve at most two years; read the by-laws for notice and quorum.",
+     "RA 9904 s.22(d): do not bar members in good standing from meetings or elections."
+    ],
+    "gaps": [
+     "The Act delegates notice, quorum and majorities to by-laws: Organizer must enter by-law values.",
+     "Proxy 3-year validity cap not expressible."
+    ]
+   }
+  },
+  {
+   "research": {
+    "id": "ph-condominium-ra4726",
+    "name": "Philippines: Condominium Act (RA 4726) - condominium corporation / association of unit owners",
+    "jurisdiction": "PH",
+    "instruments": {
+     "value": [
+      "Republic Act 4726 (1966), Condominium Act, ss.2, 4, 8-10, 13, 14, 16"
+     ],
+     "note": "Read on lawphil.net through an automated summary.",
+     "source": "https://lawphil.net/statutes/repacts/ra1966/ra_4726_1966.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "meetingTypes": {
+     "value": "Not set by the Act: the declaration of restrictions must provide for voting majorities, quorums, notices, meeting dates (s.9)",
+     "note": "",
+     "source": "https://lawphil.net/statutes/repacts/ra1966/ra_4726_1966.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "quorum": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "adjournedQuorum": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "majorities": {
+     "value": {
+      "amendOfRestrictions": "vote of not less than a majority in interest of the owners, unless the declaration sets otherwise (s.9(b))",
+      "dissolution": "all stockholders or members at a meeting duly called (s.14)",
+      "saleOfCommonAreas": "affirmative vote of all stockholders or members (s.16)"
+     },
+     "note": "",
+     "source": "https://lawphil.net/statutes/repacts/ra1966/ra_4726_1966.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "weightageModels": {
+     "value": "membership in proportion to the appurtenant interest of units in the common areas (s.2)",
+     "note": "",
+     "source": "https://lawphil.net/statutes/repacts/ra1966/ra_4726_1966.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "proxy": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "votingMethods": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "electronicVoting": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "minutesDeadlineDays": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "recordRetentionYears": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "memberInspectionRight": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "electionRoles": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "termYears": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "eligibility": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "defaulterDisqualification": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "requisition": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "nominationWithdrawal": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "reservedSeats": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "notes": {
+     "value": "A condominium corporation is also a corporation: Corporation Code meeting rules (not read) apply on top.",
+     "note": "",
+     "source": "https://lawphil.net/statutes/repacts/ra1966/ra_4726_1966.html",
+     "confidence": "low",
+     "needsLawyer": true
+    }
+   },
+   "engine": {
+    "id": "ph-condominium-ra4726",
+    "name": "Philippines: Condominium Act (RA 4726) - condominium corporation / association of unit owners",
+    "jurisdiction": "PH",
+    "confidence": "medium",
+    "needsLawyer": true,
+    "params": {},
+    "options": {
+     "weightage": true,
+     "proxy_voting": null
+    },
+    "recommended": [
+     "RA 4726 s.9: notice, quorum and majorities come from the declaration of restrictions: copy them from yours."
+    ],
+    "gaps": [
+     "Nearly everything is delegated to the declaration and the Corporation Code (not read)."
+    ]
+   }
+  },
+  {
+   "research": {
+    "id": "jp-building-unit-ownership",
+    "name": "Japan: Act on Building Unit Ownership (Act No. 69 of 1962) - unit owners' meeting",
+    "jurisdiction": "JP",
+    "instruments": {
+     "value": [
+      "Act on Building Unit Ownership (Act No. 69 of 1962; last version Act No. 24 of 2021), arts 25, 31, 34-43",
+      "Management association bylaws (kanri kiyaku): not read"
+     ],
+     "note": "Official Ministry of Justice English translation (translated 3 March 2023); read via an automated summary of the first 100,000 characters.",
+     "source": "Act on Building Unit Ownership (Act No. 69 of 1962), official English translation https://www.japaneselawtranslation.go.jp/en/laws/view/4341/en",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "meetingTypes": {
+     "value": {
+      "annual": "manager must convene at least one meeting per year (art.34(2)) and report on administration once a year (art.43)",
+      "special": "owners with at least one-fifth of votes AND at least one-fifth of all owners may propose an agenda and request a meeting; bylaws may lower this (art.34(3))",
+      "ownersCall": "if the manager does not send notice within 2 weeks of the request (meeting date within 4 weeks of it), the requesters may convene (art.34(4)); same if there is no manager (art.34(5))"
+     },
+     "note": "",
+     "source": "Act on Building Unit Ownership (Act No. 69 of 1962), official English translation https://www.japaneselawtranslation.go.jp/en/laws/view/4341/en",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "quorum": {
+     "value": null,
+     "note": "The Act as read states no separate quorum; decisions need a majority of owners and of votes (art.39(1)).",
+     "source": "Act on Building Unit Ownership (Act No. 69 of 1962), official English translation https://www.japaneselawtranslation.go.jp/en/laws/view/4341/en",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "adjournedQuorum": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "majorities": {
+     "value": {
+      "ordinary": "majority of owners AND majority of votes, unless the Act or bylaws say otherwise (art.39(1))",
+      "bylaws": "establish/amend/repeal bylaws: three-fourths of owners AND three-fourths of votes (art.31(1))"
+     },
+     "note": "Other special majorities (for example rebuilding) are elsewhere in the Act: not read.",
+     "source": "Act on Building Unit Ownership (Act No. 69 of 1962), official English translation https://www.japaneselawtranslation.go.jp/en/laws/view/4341/en",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "weightageModels": {
+     "value": "votes by floor-area share (art.14) unless bylaws say otherwise (art.38); co-owners must choose one person to vote (art.40)",
+     "note": "",
+     "source": "Act on Building Unit Ownership (Act No. 69 of 1962), official English translation https://www.japaneselawtranslation.go.jp/en/laws/view/4341/en",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "proxy": {
+     "value": {
+      "allowed": true,
+      "form": "votes may be cast in writing or by proxy (art.39(2))"
+     },
+     "note": "No cap found.",
+     "source": "Act on Building Unit Ownership (Act No. 69 of 1962), official English translation https://www.japaneselawtranslation.go.jp/en/laws/view/4341/en",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "votingMethods": {
+     "value": "written vote or proxy (art.39(2))",
+     "note": "Show of hands/ballot not specified.",
+     "source": "Act on Building Unit Ownership (Act No. 69 of 1962), official English translation https://www.japaneselawtranslation.go.jp/en/laws/view/4341/en",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "electronicVoting": {
+     "value": "Electronic/magnetic voting is permitted if bylaws or a meeting resolution allow it (art.39(3)); electronic minutes allowed (art.42)",
+     "note": "",
+     "source": "Act on Building Unit Ownership (Act No. 69 of 1962), official English translation https://www.japaneselawtranslation.go.jp/en/laws/view/4341/en",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "minutesDeadlineDays": {
+     "value": null,
+     "note": "No deadline stated; chair must record minutes; written minutes signed by chair and two attending owners (art.42).",
+     "source": "Act on Building Unit Ownership (Act No. 69 of 1962), official English translation https://www.japaneselawtranslation.go.jp/en/laws/view/4341/en",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "recordRetentionYears": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "memberInspectionRight": {
+     "value": true,
+     "note": "Art.42(5) applies the art.33 retention and inspection rules to minutes; art.33 itself not read.",
+     "source": "Act on Building Unit Ownership (Act No. 69 of 1962), official English translation https://www.japaneselawtranslation.go.jp/en/laws/view/4341/en",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "electionRoles": {
+     "value": "manager or the convening owner chairs the meeting unless bylaws/resolution say otherwise (art.41)",
+     "note": "",
+     "source": "Act on Building Unit Ownership (Act No. 69 of 1962), official English translation https://www.japaneselawtranslation.go.jp/en/laws/view/4341/en",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "termYears": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "eligibility": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "defaulterDisqualification": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "requisition": {
+     "value": "one-fifth of votes AND one-fifth of owners (bylaws may lower)",
+     "note": "",
+     "source": "Act on Building Unit Ownership (Act No. 69 of 1962), official English translation https://www.japaneselawtranslation.go.jp/en/laws/view/4341/en",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "nominationWithdrawal": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "reservedSeats": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "notes": {
+     "value": "Notice must state the agenda and reach each owner at least one week ahead; bylaws may lengthen or shorten (art.35(1)); posting in a prominent place allowed if the bylaws say so (art.35(4)); only agenda items may be voted unless bylaws allow (art.37); all owners consenting can waive the procedure (art.36).",
+     "note": "",
+     "source": "Act on Building Unit Ownership (Act No. 69 of 1962), official English translation https://www.japaneselawtranslation.go.jp/en/laws/view/4341/en",
+     "confidence": "high",
+     "needsLawyer": false
+    }
+   },
+   "engine": {
+    "id": "jp-building-unit-ownership",
+    "name": "Japan: Act on Building Unit Ownership (Act No. 69 of 1962) - unit owners' meeting",
+    "jurisdiction": "JP",
+    "confidence": "high",
+    "needsLawyer": true,
+    "params": {
+     "notice.minDays": 7,
+     "majority.simple.basis": "total",
+     "requisition.percentBp": 2000
+    },
+    "options": {
+     "proxy_voting": true,
+     "weightage": true,
+     "absentee_voting": true,
+     "quorum_check": false,
+     "minutes": true
+    },
+    "notice": {
+     "agm": {
+      "min": 7,
+      "max": null
+     },
+     "sgm": {
+      "min": 7,
+      "max": null
+     }
+    },
+    "recommended": [
+     "Act art.35: send notice with the agenda at least 1 week ahead (the bylaws may change this).",
+     "Act art.37: only items named in the notice can be voted.",
+     "Act art.34(3): one-fifth of votes and one-fifth of owners can demand a meeting.",
+     "Act art.39(2): written votes and proxies are allowed; art.39(3): electronic voting needs a bylaw or meeting resolution.",
+     "Act art.42: written minutes are signed by the chair and two attending owners."
+    ],
+    "gaps": [
+     "Every decision needs a majority of owners AND a majority of votes (dual test); engine has one basis.",
+     "Requisition needs two one-fifth tests.",
+     "Bylaws change needs 3/4 of owners and 3/4 of votes: no parameter.",
+     "Bylaws can override notice period and electronic voting."
+    ]
+   }
+  },
+  {
+   "research": {
+    "id": "ae-dubai-law-6-2019",
+    "name": "UAE (Dubai): Law No. 6 of 2019 - Owners Committee of jointly owned property",
+    "jurisdiction": "AE-DU",
+    "instruments": {
+     "value": [
+      "Dubai Law No. 6 of 2019 on Ownership of Jointly Owned Real Property (repealed Law 27 of 2007: art.51)",
+      "RERA statutes for each Owners Committee (art.22(g)): not read"
+     ],
+     "note": "Official English text on the Dubai Legislation Portal, read through an automated summary. This law replaced owners associations with an advisory Owners Committee; the text summarised has NO owners' general assembly or owner-voting provisions.",
+     "source": "Dubai Law No. 6 of 2019, official Dubai Legislation Portal https://dlp.dubai.gov.ae/Legislation%20Reference/2019/Law%20No.%20%286%29%20of%202019%20Concerning%20Ownership%20of%20Jointly%20Owned%20Real%20Property%20in%20the%20Emirate%20of%20Dubai.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "meetingTypes": {
+     "value": {
+      "regular": "committee meets every 3 months (4 a year); first meeting within 30 days of constitution (art.23(a))",
+      "extraordinary": "when needed, with advance notice to RERA of date, time and reasons (art.23(b))",
+      "venue": "the Management Entity supplies the venue and a rapporteur for reports and minutes (art.23(d))"
+     },
+     "note": "No owners' AGM in the text read.",
+     "source": "Dubai Law No. 6 of 2019, official Dubai Legislation Portal https://dlp.dubai.gov.ae/Legislation%20Reference/2019/Law%20No.%20%286%29%20of%202019%20Concerning%20Ownership%20of%20Jointly%20Owned%20Real%20Property%20in%20the%20Emirate%20of%20Dubai.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "quorum": {
+     "value": "Committee meeting valid if a majority of members attend; the chairman or vice chairman must be present (art.23(a))",
+     "note": "",
+     "source": "Dubai Law No. 6 of 2019, official Dubai Legislation Portal https://dlp.dubai.gov.ae/Legislation%20Reference/2019/Law%20No.%20%286%29%20of%202019%20Concerning%20Ownership%20of%20Jointly%20Owned%20Real%20Property%20in%20the%20Emirate%20of%20Dubai.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "adjournedQuorum": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "majorities": {
+     "value": "Each committee member has one vote; chair has a casting vote on a tie (art.23(c))",
+     "note": "Required majority for resolutions: not stated in the summary.",
+     "source": "Dubai Law No. 6 of 2019, official Dubai Legislation Portal https://dlp.dubai.gov.ae/Legislation%20Reference/2019/Law%20No.%20%286%29%20of%202019%20Concerning%20Ownership%20of%20Jointly%20Owned%20Real%20Property%20in%20the%20Emirate%20of%20Dubai.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "weightageModels": {
+     "value": "one member, one vote, regardless of units owned (art.23(c))",
+     "note": "",
+     "source": "Dubai Law No. 6 of 2019, official Dubai Legislation Portal https://dlp.dubai.gov.ae/Legislation%20Reference/2019/Law%20No.%20%286%29%20of%202019%20Concerning%20Ownership%20of%20Jointly%20Owned%20Real%20Property%20in%20the%20Emirate%20of%20Dubai.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "proxy": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "votingMethods": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "electronicVoting": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "minutesDeadlineDays": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "recordRetentionYears": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "memberInspectionRight": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "electionRoles": {
+     "value": "Committee members are SELECTED/APPOINTED by RERA (Category 1: from resident owners, art.18(a)(1); max 9 members, art.22(a)); the committee elects its own chairman (art.22(e)); RERA may reconstitute it at any time (art.22(i))",
+     "note": "Owners do not elect the committee under this text.",
+     "source": "Dubai Law No. 6 of 2019, official Dubai Legislation Portal https://dlp.dubai.gov.ae/Legislation%20Reference/2019/Law%20No.%20%286%29%20of%202019%20Concerning%20Ownership%20of%20Jointly%20Owned%20Real%20Property%20in%20the%20Emirate%20of%20Dubai.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "termYears": {
+     "value": null,
+     "note": "Term of office not stated in the text read.",
+     "source": "Dubai Law No. 6 of 2019, official Dubai Legislation Portal https://dlp.dubai.gov.ae/Legislation%20Reference/2019/Law%20No.%20%286%29%20of%202019%20Concerning%20Ownership%20of%20Jointly%20Owned%20Real%20Property%20in%20the%20Emirate%20of%20Dubai.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "eligibility": {
+     "value": "full legal capacity; resident owner; good character; pays service and usage charges; attends and takes part in meetings (art.22(c)); developer only if it owns unsold units (art.22(d))",
+     "note": "",
+     "source": "Dubai Law No. 6 of 2019, official Dubai Legislation Portal https://dlp.dubai.gov.ae/Legislation%20Reference/2019/Law%20No.%20%286%29%20of%202019%20Concerning%20Ownership%20of%20Jointly%20Owned%20Real%20Property%20in%20the%20Emirate%20of%20Dubai.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "defaulterDisqualification": {
+     "value": "A member who stops meeting the requirements (including paying charges) loses membership and RERA appoints a replacement (art.22(h))",
+     "note": "",
+     "source": "Dubai Law No. 6 of 2019, official Dubai Legislation Portal https://dlp.dubai.gov.ae/Legislation%20Reference/2019/Law%20No.%20%286%29%20of%202019%20Concerning%20Ownership%20of%20Jointly%20Owned%20Real%20Property%20in%20the%20Emirate%20of%20Dubai.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "requisition": {
+     "value": null,
+     "note": "no owner requisition mechanism in the text read",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "nominationWithdrawal": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "reservedSeats": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "notes": {
+     "value": "Committee constituted once at least 10% of units are registered in owners' names (art.22(b)). Other emirates (Abu Dhabi, Sharjah, others) were not read.",
+     "note": "",
+     "source": "Dubai Law No. 6 of 2019, official Dubai Legislation Portal https://dlp.dubai.gov.ae/Legislation%20Reference/2019/Law%20No.%20%286%29%20of%202019%20Concerning%20Ownership%20of%20Jointly%20Owned%20Real%20Property%20in%20the%20Emirate%20of%20Dubai.html",
+     "confidence": "medium",
+     "needsLawyer": true
+    }
+   },
+   "engine": {
+    "id": "ae-dubai-law-6-2019",
+    "name": "UAE (Dubai): Law No. 6 of 2019 - Owners Committee of jointly owned property",
+    "jurisdiction": "AE-DU",
+    "confidence": "medium",
+    "needsLawyer": true,
+    "params": {
+     "quorum.basis": "flats",
+     "quorum.percentBp": 5000,
+     "quorum.strict": true,
+     "tie.break": "chair_casting_vote"
+    },
+    "options": {
+     "weightage": false,
+     "quorum_check": true,
+     "proxy_voting": null
+    },
+    "recommended": [
+     "Law 6/2019 art.23(a): an Owners Committee meeting is valid only if a majority of members attend and the chairman or vice chairman is there.",
+     "Law 6/2019 art.23(c): one vote per member; the chair breaks a tie.",
+     "Law 6/2019 art.22(a): the committee is appointed by RERA, not elected by owners; check your building's RERA statute."
+    ],
+    "gaps": [
+     "No owners' general assembly under this law: the product's owner-meeting flow does not fit; these values describe the committee meeting only.",
+     "Appointment by a regulator rather than election is not expressible.",
+     "Other UAE emirates not covered."
+    ]
+   }
+  },
+  {
+   "research": {
+    "id": "th-condominium-act-2522",
+    "name": "Thailand: Condominium Act B.E. 2522 (1979) - joint owners' meeting (PARTIAL)",
+    "jurisdiction": "TH",
+    "instruments": {
+     "value": [
+      "Condominium Act B.E. 2522 (1979), as amended (s.42/1 annual meeting)"
+     ],
+     "note": "The Act text could not be opened; only a law-firm article (Tilleke & Gibbins) was read. Thai text is the only binding version.",
+     "source": "https://www.tilleke.com/insights/thailand-recommends-alternatives-condominium-juristic-person-agms-during-covid-19-outbreak/8/ (law-firm note; Act text itself not retrievable)",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "meetingTypes": {
+     "value": {
+      "annual": "AGM within 120 days after the end of the juristic person's fiscal year, to approve the balance sheet, annual report and auditor (s.42/1)"
+     },
+     "note": "Nothing else verified.",
+     "source": "https://www.tilleke.com/insights/thailand-recommends-alternatives-condominium-juristic-person-agms-during-covid-19-outbreak/8/ (law-firm note; Act text itself not retrievable)",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "quorum": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "adjournedQuorum": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "majorities": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "weightageModels": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "proxy": {
+     "value": {
+      "allowed": true,
+      "cap": "a proxy holder may represent up to three joint owners of condominium units"
+     },
+     "note": "Section number not given by the source.",
+     "source": "https://www.tilleke.com/insights/thailand-recommends-alternatives-condominium-juristic-person-agms-during-covid-19-outbreak/8/ (law-firm note; Act text itself not retrievable)",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "votingMethods": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "electronicVoting": {
+     "value": "AGM may be held electronically 'as prescribed by the relevant laws on electronic meetings' (Department of Lands guidance, 2020)",
+     "note": "",
+     "source": "https://www.tilleke.com/insights/thailand-recommends-alternatives-condominium-juristic-person-agms-during-covid-19-outbreak/8/ (law-firm note; Act text itself not retrievable)",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "minutesDeadlineDays": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "recordRetentionYears": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "memberInspectionRight": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "electionRoles": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "termYears": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "eligibility": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "defaulterDisqualification": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "requisition": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "nominationWithdrawal": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "reservedSeats": {
+     "value": null,
+     "note": "not read / not verified in this pass",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "notes": {
+     "value": "Forum posts mention ss.43 and 48 (quorum 25%, follow-up meeting after 15+ days) - user opinions, NOT used.",
+     "note": "",
+     "source": "https://www.tilleke.com/insights/thailand-recommends-alternatives-condominium-juristic-person-agms-during-covid-19-outbreak/8/ (law-firm note; Act text itself not retrievable)",
+     "confidence": "low",
+     "needsLawyer": true
+    }
+   },
+   "engine": {
+    "id": "th-condominium-act-2522",
+    "name": "Thailand: Condominium Act B.E. 2522 (1979) - joint owners' meeting (PARTIAL)",
+    "jurisdiction": "TH",
+    "confidence": "low",
+    "needsLawyer": true,
+    "params": {},
+    "options": {
+     "proxy_voting": true
+    },
+    "recommended": [
+     "Condominium Act s.42/1: hold the AGM within 120 days of the end of the fiscal year."
+    ],
+    "gaps": [
+     "Notice, quorum, majorities and committee terms all blank: Act text not read."
+    ]
+   }
+  }
+ ]
+}

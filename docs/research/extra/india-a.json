@@ -1,0 +1,3649 @@
+{
+ "_disclaimer": "Research notes, not legal advice. Compiled from the public texts and secondary sources listed per value; some texts were reproductions whose originals the host sites say they could not verify. A blank (null) means not read or not found - it does NOT mean the law is silent. Check each value against the society's own registered bye-laws and a local lawyer before relying on it.",
+ "_region": "india-a",
+ "_compiled": "2026-10-24",
+ "packs": [
+  {
+   "research": {
+    "id": "in-central-rera",
+    "name": "Central layer: RERA 2016 (association of allottees) - applies on top of the State regime",
+    "jurisdiction": "IN",
+    "instruments": [
+     {
+      "value": "Real Estate (Regulation and Development) Act, 2016 (Act 16 of 2016): s.11(4)(e) association of allottees; s.11(4)(d) essential services until association takes over; s.11(4)(f) and s.17 conveyance of common areas to the association; s.19(5) allottee's right to documents/plans of common areas",
+      "note": "RERA does NOT contain meeting, quorum, election or bye-law rules for the association. It only requires the promoter to enable the association to be formed. The detailed rules come from the State apartment/co-operative/society law. Text read via Indian Kanoon reproductions of the Act; the site says the original publication could not be verified.",
+      "source": "https://indiankanoon.org/doc/65068227/ (whole Act, read to s.55) ; https://indiankanoon.org/doc/85425648/ (s.11)",
+      "confidence": "medium",
+      "needsLawyer": true
+     },
+     {
+      "value": "s.11(4)(e): promoter must enable the formation of an association, society or co-operative society of allottees under the applicable laws; where there is no local law, the association is to be formed within three months after a majority of allottees have booked",
+      "note": "Operative default period read in the Act reproduction and in two further secondary sources (a law-firm article and a Bihar RERA direction quoted in a search summary). 'Local laws' prevail, so for a State with its own rule (e.g. Maharashtra) the State period applies instead.",
+      "source": "RERA 2016 s.11(4)(e), https://indiankanoon.org/doc/85425648/ ; https://www.amsshardul.com/insight/registration-of-the-association-of-allottees-under-rera/",
+      "confidence": "high",
+      "needsLawyer": false
+     },
+     {
+      "value": "s.17(1) (proviso): absent a local law, the registered conveyance of common areas to the association must be executed within three months of the occupancy certificate; s.17(2) documents and plans handed over within thirty days of the occupancy certificate (law-firm summary)",
+      "note": "s.17(1) timing read in the Act reproduction; the 30-day document handover read only in the secondary article.",
+      "source": "RERA 2016 s.17, https://indiankanoon.org/doc/65068227/ ; https://www.amsshardul.com/insight/registration-of-the-association-of-allottees-under-rera/",
+      "confidence": "medium",
+      "needsLawyer": true
+     },
+     {
+      "value": null,
+      "note": "The assignment pointed at s.4(2)(l)(d). That provision (written s.4(2)(l)(D)) is the 70% separate bank-account rule for allottee money; it has nothing to do with the association of allottees. No association-related content was found in s.4. Recorded so nobody relies on a wrong section reference.",
+      "source": "RERA 2016 s.4(2)(l)(D), https://indiankanoon.org/doc/65068227/",
+      "confidence": "medium",
+      "needsLawyer": false
+     }
+    ],
+    "meetingTypes": [],
+    "quorum": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "adjournedQuorum": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "majorities": {
+     "ordinary": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "special": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "weightageModels": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "proxy": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "votingMethods": {
+     "generalBody": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "committeeElection": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "electronicVoting": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "minutesDeadlineDays": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "recordRetentionYears": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "memberInspectionRight": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "electionRoles": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "termYears": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "eligibility": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "defaulterDisqualification": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "notes": [
+     "RESEARCH ONLY, NOT LEGAL ADVICE. This record is a central overlay: it exists to show the Organizer that RERA obliges the promoter to enable an association but leaves governance to State law.",
+     "Karnataka: a search summary says no specific State rule on forming the allottees' association was found; not independently verified."
+    ]
+   },
+   "engine": {
+    "confidence": "medium",
+    "needsLawyer": true,
+    "params": {},
+    "options": {},
+    "notice": {},
+    "recommended": [
+     "RERA only says the association of allottees must be formed (s.11(4)(e), default 3 months after a majority of allottees book) and receive the common areas (s.17). Use the State pack for notice, quorum and election rules.",
+     "Until the association takes over, the promoter must maintain essential services (s.11(4)(d)) - keep proof of the handover date in the minutes."
+    ],
+    "gaps": [
+     "RERA sets no meeting or election rules, so this pack carries no notice, quorum or voting settings; choose the State pack for those.",
+     "Per-State RERA rules that DO fix an association timeline or model bye-laws (e.g. State RERA rules) were not read for the states in this file."
+    ],
+    "id": "in-central-rera",
+    "name": "Central layer: RERA 2016 (association of allottees) - applies on top of the State regime",
+    "jurisdiction": "IN"
+   }
+  },
+  {
+   "research": {
+    "id": "in-ka-apartment-act",
+    "name": "Karnataka Apartment Ownership Act 1972 (association of apartment owners + own bye-laws)",
+    "jurisdiction": "IN-KA",
+    "instruments": [
+     {
+      "value": "Karnataka Apartment Ownership Act, 1972 (Karnataka Act 17 of 1973): s.3(d) association; s.3(n) 'majority' = owners holding 51% or more of the votes; s.11(1)(f) declaration states each apartment's voting percentage; s.16 bye-laws; s.24(2) decisions bind all owners",
+      "note": "Read the Act text on Indian Kanoon (page says original could not be verified). Applies only to property submitted to the Act by a registered Declaration.",
+      "source": "https://indiankanoon.org/doc/35613789/ ; https://indiankanoon.org/doc/100626373/",
+      "confidence": "medium",
+      "needsLawyer": true
+     },
+     {
+      "value": "Bye-laws under s.16 are annexed to the Declaration; any change is valid only by a recorded amendment to the Declaration with a copy filed with the competent authority (Registrar of Co-operative Societies, or Secretary of the Housing Board for its buildings)",
+      "note": "No schedule of model bye-laws appears in the Act text read; each association writes its own bye-laws covering the s.16(2) list.",
+      "source": "Karnataka Apartment Ownership Act 1972 s.16(1), s.3(i), https://indiankanoon.org/doc/100626373/",
+      "confidence": "medium",
+      "needsLawyer": true
+     },
+     {
+      "value": null,
+      "note": "No Karnataka official model bye-laws for apartment owners' associations found. Karnataka Apartment Ownership Rules not read.",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    ],
+    "meetingTypes": [
+     {
+      "type": "annual / special general meetings of apartment owners",
+      "calledBy": {
+       "value": "As the bye-laws provide (s.16(2)(b) requires the bye-laws to state the method of calling owners' meetings; s.16(3)(c) allows bye-laws on annual and special general meetings)",
+       "note": "The Act itself sets no AGM date, notice period or requisition share.",
+       "source": "Karnataka Apartment Ownership Act 1972 s.16(2)(b), 16(3)(c), https://indiankanoon.org/doc/100626373/",
+       "confidence": "high",
+       "needsLawyer": false
+      },
+      "noticeDays": {
+       "value": null,
+       "note": "Notice period is left to each association's bye-laws; Act text has none.",
+       "source": "Karnataka Apartment Ownership Act 1972 s.16(2)(b), https://indiankanoon.org/doc/100626373/",
+       "confidence": "high",
+       "needsLawyer": false
+      },
+      "noticeContent": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      }
+     }
+    ],
+    "quorum": {
+     "value": "Majority of apartment owners unless the bye-laws state a different percentage; 'majority' = 51% or more of the votes (Declaration percentages)",
+     "note": "Combination of s.16(2)(b) (default quorum is a majority) with the s.3(n) definition; the link between the two is my reading, not an express sentence.",
+     "source": "Karnataka Apartment Ownership Act 1972 s.16(2)(b), s.3(n), https://indiankanoon.org/doc/35613789/ ; https://indiankanoon.org/doc/100626373/",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "adjournedQuorum": {
+     "value": null,
+     "note": "Act silent; bye-laws decide.",
+     "source": "https://indiankanoon.org/doc/100626373/",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "majorities": {
+     "ordinary": {
+      "value": null,
+      "note": "Act does not fix; decisions taken by the voting percentages bind all (s.24(2)). Bye-laws decide.",
+      "source": "https://indiankanoon.org/doc/35613789/ s.24(2)",
+      "confidence": "medium",
+      "needsLawyer": true
+     },
+     "special": {
+      "value": null,
+      "note": "Only fixed figure is the bye-law amendment percentage, which s.16(2)(k) leaves to the bye-laws.",
+      "source": "https://indiankanoon.org/doc/100626373/ s.16(2)(k)",
+      "confidence": "high",
+      "needsLawyer": false
+     }
+    },
+    "weightageModels": {
+     "value": "Votes by the percentage of undivided interest stated in the Declaration",
+     "note": "s.11(1)(f) (voting percentage in Declaration), s.6, s.24(2). Fixed percentages can be changed only with all owners' consent (s.6(2)).",
+     "source": "https://indiankanoon.org/doc/35613789/",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "proxy": {
+     "value": null,
+     "note": "Act has no proxy provision in the text read; one advocate Q&A says nothing either way. Bye-laws decide.",
+     "source": "https://indiankanoon.org/doc/35613789/",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "votingMethods": {
+     "generalBody": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "committeeElection": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "electronicVoting": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "minutesDeadlineDays": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "recordRetentionYears": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "memberInspectionRight": {
+     "value": null,
+     "note": "Act text read mentions the Secretary's minute book and Treasurer's records (s.16(2)(d),(e)) but no member inspection right was seen.",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "electionRoles": {
+     "value": "Board of Managers elected by owners; President from the Board; Secretary keeps minute book; Treasurer keeps accounts",
+     "note": "No returning officer rules in the Act.",
+     "source": "https://indiankanoon.org/doc/100626373/ s.16(2)(a),(c)-(e)",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "termYears": {
+     "value": null,
+     "note": "Board size and terms are bye-law matters; only the rule that at least one-third of Board members expire every year is statutory.",
+     "source": "https://indiankanoon.org/doc/100626373/ s.16(2)(a)",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "eligibility": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "defaulterDisqualification": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "notes": [
+     "RESEARCH ONLY, NOT LEGAL ADVICE. Which Karnataka regime is MOST COMMON for an apartment complex (this Act, Societies Registration Act, or co-operative society) was not established by any source read; advocate answers say all three are used.",
+     "Pair with in-central-rera for the promoter's duty to enable an association."
+    ]
+   },
+   "engine": {
+    "confidence": "medium",
+    "needsLawyer": true,
+    "params": {
+     "quorum.basis": "weight",
+     "quorum.percentBp": 5100,
+     "quorum.strict": false
+    },
+    "options": {
+     "weightage": true,
+     "proxy_voting": null,
+     "quorum_check": true,
+     "secret_ballot": null
+    },
+    "notice": {},
+    "recommended": [
+     "s.16(2)(b): if the bye-laws set no other quorum percentage, the quorum is a majority of owners; 'majority' means 51% or more of the votes under the Declaration (s.3(n)). Check your registered bye-laws first - they override this default.",
+     "Votes follow the percentages written in the Declaration (s.11(1)(f)), not one-flat-one-vote, unless your Declaration says otherwise.",
+     "s.16(2)(a): at least one-third of the Board must retire every year (s.16(2)(a)).",
+     "The Act is silent on notice days, proxies and secret ballot - enter what your bye-laws say."
+    ],
+    "gaps": [
+     "Act fixes no notice period, AGM date, requisition share or proxy rule - all in the society's own bye-laws (not read).",
+     "One-third-of-Board-retires-every-year staggered terms cannot be expressed as a single 'term years' setting.",
+     "Whether 'majority of owners' for quorum means 51% of votes or 51% of heads is an inference from s.3(n) - lawyer check advised."
+    ],
+    "id": "in-ka-apartment-act",
+    "name": "Karnataka Apartment Ownership Act 1972 (association of apartment owners + own bye-laws)",
+    "jurisdiction": "IN-KA"
+   }
+  },
+  {
+   "research": {
+    "id": "in-ka-coop-act",
+    "name": "Karnataka Co-operative Societies Act 1959 (co-operative housing society)",
+    "jurisdiction": "IN-KA",
+    "instruments": [
+     {
+      "value": "Karnataka Co-operative Societies Act, 1959: s.20 voting, s.21 manner of voting, s.26 general body, s.27 AGM, s.28 special general meeting, s.28A committee, s.29-29F office bearers, Chapter VA elections (ss.39A-39K)",
+      "note": "Read from an Indian Kanoon copy that carries amendments up to roughly 2013 and says original could not be verified; the page is long and only parts were read. Karnataka Co-operative Societies Rules 1960 (election, notice, quorum details) NOT read.",
+      "source": "https://indiankanoon.org/doc/88092315/",
+      "confidence": "medium",
+      "needsLawyer": true
+     },
+     {
+      "value": null,
+      "note": "Karnataka co-operative housing society model bye-laws not found / not read (notice days and quorum for housing societies are normally in these).",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    ],
+    "meetingTypes": [
+     {
+      "type": "annual general meeting",
+      "calledBy": {
+       "value": "Society general meeting once a year before 30 September (s.27(1)); Registrar may extend up to six months; if the committee fails the Registrar can hold it",
+       "note": "Dates from the amended Indian Kanoon text; 2001 and 2004 amendments summarised only.",
+       "source": "https://indiankanoon.org/doc/88092315/ s.27",
+       "confidence": "medium",
+       "needsLawyer": true
+      },
+      "noticeDays": {
+       "value": null,
+       "note": "Notice period not in Act text read (bye-laws / Rules).",
+       "source": "https://indiankanoon.org/doc/88092315/",
+       "confidence": "low",
+       "needsLawyer": true
+      },
+      "noticeContent": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      }
+     },
+     {
+      "type": "special general meeting",
+      "calledBy": {
+       "value": "Committee must call within one month of written requisition by the Registrar, or by 50 members or one-fifth of total membership, whichever is less (s.28(1)); if not called the Registrar can call (s.28(2))",
+       "note": "",
+       "source": "https://indiankanoon.org/doc/88092315/ s.28",
+       "confidence": "medium",
+       "needsLawyer": true
+      },
+      "noticeDays": {
+       "value": null,
+       "note": "Notice period not read.",
+       "source": "https://indiankanoon.org/doc/88092315/",
+       "confidence": "low",
+       "needsLawyer": true
+      },
+      "noticeContent": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      }
+     }
+    ],
+    "quorum": {
+     "value": null,
+     "note": "Quorum for general meetings not in the Act text read; see Rules / bye-laws.",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "adjournedQuorum": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "majorities": {
+     "ordinary": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "special": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "weightageModels": {
+     "value": "One member, one vote (s.20(1)); no vote for nominal/associate members, defaulters, and members admitted less than 12 months before the meeting (s.20(2))",
+     "note": "",
+     "source": "https://indiankanoon.org/doc/88092315/ s.20",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "proxy": {
+     "value": "No proxy: members, delegates and nominees vote in person (s.21(1)). Exceptions: society members via a committee member, and institutional members via nominee (s.21(2))",
+     "note": "",
+     "source": "https://indiankanoon.org/doc/88092315/ s.21",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "votingMethods": {
+     "generalBody": {
+      "value": null,
+      "note": "Show of hands/poll for ordinary resolutions not read.",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "committeeElection": {
+      "value": "Secret ballot (s.39A(3); office-bearers s.28A(6))",
+      "note": "",
+      "source": "https://indiankanoon.org/doc/88092315/ ss.28A(6), 39A(3)",
+      "confidence": "medium",
+      "needsLawyer": true
+     }
+    },
+    "electronicVoting": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "minutesDeadlineDays": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "recordRetentionYears": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "memberInspectionRight": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "electionRoles": {
+     "value": "Elections supervised by the Registrar (s.39A(1)); general election held within 15 days before term expires (s.39A(2)); State can postpone up to 6 months at a time, max 2 years (s.39A(4))",
+     "note": "Nomination procedure not read.",
+     "source": "https://indiankanoon.org/doc/88092315/ Chapter VA",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "termYears": {
+     "value": 5,
+     "note": "Five co-operative years (s.28A(4)); societies that held elections before the 1997 amendment keep a three-year term. 2001 amending act proposed 3 years - effect not verified.",
+     "source": "https://indiankanoon.org/doc/88092315/ s.28A(4)",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "eligibility": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "defaulterDisqualification": {
+     "value": "Defaulter cannot vote: fails to pay dues at least 15 days before the meeting after a notice of at least 15 days (explanation to s.20(2)); disqualifications from committee in s.29C(1)(a)-(o)",
+     "note": "Details of s.29C not individually read.",
+     "source": "https://indiankanoon.org/doc/88092315/ ss.20(2), 29C",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "notes": [
+     "RESEARCH ONLY, NOT LEGAL ADVICE. The Indian Kanoon copy may predate later amendments (Karnataka amended the Act again after the 97th Constitutional Amendment); treat figures as indicative.",
+     "Section numbers and figures come from a tool summary of the page; the quorum/notice gap is real, not an oversight."
+    ]
+   },
+   "engine": {
+    "confidence": "low",
+    "needsLawyer": true,
+    "params": {
+     "term.years": 5,
+     "reserved.seats": 2
+    },
+    "options": {
+     "proxy_voting": false,
+     "weightage": false
+    },
+    "notice": {},
+    "recommended": [
+     "s.21(1): members vote in person, not by proxy. Section 20(1): one member, one vote.",
+     "s.28A(3): in every primary society one committee seat is reserved for SC/ST and one for women, unless there is no eligible member.",
+     "s.27(1): hold the annual general meeting before 30 September (Registrar can extend by up to six months).",
+     "Notice days and quorum are in your registered bye-laws / the 1960 Rules - not read; enter them yourself."
+    ],
+    "gaps": [
+     "Special-meeting requisition is 'fifty members or one-fifth of members, whichever is less' (s.28(1)); the product has only a single percentage setting.",
+     "Committee term text shows 5 co-operative years; office-bearer term shorter (President/Chair 2.5 years s.29F(5)) - not separately expressible.",
+     "Elections are supervised by the Registrar / State election authority under Chapter VA - the product cannot model an external election authority."
+    ],
+    "id": "in-ka-coop-act",
+    "name": "Karnataka Co-operative Societies Act 1959 (co-operative housing society)",
+    "jurisdiction": "IN-KA"
+   }
+  },
+  {
+   "research": {
+    "id": "in-ka-societies-reg-act",
+    "name": "Karnataka Societies Registration Act 1960 (RWA / AOA registered as a society)",
+    "jurisdiction": "IN-KA",
+    "instruments": [
+     {
+      "value": "Karnataka Societies Registration Act, 1960 (Act 17 of 1960): s.11 general meetings; s.13 annual filing with Registrar",
+      "note": "Read ss.3, 11, 13 on Indian Kanoon. s.3 lists permitted purposes; it does not name RWAs or apartment owners' associations (clause (ff) on conservation of natural resources and infrastructure may be what RWAs use - not verified).",
+      "source": "https://indiankanoon.org/doc/154328389/ ; https://indiankanoon.org/doc/38636598/ ; https://indiankanoon.org/doc/170646518/ ; https://indiankanoon.org/doc/54547455/",
+      "confidence": "medium",
+      "needsLawyer": true
+     }
+    ],
+    "meetingTypes": [
+     {
+      "type": "annual general meeting",
+      "calledBy": {
+       "value": "Every registered society must hold an AGM each year; first within 18 months of registration, later ones within 9 months after the end of the year of the previous AGM; gap normally not more than 18 months; Registrar may extend by up to 6 months",
+       "note": "",
+       "source": "https://indiankanoon.org/doc/38636598/ (s.11)",
+       "confidence": "medium",
+       "needsLawyer": true
+      },
+      "noticeDays": {
+       "value": null,
+       "note": "Statute sets no notice period (only a deemed-notice rule for members with no Indian address: advertisement in a Kannada and an English newspaper).",
+       "source": "https://indiankanoon.org/doc/38636598/ s.11(4)",
+       "confidence": "medium",
+       "needsLawyer": true
+      },
+      "noticeContent": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      }
+     },
+     {
+      "type": "special general meeting",
+      "calledBy": {
+       "value": "On request of the president/chairman, one-third of the governing body, or one-tenth of voting members; request states the business; governing body acts within 10 days, meeting within 40 days of receipt",
+       "note": "",
+       "source": "https://indiankanoon.org/doc/38636598/ s.11",
+       "confidence": "medium",
+       "needsLawyer": true
+      },
+      "noticeDays": {
+       "value": null,
+       "note": "No notice period in s.11.",
+       "source": "https://indiankanoon.org/doc/38636598/",
+       "confidence": "medium",
+       "needsLawyer": true
+      },
+      "noticeContent": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      }
+     }
+    ],
+    "quorum": {
+     "value": null,
+     "note": "s.11 does not address quorum.",
+     "source": "https://indiankanoon.org/doc/38636598/",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "adjournedQuorum": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "majorities": {
+     "ordinary": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "special": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "weightageModels": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "proxy": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "votingMethods": {
+     "generalBody": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "committeeElection": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "electronicVoting": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "minutesDeadlineDays": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "recordRetentionYears": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "memberInspectionRight": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "electionRoles": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "termYears": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "eligibility": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "defaulterDisqualification": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "notes": [
+     "RESEARCH ONLY, NOT LEGAL ADVICE. Honest limit: only ss.3, 11, 13 read. The Act's s.25 (Registrar enquiry) and Rules were not read."
+    ]
+   },
+   "engine": {
+    "confidence": "medium",
+    "needsLawyer": true,
+    "params": {
+     "requisition.percentBp": 1000
+    },
+    "options": {
+     "quorum_check": true
+    },
+    "notice": {},
+    "recommended": [
+     "s.11: hold the first AGM within 18 months of registration and later AGMs within 9 months after the end of the year in which the previous AGM was held (Registrar can extend by up to 6 months).",
+     "s.11: a special general meeting can be requested by the president, one-third of the governing body, or one-tenth of voting members; governing body must act within 10 days and hold the meeting within 40 days.",
+     "The Act sets no notice period and no quorum - these come from the society's own bye-laws.",
+     "s.13: file the member list and audited accounts within 14 days after the AGM."
+    ],
+    "gaps": [
+     "Act has no notice days, quorum, proxy or election rules - all left to the society's bye-laws (not read).",
+     "AGM deadlines (18 / 9 months) and the 10/40-day special-meeting timetable are not expressible in the product's settings."
+    ],
+    "id": "in-ka-societies-reg-act",
+    "name": "Karnataka Societies Registration Act 1960 (RWA / AOA registered as a society)",
+    "jurisdiction": "IN-KA"
+   }
+  },
+  {
+   "research": {
+    "id": "in-hr-apartment-act",
+    "name": "Haryana Apartment Ownership Act 1983 + Rules 1987 model bye-laws (Exhibit B)",
+    "jurisdiction": "IN-HR",
+    "instruments": [
+     {
+      "value": "Haryana Apartment Ownership Act, 1983 (Act 10 of 1983): s.3 definitions ('majority' = 51% or more of votes; competent authority); s.16 bye-laws; s.24(2) decisions by voting percentage bind all; s.2 declaration within 90 days of completion/occupation certificate",
+      "note": "Applies to property submitted to the Act by a Declaration. Read Indian Kanoon copy (original could not be verified). s.3(m) per the tool's section label; in the bye-laws it is by-law 2(f).",
+      "source": "https://indiankanoon.org/doc/8845714/",
+      "confidence": "medium",
+      "needsLawyer": true
+     },
+     {
+      "value": "Haryana Apartment Ownership Rules, 1987, Exhibit B: 56 model bye-laws (notice, quorum, voting, Board, accounts)",
+      "note": "Many figures are blank placeholders in the template (e.g. Board size, first AGM date). Whether an association must adopt them exactly was not verified. Source says original gazette could not be verified.",
+      "source": "https://indiankanoon.org/doc/18153909/",
+      "confidence": "medium",
+      "needsLawyer": true
+     }
+    ],
+    "meetingTypes": [
+     {
+      "type": "annual and special general meetings of owners (model bye-laws 13-16)",
+      "calledBy": {
+       "value": "Special meeting: called by the President on a Board resolution, on a petition signed by a majority of owners, or on a request from the Housing Commissioner/Registrar; annual meeting date set per bye-laws (blank in template)",
+       "note": "By-law 15.",
+       "source": "https://indiankanoon.org/doc/18153909/ by-laws 14, 15",
+       "confidence": "medium",
+       "needsLawyer": true
+      },
+      "noticeDays": {
+       "value": {
+        "min": 2,
+        "max": 7
+       },
+       "note": "Notice to each owner at least 2 and not more than 7 days before the meeting, with copy to the Housing Commissioner/Registrar (by-law 16).",
+       "source": "https://indiankanoon.org/doc/18153909/ by-law 16",
+       "confidence": "medium",
+       "needsLawyer": true
+      },
+      "noticeContent": {
+       "value": "Purpose, time and place",
+       "note": "",
+       "source": "https://indiankanoon.org/doc/18153909/ by-law 16",
+       "confidence": "medium",
+       "needsLawyer": true
+      }
+     },
+     {
+      "type": "regular and special Board meetings",
+      "calledBy": {
+       "value": "President, or President/Secretary on written request of at least 3 Managers",
+       "note": "By-laws 27-28.",
+       "source": "https://indiankanoon.org/doc/18153909/",
+       "confidence": "medium",
+       "needsLawyer": true
+      },
+      "noticeDays": {
+       "value": {
+        "min": 3,
+        "max": null
+       },
+       "note": "Regular Board meeting: at least 3 days notice (by-law 27); special: 3 days (by-law 28); waiver by attendance (by-law 29)",
+       "source": "https://indiankanoon.org/doc/18153909/",
+       "confidence": "medium",
+       "needsLawyer": true
+      },
+      "noticeContent": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      }
+     }
+    ],
+    "quorum": {
+     "value": "Owners: majority of owners present in person (by-law 10); Board: one-third of the total Managers (by-law 30)",
+     "note": "",
+     "source": "https://indiankanoon.org/doc/18153909/ by-laws 10, 30",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "adjournedQuorum": {
+     "value": "Adjourned owners' meeting: not less than 48 hours later; owners present in person, being not less than two, form the quorum (by-law 17). Adjourned Board meeting: proceeds without fresh notice if quorum present (by-law 30)",
+     "note": "",
+     "source": "https://indiankanoon.org/doc/18153909/ by-laws 17, 30",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "majorities": {
+     "ordinary": {
+      "value": "Majority of owners casting votes in person (by-law 12); 'majority' = 51% of votes (by-law 2(f))",
+      "note": "",
+      "source": "https://indiankanoon.org/doc/18153909/",
+      "confidence": "medium",
+      "needsLawyer": true
+     },
+     "special": {
+      "value": "Business not in the notice at a special meeting: four-fifths of owners present in person (by-law 15); bye-law amendment: owners with at least 75% of total value (by-law 56)",
+      "note": "",
+      "source": "https://indiankanoon.org/doc/18153909/",
+      "confidence": "medium",
+      "needsLawyer": true
+     }
+    },
+    "weightageModels": {
+     "value": "Votes by the percentage assigned in the Declaration (by-law 9); joint owners: only the first-named person votes (by-law 6)",
+     "note": "",
+     "source": "https://indiankanoon.org/doc/18153909/",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "proxy": {
+     "value": "No proxy: 'Votes shall be cast in person' (by-law 11)",
+     "note": "Model by-law, not the Act.",
+     "source": "https://indiankanoon.org/doc/18153909/ by-law 11",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "votingMethods": {
+     "generalBody": {
+      "value": "Majority of owners casting votes in person",
+      "note": "",
+      "source": "https://indiankanoon.org/doc/18153909/ by-law 12",
+      "confidence": "medium",
+      "needsLawyer": true
+     },
+     "committeeElection": {
+      "value": "Board elected by ballot at the annual meeting (by-laws 14, 23)",
+      "note": "Whether the ballot is secret is not stated in the summary read.",
+      "source": "https://indiankanoon.org/doc/18153909/",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "electronicVoting": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "minutesDeadlineDays": {
+     "value": null,
+     "note": "Secretary keeps minutes (by-law 37); no deadline read.",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "recordRetentionYears": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "memberInspectionRight": {
+     "value": "Accounts and statements open to members during office hours (by-law 48(4)); audited statement published by 31 July, copy to competent authority by 15 August (by-law 48(3)-(4))",
+     "note": "",
+     "source": "https://indiankanoon.org/doc/18153909/ by-law 48",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "electionRoles": {
+     "value": "Board of Managers elected by ballot; officers elected annually by the Board (by-law 33)",
+     "note": "No returning officer in the model bye-laws.",
+     "source": "https://indiankanoon.org/doc/18153909/",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "termYears": {
+     "value": 3,
+     "note": "Initial staggered terms of 3/2/1 years at the first AGM; successors serve 3 years (by-law 23). Board size left blank in template.",
+     "source": "https://indiankanoon.org/doc/18153909/ by-law 23",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "eligibility": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "defaulterDisqualification": {
+     "value": "Owners more than 60 days in arrears on the last day of the year cannot vote in office elections or stand for office (by-law 8)",
+     "note": "",
+     "source": "https://indiankanoon.org/doc/18153909/ by-law 8",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "notes": [
+     "RESEARCH ONLY, NOT LEGAL ADVICE. The model bye-laws are from the 1987 Rules text on Indian Kanoon (OCR quality, unverified). Which Haryana regime is MOST COMMON (this Act, HRRS Act 2012 societies, or co-operative societies) was not established; a search snippet says Haryana RWAs register under the 2012 societies Act (see in-hr-societies-act-2012).",
+     "Competent authority: Chief Administrator HUDA (HUDA areas), Director Urban Local Bodies / Town and Country Planning otherwise (s.3 as summarised)."
+    ]
+   },
+   "engine": {
+    "confidence": "medium",
+    "needsLawyer": true,
+    "params": {
+     "notice.minDays": 2,
+     "notice.maxDays": 7,
+     "quorum.basis": "weight",
+     "quorum.percentBp": 5100,
+     "quorum.countProxies": false,
+     "adjourned.minFlats": 2,
+     "adjourned.minHoursLater": 48,
+     "requisition.percentBp": 5100,
+     "term.years": 3
+    },
+    "options": {
+     "proxy_voting": false,
+     "weightage": true,
+     "quorum_check": true,
+     "secret_ballot": null
+    },
+    "notice": {
+     "agm": {
+      "min": 2,
+      "max": 7
+     },
+     "sgm": {
+      "min": 2,
+      "max": 7
+     },
+     "committee": {
+      "min": 3,
+      "max": null
+     }
+    },
+    "recommended": [
+     "Model by-law 16: notice of owners' meetings must go out at least 2 and at most 7 days before - unusually short; check your registered bye-laws.",
+     "Model by-law 11: votes are cast in person, no proxy. By-law 9: votes follow the percentage in the Declaration.",
+     "Model by-law 10: quorum is a majority of owners present in person; by-law 17: an adjourned meeting must be at least 48 hours later and any two owners present in person form its quorum.",
+     "By-law 8: owners more than 60 days in arrears at year end cannot vote in office elections or stand for office.",
+     "By-law 23: Board Managers serve 3 years; by-law 56: bye-laws are amended by owners representing at least 75% of total value."
+    ],
+    "gaps": [
+     "Business outside the notice at a special meeting needs four-fifths of owners present in person (by-law 15) - no setting for this.",
+     "75% of value to amend bye-laws and 60-day arrears bar cannot be expressed.",
+     "Quorum 'majority of owners' read as 51% of votes (by-law 2(f) definition); a head-count reading is possible - lawyer check."
+    ],
+    "id": "in-hr-apartment-act",
+    "name": "Haryana Apartment Ownership Act 1983 + Rules 1987 model bye-laws (Exhibit B)",
+    "jurisdiction": "IN-HR"
+   }
+  },
+  {
+   "research": {
+    "id": "in-hr-societies-act-2012",
+    "name": "Haryana Registration and Regulation of Societies Act 2012 (RWA / society)",
+    "jurisdiction": "IN-HR",
+    "instruments": [
+     {
+      "value": "Haryana Registration and Regulation of Societies Act, 2012: s.29 general body (quorum), s.31 meetings, s.33 governing body, ss.39-40 elections, s.20 voting rights, s.37 minutes",
+      "note": "Read first ~100,000 characters of the Indian Kanoon copy; page says original could not be verified. A search snippet (Haryana Assembly document, not opened) says RWAs in Haryana register under this Act; applicability of every provision to RWAs not independently confirmed.",
+      "source": "https://indiankanoon.org/doc/67909276/",
+      "confidence": "medium",
+      "needsLawyer": true
+     }
+    ],
+    "meetingTypes": [
+     {
+      "type": "regular and extraordinary general meetings",
+      "calledBy": {
+       "value": "At least one meeting per financial year must receive audited accounts (s.31(1)); extraordinary meeting convened by the Governing Body within 45 days of a requisition by at least one-tenth of members (s.31(6))",
+       "note": "",
+       "source": "https://indiankanoon.org/doc/67909276/ s.31",
+       "confidence": "medium",
+       "needsLawyer": true
+      },
+      "noticeDays": {
+       "value": 14,
+       "note": "14 clear days, with a copy endorsed to the District Registrar (s.31(2), (7)).",
+       "source": "https://indiankanoon.org/doc/67909276/ s.31(2),(7)",
+       "confidence": "medium",
+       "needsLawyer": true
+      },
+      "noticeContent": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      }
+     }
+    ],
+    "quorum": {
+     "value": "At least 40% of members entitled to vote, present in person, and not fewer than four (s.29(3))",
+     "note": "",
+     "source": "https://indiankanoon.org/doc/67909276/ s.29(3)",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "adjournedQuorum": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "majorities": {
+     "ordinary": {
+      "value": null,
+      "note": "Ordinary majority not read.",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "special": {
+      "value": "Special resolution: at least 40% of voting members present and approved by three-fifths of those present and voting (s.2(xxiv))",
+      "note": "",
+      "source": "https://indiankanoon.org/doc/67909276/ s.2(xxiv)",
+      "confidence": "medium",
+      "needsLawyer": true
+     }
+    },
+    "weightageModels": {
+     "value": "One member, one vote (s.29(4))",
+     "note": "",
+     "source": "https://indiankanoon.org/doc/67909276/",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "proxy": {
+     "value": "No proxy provision found; votes are cast in person (s.29(4))",
+     "note": "",
+     "source": "https://indiankanoon.org/doc/67909276/",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "votingMethods": {
+     "generalBody": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "committeeElection": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "electronicVoting": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "minutesDeadlineDays": {
+     "value": null,
+     "note": "Minutes signed by Chairman and Secretary and confirmed at next meeting (s.37(1),(3)); no day deadline read.",
+     "source": "https://indiankanoon.org/doc/67909276/ s.37",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "recordRetentionYears": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "memberInspectionRight": {
+     "value": "Members may inspect account books and minutes on reasonable notice (s.20(3)); register of members open for inspection (s.19)",
+     "note": "",
+     "source": "https://indiankanoon.org/doc/67909276/",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "electionRoles": {
+     "value": "Returning officer with notice of at least 15 days (s.39(12)); voter list challenge within 15 days (s.39(4)); dispute can go to Registrar on request of one-fourth of members (s.40(1))",
+     "note": "",
+     "source": "https://indiankanoon.org/doc/67909276/ ss.39-40",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "termYears": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "eligibility": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "defaulterDisqualification": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "notes": [
+     "RESEARCH ONLY, NOT LEGAL ADVICE. Only the first part of the Act text (to about s.76) was read."
+    ]
+   },
+   "engine": {
+    "confidence": "medium",
+    "needsLawyer": true,
+    "params": {
+     "notice.minDays": 14,
+     "quorum.basis": "flats",
+     "quorum.percentBp": 4000,
+     "quorum.countProxies": false,
+     "requisition.percentBp": 1000,
+     "notice.delivery": "any"
+    },
+    "options": {
+     "proxy_voting": false,
+     "weightage": false,
+     "quorum_check": true
+    },
+    "notice": {
+     "agm": {
+      "min": 14,
+      "max": null
+     },
+     "sgm": {
+      "min": 14,
+      "max": null
+     },
+     "committee": {
+      "min": 3,
+      "max": null
+     }
+    },
+    "recommended": [
+     "s.31: give 14 clear days notice of every general meeting and endorse a copy to the District Registrar.",
+     "s.29(3): quorum is at least 40% of members entitled to vote, present in person, and never fewer than four.",
+     "s.31(6): the governing body must call an extraordinary meeting within 45 days of a requisition by one-tenth of members.",
+     "s.29(4): one member, one vote, cast in person."
+    ],
+    "gaps": [
+     "Special resolution = 3/5 of those present and voting with 40% quorum (s.2(xxiv)) - the product has no setting for the 3/5 figure.",
+     "Governing body term is 'not more than three years' (s.33(3)); a maximum, not a fixed term, so not set.",
+     "Voting rights require payment of dues (s.20(2)) - no defaulter setting.",
+     "Where a Collegium is required (more than 300 members, s.30) votes are exercised by it - not modelled."
+    ],
+    "id": "in-hr-societies-act-2012",
+    "name": "Haryana Registration and Regulation of Societies Act 2012 (RWA / society)",
+    "jurisdiction": "IN-HR"
+   }
+  },
+  {
+   "research": {
+    "id": "in-hr-coop-act",
+    "name": "Haryana Co-operative Societies Act 1984 (co-operative housing society)",
+    "jurisdiction": "IN-HR",
+    "instruments": [
+     {
+      "value": "Haryana Co-operative Societies Act, 1984 (Haryana Act 22 of 1984): ss.20-21 voting, ss.25-26 general meetings, s.28 committee election and tenure",
+      "note": "Read about the first 100,000 of ~181,000 characters; Haryana Co-operative Societies Rules 1989 and model bye-laws NOT read. Page says original could not be verified.",
+      "source": "https://indiankanoon.org/doc/155396307/",
+      "confidence": "medium",
+      "needsLawyer": true
+     }
+    ],
+    "meetingTypes": [
+     {
+      "type": "annual general meeting",
+      "calledBy": {
+       "value": "General meeting once a year; must consider audit/annual reports, defaulter list and election of the managing committee when due (s.25(3))",
+       "note": "",
+       "source": "https://indiankanoon.org/doc/155396307/ s.25",
+       "confidence": "medium",
+       "needsLawyer": true
+      },
+      "noticeDays": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      },
+      "noticeContent": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      }
+     },
+     {
+      "type": "special general meeting",
+      "calledBy": {
+       "value": "Must be called within one month of written requisition by the Registrar or by members in the proportion the bye-laws set (s.26(1)); Registrar may call if not called (s.26(2))",
+       "note": "",
+       "source": "https://indiankanoon.org/doc/155396307/ s.26",
+       "confidence": "medium",
+       "needsLawyer": true
+      },
+      "noticeDays": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      },
+      "noticeContent": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      }
+     }
+    ],
+    "quorum": {
+     "value": null,
+     "note": "Left to bye-laws (s.9A(2)(xvii)-(xviii)).",
+     "source": "https://indiankanoon.org/doc/155396307/",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "adjournedQuorum": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "majorities": {
+     "ordinary": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "special": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "weightageModels": {
+     "value": "One member, one vote; chairman casting vote on a tie (s.20)",
+     "note": "",
+     "source": "https://indiankanoon.org/doc/155396307/ s.20",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "proxy": {
+     "value": "Not permitted: members vote in person (s.21), with exceptions for society/representative members",
+     "note": "",
+     "source": "https://indiankanoon.org/doc/155396307/ s.21",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "votingMethods": {
+     "generalBody": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "committeeElection": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "electronicVoting": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "minutesDeadlineDays": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "recordRetentionYears": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "memberInspectionRight": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "electionRoles": {
+     "value": "Committee must arrange elections before term expires; otherwise Registrar holds them within 90 days at the society's cost; outgoing elected members then barred from contesting for five years (s.28(3))",
+     "note": "",
+     "source": "https://indiankanoon.org/doc/155396307/ s.28(3)",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "termYears": {
+     "value": 5,
+     "note": "Committee holds office five years from election unless removed earlier (s.28(4)).",
+     "source": "https://indiankanoon.org/doc/155396307/ s.28(4)",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "eligibility": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "defaulterDisqualification": {
+     "value": "Members in default of dues cannot vote (s.20(d)); committee members removed for default can be barred up to five years (s.35(3))",
+     "note": "",
+     "source": "https://indiankanoon.org/doc/155396307/",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "notes": [
+     "RESEARCH ONLY, NOT LEGAL ADVICE. Which Haryana regime housing societies actually use is not established."
+    ]
+   },
+   "engine": {
+    "confidence": "low",
+    "needsLawyer": true,
+    "params": {
+     "term.years": 5,
+     "reserved.seats": 2
+    },
+    "options": {
+     "proxy_voting": false,
+     "weightage": false
+    },
+    "notice": {},
+    "recommended": [
+     "s.20: one member, one vote; chairman has a casting vote on a tie. s.21: members vote in person, no proxy.",
+     "s.28(1): each committee must include at least one SC member and one woman; a backward-class seat also if that class is 10% or more of members.",
+     "s.28(3)-(4): committee term five years; elections must be arranged before it ends, else the Registrar holds them within 90 days.",
+     "Notice days and quorum are left to the bye-laws (s.9A(2)(xvii)-(xviii)) - enter what your bye-laws say."
+    ],
+    "gaps": [
+     "Requisition share is whatever the bye-laws say (s.26(1)), so no percentage is set.",
+     "Notice and quorum are bye-law matters; model bye-laws not read."
+    ],
+    "id": "in-hr-coop-act",
+    "name": "Haryana Co-operative Societies Act 1984 (co-operative housing society)",
+    "jurisdiction": "IN-HR"
+   }
+  },
+  {
+   "research": {
+    "id": "in-gj-flats-act",
+    "name": "Gujarat Ownership Flats Act 1973 (society / company / association of apartment owners)",
+    "jurisdiction": "IN-GJ",
+    "instruments": [
+     {
+      "value": "Gujarat Ownership Flats (Regulation of the Promotion of Construction, Sale, Management and Transfer) Act, 1973: Part I s.10 promoter must apply to form a co-operative society or company once the minimum number of flat-takers is reached; s.11 conveyance to 'an association of flat-takers or apartment owners'; Part II (apartment ownership by Declaration) s.31 bye-laws; s.39(2) decisions bind owners",
+      "note": "Read on Indian Kanoon (OCR errors; original could not be verified). Part I creates no meeting/bye-law rules of its own - the society follows the Co-operative Societies Act (or Companies Act). The period for s.10 is set by Rules made under s.44(2)(c): those Rules NOT read. A search result also calls the Part II regime the 'Gujarat Apartment Ownership Act' - not separately verified.",
+      "source": "https://indiankanoon.org/doc/118730456/",
+      "confidence": "medium",
+      "needsLawyer": true
+     }
+    ],
+    "meetingTypes": [],
+    "quorum": {
+     "value": null,
+     "note": "s.31(2)(b): the bye-laws must set the quorum 'if other than a majority'; no figure in the Act. Definition of majority not read.",
+     "source": "https://indiankanoon.org/doc/118730456/",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "adjournedQuorum": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "majorities": {
+     "ordinary": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "special": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "weightageModels": {
+     "value": "Votes by the percentage in the Declaration/bye-laws (Part II, s.39(2))",
+     "note": "Part I societies follow the co-operative one-member-one-vote rule.",
+     "source": "https://indiankanoon.org/doc/118730456/",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "proxy": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "votingMethods": {
+     "generalBody": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "committeeElection": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "electronicVoting": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "minutesDeadlineDays": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "recordRetentionYears": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "memberInspectionRight": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "electionRoles": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "termYears": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "eligibility": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "defaulterDisqualification": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "notes": [
+     "RESEARCH ONLY, NOT LEGAL ADVICE. Whether Gujarat housing societies mostly use Part I co-operative societies is NOT verified by a source read; in-gj-coop-act is the likely governing text for them."
+    ]
+   },
+   "engine": {
+    "confidence": "low",
+    "needsLawyer": true,
+    "params": {},
+    "options": {
+     "quorum_check": true
+    },
+    "notice": {},
+    "recommended": [
+     "Part I (s.10): the promoter must apply to the Registrar to form a co-operative society or company once enough flat-takers have joined - after that, meetings follow the Gujarat Co-operative Societies Act (see in-gj-coop-act).",
+     "Part II (apartment ownership): s.31(2)(b) bye-laws must state how owners' meetings are called and the quorum if not a majority; s.31(2)(k) the percentage of votes to amend bye-laws."
+    ],
+    "gaps": [
+     "No numbers: the Act text read gives no notice period, quorum figure or voting percentage; the definition of 'majority' in the Gujarat Act was not read.",
+     "Gujarat Ownership Flats Rules and any model bye-laws not read."
+    ],
+    "id": "in-gj-flats-act",
+    "name": "Gujarat Ownership Flats Act 1973 (society / company / association of apartment owners)",
+    "jurisdiction": "IN-GJ"
+   }
+  },
+  {
+   "research": {
+    "id": "in-gj-coop-act",
+    "name": "Gujarat Co-operative Societies Act 1961 (co-operative housing society)",
+    "jurisdiction": "IN-GJ",
+    "instruments": [
+     {
+      "value": "Gujarat Co-operative Societies Act, 1961: s.28 voting, s.73 final authority of general body, s.74(1A)-(1C) committee, s.77 annual general meeting, s.78 special general meeting",
+      "note": "Read ~180,000 of 337,000 characters of the Indian Kanoon copy (as amended; s.74CC shown deleted by Gujarat Act 28 of 2017). Gujarat Co-operative Societies Rules 1965 and the housing-society model bye-laws NOT read: notice days and quorum live there. A secondary blog says Gujarat special-meeting quorum is two-fifths of members or 25, whichever is less - unverified, not used.",
+      "source": "https://indiankanoon.org/doc/158641032/",
+      "confidence": "medium",
+      "needsLawyer": true
+     }
+    ],
+    "meetingTypes": [
+     {
+      "type": "annual general meeting",
+      "calledBy": {
+       "value": "Within six months of the financial year end (s.77)",
+       "note": "Seen in the page text; also recorded in the Statement of Objects.",
+       "source": "https://indiankanoon.org/doc/158641032/ s.77",
+       "confidence": "medium",
+       "needsLawyer": true
+      },
+      "noticeDays": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      },
+      "noticeContent": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      }
+     },
+     {
+      "type": "special general meeting",
+      "calledBy": {
+       "value": "Committee majority may call; must call within one month of written requisition by one-fifth of members or the lower number in the bye-laws; Registrar may requisition or call (s.78)",
+       "note": "",
+       "source": "https://indiankanoon.org/doc/158641032/ s.78",
+       "confidence": "medium",
+       "needsLawyer": true
+      },
+      "noticeDays": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      },
+      "noticeContent": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      }
+     }
+    ],
+    "quorum": {
+     "value": null,
+     "note": "Quorum is in the Rules / bye-laws, not read.",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "adjournedQuorum": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "majorities": {
+     "ordinary": {
+      "value": null,
+      "note": "Not read.",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "special": {
+      "value": null,
+      "note": "Not read.",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "weightageModels": {
+     "value": "One member, one vote; chairman casting vote on a tie (s.28(1)); nominal and sympathiser members have no vote (s.28(7))",
+     "note": "",
+     "source": "https://indiankanoon.org/doc/158641032/ s.28",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "proxy": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "votingMethods": {
+     "generalBody": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "committeeElection": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "electronicVoting": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "minutesDeadlineDays": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "recordRetentionYears": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "memberInspectionRight": {
+     "value": "Members may inspect free of cost the Act, rules, bye-laws, audited balance sheet and P&L, committee list, member register and general meeting minutes during office hours (s.33(1))",
+     "note": "",
+     "source": "https://indiankanoon.org/doc/158641032/ s.33(1)",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "electionRoles": {
+     "value": "Societies in s.74C follow Chapter XI-A; s.74CC (election authority for other societies) appears as deleted in 2017 - current election authority for housing societies not established",
+     "note": "",
+     "source": "https://indiankanoon.org/doc/158641032/",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "termYears": {
+     "value": 5,
+     "note": "s.74(1C): elected members and office bearers serve five years from election. Conflicting 3-year term exists in s.74C(2) for specified society classes only.",
+     "source": "https://indiankanoon.org/doc/158641032/ s.74(1C), s.74C(2)",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "eligibility": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "defaulterDisqualification": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "notes": [
+     "RESEARCH ONLY, NOT LEGAL ADVICE. Pair with in-gj-flats-act (promoter's duty to form the society)."
+    ]
+   },
+   "engine": {
+    "confidence": "low",
+    "needsLawyer": true,
+    "params": {
+     "term.years": 5,
+     "requisition.percentBp": 2000
+    },
+    "options": {
+     "weightage": false
+    },
+    "notice": {},
+    "recommended": [
+     "s.28(1): each member has one vote and the Chairman has a casting vote on a tie. Joint holders: only the first-named holder votes (s.28(2)).",
+     "s.74(1C): committee term is five years from election (the shorter 3-year term in s.74C(2) applies only to listed apex/bank/sugar-type societies).",
+     "s.77: hold the AGM within six months of the financial year end. s.78: committee must call a special meeting within one month of a requisition by one-fifth of members or the lower number in the bye-laws.",
+     "Notice days and quorum: not read; use your registered bye-laws."
+    ],
+    "gaps": [
+     "Reserved seats: one for SC/ST and two for women only in societies of individual members that have such members (s.74(1B)); conditional, so not set as a fixed number.",
+     "Proxy rule not read (s.28 text shows no proxy language) - left undecided.",
+     "Requisition is 'one-fifth or the lower number in the bye-laws' - the product can hold only one percentage."
+    ],
+    "id": "in-gj-coop-act",
+    "name": "Gujarat Co-operative Societies Act 1961 (co-operative housing society)",
+    "jurisdiction": "IN-GJ"
+   }
+  },
+  {
+   "research": {
+    "id": "in-ap-apartments-act",
+    "name": "Andhra Pradesh Apartments (Promotion of Construction and Ownership) Act 1987 (association of apartment owners)",
+    "jurisdiction": "IN-AP",
+    "instruments": [
+     {
+      "value": "Andhra Pradesh Apartments (Promotion of Construction and Ownership) Act, 1987 (Act 29 of 1987): s.3(b) association; s.18 bye-laws; s.14(1)(f) voting percentage in Declaration; s.31(2) decisions bind owners",
+      "note": "Read on Indian Kanoon; applies only to property submitted by a registered Declaration. The A.P. Apartments Rules 1987 (said to guide bye-law drafting) not read. India Code PDFs returned HTTP 403/504. The Act is also on India Code under Telangana.",
+      "source": "https://indiankanoon.org/doc/37223430/",
+      "confidence": "medium",
+      "needsLawyer": true
+     },
+     {
+      "value": null,
+      "note": "Andhra Pradesh Co-operative Societies Act 1964 / Rules 1964 (rule 23 is reported to require a quorum before any general meeting) and the Mutually Aided Co-operative Societies Act 1995: text NOT read.",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    ],
+    "meetingTypes": [],
+    "quorum": {
+     "value": null,
+     "note": "No figure in the Act; s.18(2)(b) leaves quorum to the bye-laws.",
+     "source": "https://indiankanoon.org/doc/37223430/",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "adjournedQuorum": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "majorities": {
+     "ordinary": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "special": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "weightageModels": {
+     "value": "Votes by the percentage of undivided interest in the Declaration (s.14(1)(f))",
+     "note": "",
+     "source": "https://indiankanoon.org/doc/37223430/",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "proxy": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "votingMethods": {
+     "generalBody": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "committeeElection": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "electronicVoting": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "minutesDeadlineDays": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "recordRetentionYears": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "memberInspectionRight": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "electionRoles": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "termYears": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "eligibility": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "defaulterDisqualification": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "notes": [
+     "RESEARCH ONLY, NOT LEGAL ADVICE. Andhra Pradesh co-operative regime (likely used by many housing societies) is NOT READ."
+    ]
+   },
+   "engine": {
+    "confidence": "low",
+    "needsLawyer": true,
+    "params": {},
+    "options": {
+     "weightage": true,
+     "quorum_check": true
+    },
+    "notice": {},
+    "recommended": [
+     "s.18(2)(b): bye-laws must say how owners' meetings are called and the quorum - the Act gives no figure, so copy yours from the registered bye-laws.",
+     "Voting follows the percentage of undivided interest in the Declaration 'for all purposes, including voting' (s.14(1)(f))."
+    ],
+    "gaps": [
+     "Act gives no notice period, quorum, majority or term figures at all; Rules and any model bye-laws not read."
+    ],
+    "id": "in-ap-apartments-act",
+    "name": "Andhra Pradesh Apartments (Promotion of Construction and Ownership) Act 1987 (association of apartment owners)",
+    "jurisdiction": "IN-AP"
+   }
+  },
+  {
+   "research": {
+    "id": "in-ga-coop-act",
+    "name": "Goa Co-operative Societies Act 2001 + Rules 2003 (co-operative housing society)",
+    "jurisdiction": "IN-GA",
+    "instruments": [
+     {
+      "value": "Goa Co-operative Societies Act, 2001 (Goa Act 36 of 2001): s.58 general body, s.58A special general meeting, s.59 board, s.60 disqualification, s.66 election, s.72 meetings and minutes, s.73 records, s.28 voting",
+      "note": "Primary text read from the PRS-hosted 'Manual of Goa Laws' copy (downloaded text); PRS states contents are unverified and amendments after the copy's date (list shows up to 2022) may not be incorporated. Whether a given amendment changed these sections was not checked.",
+      "source": "https://prsindia.org/files/bills_acts/acts_states/goa/2001/2001%20GOA%2036.pdf",
+      "confidence": "high",
+      "needsLawyer": true
+     },
+     {
+      "value": "Goa Co-operative Societies Rules, 2003: r.45 first general meeting, r.46 general meetings (quorum per bye-laws, adjourned meeting), r.47 preservation of records, election rules",
+      "note": "Rules text read in the same PRS PDF bundle. Housing-society model bye-laws (quorum and notice figures) NOT found.",
+      "source": "https://prsindia.org/files/bills_acts/acts_states/goa/2001/2001%20GOA%2036.pdf",
+      "confidence": "high",
+      "needsLawyer": true
+     },
+     {
+      "value": null,
+      "note": "No separate Goa apartment-ownership association statute found: a 1993 'Goa Flats Ownership Regulation Bill' exists on the Goa Assembly site (scanned image PDF, could not be read) - not verified whether it was enacted.",
+      "source": "https://www.goavidhansabha.gov.in/uploads/bills/582_field_BNAI_32_1993_The-Goa-Flate-Ownership-Regulation-Bill-1993.pdf",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    ],
+    "meetingTypes": [
+     {
+      "type": "annual general meeting",
+      "calledBy": {
+       "value": "Board calls; AGM within nine months of the close of the co-operative year; not more than fifteen months between AGMs; Registrar can convene if the board fails (s.72(2), (4))",
+       "note": "",
+       "source": "https://prsindia.org/files/bills_acts/acts_states/goa/2001/2001%20GOA%2036.pdf s.72",
+       "confidence": "high",
+       "needsLawyer": false
+      },
+      "noticeDays": {
+       "value": null,
+       "note": "Notice period set by the bye-laws; not read.",
+       "source": "https://prsindia.org/files/bills_acts/acts_states/goa/2001/2001%20GOA%2036.pdf",
+       "confidence": "low",
+       "needsLawyer": true
+      },
+      "noticeContent": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      }
+     },
+     {
+      "type": "special general meeting",
+      "calledBy": {
+       "value": "Called by the Chairman at any time, or within one month of a written requisition by at least one-tenth of members (or the number in the bye-laws), or at the Registrar's instance (s.58A(1)); s.72(3) separately says within thirty days of a requisition by one-tenth",
+       "note": "Two sections give slightly different time limits (one month vs thirty days).",
+       "source": "https://prsindia.org/files/bills_acts/acts_states/goa/2001/2001%20GOA%2036.pdf ss.58A, 72(3)",
+       "confidence": "high",
+       "needsLawyer": true
+      },
+      "noticeDays": {
+       "value": null,
+       "note": "Notice period set by the bye-laws; not read.",
+       "source": "https://prsindia.org/files/bills_acts/acts_states/goa/2001/2001%20GOA%2036.pdf",
+       "confidence": "low",
+       "needsLawyer": true
+      },
+      "noticeContent": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      }
+     },
+     {
+      "type": "first general meeting",
+      "calledBy": {
+       "value": "Convened by the chief promoter within three months of registration (rule 45)",
+       "note": "",
+       "source": "https://prsindia.org/files/bills_acts/acts_states/goa/2001/2001%20GOA%2036.pdf rule 45",
+       "confidence": "high",
+       "needsLawyer": false
+      },
+      "noticeDays": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      },
+      "noticeContent": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      }
+     }
+    ],
+    "quorum": {
+     "value": "As specified in the society's bye-laws; no general meeting may be held or proceeded with unless that quorum is present (rule 46(2))",
+     "note": "",
+     "source": "https://prsindia.org/files/bills_acts/acts_states/goa/2001/2001%20GOA%2036.pdf rule 46(2)",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "adjournedQuorum": {
+     "value": "Adjourned to a later time the same day (if the notice said so) or to a date not earlier than seven days; at the adjourned meeting the original agenda is transacted whether or not there is a quorum (rule 46(6)). Unfinished business may be postponed up to thirty days (rule 46(4))",
+     "note": "",
+     "source": "https://prsindia.org/files/bills_acts/acts_states/goa/2001/2001%20GOA%2036.pdf rule 46",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "majorities": {
+     "ordinary": {
+      "value": "Resolutions passed by show of hands by a majority of the members present; chairman has a casting vote on a tie (rule 46(3))",
+      "note": "",
+      "source": "https://prsindia.org/files/bills_acts/acts_states/goa/2001/2001%20GOA%2036.pdf rule 46(3)",
+      "confidence": "high",
+      "needsLawyer": false
+     },
+     "special": {
+      "value": null,
+      "note": "Amendment/expulsion resolutions need due notice (rule 46(7)); special-majority percentage not read.",
+      "source": "https://prsindia.org/files/bills_acts/acts_states/goa/2001/2001%20GOA%2036.pdf",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "weightageModels": {
+     "value": "One member, one vote (s.28(1)); joint holders: first-named votes, else second-named (s.28(2))",
+     "note": "",
+     "source": "https://prsindia.org/files/bills_acts/acts_states/goa/2001/2001%20GOA%2036.pdf s.28",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "proxy": {
+     "value": "Not allowed: every right to vote is exercised personally, not by proxy; only a member in the Defence Services may vote by proxy through another member (s.28(1) provisos)",
+     "note": "",
+     "source": "https://prsindia.org/files/bills_acts/acts_states/goa/2001/2001%20GOA%2036.pdf s.28(1)",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "votingMethods": {
+     "generalBody": {
+      "value": "Show of hands by default (rule 46(3))",
+      "note": "",
+      "source": "https://prsindia.org/files/bills_acts/acts_states/goa/2001/2001%20GOA%2036.pdf",
+      "confidence": "high",
+      "needsLawyer": false
+     },
+     "committeeElection": {
+      "value": "Secret ballot (s.66(3)); election rules also state ballot is secret and no voting by proxy except as s.28(1) allows",
+      "note": "",
+      "source": "https://prsindia.org/files/bills_acts/acts_states/goa/2001/2001%20GOA%2036.pdf s.66(3)",
+      "confidence": "high",
+      "needsLawyer": false
+     }
+    },
+    "electronicVoting": {
+     "value": null,
+     "note": "Not found in the text read.",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "minutesDeadlineDays": {
+     "value": 30,
+     "note": "General meeting minutes signed by the chair within thirty days of the meeting (s.72(7)); minutes communicated to those invited within forty-five days (s.72(6)).",
+     "source": "https://prsindia.org/files/bills_acts/acts_states/goa/2001/2001%20GOA%2036.pdf s.72",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "recordRetentionYears": {
+     "value": null,
+     "note": "Minute books, bye-laws, members' register and annual statements permanently; accounts etc. eight years (rule 47(1)). 'Permanent' cannot be stored as a number.",
+     "source": "https://prsindia.org/files/bills_acts/acts_states/goa/2001/2001%20GOA%2036.pdf rule 47",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "memberInspectionRight": {
+     "value": null,
+     "note": "s.73(2): books and records open for perusal by any DIRECTOR; a general member inspection right was not found in the text read.",
+     "source": "https://prsindia.org/files/bills_acts/acts_states/goa/2001/2001%20GOA%2036.pdf s.73",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "electionRoles": {
+     "value": "Registrar conducts elections of boards of societies with paid-up share capital of Rs 25 lakh or more (s.66(1),(5)); election rules provide for a Returning Officer, presiding and polling officers",
+     "note": "",
+     "source": "https://prsindia.org/files/bills_acts/acts_states/goa/2001/2001%20GOA%2036.pdf s.66; rules 59-60",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "termYears": {
+     "value": 5,
+     "note": "Board term is five years from election (s.59(2)); size per bye-laws, maximum 15 (s.59(3)).",
+     "source": "https://prsindia.org/files/bills_acts/acts_states/goa/2001/2001%20GOA%2036.pdf s.59",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "eligibility": {
+     "value": "A person who has lost the right to vote, ceased to be a member, or is a defaulter of any society is ineligible as director (s.60(1)); defaulter for a service charge means unpaid after notice of demand or 30 days (s.60(1)(c) explanation)",
+     "note": "",
+     "source": "https://prsindia.org/files/bills_acts/acts_states/goa/2001/2001%20GOA%2036.pdf s.60",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "defaulterDisqualification": {
+     "value": "Defaulter of any society is ineligible to be a director (s.60(1)(c)); loses the vote as the bye-laws specify",
+     "note": "",
+     "source": "https://prsindia.org/files/bills_acts/acts_states/goa/2001/2001%20GOA%2036.pdf s.60",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "notes": [
+     "RESEARCH ONLY, NOT LEGAL ADVICE. Highest-quality read in this file (primary text). Later amendments (Acts 20 of 2014, 5 of 2020, 34 of 2021, 5 of 2022 per the PRS listing) not individually checked against these sections."
+    ]
+   },
+   "engine": {
+    "confidence": "medium",
+    "needsLawyer": true,
+    "params": {
+     "term.years": 5,
+     "adjourned.noQuorum": true,
+     "tie.break": "chair_casting_vote",
+     "minutes.deadlineDays": 30,
+     "requisition.percentBp": 1000,
+     "majority.simple.basis": "present"
+    },
+    "options": {
+     "proxy_voting": false,
+     "weightage": false,
+     "quorum_check": true
+    },
+    "locked": {
+     "proxy_voting": {
+      "value": false,
+      "reason": "Goa Co-operative Societies Act s.28(1): every right to vote is exercised personally, not by proxy (only a defence-services member may vote by proxy)"
+     }
+    },
+    "notice": {},
+    "recommended": [
+     "s.28(1): vote in person, no proxy (only a Defence Services member may vote through another member); the chairman has a casting vote on a tie.",
+     "s.72(2): hold the AGM within nine months of the close of the co-operative year, and never more than fifteen months after the previous AGM.",
+     "s.58A / s.72(3): the board must call a general meeting within one month (s.58A) / thirty days (s.72(3)) of a requisition by one-tenth of members.",
+     "Rule 46(6): if a meeting fails for want of quorum it is adjourned to a later time the same day or to a date not earlier than 7 days, and the original agenda is then transacted whether there is a quorum or not.",
+     "s.59(2)-(3): board term five years; at most 15 directors. s.66(3): board election is by secret ballot (elections by the Registrar for societies with paid-up capital of Rs 25 lakh or more; smaller societies follow their own bye-laws and election rules, s.66(5)).",
+     "s.72(7): the chair signs the general meeting minutes within 30 days; s.72(6): minutes go to everyone invited within 45 days."
+    ],
+    "gaps": [
+     "Notice days and quorum figure are set by the society's registered bye-laws (rule 46(2)) - not read.",
+     "Rule 46(6): the adjourned meeting may be on the same day (later hour) OR a date at least 7 days later; the product's 'minimum hours later' cannot express the same-day option, so left unset.",
+     "Election of directors must be by secret ballot (s.66(3)) but the product's secret-ballot option is set per event, so left for the Organizer.",
+     "Records: minute books and members' register must be kept permanently, other books 8 years (rule 47) - 'permanent' cannot be expressed.",
+     "Rule 46(3) ordinary resolutions: show of hands by majority of members present - 'show of hands' not a product setting."
+    ],
+    "id": "in-ga-coop-act",
+    "name": "Goa Co-operative Societies Act 2001 + Rules 2003 (co-operative housing society)",
+    "jurisdiction": "IN-GA"
+   }
+  },
+  {
+   "research": {
+    "id": "in-hp-apartment-act",
+    "name": "Himachal Pradesh Apartment Ownership Act 1978 (association of apartment owners)",
+    "jurisdiction": "IN-HP",
+    "instruments": [
+     {
+      "value": "Himachal Pradesh Apartment Ownership Act, 1978 (HP Act 41 of 1978): s.3 definitions (association; majority = 51% or more of votes); s.11(1)(f) voting percentage; s.16 bye-laws; s.24(2) decisions bind owners",
+      "note": "Read s.16 on Indian Kanoon; the broader summary of ss.3, 11, 24 came from the Chhattisgarh Act page (same wording pattern) - for HP only s.16 was read directly. Competent-authority/State approval of bye-laws noted in s.16 summary. HP rules not read.",
+      "source": "https://indiankanoon.org/doc/66840310/ ; https://indiankanoon.org/doc/180424603/",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    ],
+    "meetingTypes": [],
+    "quorum": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "adjournedQuorum": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "majorities": {
+     "ordinary": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "special": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "weightageModels": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "proxy": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "votingMethods": {
+     "generalBody": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "committeeElection": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "electronicVoting": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "minutesDeadlineDays": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "recordRetentionYears": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "memberInspectionRight": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "electionRoles": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "termYears": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "eligibility": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "defaulterDisqualification": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "notes": [
+     "RESEARCH ONLY, NOT LEGAL ADVICE. Low confidence by design: only a summary of s.16 was read. Most HP housing societies are co-operative societies (see in-hp-coop-act) - commonness not verified."
+    ]
+   },
+   "engine": {
+    "confidence": "low",
+    "needsLawyer": true,
+    "params": {},
+    "options": {
+     "quorum_check": true
+    },
+    "notice": {},
+    "recommended": [
+     "s.16: the bye-laws (framed by the competent authority with State approval, per a summary) must cover how the Board is elected, retirement of members each year, how owners' meetings are called and the quorum - get the actual bye-laws from the competent authority."
+    ],
+    "gaps": [
+     "No numbers read at all for HP apartment owners: notice, quorum, majority, term all missing."
+    ],
+    "id": "in-hp-apartment-act",
+    "name": "Himachal Pradesh Apartment Ownership Act 1978 (association of apartment owners)",
+    "jurisdiction": "IN-HP"
+   }
+  },
+  {
+   "research": {
+    "id": "in-hp-coop-act",
+    "name": "Himachal Pradesh Co-operative Societies Act 1968 + Rules 1971 (co-operative housing society)",
+    "jurisdiction": "IN-HP",
+    "instruments": [
+     {
+      "value": "Himachal Pradesh Co-operative Societies Rules, 1971 (amended up to 17 Feb 2009): r.25-36 general meetings, r.37-39 committee, r.44-48 committee meetings, Appendix A election rules",
+      "note": "Primary text read from a Co-operative Department training publication that warns to compare with the authoritative text. Act itself (ss.31-34, 35-37) NOT read (India Code returned 403). Appendix A (election procedure) not read. Amendments after 2009 not checked.",
+      "source": "https://hpsvacb.hp.gov.in/storage/app/media/HPCo-operativeSocietiesRules1971.pdf",
+      "confidence": "medium",
+      "needsLawyer": true
+     },
+     {
+      "value": null,
+      "note": "HP Co-operative Societies Act 1968 text and housing-society model bye-laws not read.",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    ],
+    "meetingTypes": [
+     {
+      "type": "annual general meeting",
+      "calledBy": {
+       "value": "Within 15 months of registration, then as section 32 of the Act provides (Act not read); Registrar can authorise a person to call it if the society fails (rules 26-27)",
+       "note": "",
+       "source": "https://hpsvacb.hp.gov.in/storage/app/media/HPCo-operativeSocietiesRules1971.pdf rules 26-27",
+       "confidence": "medium",
+       "needsLawyer": true
+      },
+      "noticeDays": {
+       "value": 10,
+       "note": "At least ten clear days notice, with agenda, unless the bye-laws say otherwise (rule 28(2)).",
+       "source": "https://hpsvacb.hp.gov.in/storage/app/media/HPCo-operativeSocietiesRules1971.pdf rule 28(2)",
+       "confidence": "medium",
+       "needsLawyer": true
+      },
+      "noticeContent": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      }
+     },
+     {
+      "type": "special general meeting",
+      "calledBy": {
+       "value": null,
+       "note": "Requisition share is in Act s.33(1) (not read); rule 30(3)(b) confirms such a meeting is dissolved if there is no quorum.",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      },
+      "noticeDays": {
+       "value": 10,
+       "note": "Same rule 28(2) notice; only agenda business may be discussed (rule 29).",
+       "source": "https://hpsvacb.hp.gov.in/storage/app/media/HPCo-operativeSocietiesRules1971.pdf rules 28-29",
+       "confidence": "medium",
+       "needsLawyer": true
+      },
+      "noticeContent": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      }
+     }
+    ],
+    "quorum": {
+     "value": "One-third of total members or 50 whichever is less if membership is up to 500; one-third or 100 whichever is less if above 500 (membership counted on the date of notice)",
+     "note": "",
+     "source": "https://hpsvacb.hp.gov.in/storage/app/media/HPCo-operativeSocietiesRules1971.pdf rule 30(1)",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "adjournedQuorum": {
+     "value": "If no quorum within one hour the meeting stands adjourned to a suitable time the same day; quorum then one-fifth or 30, whichever is less; a requisitioned meeting is dissolved instead; quorum falling after start does not stop the meeting",
+     "note": "",
+     "source": "https://hpsvacb.hp.gov.in/storage/app/media/HPCo-operativeSocietiesRules1971.pdf rule 30(3)",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "majorities": {
+     "ordinary": {
+      "value": "Majority of votes of members present; chairman second or casting vote on a tie",
+      "note": "",
+      "source": "https://hpsvacb.hp.gov.in/storage/app/media/HPCo-operativeSocietiesRules1971.pdf rule 25(2), 36(1)",
+      "confidence": "high",
+      "needsLawyer": false
+     },
+     "special": {
+      "value": null,
+      "note": "Act-based special majorities not read.",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "weightageModels": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "proxy": {
+     "value": null,
+     "note": "No member proxy rule found in the rules read (form of proxy in r.99 is for creditors in liquidation only).",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "votingMethods": {
+     "generalBody": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "committeeElection": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "electronicVoting": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "minutesDeadlineDays": {
+     "value": null,
+     "note": "Minutes of a general meeting signed by the chairman at the close of the agenda and confirmed by the house then and there (rule 35(2)); deemed duly held if minutes recorded (rule 35(3)).",
+     "source": "https://hpsvacb.hp.gov.in/storage/app/media/HPCo-operativeSocietiesRules1971.pdf rule 35",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "recordRetentionYears": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "memberInspectionRight": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "electionRoles": {
+     "value": "Committee elected under Appendix A rules (rule 37) - Appendix not read; Registrar appoints some members (rule 39), including SC, ST and other interests such as women (rule 39(1-A))",
+     "note": "",
+     "source": "https://hpsvacb.hp.gov.in/storage/app/media/HPCo-operativeSocietiesRules1971.pdf rules 37-39",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "termYears": {
+     "value": 5,
+     "note": "Managing committee term five years (rule 38(3)); if the outgoing committee fails to start elections 90 days before expiry the Registrar appoints an administrator who must hold elections within six months.",
+     "source": "https://hpsvacb.hp.gov.in/storage/app/media/HPCo-operativeSocietiesRules1971.pdf rule 38(3)",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "eligibility": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "defaulterDisqualification": {
+     "value": "A member who is a defaulter of debt or dues cannot vote in annual or special general meetings or committee elections, after a 30-day notice to pay (rule 36(2))",
+     "note": "",
+     "source": "https://hpsvacb.hp.gov.in/storage/app/media/HPCo-operativeSocietiesRules1971.pdf rule 36(2)",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "notes": [
+     "RESEARCH ONLY, NOT LEGAL ADVICE. The rules read are amended to Feb 2009; later changes unknown."
+    ]
+   },
+   "engine": {
+    "confidence": "medium",
+    "needsLawyer": true,
+    "params": {
+     "notice.minDays": 10,
+     "quorum.basis": "flats",
+     "quorum.percentBp": 3333,
+     "quorum.capFlats": 50,
+     "tie.break": "chair_casting_vote",
+     "majority.simple.basis": "present",
+     "term.years": 5
+    },
+    "options": {
+     "quorum_check": true
+    },
+    "notice": {
+     "agm": {
+      "min": 10,
+      "max": null
+     },
+     "sgm": {
+      "min": 10,
+      "max": null
+     },
+     "committee": {
+      "min": 3,
+      "max": null
+     }
+    },
+    "recommended": [
+     "Rule 28(2): unless the bye-laws say otherwise, give every member at least ten clear days notice with the agenda. Rule 29: at a special meeting only business in the agenda may be discussed.",
+     "Rule 30(1): quorum is one-third of members or 50, whichever is less, if the society has up to 500 members; one-third or 100, whichever is less, if it has more than 500. The 50 cap set here is right for up to 500 members only - change to 100 if you have more.",
+     "Rule 30(3): if no quorum within one hour the meeting is adjourned to a time the same day; the adjourned quorum is one-fifth or 30, whichever is less. A meeting called on requisition is dissolved, not adjourned.",
+     "Rule 25(2): resolutions pass by majority of members present; the chairman has a casting vote on a tie. Rule 36(2): a defaulter (after a 30-day chance to pay) cannot vote or stand.",
+     "Rule 38(3): committee term five years; rule 38(2): 5 to 21 committee members."
+    ],
+    "gaps": [
+     "Quorum cap 50 vs 100 depends on member count (500) - the product has one cap value.",
+     "Adjourned quorum 'one-fifth or 30, whichever less' cannot be expressed (only a fixed minimum number of flats).",
+     "Requisition share for special meetings is in Act s.33 (not read), so no requisition percentage is set.",
+     "Rule 28/29 'unless otherwise provided in bye-laws' - bye-laws may change the notice period."
+    ],
+    "id": "in-hp-coop-act",
+    "name": "Himachal Pradesh Co-operative Societies Act 1968 + Rules 1971 (co-operative housing society)",
+    "jurisdiction": "IN-HP"
+   }
+  },
+  {
+   "research": {
+    "id": "in-br-apartment-act",
+    "name": "Bihar Apartment Ownership Act 2006 (Association of Apartment Owners)",
+    "jurisdiction": "IN-BR",
+    "instruments": [
+     {
+      "value": "Bihar Apartment Ownership Act, 2006 (Bihar Act 28 of 2006): s.23 Association of Apartment Owners and bye-laws; s.2(f) definition; s.6 compliance with bye-laws; s.25 sixty days to decide on repair after damage",
+      "note": "Primary text read (PRS copy, downloaded and text-extracted). Not found: any notified Bihar model bye-laws or Rules (searched; the competent authority 'may' frame model bye-laws under s.23(2)). Whether the Bihar Apartment Ownership Rules exist was not verified.",
+      "source": "https://prsindia.org/files/bills_acts/acts_states/bihar/2006/2006Bihar28.pdf",
+      "confidence": "high",
+      "needsLawyer": false
+     }
+    ],
+    "meetingTypes": [
+     {
+      "type": "meetings of the association",
+      "calledBy": {
+       "value": "Method of calling meetings and the quorum number to be fixed by the bye-laws (s.23(3)(i)); times and manner of annual and special general meetings may be specified in bye-laws (s.23(4)(c))",
+       "note": "",
+       "source": "https://prsindia.org/files/bills_acts/acts_states/bihar/2006/2006Bihar28.pdf s.23",
+       "confidence": "high",
+       "needsLawyer": false
+      },
+      "noticeDays": {
+       "value": null,
+       "note": "No notice period in the Act.",
+       "source": "https://prsindia.org/files/bills_acts/acts_states/bihar/2006/2006Bihar28.pdf",
+       "confidence": "high",
+       "needsLawyer": false
+      },
+      "noticeContent": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      }
+     }
+    ],
+    "quorum": {
+     "value": null,
+     "note": "The Act leaves the quorum number to the bye-laws (s.23(3)(i)).",
+     "source": "https://prsindia.org/files/bills_acts/acts_states/bihar/2006/2006Bihar28.pdf s.23(3)(i)",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "adjournedQuorum": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "majorities": {
+     "ordinary": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "special": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "weightageModels": {
+     "value": null,
+     "note": "The deed of apartment states each owner's percentage of undivided interest and the percentage of votes needed for decisions (s.7 / deed contents, line 585 of the text); how an individual vote is weighted is a bye-law matter.",
+     "source": "https://prsindia.org/files/bills_acts/acts_states/bihar/2006/2006Bihar28.pdf",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "proxy": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "votingMethods": {
+     "generalBody": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "committeeElection": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "electronicVoting": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "minutesDeadlineDays": {
+     "value": null,
+     "note": "No deadline; two separate minute books required (s.23(3)(k)).",
+     "source": "https://prsindia.org/files/bills_acts/acts_states/bihar/2006/2006Bihar28.pdf",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "recordRetentionYears": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "memberInspectionRight": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "electionRoles": {
+     "value": "Board of Management elected from among owners; President, Secretary (ex officio Board member) and Treasurer elected from among owners",
+     "note": "",
+     "source": "https://prsindia.org/files/bills_acts/acts_states/bihar/2006/2006Bihar28.pdf s.23(3)(b),(j)-(l)",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "termYears": {
+     "value": null,
+     "note": "Board size and term left to bye-laws; one-third of the Board retires annually.",
+     "source": "https://prsindia.org/files/bills_acts/acts_states/bihar/2006/2006Bihar28.pdf s.23(3)(c)",
+     "confidence": "high",
+     "needsLawyer": false
+    },
+    "eligibility": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "defaulterDisqualification": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "notes": [
+     "RESEARCH ONLY, NOT LEGAL ADVICE. A news summary says Bihar is moving to make registration of residential societies mandatory - not verified and not part of the Act text read.",
+     "Commonness among Bihar housing societies not established."
+    ]
+   },
+   "engine": {
+    "confidence": "medium",
+    "needsLawyer": true,
+    "params": {},
+    "options": {
+     "quorum_check": true
+    },
+    "notice": {},
+    "recommended": [
+     "s.23(1): one Association of Apartment Owners is mandatory for the building; if an area is demarcated for several multi-storied buildings there is a single association for the whole demarcated area.",
+     "s.23(2): the association adopts its bye-laws at its first meeting in line with the competent authority's model bye-laws; any departure needs the competent authority's prior approval. If no model has been framed, it frames its own under s.23(3).",
+     "s.23(3)(c),(i): at least one-third of the Board retires every year; the bye-laws fix how meetings are called and the number of members who form a quorum.",
+     "s.23(3)(k): the Secretary keeps two minute books, one for the association and one for the Board, numbered pages authenticated by the President."
+    ],
+    "gaps": [
+     "The Act sets no notice days, quorum figure, majority, proxy or term numbers; whether a model bye-law set exists in Bihar is unknown.",
+     "A member of a co-operative housing society or hire-purchase allottee counts as owner (explanation to s.2(f)) - not expressible."
+    ],
+    "id": "in-br-apartment-act",
+    "name": "Bihar Apartment Ownership Act 2006 (Association of Apartment Owners)",
+    "jurisdiction": "IN-BR"
+   }
+  },
+  {
+   "research": {
+    "id": "in-as-coop-act",
+    "name": "Assam Co-operative Societies Act 2007 (co-operative housing society)",
+    "jurisdiction": "IN-AS",
+    "instruments": [
+     {
+      "value": "Assam Co-operative Societies Act, 2007: s.31 term of the Board, s.32 general meeting, s.39 annual general assembly, s.41 elections, s.42 term of directors",
+      "note": "Read ss.31, 32, 39, 41 individually on Indian Kanoon; the page shows amendments of 2012/2019 (Assam Act 4 of 2019). Rules and housing-society model bye-laws NOT read. Section 32 text beyond 'Board may call at any time; at least one general meeting each co-operative year' was not shown.",
+      "source": "https://indiankanoon.org/doc/179466031/",
+      "confidence": "medium",
+      "needsLawyer": true
+     },
+     {
+      "value": null,
+      "note": "Assam Apartments (Construction and Transfer of Ownership) Act, 2006: referred to in a Gauhati HC case; text not found on Indian Kanoon - whether it provides an owners' association not read.",
+      "source": "https://indiankanoon.org/doc/21694537/",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    ],
+    "meetingTypes": [
+     {
+      "type": "annual general assembly",
+      "calledBy": {
+       "value": "At least once each co-operative year, within six months of the close of the financial year; otherwise the Board stands automatically dissolved (s.39)",
+       "note": "",
+       "source": "https://indiankanoon.org/doc/77552470/",
+       "confidence": "medium",
+       "needsLawyer": true
+      },
+      "noticeDays": {
+       "value": null,
+       "note": "Notice not read.",
+       "source": "https://indiankanoon.org/doc/68849850/",
+       "confidence": "low",
+       "needsLawyer": true
+      },
+      "noticeContent": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      }
+     },
+     {
+      "type": "general meeting",
+      "calledBy": {
+       "value": "The Board may call a general meeting at any time and must convene at least one in each co-operative year (s.32)",
+       "note": "Requisition provisions not shown.",
+       "source": "https://indiankanoon.org/doc/68849850/",
+       "confidence": "medium",
+       "needsLawyer": true
+      },
+      "noticeDays": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      },
+      "noticeContent": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      }
+     }
+    ],
+    "quorum": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "adjournedQuorum": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "majorities": {
+     "ordinary": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "special": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "weightageModels": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "proxy": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "votingMethods": {
+     "generalBody": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "committeeElection": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "electronicVoting": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "minutesDeadlineDays": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "recordRetentionYears": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "memberInspectionRight": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "electionRoles": {
+     "value": "Registrar has superintendence, direction and control of voters' lists and of elections (s.41(1)); elections before the board's term ends (s.41(2))",
+     "note": "No secret-ballot sentence found in s.41.",
+     "source": "https://indiankanoon.org/doc/17836165/",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "termYears": {
+     "value": 5,
+     "note": "Five co-operative years from the date directors are elected (s.31, inserted by Assam Act 4 of 2019).",
+     "source": "https://indiankanoon.org/doc/141006593/",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "eligibility": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "defaulterDisqualification": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "notes": [
+     "RESEARCH ONLY, NOT LEGAL ADVICE. Index rows suggest Assam also has an apartment law (2006); not read."
+    ]
+   },
+   "engine": {
+    "confidence": "low",
+    "needsLawyer": true,
+    "params": {
+     "term.years": 5
+    },
+    "options": {
+     "quorum_check": true
+    },
+    "notice": {},
+    "recommended": [
+     "s.39: hold the Annual General Assembly within six months after the financial year closes - if you do not, the Board automatically stands dissolved.",
+     "s.31: Board term is five co-operative years from election. s.41: the Registrar controls the voters' list and conducts the election; if the board fails to arrange it, an officer convenes a general meeting to form a new board within 90 days.",
+     "Quorum, notice days and requisition share not read - take them from your registered bye-laws."
+    ],
+    "gaps": [
+     "Board dissolves automatically if no AGM within 6 months - no setting for that.",
+     "No quorum, notice or requisition data."
+    ],
+    "id": "in-as-coop-act",
+    "name": "Assam Co-operative Societies Act 2007 (co-operative housing society)",
+    "jurisdiction": "IN-AS"
+   }
+  },
+  {
+   "research": {
+    "id": "in-cg-apartment-act",
+    "name": "Chhattisgarh Prakoshtha Swamitva Adhiniyam 1976 (Apartment Ownership Act - association of apartment owners)",
+    "jurisdiction": "IN-CG",
+    "instruments": [
+     {
+      "value": "Chhattisgarh Prakoshtha Swamitva Adhiniyam, 1976 (Act 17 of 1976): s.3(d) association; s.3(o) majority = 51% or more of votes; s.11(1)(f)/s.24(2) voting percentages; s.16 bye-laws",
+      "note": "Read through a tool summary of the Indian Kanoon page; numbering matches the same model as Karnataka/Haryana. Not directly confirmed by reading the sentences. Rules and model bye-laws not found.",
+      "source": "https://indiankanoon.org/doc/182528609/",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    ],
+    "meetingTypes": [],
+    "quorum": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "adjournedQuorum": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "majorities": {
+     "ordinary": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "special": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "weightageModels": {
+     "value": "Votes by the voting percentage in the Declaration",
+     "note": "",
+     "source": "https://indiankanoon.org/doc/182528609/",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "proxy": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "votingMethods": {
+     "generalBody": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "committeeElection": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "electronicVoting": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "minutesDeadlineDays": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "recordRetentionYears": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "memberInspectionRight": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "electionRoles": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "termYears": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "eligibility": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "defaulterDisqualification": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "notes": [
+     "RESEARCH ONLY, NOT LEGAL ADVICE. The summary tool described this page in Karnataka-style terms; treat as unverified until the Act is read in the gazette."
+    ]
+   },
+   "engine": {
+    "confidence": "low",
+    "needsLawyer": true,
+    "params": {},
+    "options": {
+     "weightage": true,
+     "quorum_check": true
+    },
+    "notice": {},
+    "recommended": [
+     "s.16(2)(b),(3)(c): the bye-laws must say how owners' meetings are called and the quorum if other than a majority; votes follow the Declaration's percentages."
+    ],
+    "gaps": [
+     "No notice, quorum number or term figures; summary-level read only."
+    ],
+    "id": "in-cg-apartment-act",
+    "name": "Chhattisgarh Prakoshtha Swamitva Adhiniyam 1976 (Apartment Ownership Act - association of apartment owners)",
+    "jurisdiction": "IN-CG"
+   }
+  },
+  {
+   "research": {
+    "id": "in-cg-coop-act",
+    "name": "Chhattisgarh Co-operative Societies Act 1960 (co-operative housing society)",
+    "jurisdiction": "IN-CG",
+    "instruments": [
+     {
+      "value": "Chhattisgarh Co-operative Societies Act, 1960 (adapted from the Madhya Pradesh Act): s.22-23 voting, s.48 board, s.49 annual general meeting, s.50 special general meeting, s.50A defaulters, s.50-B State Co-operative Election Commission",
+      "note": "Read ~200,000 of 252,000 characters of the Indian Kanoon copy; page says original could not be verified. Chhattisgarh Co-operative Societies Rules 1962 / model bye-laws NOT read.",
+      "source": "https://indiankanoon.org/doc/177027031/",
+      "confidence": "medium",
+      "needsLawyer": true
+     }
+    ],
+    "meetingTypes": [
+     {
+      "type": "annual general meeting",
+      "calledBy": {
+       "value": "Within six months after the financial year closes; Registrar may extend by up to three months (s.49(1))",
+       "note": "",
+       "source": "https://indiankanoon.org/doc/177027031/ s.49",
+       "confidence": "medium",
+       "needsLawyer": true
+      },
+      "noticeDays": {
+       "value": null,
+       "note": "Notice must reach the Registrar's office at least 14 clear days before (s.49(2)); notice period to members not read.",
+       "source": "https://indiankanoon.org/doc/177027031/ s.49(2)",
+       "confidence": "medium",
+       "needsLawyer": true
+      },
+      "noticeContent": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      }
+     },
+     {
+      "type": "special general meeting",
+      "calledBy": {
+       "value": "Committee must call within one month of a written requisition from the Registrar or one-tenth of the total membership; Registrar may call if the committee does not (s.50)",
+       "note": "",
+       "source": "https://indiankanoon.org/doc/177027031/ s.50",
+       "confidence": "medium",
+       "needsLawyer": true
+      },
+      "noticeDays": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      },
+      "noticeContent": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      }
+     }
+    ],
+    "quorum": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "adjournedQuorum": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "majorities": {
+     "ordinary": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "special": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "weightageModels": {
+     "value": "One member, one vote (s.22(1)); Chairman has a second or casting vote (s.22(8))",
+     "note": "",
+     "source": "https://indiankanoon.org/doc/177027031/ s.22",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "proxy": {
+     "value": "No proxy: members vote in person (s.23(1)); exceptions for society members' representatives, group delegates and appointed trustees/partners/directors",
+     "note": "",
+     "source": "https://indiankanoon.org/doc/177027031/ s.23(1)",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "votingMethods": {
+     "generalBody": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "committeeElection": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "electronicVoting": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "minutesDeadlineDays": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "recordRetentionYears": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "memberInspectionRight": {
+     "value": "Free inspection at the registered address of the Act, rules, bye-laws, member register, last audited balance sheet and P&L, and general meeting minutes (s.28(1))",
+     "note": "",
+     "source": "https://indiankanoon.org/doc/177027031/ s.28",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "electionRoles": {
+     "value": "State Co-operative Election Commission supervises voters' lists and conducts society elections (s.50-B); outgoing board must request it within six months before term end (s.50-B(8)(c)); Returning Officer appointed by the Commission",
+     "note": "",
+     "source": "https://indiankanoon.org/doc/177027031/ s.50-B",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "termYears": {
+     "value": 5,
+     "note": "Five years from the first committee meeting (s.49(7-A)(i)); State may extend a term by not more than 24 months in total (s.49(7-AA); the text also shows an 18-month figure elsewhere - inconsistent).",
+     "source": "https://indiankanoon.org/doc/177027031/ s.49(7-A)",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "eligibility": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "defaulterDisqualification": {
+     "value": "A person in default more than 12 months on a loan or advance to the society cannot stand for the board and cannot vote in board elections (s.50A)",
+     "note": "",
+     "source": "https://indiankanoon.org/doc/177027031/ s.50A",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "notes": [
+     "RESEARCH ONLY, NOT LEGAL ADVICE."
+    ]
+   },
+   "engine": {
+    "confidence": "low",
+    "needsLawyer": true,
+    "params": {
+     "term.years": 5,
+     "requisition.percentBp": 1000
+    },
+    "options": {
+     "proxy_voting": false,
+     "weightage": false,
+     "quorum_check": true
+    },
+    "notice": {},
+    "recommended": [
+     "s.49(1): AGM within six months after the financial year closes (Registrar can extend by up to 3 months). s.49(2) notice of the AGM must reach the Deputy/Assistant Registrar at least 14 clear days ahead; the notice period to members was not found in the text read.",
+     "s.50(1): the committee must call a special meeting within one month of a written requisition by the Registrar or one-tenth of the total membership.",
+     "s.23(1): members vote in person, no proxy. s.22(1): one member, one vote.",
+     "s.49(7-A): committee term is five years from its first meeting; s.48(8): at most 21 board members, two of them women.",
+     "s.50-B: committee elections are run by the State Co-operative Election Commission."
+    ],
+    "gaps": [
+     "Quorum for ordinary general meetings and member notice days not found (the one-fifth quorum seen, s.22(4), concerns delegate/representative meetings).",
+     "Election by an external State commission cannot be expressed."
+    ],
+    "id": "in-cg-coop-act",
+    "name": "Chhattisgarh Co-operative Societies Act 1960 (co-operative housing society)",
+    "jurisdiction": "IN-CG"
+   }
+  },
+  {
+   "research": {
+    "id": "in-ar-coop-act",
+    "name": "Arunachal Pradesh Co-operative Societies Act 1978 (co-operative society)",
+    "jurisdiction": "IN-AR",
+    "instruments": [
+     {
+      "value": "Arunachal Pradesh Co-operative Societies Act, 1978 (Act 3 of 1978): s.27 voting, s.36 voting in person, s.73 general body, s.76 annual general meeting, s.77 special general meeting",
+      "note": "Read ~100,000 of 181,000 characters (to s.90). Page says original could not be verified. A search snippet says a 1992 amendment requires 80% of members of any new society to be bona fide Arunachal tribals holding at least 51% of share capital - from a snippet, NOT verified. No Arunachal apartment ownership law found.",
+      "source": "https://indiankanoon.org/doc/149632123/",
+      "confidence": "medium",
+      "needsLawyer": true
+     }
+    ],
+    "meetingTypes": [
+     {
+      "type": "annual general meeting",
+      "calledBy": {
+       "value": "Within three months after the date fixed for closing the accounts; Registrar may extend up to three months (s.76(1))",
+       "note": "",
+       "source": "https://indiankanoon.org/doc/149632123/ s.76",
+       "confidence": "medium",
+       "needsLawyer": true
+      },
+      "noticeDays": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      },
+      "noticeContent": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      }
+     },
+     {
+      "type": "special general meeting",
+      "calledBy": {
+       "value": "Chairman or committee majority at any time; within one month of a requisition by one-fifth of members or the number in the bye-laws if lower; or at the Registrar's instance (s.77(1))",
+       "note": "",
+       "source": "https://indiankanoon.org/doc/149632123/ s.77",
+       "confidence": "medium",
+       "needsLawyer": true
+      },
+      "noticeDays": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      },
+      "noticeContent": {
+       "value": null,
+       "note": "not read / not verified: text could not be obtained",
+       "source": "not verified",
+       "confidence": "low",
+       "needsLawyer": true
+      }
+     }
+    ],
+    "quorum": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "adjournedQuorum": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "majorities": {
+     "ordinary": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "special": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "weightageModels": {
+     "value": "One member, one vote; chairman casting vote on a tie (s.27(1)); nominal, associate and sympathiser members cannot vote (s.27(8))",
+     "note": "",
+     "source": "https://indiankanoon.org/doc/149632123/ s.27",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "proxy": {
+     "value": "Not permitted: 'every member shall exercise his vote in person' (s.36(1))",
+     "note": "",
+     "source": "https://indiankanoon.org/doc/149632123/ s.36(1)",
+     "confidence": "medium",
+     "needsLawyer": true
+    },
+    "votingMethods": {
+     "generalBody": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     },
+     "committeeElection": {
+      "value": null,
+      "note": "not read / not verified: text could not be obtained",
+      "source": "not verified",
+      "confidence": "low",
+      "needsLawyer": true
+     }
+    },
+    "electronicVoting": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "minutesDeadlineDays": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "recordRetentionYears": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "memberInspectionRight": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "electionRoles": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "termYears": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "eligibility": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "defaulterDisqualification": {
+     "value": null,
+     "note": "not read / not verified: text could not be obtained",
+     "source": "not verified",
+     "confidence": "low",
+     "needsLawyer": true
+    },
+    "notes": [
+     "RESEARCH ONLY, NOT LEGAL ADVICE."
+    ]
+   },
+   "engine": {
+    "confidence": "low",
+    "needsLawyer": true,
+    "params": {
+     "requisition.percentBp": 2000
+    },
+    "options": {
+     "proxy_voting": false,
+     "weightage": false,
+     "quorum_check": true
+    },
+    "notice": {},
+    "recommended": [
+     "s.36(1): every member votes in person; no proxy. s.27(1): one member one vote, chairman casting vote on a tie.",
+     "s.76(1): call the AGM within three months after the accounts-closing date (Registrar can extend by up to 3 months).",
+     "s.77(1): the committee must call a special general meeting within one month of a requisition by one-fifth of members or the lower number in the bye-laws."
+    ],
+    "gaps": [
+     "Committee term, size, election procedure, quorum and notice days not found in the portion read.",
+     "Tribal-membership condition (unverified) cannot be expressed."
+    ],
+    "id": "in-ar-coop-act",
+    "name": "Arunachal Pradesh Co-operative Societies Act 1978 (co-operative society)",
+    "jurisdiction": "IN-AR"
+   }
+  }
+ ]
+}

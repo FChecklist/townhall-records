@@ -1,0 +1,2603 @@
+{
+  "_disclaimer": "Research data, NOT legal advice. Compiled 2026-10-24 from sources named in each leaf. Every leaf: value/note/source/confidence/needsLawyer; null = not read or not verified, never a guess. Re-verify against the primary text and have a lawyer review before the engine relies on it. Canadian housing law is set by each province/territory and many details sit in a corporation's own declaration and by-laws, which this file does not see.",
+  "_region": "canada",
+  "_compiled": "2026-10-24",
+  "_notReadRegimes": {
+    "nova-scotia": "Condominium Act RSNS 1989 c.85: nslegislature.ca unreachable from this machine (connection failed), no mirror found.",
+    "new-brunswick": "Condominium Property Act SNB 2009 c.C-16.2: laws.gnb.ca behind a Cloudflare challenge (not bypassed); no mirror found.",
+    "yukon": "Condominium Act 2015: laws.yukon.ca and yukon.ca behind a Cloudflare challenge. Only a search-result excerpt of a Yukon government fact sheet was seen (not opened): notice 14 days, quorum 1/3 of unit votes in person or proxy, wait 1/2 hour, 20% of unit owners can require a special general meeting. UNVERIFIED, not loaded into any engine block.",
+    "nunavut": "Condominium Act (Nunavut): nunavutlegislation.ca returned 403."
+  },
+  "packs": [
+    {
+      "research": {
+        "id": "ca-on-condo-act",
+        "name": "Ontario - Condominium Act, 1998 + O. Reg. 48/01",
+        "region": "Ontario",
+        "jurisdiction": "CA-ON",
+        "instruments": [
+          {
+            "value": "Condominium Act, 1998 (S.O. 1998, c.19), as amended incl. 2015 (Protecting Condominium Owners Act) and 2023 (c.9, Sched.7: electronic meetings/voting)",
+            "note": "Operative text read. The page also shows amendments NOT yet in force that take effect on a day set by order, stated on the page as 31 Dec 2026 (new s.46 requisition procedure, 'non-leased voting unit' reserved board seat, arrears wording). Values below are the text in force today unless marked.",
+            "source": "Condominium Act, 1998, S.O. 1998, c.19 (e-Laws, https://www.ontario.ca/laws/statute/98c19) ss.27-34, 45-55",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          {
+            "value": "O. Reg. 48/01 (General)",
+            "note": "Read for proxy form (s.13 -> Table to s.16.1), preliminary notice timing (s.12.2) and record retention (s.13.1). Other parts not read in full.",
+            "source": "O. Reg. 48/01 General (https://www.ontario.ca/laws/regulation/010048) ss.12.2, 13, 13.1",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          {
+            "value": "Corporation's own declaration, by-laws and rules",
+            "note": "Many details (electronic-meeting rules, electronic voting limits, higher quorum by by-law s.50(1.2), shorter director term, electronic notice) are decided by by-laws registered under s.56. The Organizer must check them.",
+            "source": "Condominium Act, 1998, S.O. 1998, c.19 (e-Laws, https://www.ontario.ca/laws/statute/98c19) ss.45(7), 47(6), 50(1.2), 52(1.1.1), 31(1)",
+            "confidence": "high",
+            "needsLawyer": true
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "annual general meeting",
+            "calledBy": {
+              "value": "Board must hold a general meeting not more than 3 months after the declaration is registered and then within 6 months after each fiscal year end",
+              "note": "",
+              "source": "Condominium Act, 1998, S.O. 1998, c.19 (e-Laws, https://www.ontario.ca/laws/statute/98c19) s.45(2)",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": 15,
+                "max": null
+              },
+              "note": "Written notice at least 15 days before the meeting. Before that the board must send a PRELIMINARY notice (candidates / owner material) at least 20 days before the notice of meeting (s.47(1)(c)). Notice may also go by e-mail only if by-laws do not forbid it and the owner's electronic address is on record (s.47(4)(c)). Record date for who gets notice is 20 days before the meeting (s.47(2)). No maximum stated.",
+              "source": "Condominium Act, 1998, S.O. 1998, c.19 (e-Laws, https://www.ontario.ca/laws/statute/98c19) ss.45.1, 47(1),(2),(4)",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "quorum": {
+              "value": {
+                "percentOfUnits": 25
+              },
+              "note": "25 per cent of units (owners entitled to vote, present or by proxy). Third attempt at an AGM falls to 15 per cent if the first two attempts lacked quorum.",
+              "source": "Condominium Act, 1998, S.O. 1998, c.19 (e-Laws, https://www.ontario.ca/laws/statute/98c19) s.50(1),(1.1),(2)",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          },
+          {
+            "type": "special / other general meeting",
+            "calledBy": {
+              "value": "Board at any time (notice must state the business); owners holding at least 15 per cent of units (listed in the owner record and entitled to vote) may requisition one",
+              "note": "Board must call and hold within 35 days, or (if requisitionists agree) add to the next AGM; if the board does not act a requisitionist may call it, held within 45 days. Requisition must be in writing, signed, say what business, and go by hand/registered mail/address for service. NOT YET IN FORCE (day to be named, shown on page as 31 Dec 2026): a replacement s.46 with a 10-day board response, 40-day meeting deadline, a 20-day window to go to the Condominium Authority Tribunal, and requisitionists with 30+ days arrears excluded.",
+              "source": "Condominium Act, 1998, S.O. 1998, c.19 (e-Laws, https://www.ontario.ca/laws/statute/98c19) ss.45(4), 46",
+              "confidence": "high",
+              "needsLawyer": true
+            },
+            "noticeDays": {
+              "value": {
+                "min": 15,
+                "max": null
+              },
+              "note": "Same rule as for an AGM: at least 15 days; only matters clearly disclosed in the notice may be voted on, apart from routine procedure (s.47(8)).",
+              "source": "Condominium Act, 1998, S.O. 1998, c.19 (e-Laws, https://www.ontario.ca/laws/statute/98c19) s.47(1),(7),(8)",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "quorum": {
+              "value": {
+                "percentOfUnits": 25
+              },
+              "note": "25 per cent of units; the 15 per cent fall-back applies only to the meetings named in s.50(1.1) (AGM and turn-over type).",
+              "source": "Condominium Act, 1998, S.O. 1998, c.19 (e-Laws, https://www.ontario.ca/laws/statute/98c19) s.50(1)",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          },
+          {
+            "type": "board of directors meeting",
+            "calledBy": {
+              "value": "A quorum of the directors may call a meeting at any time; also as by-laws require",
+              "note": "",
+              "source": "Condominium Act, 1998, S.O. 1998, c.19 (e-Laws, https://www.ontario.ca/laws/statute/98c19) s.35(1)",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": 10,
+                "max": null
+              },
+              "note": "Written notice to every director at least 10 days before, unless the by-laws say otherwise; may be hand, prepaid mail, courier or electronic.",
+              "source": "Condominium Act, 1998, S.O. 1998, c.19 (e-Laws, https://www.ontario.ca/laws/statute/98c19) s.35(2)",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "quorum": {
+              "value": "Majority of the number of directors the board consists of, ignoring vacancies",
+              "note": "",
+              "source": "Condominium Act, 1998, S.O. 1998, c.19 (e-Laws, https://www.ontario.ca/laws/statute/98c19) s.32(2)",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          }
+        ],
+        "quorum": {
+          "value": {
+            "percentOfUnits": 25,
+            "thirdAttemptPercent": 15
+          },
+          "note": "25% of units for owner meetings generally; AGM third or later attempt 15%. A by-law registered after the 2015 amendment may fix quorum at 25% for meetings not covered by the fall-back (s.50(1.2)). Owner counts toward quorum only if entitled to vote and present or by proxy.",
+          "source": "Condominium Act, 1998, S.O. 1998, c.19 (e-Laws, https://www.ontario.ca/laws/statute/98c19) s.50",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "adjournedQuorum": {
+          "value": {
+            "percentOfUnits": 15,
+            "applies": "AGM, third or later attempt only"
+          },
+          "note": "The statute counts 'attempts', not an adjournment. Product cannot model attempt counting.",
+          "source": "Condominium Act, 1998, S.O. 1998, c.19 (e-Laws, https://www.ontario.ca/laws/statute/98c19) s.50(1.1)(c)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "majorities": {
+          "ordinary": {
+            "value": "Majority of the votes cast by owners at the meeting, unless the Act says otherwise",
+            "note": "Votes by show of hands or recorded vote (ballot or marked proxy).",
+            "source": "Condominium Act, 1998, S.O. 1998, c.19 (e-Laws, https://www.ontario.ca/laws/statute/98c19) s.53, s.52(1)",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "special": {
+            "value": null,
+            "note": "Higher thresholds (for example 80% of units in writing for some by-law/declaration changes) sit in other sections that were not read systematically. Removal of a director: owners of more than 50 per cent of ALL units vote in favour (s.33(1)).",
+            "source": "Condominium Act, 1998, S.O. 1998, c.19 (e-Laws, https://www.ontario.ca/laws/statute/98c19) s.33(1) (removal only)",
+            "confidence": "medium",
+            "needsLawyer": true
+          }
+        },
+        "weightageModels": {
+          "value": {
+            "model": "one vote per unit",
+            "jointOwners": "majority of the owners of a unit decides; an evenly divided joint vote is not counted",
+            "parkingStorage": "units that are only parking/storage/service units do not vote unless all units are such"
+          },
+          "note": "No weighting by area or share.",
+          "source": "Condominium Act, 1998, S.O. 1998, c.19 (e-Laws, https://www.ontario.ca/laws/statute/98c19) ss.51(2),(3), 49(3)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "proxy": {
+          "value": {
+            "allowed": true,
+            "form": "in writing, signed by the appointer or attorney, for one or more particular meetings, in the prescribed form (Table to s.16.1 of O. Reg. 48/01)",
+            "limit": null,
+            "proxyNeedNotBeOwner": true
+          },
+          "note": "Cannot cap proxies per holder from what was read; the s.16.1 Table was not read.",
+          "source": "Condominium Act, 1998, S.O. 1998, c.19 (e-Laws, https://www.ontario.ca/laws/statute/98c19) s.52(3),(4); O. Reg. 48/01 General (https://www.ontario.ca/laws/regulation/010048) s.13",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "votingMethods": {
+          "value": {
+            "allowed": "show of hands (in person or by proxy) or a recorded vote marked on a ballot or on a proxy instrument; any person entitled to vote may request a recorded vote",
+            "secretBallot": "Act does not require a secret ballot; by-laws may add rules"
+          },
+          "note": "Secret ballot for director elections: no statutory rule found in the sections read; this is for by-laws.",
+          "source": "Condominium Act, 1998, S.O. 1998, c.19 (e-Laws, https://www.ontario.ca/laws/statute/98c19) s.52(1),(2)",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "electronicVoting": {
+          "value": {
+            "meetingsMayBeHeldElectronically": true,
+            "votesMayBeCastElectronically": true,
+            "deemedPresent": true,
+            "limits": "subject to the corporation's by-laws, which may limit the methods and add requirements; everyone entitled to attend must be able to reasonably participate; notice need not state a place if fully electronic"
+          },
+          "note": "Since the 2023 amendments (in force).",
+          "source": "Condominium Act, 1998, S.O. 1998, c.19 (e-Laws, https://www.ontario.ca/laws/statute/98c19) ss.45(6)-(9), 47(7.1), 52(1.1),(1.1.1)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "minutesDeadlineDays": {
+          "value": null,
+          "note": "not read / not verified: Act requires a minute book (s.55(1)) but no deadline for finishing minutes was found.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "recordRetentionYears": {
+          "value": {
+            "minuteBook": "at all times (permanent)",
+            "financialRecords": "at least 7 years after the end of the fiscal period (Act minimum 6, Reg. sets 7)",
+            "ballotsAndProxies": "at least 90 days after the meeting, longer if litigation is notified"
+          },
+          "note": "",
+          "source": "O. Reg. 48/01 General (https://www.ontario.ca/laws/regulation/010048) s.13.1(2); Condominium Act, 1998, S.O. 1998, c.19 (e-Laws, https://www.ontario.ca/laws/statute/98c19) s.55(2)",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "memberInspectionRight": {
+          "value": "Owner, purchaser or mortgagee (or their written agent) may examine and copy corporation records in accordance with the regulations, except records excluded in s.55(4)",
+          "note": "Fees and process set by regulation (not read).",
+          "source": "Condominium Act, 1998, S.O. 1998, c.19 (e-Laws, https://www.ontario.ca/laws/statute/98c19) s.55(3)",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "electionRoles": {
+          "value": null,
+          "note": "not read / not verified: Act names no returning officer or election committee in the sections read.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "termYears": {
+          "value": {
+            "years": 3,
+            "note": "three years or a shorter period if by-laws say so; a director continues until a successor is elected"
+          },
+          "note": "Board has at least three persons.",
+          "source": "Condominium Act, 1998, S.O. 1998, c.19 (e-Laws, https://www.ontario.ca/laws/statute/98c19) ss.27(2), 31(1),(2)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "eligibility": {
+          "value": "Not a director if not an individual, under 18, bankrupt, found incapable of managing property, or has not made prescribed disclosures; ceases to be one if a unit lien is not discharged within 90 days or prescribed training is not done",
+          "note": "Candidates notify the board in writing by a date set in the preliminary notice (date at least 15 days after the preliminary notice and at least 1 day before the notice of meeting).",
+          "source": "Condominium Act, 1998, S.O. 1998, c.19 (e-Laws, https://www.ontario.ca/laws/statute/98c19) ss.29, 45.1(1)(a); O. Reg. 48/01 General (https://www.ontario.ca/laws/regulation/010048) s.12.2(1)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "defaulterDisqualification": {
+          "value": "Owner with common-expense arrears of 30 days or more at the time of the meeting may not vote unless the arrears are paid before the meeting",
+          "note": "",
+          "source": "Condominium Act, 1998, S.O. 1998, c.19 (e-Laws, https://www.ontario.ca/laws/statute/98c19) s.49(1),(2)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "requisition": {
+          "value": {
+            "percentOfUnits": 15
+          },
+          "note": "See special meeting. Reserved-seat requisitions use 15% of owner-occupied (future: non-leased voting) units.",
+          "source": "Condominium Act, 1998, S.O. 1998, c.19 (e-Laws, https://www.ontario.ca/laws/statute/98c19) s.46(1)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "nominationWithdrawal": {
+          "value": {
+            "nominationDaysMinAfterPreliminaryNotice": 15
+          },
+          "note": "Withdrawal period not found.",
+          "source": "O. Reg. 48/01 General (https://www.ontario.ca/laws/regulation/010048) s.12.2(1)",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "reservedSeats": {
+          "value": "If at least 15 per cent of units are owner-occupied after turn-over, one board seat is voted only by owners of owner-occupied units",
+          "note": "Number of seats is one. FUTURE (31 Dec 2026): changes to 'non-leased voting units'.",
+          "source": "Condominium Act, 1998, S.O. 1998, c.19 (e-Laws, https://www.ontario.ca/laws/statute/98c19) s.51(5)-(8)",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "notes": [
+          "Compiled 2026-10-24 from the e-Laws consolidation read live in a browser tab; research only, not legal advice.",
+          "Dec 2026 amendments (Protecting Condominium Owners Act, 2015) are shown on the same page as 'to be proclaimed'; rerun this research after that day.",
+          "Preliminary-notice step (20 days before the notice of meeting) is a real required step before an election meeting and is not in the product's settings."
+        ]
+      },
+      "engine": {
+        "id": "ca-on-condo-act",
+        "name": "Ontario Condominium Act, 1998 + O. Reg. 48/01",
+        "jurisdiction": "CA-ON",
+        "confidence": "high",
+        "needsLawyer": true,
+        "params": {
+          "notice.minDays": 15,
+          "quorum.basis": "flats",
+          "quorum.percentBp": 2500,
+          "quorum.strict": false,
+          "quorum.countProxies": true,
+          "majority.simple.basis": "cast",
+          "requisition.percentBp": 1500,
+          "term.years": 3,
+          "nomination.days": 15
+        },
+        "options": {
+          "proxy_voting": true,
+          "weightage": false,
+          "secret_ballot": null
+        },
+        "locked": {
+          "weightage": {
+            "value": false,
+            "reason": "Condominium Act, 1998 s.51(2): all voting by owners is one vote per unit"
+          },
+          "proxy_voting": {
+            "value": true,
+            "reason": "Condominium Act, 1998 s.52(3),(4): a proxy may vote and need not be an owner"
+          }
+        },
+        "notice": {
+          "agm": {
+            "min": 15,
+            "max": null
+          },
+          "sgm": {
+            "min": 15,
+            "max": null
+          },
+          "committee": {
+            "min": 10,
+            "max": null
+          }
+        },
+        "recommended": [
+          "s.47(1)(b): send written notice at least 15 days before any owners' meeting; s.47(1)(c) a preliminary notice must go out at least 20 days before that notice.",
+          "s.50(1): quorum is 25% of units; at an AGM the third attempt only needs 15% (s.50(1.1)).",
+          "s.49: owners 30+ days in arrears cannot vote unless they pay before the meeting.",
+          "s.52(1.1): the by-laws may limit electronic meetings/voting; read them before choosing 'online'.",
+          "s.55 and O. Reg. 48/01 s.13.1: keep the minute book for ever and ballots/proxies at least 90 days."
+        ],
+        "gaps": [
+          "Preliminary notice 20 days before the notice of meeting, and candidate nomination deadline set in it.",
+          "Third-attempt 15% quorum (the product cannot count attempts).",
+          "Arrears of 30+ days remove the right to vote (defaulter rule).",
+          "Parking/storage units have no vote; joint owners split 50/50 are not counted.",
+          "Owner-occupier reserved board seat (voted only by owner-occupiers).",
+          "Director removal by more than 50% of ALL units; other special thresholds.",
+          "Different retention periods per record type (permanent / 7 years / 90 days)."
+        ]
+      }
+    },
+    {
+      "research": {
+        "id": "ca-bc-strata",
+        "name": "British Columbia - Strata Property Act + Standard Bylaws",
+        "region": "British Columbia",
+        "jurisdiction": "CA-BC",
+        "instruments": [
+          {
+            "value": "Strata Property Act, SBC 1998 c.43 (current to 20 Oct 2026 per the page)",
+            "note": "Part 4 (ss.25-65) read in full.",
+            "source": "Strata Property Act, SBC 1998 c.43, Part 4 (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/98043_04)",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          {
+            "value": "Schedule of Standard Bylaws",
+            "note": "Apply to a strata corporation unless it has replaced them by filing its own bylaws; the council term, voting-card and secret-ballot rules below are standard-bylaw rules.",
+            "source": "Strata Property Act, Schedule of Standard Bylaws (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/98043_18)",
+            "confidence": "high",
+            "needsLawyer": true
+          },
+          {
+            "value": "Strata Property Regulation B.C. Reg. 43/2000",
+            "note": "Part 4 (ss.4.01-4.5: records and retention) read; no proxy-restriction section was found in Part 4 of the Regulation.",
+            "source": "Strata Property Regulation, B.C. Reg. 43/2000 (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/43_2000) s.4.1",
+            "confidence": "medium",
+            "needsLawyer": true
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "annual general meeting",
+            "calledBy": {
+              "value": "Strata corporation (council sets the agenda); must be held within 2 months after the fiscal year end; may be waived only if ALL eligible voters sign written waivers and resolutions",
+              "note": "",
+              "source": "Strata Property Act, SBC 1998 c.43, Part 4 (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/98043_04) ss.40, 41, 46(1)",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": 14,
+                "max": null
+              },
+              "note": "At least 2 weeks' written notice to every owner (plus requesting mortgagees and tenants with assigned votes). Notice must describe the matters to be voted on (with exact wording of 3/4, 80% or unanimous resolutions), date/time/place, instructions for electronic attendance if offered, and for an AGM the budget and financial statement. Notice by post/e-mail etc. is deemed given 4 days after sending (s.61(3)). Failure of notice does not void a vote if reasonable attempt made (s.47).",
+              "source": "Strata Property Act, SBC 1998 c.43, Part 4 (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/98043_04) ss.45, 47, 61",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "quorum": {
+              "value": {
+                "fractionOfVotes": "1/3"
+              },
+              "note": "Eligible voters holding 1/3 of the votes, present in person or by proxy; if fewer than 4 lots or 4 owners, 2/3. 'Subject to the bylaws'.",
+              "source": "Strata Property Act, SBC 1998 c.43, Part 4 (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/98043_04) s.48(1),(2)",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          },
+          {
+            "type": "special general meeting",
+            "calledBy": {
+              "value": "Strata corporation at any time (after proper notice) or on written demand signed by persons holding at least 20% of the votes",
+              "note": "Must be held within 4 weeks of the demand (8 weeks for a winding-up resolution); president may call it without a council meeting; if not held the demanders may hold it themselves. 25% of votes within one week may force a reconsideration meeting of a 3/4 resolution passed by under 50% of votes (s.51).",
+              "source": "Strata Property Act, SBC 1998 c.43, Part 4 (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/98043_04) ss.42, 43, 51",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": 14,
+                "max": null
+              },
+              "note": "Same as AGM; 4 weeks for a winding-up resolution.",
+              "source": "Strata Property Act, SBC 1998 c.43, Part 4 (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/98043_04) s.45(1),(1.1)",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "quorum": {
+              "value": {
+                "fractionOfVotes": "1/3"
+              },
+              "note": "Same as AGM.",
+              "source": "Strata Property Act, SBC 1998 c.43, Part 4 (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/98043_04) s.48",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          },
+          {
+            "type": "council meeting",
+            "calledBy": {
+              "value": "Any council member",
+              "note": "",
+              "source": "Strata Property Act, Schedule of Standard Bylaws (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/98043_18) bylaw 14",
+              "confidence": "high",
+              "needsLawyer": true
+            },
+            "noticeDays": {
+              "value": {
+                "min": 7,
+                "max": null
+              },
+              "note": "At least one week's notice (need not be in writing); shorter if all consent or emergency.",
+              "source": "Strata Property Act, Schedule of Standard Bylaws (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/98043_18) bylaw 14(1)-(3)",
+              "confidence": "high",
+              "needsLawyer": true
+            },
+            "quorum": {
+              "value": "1 of 1 member; 2 of 2-4; 3 of 5-6; 4 of 7 (must be present in person)",
+              "note": "",
+              "source": "Strata Property Act, Schedule of Standard Bylaws (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/98043_18) bylaw 16",
+              "confidence": "high",
+              "needsLawyer": true
+            }
+          }
+        ],
+        "quorum": {
+          "value": {
+            "fractionOfVotes": "1/3",
+            "smallStrata": "2/3 if fewer than 4 lots or owners"
+          },
+          "note": "",
+          "source": "Strata Property Act, SBC 1998 c.43, Part 4 (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/98043_04) s.48(2)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "adjournedQuorum": {
+          "value": {
+            "minHoursLater": 168,
+            "noQuorum": true
+          },
+          "note": "If no quorum within 1/2 hour, the meeting stands adjourned to the same day next week, same time and place; at the adjourned meeting the eligible voters present in person or by proxy are a quorum. Applies 'unless otherwise provided in the bylaws'. 168 hours = one week.",
+          "source": "Strata Property Act, SBC 1998 c.43, Part 4 (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/98043_04) s.48(3)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "majorities": {
+          "ordinary": {
+            "value": "Majority vote unless the Act or regulations require another threshold",
+            "note": "The meaning of 'majority vote' in s.1 (votes cast by eligible voters present in person or by proxy who vote) was not read in this pass.",
+            "source": "Strata Property Act, SBC 1998 c.43, Part 4 (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/98043_04) s.50(1)",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          "special": {
+            "value": {
+              "threeQuarter": "3/4 vote",
+              "eighty": "80% vote (some items)",
+              "unanimous": "unanimous (some items)"
+            },
+            "note": "Which items need which threshold is in many sections; not collected.",
+            "source": "Strata Property Act, SBC 1998 c.43, Part 4 (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/98043_04) ss.45(3)(a), 50(2), 52",
+            "confidence": "medium",
+            "needsLawyer": true
+          }
+        },
+        "weightageModels": {
+          "value": {
+            "model": "one vote per strata lot unless a Schedule of Voting Rights applies (unit-entitlement based)",
+            "jointOwners": "only one of the persons sharing a vote may vote; if they disagree the chair does not count the vote"
+          },
+          "note": "",
+          "source": "Strata Property Act, SBC 1998 c.43, Part 4 (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/98043_04) ss.53(1), 57",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "proxy": {
+          "value": {
+            "allowed": true,
+            "form": "in writing, signed by the appointer; general or for one meeting or one resolution; revocable at any time",
+            "limit": null,
+            "restrictions": "employees of the strata corporation and strata managers may be proxies only if the regulations permit (none found in Part 4 of the Regulation); a proxy can do anything the appointer can unless limited"
+          },
+          "note": "No cap on proxies per person found.",
+          "source": "Strata Property Act, SBC 1998 c.43, Part 4 (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/98043_04) s.56",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "votingMethods": {
+          "value": {
+            "default": "show of voting cards; precise count on request by an eligible voter, chair chooses method (voting cards, roll call, secret ballot or other)",
+            "secretBallot": "Standard Bylaw 27(7): council election or any vote must be by secret ballot if an eligible voter requests it; people attending electronically are not entitled or required to vote by secret ballot (Act s.49(3)(b))",
+            "tie": "president (else vice-president) may cast a second deciding vote if the bylaws so provide; the standard bylaws do"
+          },
+          "note": "",
+          "source": "Strata Property Act, Schedule of Standard Bylaws (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/98043_18) bylaw 27; Strata Property Act, SBC 1998 c.43, Part 4 (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/98043_04) ss.49(3), 53(4)",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "electronicVoting": {
+          "value": {
+            "allowed": true,
+            "conditions": "notice must give instructions; all attendees must be able to communicate with each other; chair must be able to tell whether an electronic attendee is an eligible voter; attendee is deemed present in person"
+          },
+          "note": "Voting by electronic means at the meeting is covered; advance online ballots are not mentioned.",
+          "source": "Strata Property Act, SBC 1998 c.43, Part 4 (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/98043_04) s.49",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "minutesDeadlineDays": {
+          "value": null,
+          "note": "Standard Bylaw 19 gives 2 weeks to tell owners the minutes of COUNCIL meetings; no deadline for general-meeting minutes found.",
+          "source": "Strata Property Act, Schedule of Standard Bylaws (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/98043_18) bylaw 19",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "recordRetentionYears": {
+          "value": 6,
+          "note": "Minutes of general and council meetings must be kept at least 6 years.",
+          "source": "Strata Property Regulation, B.C. Reg. 43/2000 (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/43_2000) s.4.1(3); Strata Property Act, SBC 1998 c.43, Part 4 (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/98043_04) s.35(1)(a)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "memberInspectionRight": {
+          "value": "On request, owner (or tenant with assigned right, or person authorised in writing) may inspect and get copies of the s.35 records; strata must comply within 2 weeks (1 week for bylaws/rules); copy fee capped by regulation",
+          "note": "",
+          "source": "Strata Property Act, SBC 1998 c.43, Part 4 (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/98043_04) s.36",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "electionRoles": {
+          "value": null,
+          "note": "Not found: Standard bylaws say the president chairs (else vice-president, else a chair elected by eligible voters present). No returning officer/election committee in the Act or standard bylaws.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "termYears": {
+          "value": {
+            "years": 1,
+            "note": "Standard Bylaw 10: council term ends at the end of the AGM at which the new council is elected; re-election allowed. A council is elected at EACH AGM (Act s.25). Council has 3-7 members (bylaw 9)."
+          },
+          "note": "Strata may change this by its own bylaws.",
+          "source": "Strata Property Act, Schedule of Standard Bylaws (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/98043_18) bylaws 9, 10; Strata Property Act, SBC 1998 c.43, Part 4 (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/98043_04) s.25",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "eligibility": {
+          "value": "Owners, individuals representing corporate owners, tenants who were assigned the landlord's right to stand; bylaws may add classes of people and may bar owners against whom a lien could be filed",
+          "note": "One owner per lot on council unless all owners are on council.",
+          "source": "Strata Property Act, SBC 1998 c.43, Part 4 (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/98043_04) ss.28, 29",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "defaulterDisqualification": {
+          "value": "Only if the strata passes a bylaw: owner's vote may be barred (except 80%/unanimous votes) when a lien could be registered (s.116(1)); and a bylaw may bar standing for council",
+          "note": "Not automatic.",
+          "source": "Strata Property Act, SBC 1998 c.43, Part 4 (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/98043_04) ss.28(3), 53(2),(3)",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "requisition": {
+          "value": {
+            "percentOfVotes": 20,
+            "reconsideration": "25% of votes within one week of a 3/4 vote passed by under 50% of votes"
+          },
+          "note": "",
+          "source": "Strata Property Act, SBC 1998 c.43, Part 4 (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/98043_04) ss.43(1), 46(2), 51(3)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "nominationWithdrawal": {
+          "value": null,
+          "note": "not read / not verified: No statutory nomination period; standard bylaws do not set one.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "reservedSeats": {
+          "value": null,
+          "note": "None found.",
+          "source": "Strata Property Act, SBC 1998 c.43, Part 4 (https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/98043_04) Part 4",
+          "confidence": "medium",
+          "needsLawyer": false
+        },
+        "notes": [
+          "Compiled 2026-10-24 from bclaws.gov.bc.ca read live; research only, not legal advice.",
+          "The standard-bylaw rules (1-year term, secret ballot on request, president's casting vote) can be replaced by the strata's own filed bylaws.",
+          "1/3 quorum is 33.33%; the engine value 3334 bp is rounded up so quorum is never under a third."
+        ]
+      },
+      "engine": {
+        "id": "ca-bc-strata",
+        "name": "British Columbia Strata Property Act + Standard Bylaws",
+        "jurisdiction": "CA-BC",
+        "confidence": "medium",
+        "needsLawyer": true,
+        "params": {
+          "notice.minDays": 14,
+          "quorum.basis": "weight",
+          "quorum.percentBp": 3334,
+          "quorum.strict": false,
+          "quorum.countProxies": true,
+          "adjourned.noQuorum": true,
+          "adjourned.minHoursLater": 168,
+          "tie.break": "chair_casting_vote",
+          "requisition.percentBp": 2000,
+          "term.years": 1,
+          "retention.years": 6
+        },
+        "options": {
+          "proxy_voting": true,
+          "weightage": null,
+          "secret_ballot": null
+        },
+        "locked": {
+          "proxy_voting": {
+            "value": true,
+            "reason": "Strata Property Act s.56(1): a person who may vote can vote in person or by proxy"
+          }
+        },
+        "notice": {
+          "agm": {
+            "min": 14,
+            "max": null
+          },
+          "sgm": {
+            "min": 14,
+            "max": null
+          },
+          "committee": {
+            "min": 7,
+            "max": null
+          }
+        },
+        "recommended": [
+          "s.45(1): give at least 2 weeks' written notice; mailed or e-mailed notice counts as given only 4 days after sending (s.61(3)), so send early.",
+          "s.48(2)-(3): quorum is 1/3 of the votes; if it fails, adjourn to the same time next week and then whoever is there forms the quorum.",
+          "Standard Bylaw 27(7): if any eligible voter asks, the council election and any other vote must be by secret ballot (not for people attending electronically, Act s.49(3)).",
+          "s.28 and bylaw 10: council is elected every AGM; owners, corporate representatives and assigned tenants may stand."
+        ],
+        "gaps": [
+          "3/4, 80% and unanimous thresholds (the product has no threshold setting).",
+          "Strata corporations with a Schedule of Voting Rights (unit entitlement votes) versus one vote per lot.",
+          "Secret ballot only on request by an eligible voter (not a plain yes/no).",
+          "Reconsideration meeting (25% demand within a week after a 3/4 vote by under 50% of votes).",
+          "Tie casting vote exists only if bylaws provide it (standard bylaws do).",
+          "Waiver of the AGM by written consent of all voters."
+        ]
+      }
+    },
+    {
+      "research": {
+        "id": "ca-ab-condo",
+        "name": "Alberta - Condominium Property Act + Regulation (Schedule 4 default bylaws)",
+        "region": "Alberta",
+        "jurisdiction": "CA-AB",
+        "instruments": [
+          {
+            "value": "Condominium Property Act, RSA 2000 c.C-22",
+            "note": "Read ss.1(1)(r),(x), 26-31, 45.",
+            "source": "Condominium Property Act, RSA 2000 c.C-22, current as of 14 May 2026 (https://kings-printer.alberta.ca/documents/Acts/C22.pdf)",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          {
+            "value": "Condominium Property Regulation AR 168/2000: Part 2.2 (proxies, ss.31.2-31.6) and Schedule 4 (default bylaws)",
+            "note": "Schedule 4 bylaws apply to a corporation only until it replaces them by special resolution and registers new bylaws (Act s.33); many corporations have their own bylaws, so quorum, term and order-of-business values below are DEFAULTS.",
+            "source": "Condominium Property Regulation, AR 168/2000 (https://kings-printer.alberta.ca/documents/Regs/2000_168.pdf) ss.31.2-31.6, Sched.4",
+            "confidence": "high",
+            "needsLawyer": true
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "annual general meeting",
+            "calledBy": {
+              "value": "Board; first AGM within 12 months of plan registration, later ones no later than 15 months after the previous AGM",
+              "note": "Default bylaw adds a PRELIMINARY notice at least 60 days before the AGM with a call for agenda items (deadline max 30 days before AGM). Owners present decide the agenda by majority at the start of the meeting.",
+              "source": "Condominium Property Act, RSA 2000 c.C-22, current as of 14 May 2026 (https://kings-printer.alberta.ca/documents/Acts/C22.pdf) s.30(1),(2); Condominium Property Regulation, AR 168/2000 (https://kings-printer.alberta.ca/documents/Regs/2000_168.pdf) Sched.4 bylaw 19",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": 14,
+                "max": null
+              },
+              "note": "Written notice to each owner (and notified mortgagees) no less than 14 days before; financial statements, reserve-fund report and budget also at least 14 days before. Failure to give proper notice does not invalidate anything if a reasonable attempt was made (s.30.2).",
+              "source": "Condominium Property Act, RSA 2000 c.C-22, current as of 14 May 2026 (https://kings-printer.alberta.ca/documents/Acts/C22.pdf) s.30(3),(4), 30.2",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "quorum": {
+              "value": {
+                "percentOfOwners": 25,
+                "countedBy": "persons with a right to receive notice, present or by proxy"
+              },
+              "note": "DEFAULT bylaw only; the Act sets no quorum.",
+              "source": "Condominium Property Regulation, AR 168/2000 (https://kings-printer.alberta.ca/documents/Regs/2000_168.pdf) Sched.4 bylaw 20(2)",
+              "confidence": "high",
+              "needsLawyer": true
+            }
+          },
+          {
+            "type": "special general meeting",
+            "calledBy": {
+              "value": "Board at any time; must call one on written request of owners whose units hold at least 15% of total unit factors",
+              "note": "Request must state the business; meeting within 30 days of the request or owners may convene it themselves.",
+              "source": "Condominium Property Act, RSA 2000 c.C-22, current as of 14 May 2026 (https://kings-printer.alberta.ca/documents/Acts/C22.pdf) s.30.1",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": 14,
+                "max": null
+              },
+              "note": "Notice must state the purpose and proposed wording of any resolution.",
+              "source": "Condominium Property Act, RSA 2000 c.C-22, current as of 14 May 2026 (https://kings-printer.alberta.ca/documents/Acts/C22.pdf) s.30.1(1),(5)",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "quorum": {
+              "value": {
+                "percentOfOwners": 25
+              },
+              "note": "Default bylaw.",
+              "source": "Condominium Property Regulation, AR 168/2000 (https://kings-printer.alberta.ca/documents/Regs/2000_168.pdf) Sched.4 bylaw 20",
+              "confidence": "high",
+              "needsLawyer": true
+            }
+          },
+          {
+            "type": "board meeting",
+            "calledBy": {
+              "value": null,
+              "note": "not read / not verified: Board meeting notice in Schedule 4 not extracted.",
+              "source": "not verified",
+              "confidence": "low",
+              "needsLawyer": true
+            },
+            "noticeDays": {
+              "value": null,
+              "note": "not read / not verified: not read",
+              "source": "not verified",
+              "confidence": "low",
+              "needsLawyer": true
+            },
+            "quorum": {
+              "value": "Majority of the board (default bylaw)",
+              "note": "Located by text search only; exact bylaw number not recorded.",
+              "source": "Condominium Property Regulation, AR 168/2000 (https://kings-printer.alberta.ca/documents/Regs/2000_168.pdf) Sched.4 'Majority Vote and Quorum of the Board'",
+              "confidence": "medium",
+              "needsLawyer": true
+            }
+          }
+        ],
+        "quorum": {
+          "value": {
+            "percentOfOwners": 25
+          },
+          "note": "Default bylaw 20(2): not less than 25% of all persons with a right to receive notice, in person or by proxy.",
+          "source": "Condominium Property Regulation, AR 168/2000 (https://kings-printer.alberta.ca/documents/Regs/2000_168.pdf) Sched.4 bylaw 20",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "adjournedQuorum": {
+          "value": {
+            "minHoursLater": 168,
+            "noQuorum": true
+          },
+          "note": "If no quorum within 30 minutes the meeting stands adjourned to the same day next week, same place and time; at the adjourned meeting those present or represented by proxy form the quorum. Default bylaw.",
+          "source": "Condominium Property Regulation, AR 168/2000 (https://kings-printer.alberta.ca/documents/Regs/2000_168.pdf) Sched.4 bylaw 20(3)",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "majorities": {
+          "ordinary": {
+            "value": "Ordinary resolution = majority of all persons present or represented by proxy at the meeting entitled to vote (or signed by a majority of those who would be entitled)",
+            "note": "A tie fails (default bylaw 25). Abstentions are therefore effectively against.",
+            "source": "Condominium Property Act, RSA 2000 c.C-22, current as of 14 May 2026 (https://kings-printer.alberta.ca/documents/Acts/C22.pdf) s.1(1)(r); Condominium Property Regulation, AR 168/2000 (https://kings-printer.alberta.ca/documents/Regs/2000_168.pdf) Sched.4 bylaws 25, 26",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "special": {
+            "value": "Special resolution = at least 75% of all persons entitled to vote AND at least 75% of total unit factors (at a meeting, or agreed in writing)",
+            "note": "Two-part test; the product cannot express it.",
+            "source": "Condominium Property Act, RSA 2000 c.C-22, current as of 14 May 2026 (https://kings-printer.alberta.ca/documents/Acts/C22.pdf) s.1(1)(x)",
+            "confidence": "high",
+            "needsLawyer": false
+          }
+        },
+        "weightageModels": {
+          "value": {
+            "model": "owner vote (one vote per owner) by default, or unit-factor vote if provided for or demanded before the result is announced",
+            "jointOwners": "in an owner vote each co-owner has a vote; in a unit-factor vote each co-owner counts the share they own; a person owning several units gets one vote in an owner vote",
+            "corporateOwner": "may vote only on a special resolution, following the majority"
+          },
+          "note": "A person entitled to vote can demand a unit-factor vote before the owner-vote result is announced, which nullifies the owner vote.",
+          "source": "Condominium Property Act, RSA 2000 c.C-22, current as of 14 May 2026 (https://kings-printer.alberta.ca/documents/Acts/C22.pdf) s.26(1)-(1.5)",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "proxy": {
+          "value": {
+            "allowed": true,
+            "form": "electronic or hard copy with owner/unit, proxy name, date, signature",
+            "limit": "proxy may go to any individual (not a minor or non-individual); invalid if given to the condominium manager or an employee of the corporation/management company unless limited to establishing quorum; only the latest proxy for a unit counts; expires at the earliest of its stated date, 6 months, or when the giver stops owning",
+            "proxyHolderCannotTransfer": true
+          },
+          "note": "No limit on the number of proxies one person may hold was found.",
+          "source": "Condominium Property Regulation, AR 168/2000 (https://kings-printer.alberta.ca/documents/Regs/2000_168.pdf) ss.31.2-31.5; Sched.4 bylaw 28; Condominium Property Act, RSA 2000 c.C-22, current as of 14 May 2026 (https://kings-printer.alberta.ca/documents/Acts/C22.pdf) s.26(4)",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "votingMethods": {
+          "value": {
+            "default": "show of hands or poll (unit-factor vote); results of show of hands and poll counts go in the minutes; unit-factor votes counted by at least 2 people (one a board member and one not, where possible)",
+            "secretBallot": "not required by the Act or default bylaws (bylaws 22 and 24 on voting were repealed in 2026 per the PDF)"
+          },
+          "note": "",
+          "source": "Condominium Property Regulation, AR 168/2000 (https://kings-printer.alberta.ca/documents/Regs/2000_168.pdf) Sched.4 bylaws 23, 26; Condominium Property Act, RSA 2000 c.C-22, current as of 14 May 2026 (https://kings-printer.alberta.ca/documents/Acts/C22.pdf) s.26",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "electronicVoting": {
+          "value": {
+            "allowed": true,
+            "detail": "Unless the bylaws expressly say otherwise, a person may attend by electronic means, a meeting may be entirely electronic, and voting may be by any electronic/telephonic method the corporation makes available; attendee is deemed present. In-person meetings must be in the municipality unless an ordinary resolution moves them. Resolutions may also be passed in writing (ordinary: signed by majority; special: 75% in writing)."
+          },
+          "note": "",
+          "source": "Condominium Property Act, RSA 2000 c.C-22, current as of 14 May 2026 (https://kings-printer.alberta.ca/documents/Acts/C22.pdf) ss.31(1),(2), 26(6)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "minutesDeadlineDays": {
+          "value": null,
+          "note": "not read / not verified: no deadline found in the sections read",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "recordRetentionYears": {
+          "value": 7,
+          "note": "Approved minutes of general meetings and board meetings: 7 years after creation (a retention table in the Regulation; table title not recorded - read as a row).",
+          "source": "Condominium Property Regulation, AR 168/2000 (https://kings-printer.alberta.ca/documents/Regs/2000_168.pdf) retention table row for s.20.52(1)(h)",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "memberInspectionRight": {
+          "value": "A mortgagee may inspect minutes of board and general meetings on 10 days' written notice; the owner-inspection rule was not located",
+          "note": "Mortgagee right is s.45.",
+          "source": "Condominium Property Act, RSA 2000 c.C-22, current as of 14 May 2026 (https://kings-printer.alberta.ca/documents/Acts/C22.pdf) s.45",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "electionRoles": {
+          "value": null,
+          "note": "not read / not verified: Default bylaw 23(3): where possible vote counters are one board member and one non-board owner. No returning officer role.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "termYears": {
+          "value": {
+            "years": 2,
+            "note": "Default bylaw: elected at an AGM for a term ending at the conclusion of the AGM in the 2nd year after election; first board: up to 50% for one year. 2/3 of directors must be owners or mortgagees unless bylaws differ (Act s.28(1.1))."
+          },
+          "note": "Default only.",
+          "source": "Condominium Property Regulation, AR 168/2000 (https://kings-printer.alberta.ca/documents/Regs/2000_168.pdf) Sched.4 bylaw 8; Condominium Property Act, RSA 2000 c.C-22, current as of 14 May 2026 (https://kings-printer.alberta.ca/documents/Acts/C22.pdf) s.28(1.1)",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "eligibility": {
+          "value": "Default bylaw: disclose conflicts/debts before the vote; at an election each voter may vote for as many nominees as there are vacancies; a person owning 2+ units votes for each unit",
+          "note": "",
+          "source": "Condominium Property Regulation, AR 168/2000 (https://kings-printer.alberta.ca/documents/Regs/2000_168.pdf) Sched.4 bylaws 6-7",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "defaulterDisqualification": {
+          "value": "An owner/mortgagee may not vote where contributions or other obligations to the corporation are more than 30 days in arrears before the vote",
+          "note": "",
+          "source": "Condominium Property Act, RSA 2000 c.C-22, current as of 14 May 2026 (https://kings-printer.alberta.ca/documents/Acts/C22.pdf) s.26(5)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "requisition": {
+          "value": {
+            "percentOfUnitFactors": 15,
+            "deadlineDays": 30
+          },
+          "note": "",
+          "source": "Condominium Property Act, RSA 2000 c.C-22, current as of 14 May 2026 (https://kings-printer.alberta.ca/documents/Acts/C22.pdf) s.30.1(2),(4)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "nominationWithdrawal": {
+          "value": {
+            "agendaItemDeadline": "at most 30 days before the AGM (default bylaw 19)"
+          },
+          "note": "Only agenda items, not candidates.",
+          "source": "Condominium Property Regulation, AR 168/2000 (https://kings-printer.alberta.ca/documents/Regs/2000_168.pdf) Sched.4 bylaw 19",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "reservedSeats": {
+          "value": null,
+          "note": "None found.",
+          "source": "Condominium Property Act, RSA 2000 c.C-22, current as of 14 May 2026 (https://kings-printer.alberta.ca/documents/Acts/C22.pdf) s.28",
+          "confidence": "medium",
+          "needsLawyer": false
+        },
+        "notes": [
+          "Compiled 2026-10-24 from the Alberta King's Printer PDFs (downloaded and text-extracted); research only, not legal advice.",
+          "The Act defers quorum/term/most procedure to bylaws; Schedule 4 supplies defaults only until the corporation passes its own bylaws.",
+          "Bare land condominiums are under the same Act; no separate meeting rules were found in the sections read."
+        ]
+      },
+      "engine": {
+        "id": "ca-ab-condo",
+        "name": "Alberta Condominium Property Act + default bylaws (Reg Sched. 4)",
+        "jurisdiction": "CA-AB",
+        "confidence": "medium",
+        "needsLawyer": true,
+        "params": {
+          "notice.minDays": 14,
+          "quorum.basis": "flats",
+          "quorum.percentBp": 2500,
+          "quorum.strict": false,
+          "quorum.countProxies": true,
+          "adjourned.noQuorum": true,
+          "adjourned.minHoursLater": 168,
+          "majority.simple.basis": "present",
+          "tie.break": "none",
+          "requisition.percentBp": 1500,
+          "term.years": 2
+        },
+        "options": {
+          "proxy_voting": true,
+          "weightage": null,
+          "secret_ballot": null
+        },
+        "locked": {
+          "proxy_voting": {
+            "value": true,
+            "reason": "Condominium Property Act s.26(4): an owner may vote personally or by proxy"
+          }
+        },
+        "notice": {
+          "agm": {
+            "min": 14,
+            "max": null
+          },
+          "sgm": {
+            "min": 14,
+            "max": null
+          }
+        },
+        "recommended": [
+          "s.30(3): written notice to every owner at least 14 days before; also send statements, reserve report and budget 14 days before an AGM.",
+          "Default bylaw 20: quorum is 25% of persons entitled to notice; if missed, same day next week and then those present form the quorum.",
+          "Proxy rules (Reg ss.31.2-31.5): valid 6 months at most; not to a manager or employee except to make quorum; latest proxy wins.",
+          "If your corporation has its own registered bylaws they replace the defaults above (Act s.33) - check them first."
+        ],
+        "gaps": [
+          "Special resolution needs 75% of persons AND 75% of unit factors (two-part test).",
+          "Owner vote versus unit-factor vote, which any voter can demand before results are announced.",
+          "Proxies expire after 6 months; manager/employee proxy only for quorum.",
+          "Preliminary notice 60 days before the AGM with agenda-item call (default bylaw 19).",
+          "Written-resolution route instead of a meeting (s.26(6))."
+        ]
+      }
+    },
+    {
+      "research": {
+        "id": "ca-qc-co-ownership",
+        "name": "Quebec - Civil Code of Quebec, divided co-ownership of immovables (arts. 1038 ff.)",
+        "region": "Quebec",
+        "jurisdiction": "CA-QC",
+        "instruments": [
+          {
+            "value": "Civil Code of Quebec (CCQ), Book Four, divided co-ownership (arts. 1038-1109), together with the general rules on legal-person meetings (arts. 335-364)",
+            "note": "PRIMARY TEXT NOT READ: LegisQuebec and CanLII returned HTTP 403 / bot challenge, and Protegez-vous is behind a Cloudflare challenge (not bypassed). Everything below is from ONE law-firm summary (Fiset Legal) that I opened, plus search-result excerpts of a Chambre des notaires article that I could not open.",
+            "source": "Fiset Legal summary of the Civil Code of Quebec rules on co-owners' meetings (https://fisetlegal.com/en/le-deroulement-des-assemblees-des-coproprietaires/)",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          {
+            "value": null,
+            "note": "The declaration of co-ownership and the building's own regulation govern details; not read.",
+            "source": "not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "annual general meeting",
+            "calledBy": {
+              "value": "Syndicate (board) must call at least once a year (arts. 345, 1072 per the summary)",
+              "note": "Deadline after year end not verified.",
+              "source": "Fiset Legal summary of the Civil Code of Quebec rules on co-owners' meetings (https://fisetlegal.com/en/le-deroulement-des-assemblees-des-coproprietaires/)",
+              "confidence": "medium",
+              "needsLawyer": true
+            },
+            "noticeDays": {
+              "value": {
+                "min": 10,
+                "max": 45
+              },
+              "note": "Per the summary: notice 10 to 45 days before (art. 346) giving date, time, place and agenda; the declaration may set a different period; the annual notice must carry financial statements, budget, proposed declaration changes and contracts/works notes (art. 1087). Waiver possible; attending without objecting waives notice (art. 353).",
+              "source": "Fiset Legal summary of the Civil Code of Quebec rules on co-owners' meetings (https://fisetlegal.com/en/le-deroulement-des-assemblees-des-coproprietaires/)",
+              "confidence": "medium",
+              "needsLawyer": true
+            },
+            "quorum": {
+              "value": {
+                "majorityOfVotes": true
+              },
+              "note": "Majority of the votes present or represented (art. 1089). Quorum is counted in votes, not heads.",
+              "source": "Fiset Legal summary of the Civil Code of Quebec rules on co-owners' meetings (https://fisetlegal.com/en/le-deroulement-des-assemblees-des-coproprietaires/)",
+              "confidence": "medium",
+              "needsLawyer": true
+            }
+          },
+          {
+            "type": "special / extraordinary meeting",
+            "calledBy": {
+              "value": "Board; or co-owners holding 10% of votes can require one; if the board does not act within 21 days a signatory may call it (art. 352 per the summary)",
+              "note": "",
+              "source": "Fiset Legal summary of the Civil Code of Quebec rules on co-owners' meetings (https://fisetlegal.com/en/le-deroulement-des-assemblees-des-coproprietaires/)",
+              "confidence": "medium",
+              "needsLawyer": true
+            },
+            "noticeDays": {
+              "value": {
+                "min": 10,
+                "max": 45
+              },
+              "note": "Same general rule; items not on the agenda cannot be added unless all are present and agree (art. 348).",
+              "source": "Fiset Legal summary of the Civil Code of Quebec rules on co-owners' meetings (https://fisetlegal.com/en/le-deroulement-des-assemblees-des-coproprietaires/)",
+              "confidence": "medium",
+              "needsLawyer": true
+            },
+            "quorum": {
+              "value": {
+                "majorityOfVotes": true
+              },
+              "note": "As above.",
+              "source": "Fiset Legal summary of the Civil Code of Quebec rules on co-owners' meetings (https://fisetlegal.com/en/le-deroulement-des-assemblees-des-coproprietaires/)",
+              "confidence": "medium",
+              "needsLawyer": true
+            }
+          }
+        ],
+        "quorum": {
+          "value": {
+            "majorityOfVotes": true,
+            "basis": "votes (quote-parts), not owners"
+          },
+          "note": "A meeting that loses its quorum must be adjourned if a co-owner asks (art. 1089).",
+          "source": "Fiset Legal summary of the Civil Code of Quebec rules on co-owners' meetings (https://fisetlegal.com/en/le-deroulement-des-assemblees-des-coproprietaires/)",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "adjournedQuorum": {
+          "value": null,
+          "note": "CONFLICT between secondary sources: the summary and the notaires excerpt both say 3/4 of the votes present or represented at the adjourned meeting; another search excerpt said one quarter. Left blank on purpose; art. 1097-type decisions have different rules. Verify art. 1089 in LegisQuebec.",
+          "source": "Fiset Legal (above) vs unnamed search excerpt",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "majorities": {
+          "ordinary": {
+            "value": "Simple majority of votes for ordinary decisions",
+            "note": "Exact base (votes present vs cast) not verified.",
+            "source": "Fiset Legal summary of the Civil Code of Quebec rules on co-owners' meetings (https://fisetlegal.com/en/le-deroulement-des-assemblees-des-coproprietaires/)",
+            "confidence": "low",
+            "needsLawyer": true
+          },
+          "special": {
+            "value": {
+              "summaryWording": "art. 1097: 50% of owners representing 75% of votes (common-part works, declaration changes, acquisitions/sales); art. 1098: 75% of owners representing 90% of votes (change of destination)"
+            },
+            "note": "Thresholds changed in the 2019-2020 reform and sources word them differently; do not code them without reading the Code.",
+            "source": "Fiset Legal summary of the Civil Code of Quebec rules on co-owners' meetings (https://fisetlegal.com/en/le-deroulement-des-assemblees-des-coproprietaires/)",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        },
+        "weightageModels": {
+          "value": {
+            "model": "votes proportional to the relative value of each unit (quote-part) (art. 1090)",
+            "reduction": "building under 5 units: a co-owner holding over half the votes is cut to the total of the others (art. 1091); developer capped at 60% of votes in years 2-3 and 25% after (art. 1092)",
+            "jointOwners": "co-owners of one unit vote in proportion to their undivided shares"
+          },
+          "note": "",
+          "source": "Fiset Legal summary of the Civil Code of Quebec rules on co-owners' meetings (https://fisetlegal.com/en/le-deroulement-des-assemblees-des-coproprietaires/)",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "proxy": {
+          "value": {
+            "allowed": true,
+            "form": "written mandate given to the administrators/meeting officers before the meeting (art. 350)",
+            "limit": null
+          },
+          "note": "The summary states no cap on proxies per person. Not verified in the Code.",
+          "source": "Fiset Legal summary of the Civil Code of Quebec rules on co-owners' meetings (https://fisetlegal.com/en/le-deroulement-des-assemblees-des-coproprietaires/)",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "votingMethods": {
+          "value": {
+            "default": "show of hands",
+            "secretBallot": "on request (art. 351)"
+          },
+          "note": "",
+          "source": "Fiset Legal summary of the Civil Code of Quebec rules on co-owners' meetings (https://fisetlegal.com/en/le-deroulement-des-assemblees-des-coproprietaires/)",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "electronicVoting": {
+          "value": null,
+          "note": "not read / not verified: not covered by the single source opened; remote-meeting rules not verified.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "minutesDeadlineDays": {
+          "value": null,
+          "note": "not read / not verified: no deadline found; minutes with precise vote results must be kept in the syndicate's register (art. 1070 per the summary)",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "recordRetentionYears": {
+          "value": null,
+          "note": "not read / not verified: not found",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "memberInspectionRight": {
+          "value": null,
+          "note": "not read / not verified: not found in the source opened",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "electionRoles": {
+          "value": null,
+          "note": "not read / not verified: not found",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "termYears": {
+          "value": null,
+          "note": "not read / not verified: Board term not stated in the source opened.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "eligibility": {
+          "value": null,
+          "note": "not read / not verified: not found",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "defaulterDisqualification": {
+          "value": "A co-owner more than 3 months behind on common charges or reserve-fund contributions loses the right to vote but keeps the right to challenge decisions (arts. 1094, 1103)",
+          "note": "",
+          "source": "Fiset Legal summary of the Civil Code of Quebec rules on co-owners' meetings (https://fisetlegal.com/en/le-deroulement-des-assemblees-des-coproprietaires/)",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "requisition": {
+          "value": {
+            "percentOfVotes": 10,
+            "deadlineDays": 21
+          },
+          "note": "Art. 352 (general legal-person rule) per the summary.",
+          "source": "Fiset Legal summary of the Civil Code of Quebec rules on co-owners' meetings (https://fisetlegal.com/en/le-deroulement-des-assemblees-des-coproprietaires/)",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "nominationWithdrawal": {
+          "value": null,
+          "note": "not read / not verified: not found",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "reservedSeats": {
+          "value": null,
+          "note": "not read / not verified: not found",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "notes": [
+          "Compiled 2026-10-24. Quebec is the WEAKEST pack in this file: no primary text could be read. Treat every number as a lead to verify, not a rule.",
+          "Decisions can be challenged in court within 60 days (art. 1103 per the summary).",
+          "Each building's declaration of co-ownership may change several defaults."
+        ]
+      },
+      "engine": {
+        "id": "ca-qc-co-ownership",
+        "name": "Quebec divided co-ownership (CCQ arts. 1038 ff.) - verify before use",
+        "jurisdiction": "CA-QC",
+        "confidence": "low",
+        "needsLawyer": true,
+        "params": {
+          "notice.minDays": 10,
+          "notice.maxDays": 45,
+          "quorum.basis": "weight",
+          "quorum.percentBp": 5000,
+          "quorum.strict": true,
+          "quorum.countProxies": true,
+          "requisition.percentBp": 1000
+        },
+        "options": {
+          "proxy_voting": true,
+          "weightage": true,
+          "secret_ballot": null
+        },
+        "locked": {},
+        "notice": {
+          "agm": {
+            "min": 10,
+            "max": 45
+          },
+          "sgm": {
+            "min": 10,
+            "max": 45
+          }
+        },
+        "recommended": [
+          "Secondary source only: check arts. 346, 352, 1089, 1090 in LegisQuebec before relying on these numbers.",
+          "Read your declaration of co-ownership: it may set a different notice period or voting split."
+        ],
+        "gaps": [
+          "Adjourned-meeting quorum (sources conflict).",
+          "Majorities of 50% of owners AND 75%/90% of votes (two-part tests).",
+          "Vote reduction rules (small buildings, developer cap, 3-month arrears).",
+          "Secret ballot on request.",
+          "Annual meeting deadline and electronic meetings: not verified."
+        ]
+      }
+    },
+    {
+      "research": {
+        "id": "ca-mb-condo",
+        "name": "Manitoba - The Condominium Act (C.C.S.M. c. C170)",
+        "region": "Manitoba",
+        "jurisdiction": "CA-MB",
+        "instruments": [
+          {
+            "value": "The Condominium Act, C.C.S.M. c. C170 (bilingual consolidation PDF)",
+            "note": "Part 6 meetings, voting and records (ss.110-131) read. Regulations under the Act (notice period, records) not read.",
+            "source": "The Condominium Act, C.C.S.M. c. C170, current 30 May 2023 to 21 Oct 2026 (https://web2.gov.mb.ca/laws/statutes/ccsm/_pdf.php?cap=c170)",
+            "confidence": "high",
+            "needsLawyer": false
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "annual general meeting",
+            "calledBy": {
+              "value": "Board must hold a general meeting within 6 months after each fiscal year end; can be waived only if ALL voting owners waive in writing and consent to resolutions electing a new board by acclamation and other business",
+              "note": "",
+              "source": "The Condominium Act, C.C.S.M. c. C170, current 30 May 2023 to 21 Oct 2026 (https://web2.gov.mb.ca/laws/statutes/ccsm/_pdf.php?cap=c170) s.110",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": null,
+              "note": "The Act requires written notice with date, time, place, business in enough detail, any proposed by-law/declaration changes and electronic-access instructions (s.116(1)) but sets NO number of days for an ordinary meeting; only 30 days minimum for a meeting on matters needing owners' written consent (s.116(2)). Number of days probably in by-laws/regulations: not verified.",
+              "source": "The Condominium Act, C.C.S.M. c. C170, current 30 May 2023 to 21 Oct 2026 (https://web2.gov.mb.ca/laws/statutes/ccsm/_pdf.php?cap=c170) s.116",
+              "confidence": "high",
+              "needsLawyer": true
+            },
+            "quorum": {
+              "value": {
+                "percentOfVotingRights": 33,
+                "smallCorp": "66% if fewer than 4 units or owners",
+                "note": "declaration may set higher"
+              },
+              "note": "Present in person or by proxy.",
+              "source": "The Condominium Act, C.C.S.M. c. C170, current 30 May 2023 to 21 Oct 2026 (https://web2.gov.mb.ca/laws/statutes/ccsm/_pdf.php?cap=c170) s.117(1)",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          },
+          {
+            "type": "special general meeting",
+            "calledBy": {
+              "value": "Board at any time, or on written request signed by owners entitled to vote who own at least 25% of the units",
+              "note": "Board must call within 35 days or (if requestors agree) put it on the next AGM agenda; otherwise a signer may call it, held within 45 days; cost reimbursed. Request must state the business and, for removal of a director, the name and reason.",
+              "source": "The Condominium Act, C.C.S.M. c. C170, current 30 May 2023 to 21 Oct 2026 (https://web2.gov.mb.ca/laws/statutes/ccsm/_pdf.php?cap=c170) ss.113-115",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": null,
+              "note": "As above - no day count in the Act for ordinary special meetings.",
+              "source": "The Condominium Act, C.C.S.M. c. C170, current 30 May 2023 to 21 Oct 2026 (https://web2.gov.mb.ca/laws/statutes/ccsm/_pdf.php?cap=c170) s.116",
+              "confidence": "high",
+              "needsLawyer": true
+            },
+            "quorum": {
+              "value": {
+                "percentOfVotingRights": 33
+              },
+              "note": "As above.",
+              "source": "The Condominium Act, C.C.S.M. c. C170, current 30 May 2023 to 21 Oct 2026 (https://web2.gov.mb.ca/laws/statutes/ccsm/_pdf.php?cap=c170) s.117",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          }
+        ],
+        "quorum": {
+          "value": {
+            "percentOfVotingRights": 33,
+            "smallCorp66": true
+          },
+          "note": "Owners barred from voting by a by-law for arrears are ignored in counting quorum (s.117(2)).",
+          "source": "The Condominium Act, C.C.S.M. c. C170, current 30 May 2023 to 21 Oct 2026 (https://web2.gov.mb.ca/laws/statutes/ccsm/_pdf.php?cap=c170) s.117",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "adjournedQuorum": {
+          "value": {
+            "noQuorum": true,
+            "detail": "If no quorum within 30 minutes after the notice time, the board may adjourn; at the adjourned meeting, owners present in person or by proxy form a quorum if still no quorum after 30 minutes. Corporation must take reasonable steps to tell voters about the adjournment. No minimum delay stated."
+          },
+          "note": "",
+          "source": "The Condominium Act, C.C.S.M. c. C170, current 30 May 2023 to 21 Oct 2026 (https://web2.gov.mb.ca/laws/statutes/ccsm/_pdf.php?cap=c170) s.118",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "majorities": {
+          "ordinary": {
+            "value": "Majority of the voting rights voted by owners present in person or by proxy and entitled to vote, unless the Act or declaration sets more",
+            "note": "So basis is votes cast.",
+            "source": "The Condominium Act, C.C.S.M. c. C170, current 30 May 2023 to 21 Oct 2026 (https://web2.gov.mb.ca/laws/statutes/ccsm/_pdf.php?cap=c170) s.122",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "special": {
+            "value": "Written-consent matters: 80% or more if the declaration says so ('specified percentage')",
+            "note": "Which items use it is spread across the Act; not collected.",
+            "source": "The Condominium Act, C.C.S.M. c. C170, current 30 May 2023 to 21 Oct 2026 (https://web2.gov.mb.ca/laws/statutes/ccsm/_pdf.php?cap=c170) s.1 'specified percentage'",
+            "confidence": "medium",
+            "needsLawyer": true
+          }
+        },
+        "weightageModels": {
+          "value": {
+            "model": "voting rights in the proportions set in the declaration (may be equal or by unit share)"
+          },
+          "note": "Check the declaration to know if it is one vote per unit.",
+          "source": "The Condominium Act, C.C.S.M. c. C170, current 30 May 2023 to 21 Oct 2026 (https://web2.gov.mb.ca/laws/statutes/ccsm/_pdf.php?cap=c170) s.125",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "proxy": {
+          "value": {
+            "allowed": true,
+            "form": "written authorisation (by-laws may require signature); general or for a specific meeting/resolution; revocable",
+            "limit": null,
+            "cannotBeProxy": "employee or agent of the corporation, declarant or developer side, or property manager and its employees/agents (for owners other than the declarant/developer)"
+          },
+          "note": "Void if given to a barred person. No cap per holder found.",
+          "source": "The Condominium Act, C.C.S.M. c. C170, current 30 May 2023 to 21 Oct 2026 (https://web2.gov.mb.ca/laws/statutes/ccsm/_pdf.php?cap=c170) s.128",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "votingMethods": {
+          "value": {
+            "allowed": "in person or by proxy; any voter may request a recorded vote before or promptly after a vote",
+            "secretBallot": "no secret-ballot provision found"
+          },
+          "note": "",
+          "source": "The Condominium Act, C.C.S.M. c. C170, current 30 May 2023 to 21 Oct 2026 (https://web2.gov.mb.ca/laws/statutes/ccsm/_pdf.php?cap=c170) ss.120, 121",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "electronicVoting": {
+          "value": {
+            "allowed": true,
+            "detail": "A general meeting may be held electronically (fully or partly) unless the by-laws prohibit it; a person participating is deemed present; an electronic meeting must allow electronic voting with identity verified, each person voting only in their own right or by valid proxy, and recorded votes individually counted. Fully electronic meetings need no place in the notice."
+          },
+          "note": "",
+          "source": "The Condominium Act, C.C.S.M. c. C170, current 30 May 2023 to 21 Oct 2026 (https://web2.gov.mb.ca/laws/statutes/ccsm/_pdf.php?cap=c170) ss.116(1)(b.1),(5.1), 119, 121.1",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "minutesDeadlineDays": {
+          "value": null,
+          "note": "not read / not verified: Minute book required (s.131(1)(a)); no deadline found.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "recordRetentionYears": {
+          "value": null,
+          "note": "not read / not verified: 'in accordance with the regulations' - regulations not read",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "memberInspectionRight": {
+          "value": null,
+          "note": "not read / not verified: Records section exists (s.131); inspection rules not read in this pass",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "electionRoles": {
+          "value": null,
+          "note": "not read / not verified: None named in sections read",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "termYears": {
+          "value": null,
+          "note": "Directors are elected at each AGM by owners present in person or by proxy; the by-laws may provide a LONGER term (s.111(2)); the default term itself is not stated in the sections read. A director may be removed by a vote at a general meeting (s.101). Directors elected at the turn-over meeting serve until the next AGM unless the by-laws say otherwise (s.76).",
+          "source": "The Condominium Act, C.C.S.M. c. C170, current 30 May 2023 to 21 Oct 2026 (https://web2.gov.mb.ca/laws/statutes/ccsm/_pdf.php?cap=c170) ss.76(2), 101, 111",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "eligibility": {
+          "value": null,
+          "note": "not read / not verified: not read",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "defaulterDisqualification": {
+          "value": "By-law under clause 167(1)(y) may bar an owner in arrears from voting; such votes are ignored for quorum and for resolution thresholds; owner can vote after paying arrears",
+          "note": "Optional, by by-law.",
+          "source": "The Condominium Act, C.C.S.M. c. C170, current 30 May 2023 to 21 Oct 2026 (https://web2.gov.mb.ca/laws/statutes/ccsm/_pdf.php?cap=c170) ss.117(2), 127",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "requisition": {
+          "value": {
+            "percentOfUnits": 25
+          },
+          "note": "",
+          "source": "The Condominium Act, C.C.S.M. c. C170, current 30 May 2023 to 21 Oct 2026 (https://web2.gov.mb.ca/laws/statutes/ccsm/_pdf.php?cap=c170) s.114(1)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "nominationWithdrawal": {
+          "value": null,
+          "note": "not read / not verified: not found",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "reservedSeats": {
+          "value": null,
+          "note": "not read / not verified: Declarant's board: 2 directors may be elected by non-declarant owners (s.69) - not a reserved seat in the sense of the product.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "notes": [
+          "Compiled 2026-10-24; research only, not legal advice.",
+          "Ordinary-meeting notice period is NOT in the Act; look for it in the regulations or the corporation's by-laws."
+        ]
+      },
+      "engine": {
+        "id": "ca-mb-condo",
+        "name": "Manitoba Condominium Act (C.C.S.M. c. C170)",
+        "jurisdiction": "CA-MB",
+        "confidence": "high",
+        "needsLawyer": true,
+        "params": {
+          "quorum.basis": "weight",
+          "quorum.percentBp": 3300,
+          "quorum.strict": false,
+          "quorum.countProxies": true,
+          "adjourned.noQuorum": true,
+          "majority.simple.basis": "cast",
+          "requisition.percentBp": 2500
+        },
+        "options": {
+          "proxy_voting": true,
+          "weightage": null,
+          "secret_ballot": null
+        },
+        "locked": {
+          "proxy_voting": {
+            "value": true,
+            "reason": "The Condominium Act (MB) s.120: a right to vote may be exercised in person or by proxy"
+          }
+        },
+        "notice": {
+          "agm": {
+            "min": null,
+            "max": null
+          },
+          "sgm": {
+            "min": null,
+            "max": null
+          }
+        },
+        "recommended": [
+          "s.116: the notice must be written, say where/when/what business, and carry any proposed by-law changes; the number of days is NOT in the Act - take it from your by-laws or the regulations.",
+          "s.117-118: quorum is 33% of voting rights (66% if under 4 units or owners); a failed meeting can be adjourned and then those present are the quorum.",
+          "s.128: a manager, the corporation's employees or agents cannot hold an owner's proxy."
+        ],
+        "gaps": [
+          "Notice day count (outside the Act).",
+          "66% quorum for corporations with fewer than 4 units/owners.",
+          "80% written-consent matters and 30-day notice for them.",
+          "Optional arrears bar on voting by by-law (clause 167(1)(y))."
+        ]
+      }
+    },
+    {
+      "research": {
+        "id": "ca-sk-condo",
+        "name": "Saskatchewan - The Condominium Property Act, 1993 + default bylaws",
+        "region": "Saskatchewan",
+        "jurisdiction": "CA-SK",
+        "instruments": [
+          {
+            "value": "The Condominium Property Act, 1993",
+            "note": "ss.1(1)(z),(aa), 40-43, 47 read.",
+            "source": "The Condominium Property Act, 1993, S.S. c. C-26.1 (consolidated incl. 2024 c.4) (https://publications.saskatchewan.ca/api/v1/products/421/formats/483/download)",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          {
+            "value": "The Condominium Property Regulations, 2001, Part II of the Appendix (default bylaws)",
+            "note": "Apply from title issue until the corporation makes its own bylaws by special resolution (Act ss.45-46); notice, quorum and board term below are DEFAULT bylaw values.",
+            "source": "The Condominium Property Regulations, 2001 (C-26.1 Reg 2), Appendix Part II default bylaws (https://publications.saskatchewan.ca/api/v1/products/1005/formats/1647/download) bylaws 5-31",
+            "confidence": "high",
+            "needsLawyer": true
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "annual general meeting",
+            "calledBy": {
+              "value": "Board must convene once a year, not later than 15 months after the end of the previous AGM; if it does not, an owner may convene one on notice to board and all owners",
+              "note": "Convening may be by electronic means unless bylaws prohibit (s.40(4)).",
+              "source": "The Condominium Property Act, 1993, S.S. c. C-26.1 (consolidated incl. 2024 c.4) (https://publications.saskatchewan.ca/api/v1/products/421/formats/483/download) s.40",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": 7,
+                "max": null
+              },
+              "note": "DEFAULT bylaw 21(1): written notice to each owner not less than 7 days before, stating place/date/time and all business with the level of approval needed. An unintended omission does not invalidate the meeting (bylaw 21(3)). Owners in arrears must get 10 days' written warning that they will not be able to vote (Act s.41(10)).",
+              "source": "The Condominium Property Regulations, 2001 (C-26.1 Reg 2), Appendix Part II default bylaws (https://publications.saskatchewan.ca/api/v1/products/1005/formats/1647/download) bylaw 21; The Condominium Property Act, 1993, S.S. c. C-26.1 (consolidated incl. 2024 c.4) (https://publications.saskatchewan.ca/api/v1/products/421/formats/483/download) s.41(10)",
+              "confidence": "high",
+              "needsLawyer": true
+            },
+            "quorum": {
+              "value": {
+                "percentOfUnitFactors": 25
+              },
+              "note": "Persons or proxies representing 25% of all unit factors (DEFAULT bylaw 22(2)).",
+              "source": "The Condominium Property Regulations, 2001 (C-26.1 Reg 2), Appendix Part II default bylaws (https://publications.saskatchewan.ca/api/v1/products/1005/formats/1647/download) bylaw 22",
+              "confidence": "high",
+              "needsLawyer": true
+            }
+          },
+          {
+            "type": "general (special) meeting",
+            "calledBy": {
+              "value": "Board at any time; must call on written request of owners (or designates) representing at least 25% of total unit factors, within 45 days of the request reaching a board member",
+              "note": "",
+              "source": "The Condominium Property Regulations, 2001 (C-26.1 Reg 2), Appendix Part II default bylaws (https://publications.saskatchewan.ca/api/v1/products/1005/formats/1647/download) bylaws 20, 20.1",
+              "confidence": "high",
+              "needsLawyer": true
+            },
+            "noticeDays": {
+              "value": {
+                "min": 7,
+                "max": null
+              },
+              "note": "Same notice rule.",
+              "source": "The Condominium Property Regulations, 2001 (C-26.1 Reg 2), Appendix Part II default bylaws (https://publications.saskatchewan.ca/api/v1/products/1005/formats/1647/download) bylaws 20.1(3), 21",
+              "confidence": "high",
+              "needsLawyer": true
+            },
+            "quorum": {
+              "value": {
+                "percentOfUnitFactors": 25
+              },
+              "note": "Same.",
+              "source": "The Condominium Property Regulations, 2001 (C-26.1 Reg 2), Appendix Part II default bylaws (https://publications.saskatchewan.ca/api/v1/products/1005/formats/1647/download) bylaw 22",
+              "confidence": "high",
+              "needsLawyer": true
+            }
+          },
+          {
+            "type": "board meeting",
+            "calledBy": {
+              "value": "President, or any board member on at least 7 days' notice stating the reason",
+              "note": "",
+              "source": "The Condominium Property Regulations, 2001 (C-26.1 Reg 2), Appendix Part II default bylaws (https://publications.saskatchewan.ca/api/v1/products/1005/formats/1647/download) bylaw 17(1)(a),(b)",
+              "confidence": "high",
+              "needsLawyer": true
+            },
+            "noticeDays": {
+              "value": {
+                "min": 7,
+                "max": null
+              },
+              "note": "",
+              "source": "The Condominium Property Regulations, 2001 (C-26.1 Reg 2), Appendix Part II default bylaws (https://publications.saskatchewan.ca/api/v1/products/1005/formats/1647/download) bylaw 17(1)(b)",
+              "confidence": "high",
+              "needsLawyer": true
+            },
+            "quorum": {
+              "value": "2 if the board has 4 or fewer members, 3 if 5-6, 4 if 7",
+              "note": "",
+              "source": "The Condominium Property Regulations, 2001 (C-26.1 Reg 2), Appendix Part II default bylaws (https://publications.saskatchewan.ca/api/v1/products/1005/formats/1647/download) bylaw 13(2)",
+              "confidence": "high",
+              "needsLawyer": true
+            }
+          }
+        ],
+        "quorum": {
+          "value": {
+            "percentOfUnitFactors": 25
+          },
+          "note": "Default bylaw; the Act sets none.",
+          "source": "The Condominium Property Regulations, 2001 (C-26.1 Reg 2), Appendix Part II default bylaws (https://publications.saskatchewan.ca/api/v1/products/1005/formats/1647/download) bylaw 22(2)",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "adjournedQuorum": {
+          "value": {
+            "minHoursLater": 168,
+            "noQuorum": true
+          },
+          "note": "Not present within 30 minutes: adjourned to the corresponding day next week, same place and time; at the adjourned meeting those present or by proxy are the quorum. Default bylaw.",
+          "source": "The Condominium Property Regulations, 2001 (C-26.1 Reg 2), Appendix Part II default bylaws (https://publications.saskatchewan.ca/api/v1/products/1005/formats/1647/download) bylaw 22(3),(4)",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "majorities": {
+          "ordinary": {
+            "value": "Majority of the votes cast, unless the Act says otherwise; bylaws may require more for named subjects",
+            "note": "",
+            "source": "The Condominium Property Act, 1993, S.S. c. C-26.1 (consolidated incl. 2024 c.4) (https://publications.saskatchewan.ca/api/v1/products/421/formats/483/download) s.41(3),(4)",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "special": {
+            "value": "Special resolution = majority of not less than two-thirds of the persons entitled to vote (votes cast by those present/proxy plus signatures of the others, or all by signature); unanimous resolution also defined",
+            "note": "Used for bylaw changes (s.46).",
+            "source": "The Condominium Property Act, 1993, S.S. c. C-26.1 (consolidated incl. 2024 c.4) (https://publications.saskatchewan.ca/api/v1/products/421/formats/483/download) s.1(1)(z),(aa); s.46",
+            "confidence": "high",
+            "needsLawyer": false
+          }
+        },
+        "weightageModels": {
+          "value": {
+            "model": "votes proportional to unit factor; bylaws may allow show of hands for specified purposes, but anyone can ask for a vote by unit factors",
+            "default": "show of hands unless a unit-factor vote is demanded; co-owners share one show-of-hands vote",
+            "tie": "tie on show of hands -> unit-factor vote; tie on unit-factor vote -> resolution defeated"
+          },
+          "note": "",
+          "source": "The Condominium Property Act, 1993, S.S. c. C-26.1 (consolidated incl. 2024 c.4) (https://publications.saskatchewan.ca/api/v1/products/421/formats/483/download) s.41(1),(2); The Condominium Property Regulations, 2001 (C-26.1 Reg 2), Appendix Part II default bylaws (https://publications.saskatchewan.ca/api/v1/products/1005/formats/1647/download) bylaws 24-27",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "proxy": {
+          "value": {
+            "allowed": true,
+            "form": "written/printed form; standing appointment valid at most 6 months, or for a specific meeting/resolution; revocable at any time; must be given to a board member soon after signing",
+            "limit": null,
+            "cannotBeProxy": "the property manager or any other employee of the corporation (subject to regulations)",
+            "retention": "proxies kept for the longer of 90 days after expiry and 90 days after the meeting"
+          },
+          "note": "No cap per proxy holder found.",
+          "source": "The Condominium Property Act, 1993, S.S. c. C-26.1 (consolidated incl. 2024 c.4) (https://publications.saskatchewan.ca/api/v1/products/421/formats/483/download) s.41.1",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "votingMethods": {
+          "value": {
+            "default": "show of hands or vote by unit factors on demand; bylaws may add rules on how a vote is conducted (s.47(1)(c))",
+            "secretBallot": "not mentioned in the Act or default bylaws"
+          },
+          "note": "",
+          "source": "The Condominium Property Regulations, 2001 (C-26.1 Reg 2), Appendix Part II default bylaws (https://publications.saskatchewan.ca/api/v1/products/1005/formats/1647/download) bylaws 24-25; The Condominium Property Act, 1993, S.S. c. C-26.1 (consolidated incl. 2024 c.4) (https://publications.saskatchewan.ca/api/v1/products/421/formats/483/download) s.47(1)(c)",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "electronicVoting": {
+          "value": {
+            "allowed": true,
+            "detail": "An AGM may be convened by telephone/electronic means that lets all participants communicate adequately, unless the bylaws prohibit it. Electronic voting itself is not specified in the sections read."
+          },
+          "note": "",
+          "source": "The Condominium Property Act, 1993, S.S. c. C-26.1 (consolidated incl. 2024 c.4) (https://publications.saskatchewan.ca/api/v1/products/421/formats/483/download) s.40(4)",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "minutesDeadlineDays": {
+          "value": null,
+          "note": "not read / not verified: not found",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "recordRetentionYears": {
+          "value": null,
+          "note": "not read / not verified: not found in sections read (proxies: 90 days)",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "memberInspectionRight": {
+          "value": "Owner or mortgagee (or written agent) may inspect books of account and the minutes of annual and general meetings at reasonable times (default bylaw 17(1)(e),(f))",
+          "note": "",
+          "source": "The Condominium Property Regulations, 2001 (C-26.1 Reg 2), Appendix Part II default bylaws (https://publications.saskatchewan.ca/api/v1/products/1005/formats/1647/download) bylaw 17",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "electionRoles": {
+          "value": null,
+          "note": "not read / not verified: none named",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "termYears": {
+          "value": {
+            "years": 2,
+            "note": "Default bylaw 8: elected at an annual meeting for a term ending at the conclusion of the annual meeting in the 2nd year after; first board: up to 50% for one year. Board 3-7 owners or designates (bylaw 5). Director removable by resolution at a general meeting (bylaw 9)."
+          },
+          "note": "Default only.",
+          "source": "The Condominium Property Regulations, 2001 (C-26.1 Reg 2), Appendix Part II default bylaws (https://publications.saskatchewan.ca/api/v1/products/1005/formats/1647/download) bylaws 5, 8, 9",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "eligibility": {
+          "value": "18+; owner or designate; one owner per unit on the board; owner in arrears, bankrupt, certified incapable, or convicted of an indictable offence carrying 2+ years cannot stand; office is vacated if more than 30 days in arrears",
+          "note": "",
+          "source": "The Condominium Property Regulations, 2001 (C-26.1 Reg 2), Appendix Part II default bylaws (https://publications.saskatchewan.ca/api/v1/products/1005/formats/1647/download) bylaws 5, 6, 10",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "defaulterDisqualification": {
+          "value": "Unless the corporation has its own bylaw, an owner whose contributions are 30+ days in arrears at the meeting cannot vote (except on unanimous resolutions) unless paid before or at the meeting; corporation may pass a bylaw to change this",
+          "note": "",
+          "source": "The Condominium Property Act, 1993, S.S. c. C-26.1 (consolidated incl. 2024 c.4) (https://publications.saskatchewan.ca/api/v1/products/421/formats/483/download) s.41(5)-(11)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "requisition": {
+          "value": {
+            "percentOfUnitFactors": 25,
+            "deadlineDays": 45
+          },
+          "note": "",
+          "source": "The Condominium Property Regulations, 2001 (C-26.1 Reg 2), Appendix Part II default bylaws (https://publications.saskatchewan.ca/api/v1/products/1005/formats/1647/download) bylaw 20",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "nominationWithdrawal": {
+          "value": null,
+          "note": "not read / not verified: not found",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "reservedSeats": {
+          "value": null,
+          "note": "None found.",
+          "source": "The Condominium Property Regulations, 2001 (C-26.1 Reg 2), Appendix Part II default bylaws (https://publications.saskatchewan.ca/api/v1/products/1005/formats/1647/download) bylaws 5-11",
+          "confidence": "medium",
+          "needsLawyer": false
+        },
+        "notes": [
+          "Compiled 2026-10-24 from publications.saskatchewan.ca PDFs; research only, not legal advice.",
+          "Most operational values come from default bylaws that a corporation may have replaced."
+        ]
+      },
+      "engine": {
+        "id": "ca-sk-condo",
+        "name": "Saskatchewan Condominium Property Act, 1993 + default bylaws",
+        "jurisdiction": "CA-SK",
+        "confidence": "medium",
+        "needsLawyer": true,
+        "params": {
+          "notice.minDays": 7,
+          "quorum.basis": "weight",
+          "quorum.percentBp": 2500,
+          "quorum.strict": false,
+          "quorum.countProxies": true,
+          "adjourned.noQuorum": true,
+          "adjourned.minHoursLater": 168,
+          "majority.simple.basis": "cast",
+          "tie.break": "none",
+          "requisition.percentBp": 2500,
+          "term.years": 2
+        },
+        "options": {
+          "proxy_voting": true,
+          "weightage": null,
+          "secret_ballot": null
+        },
+        "locked": {
+          "proxy_voting": {
+            "value": true,
+            "reason": "Condominium Property Act, 1993 s.41.1: an owner may appoint a proxy (standing proxy max 6 months)"
+          }
+        },
+        "notice": {
+          "agm": {
+            "min": 7,
+            "max": null
+          },
+          "sgm": {
+            "min": 7,
+            "max": null
+          },
+          "committee": {
+            "min": 7,
+            "max": null
+          }
+        },
+        "recommended": [
+          "Default bylaw 21: at least 7 days' written notice with the business and the level of approval each item needs.",
+          "s.41(10): owners 30+ days in arrears must be warned in writing at least 10 days before the meeting that they cannot vote unless they pay.",
+          "s.41.1: a standing proxy lasts at most 6 months; the manager and corporation employees cannot be proxies.",
+          "If the corporation passed its own bylaws these defaults no longer apply."
+        ],
+        "gaps": [
+          "Special resolution = two-thirds of persons entitled to vote (no threshold setting).",
+          "Default show of hands vs vote by unit factors on demand.",
+          "Arrears bar on voting and the 10-day warning (Act s.41(8)-(11)).",
+          "6-month proxy expiry.",
+          "Tie: show-of-hands tie goes to a unit-factor vote."
+        ]
+      }
+    },
+    {
+      "research": {
+        "id": "ca-nl-condo",
+        "name": "Newfoundland and Labrador - Condominium Act, 2009",
+        "region": "Newfoundland and Labrador",
+        "jurisdiction": "CA-NL",
+        "instruments": [
+          {
+            "value": "Condominium Act, 2009, SNL 2009 c.C-29.1 (with amendments to 2022 c.12)",
+            "note": "ss.18.1, 19.1, 20, 21, 23, 27-30, 35 read. Condominium Regulations NOT read.",
+            "source": "Condominium Act, 2009, SNL 2009 c.C-29.1 (House of Assembly consolidation, https://www.assembly.nl.ca/legislation/sr/statutes/c29-1.htm)",
+            "confidence": "high",
+            "needsLawyer": false
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "annual general meeting",
+            "calledBy": {
+              "value": "Corporation: first AGM within 18 months of creation, later ones no more than 15 months after the previous AGM",
+              "note": "",
+              "source": "Condominium Act, 2009, SNL 2009 c.C-29.1 (House of Assembly consolidation, https://www.assembly.nl.ca/legislation/sr/statutes/c29-1.htm) s.18.1",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": null,
+              "note": "No notice period or content rule found in the Act text; may be in the regulations/by-laws - not verified.",
+              "source": "Condominium Act, 2009, SNL 2009 c.C-29.1 (House of Assembly consolidation, https://www.assembly.nl.ca/legislation/sr/statutes/c29-1.htm)",
+              "confidence": "low",
+              "needsLawyer": true
+            },
+            "quorum": {
+              "value": {
+                "percentOfCommonElements": 30
+              },
+              "note": "Owners of at least 30% of the common elements (interest), present in person or by proxy. If quorum is absent at the start or during the meeting, the owners present must adjourn to a fixed time and place.",
+              "source": "Condominium Act, 2009, SNL 2009 c.C-29.1 (House of Assembly consolidation, https://www.assembly.nl.ca/legislation/sr/statutes/c29-1.htm) s.20",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          }
+        ],
+        "quorum": {
+          "value": {
+            "percentOfCommonElements": 30
+          },
+          "note": "",
+          "source": "Condominium Act, 2009, SNL 2009 c.C-29.1 (House of Assembly consolidation, https://www.assembly.nl.ca/legislation/sr/statutes/c29-1.htm) s.20(1)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "adjournedQuorum": {
+          "value": null,
+          "note": "No lower quorum for an adjourned meeting; owners present 'shall adjourn the meeting to a fixed time and place'.",
+          "source": "Condominium Act, 2009, SNL 2009 c.C-29.1 (House of Assembly consolidation, https://www.assembly.nl.ca/legislation/sr/statutes/c29-1.htm) s.20(2)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "majorities": {
+          "ordinary": {
+            "value": "Director removal: majority of the votes cast at a meeting of members",
+            "note": "Other ordinary-resolution rule not found.",
+            "source": "Condominium Act, 2009, SNL 2009 c.C-29.1 (House of Assembly consolidation, https://www.assembly.nl.ca/legislation/sr/statutes/c29-1.htm) s.30(1)",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          "special": {
+            "value": {
+              "byLaws": "resolution of not less than 66% of members (s.35)",
+              "declarationOrDescriptionChange": "owners of at least 80% (ss.10, 12)",
+              "commonElementsChanges": "members who own 80% or greater (s.52)"
+            },
+            "note": "",
+            "source": "Condominium Act, 2009, SNL 2009 c.C-29.1 (House of Assembly consolidation, https://www.assembly.nl.ca/legislation/sr/statutes/c29-1.htm) ss.10, 12, 35, 52",
+            "confidence": "medium",
+            "needsLawyer": true
+          }
+        },
+        "weightageModels": {
+          "value": {
+            "model": "one vote per unit (consolidated units get one vote)"
+          },
+          "note": "",
+          "source": "Condominium Act, 2009, SNL 2009 c.C-29.1 (House of Assembly consolidation, https://www.assembly.nl.ca/legislation/sr/statutes/c29-1.htm) s.21(1),(2)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "proxy": {
+          "value": {
+            "allowed": true,
+            "form": "not specified in the Act",
+            "limit": null,
+            "mortgagee": "mortgage holder may not vote for the owner unless mortgagee in possession"
+          },
+          "note": "",
+          "source": "Condominium Act, 2009, SNL 2009 c.C-29.1 (House of Assembly consolidation, https://www.assembly.nl.ca/legislation/sr/statutes/c29-1.htm) s.21(1),(2.1)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "votingMethods": {
+          "value": {
+            "electronic": "vote may be held entirely by electronic means if the corporation approves the method, votes can be verified later, and tallied results do not reveal how any member voted (anonymous)"
+          },
+          "note": "No rule on show of hands vs ballot found.",
+          "source": "Condominium Act, 2009, SNL 2009 c.C-29.1 (House of Assembly consolidation, https://www.assembly.nl.ca/legislation/sr/statutes/c29-1.htm) s.21(6),(7)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "electronicVoting": {
+          "value": {
+            "allowed": true,
+            "detail": "Participation by telephone/electronic means if the corporation approves and provides it; a meeting may be held entirely electronically (deemed held at the registered office); electronic votes must be verifiable and anonymous."
+          },
+          "note": "",
+          "source": "Condominium Act, 2009, SNL 2009 c.C-29.1 (House of Assembly consolidation, https://www.assembly.nl.ca/legislation/sr/statutes/c29-1.htm) ss.19.1, 21(6),(7)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "minutesDeadlineDays": {
+          "value": null,
+          "note": "not read / not verified: not found",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "recordRetentionYears": {
+          "value": 7,
+          "note": "Financial records for at least 7 years from the end of the last fiscal period; minutes are 'records' that members may inspect on reasonable notice (no period stated for minutes).",
+          "source": "Condominium Act, 2009, SNL 2009 c.C-29.1 (House of Assembly consolidation, https://www.assembly.nl.ca/legislation/sr/statutes/c29-1.htm) s.23",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "memberInspectionRight": {
+          "value": "A member may inspect records on reasonable notice at any reasonable time and get copies for a reasonable fee",
+          "note": "",
+          "source": "Condominium Act, 2009, SNL 2009 c.C-29.1 (House of Assembly consolidation, https://www.assembly.nl.ca/legislation/sr/statutes/c29-1.htm) s.23(1),(4)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "electionRoles": {
+          "value": null,
+          "note": "not read / not verified: none named",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "termYears": {
+          "value": {
+            "years": 3,
+            "note": "Term of a board member is 3 years or a shorter period set by the declaration or by-laws; may continue until a successor is elected; re-election allowed."
+          },
+          "note": "Board: 3 persons (2 if only 2 units) or more per declaration/by-laws; quorum majority of the board.",
+          "source": "Condominium Act, 2009, SNL 2009 c.C-29.1 (House of Assembly consolidation, https://www.assembly.nl.ca/legislation/sr/statutes/c29-1.htm) s.27(1.1),(4),(7)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "eligibility": {
+          "value": "Director must be an owner (or a designate) and at least 19 years old",
+          "note": "",
+          "source": "Condominium Act, 2009, SNL 2009 c.C-29.1 (House of Assembly consolidation, https://www.assembly.nl.ca/legislation/sr/statutes/c29-1.htm) ss.28, 29",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "defaulterDisqualification": {
+          "value": null,
+          "note": "not read / not verified: none found",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "requisition": {
+          "value": null,
+          "note": "not read / not verified: No owner-requisition provision found in the Act text.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "nominationWithdrawal": {
+          "value": null,
+          "note": "not read / not verified: not found",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "reservedSeats": {
+          "value": "While the declarant owns units, the declarant appoints directors in proportion to units owned, unless 66% of members present vote to have the whole board elected",
+          "note": "",
+          "source": "Condominium Act, 2009, SNL 2009 c.C-29.1 (House of Assembly consolidation, https://www.assembly.nl.ca/legislation/sr/statutes/c29-1.htm) s.27(2),(3)",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "notes": [
+          "Compiled 2026-10-24; research only, not legal advice.",
+          "Notice and requisition rules are missing from the Act as read; check the Regulations and by-laws."
+        ]
+      },
+      "engine": {
+        "id": "ca-nl-condo",
+        "name": "Newfoundland and Labrador Condominium Act, 2009",
+        "jurisdiction": "CA-NL",
+        "confidence": "medium",
+        "needsLawyer": true,
+        "params": {
+          "quorum.basis": "weight",
+          "quorum.percentBp": 3000,
+          "quorum.strict": false,
+          "quorum.countProxies": true,
+          "term.years": 3,
+          "retention.years": 7
+        },
+        "options": {
+          "proxy_voting": true,
+          "weightage": false
+        },
+        "locked": {
+          "weightage": {
+            "value": false,
+            "reason": "Condominium Act, 2009 (NL) s.21(1): all voting by owners is on the basis of one vote per unit"
+          },
+          "proxy_voting": {
+            "value": true,
+            "reason": "Condominium Act, 2009 (NL) s.21(1): voting may be done by proxy"
+          }
+        },
+        "notice": {},
+        "recommended": [
+          "s.20: quorum is owners of at least 30% of the common elements, present or by proxy; if short, adjourn to a fixed time and place.",
+          "s.21(6): electronic votes must be verifiable but must not show how any member voted.",
+          "s.27(4): a board term is up to 3 years unless the by-laws shorten it."
+        ],
+        "gaps": [
+          "Meeting notice period and owner requisition: not in the Act text read.",
+          "Quorum counts the share of common elements (interest), but voting is one vote per unit.",
+          "Declarant-appointed directors while the declarant owns units."
+        ]
+      }
+    },
+    {
+      "research": {
+        "id": "ca-pe-condo",
+        "name": "Prince Edward Island - Condominium Act (c.C-16)",
+        "region": "Prince Edward Island",
+        "jurisdiction": "CA-PE",
+        "instruments": [
+          {
+            "value": "Condominium Act, RSPEI 1988 c.C-16 (consolidation to 1 March 2024; 'not the official version')",
+            "note": "ss.10-13 read. Condominium Act Regulations not read.",
+            "source": "Condominium Act, R.S.P.E.I. 1988 c.C-16 (office consolidation current to 1 March 2024, https://www.princeedwardisland.ca/sites/default/files/legislation/C-16-Condominium%20Act.pdf)",
+            "confidence": "high",
+            "needsLawyer": false
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "annual meeting",
+            "calledBy": {
+              "value": "Corporation: first annual meeting not more than 3 months after registration, then not more than 15 months after the last one",
+              "note": "Any member can raise any relevant matter.",
+              "source": "Condominium Act, R.S.P.E.I. 1988 c.C-16 (office consolidation current to 1 March 2024, https://www.princeedwardisland.ca/sites/default/files/legislation/C-16-Condominium%20Act.pdf) s.11(1)",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": 10,
+                "max": null
+              },
+              "note": "At least ten days' WRITTEN notice of every members' meeting, giving place, date, hour and nature of business, to each member and entitled mortgagee/chargee, by hand or prepaid mail to the address on the record; sufficient if sent to those on the record 12 days before the meeting.",
+              "source": "Condominium Act, R.S.P.E.I. 1988 c.C-16 (office consolidation current to 1 March 2024, https://www.princeedwardisland.ca/sites/default/files/legislation/C-16-Condominium%20Act.pdf) s.11(5),(6)",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "quorum": {
+              "value": null,
+              "note": "Act sets no members' quorum (board quorum is a majority of directors).",
+              "source": "Condominium Act, R.S.P.E.I. 1988 c.C-16 (office consolidation current to 1 March 2024, https://www.princeedwardisland.ca/sites/default/files/legislation/C-16-Condominium%20Act.pdf) s.10(8)",
+              "confidence": "medium",
+              "needsLawyer": true
+            }
+          },
+          {
+            "type": "special meeting",
+            "calledBy": {
+              "value": "Board any time (notice states the business); or on written requisition by members who together own at least 25% of the common elements",
+              "note": "Board must call and hold; if not held within 30 days of the requisition any requisitionist may call it, to be held within 60 days of receipt.",
+              "source": "Condominium Act, R.S.P.E.I. 1988 c.C-16 (office consolidation current to 1 March 2024, https://www.princeedwardisland.ca/sites/default/files/legislation/C-16-Condominium%20Act.pdf) s.11(2)-(4)",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": 10,
+                "max": null
+              },
+              "note": "Same.",
+              "source": "Condominium Act, R.S.P.E.I. 1988 c.C-16 (office consolidation current to 1 March 2024, https://www.princeedwardisland.ca/sites/default/files/legislation/C-16-Condominium%20Act.pdf) s.11(5)",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "quorum": {
+              "value": null,
+              "note": "not in Act",
+              "source": "not verified",
+              "confidence": "low",
+              "needsLawyer": true
+            }
+          }
+        ],
+        "quorum": {
+          "value": null,
+          "note": "No members' quorum in the Act; look in the declaration/by-laws.",
+          "source": "Condominium Act, R.S.P.E.I. 1988 c.C-16 (office consolidation current to 1 March 2024, https://www.princeedwardisland.ca/sites/default/files/legislation/C-16-Condominium%20Act.pdf)",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "adjournedQuorum": {
+          "value": null,
+          "note": "not read / not verified: not in Act",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "majorities": {
+          "ordinary": {
+            "value": null,
+            "note": "not read / not verified: Voting majority for ordinary members' resolutions not stated in the sections read.",
+            "source": "not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          },
+          "special": {
+            "value": {
+              "byLaws": "members owning 66 2/3% (or more if declaration says) of the common elements (s.13)",
+              "removalOfDirector": "members owning a majority of the units (s.10(7))",
+              "other": "80% for some changes (e.g. additions/alterations)"
+            },
+            "note": "",
+            "source": "Condominium Act, R.S.P.E.I. 1988 c.C-16 (office consolidation current to 1 March 2024, https://www.princeedwardisland.ca/sites/default/files/legislation/C-16-Condominium%20Act.pdf) ss.10(7), 13",
+            "confidence": "high",
+            "needsLawyer": true
+          }
+        },
+        "weightageModels": {
+          "value": null,
+          "note": "not read / not verified: Voting weight not stated in the Act text read (thresholds are by share of common elements).",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "proxy": {
+          "value": null,
+          "note": "not read / not verified: The word 'proxy' does not appear in the Act text.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "votingMethods": {
+          "value": null,
+          "note": "not read / not verified: not in Act",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "electronicVoting": {
+          "value": null,
+          "note": "not read / not verified: not in Act",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "minutesDeadlineDays": {
+          "value": null,
+          "note": "not read / not verified: not in Act",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "recordRetentionYears": {
+          "value": null,
+          "note": "not read / not verified: not in Act",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "memberInspectionRight": {
+          "value": "Any member may inspect the corporation's records on reasonable notice at a reasonable time",
+          "note": "",
+          "source": "Condominium Act, R.S.P.E.I. 1988 c.C-16 (office consolidation current to 1 March 2024, https://www.princeedwardisland.ca/sites/default/files/legislation/C-16-Condominium%20Act.pdf) s.10(11)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "electionRoles": {
+          "value": null,
+          "note": "not read / not verified: none named",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "termYears": {
+          "value": {
+            "years": 3,
+            "note": "Board term is three years or less if declaration/by-laws say so; may continue until a successor is elected; re-election allowed. Board is 3 persons or more; vacancy filled by remaining directors for the rest of the term."
+          },
+          "note": "",
+          "source": "Condominium Act, R.S.P.E.I. 1988 c.C-16 (office consolidation current to 1 March 2024, https://www.princeedwardisland.ca/sites/default/files/legislation/C-16-Condominium%20Act.pdf) s.10(4)-(6)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "eligibility": {
+          "value": null,
+          "note": "not read / not verified: by declaration/by-laws (s.10(10))",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "defaulterDisqualification": {
+          "value": null,
+          "note": "not read / not verified: none found",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "requisition": {
+          "value": {
+            "percentOfCommonElements": 25,
+            "deadlineDays": 30
+          },
+          "note": "",
+          "source": "Condominium Act, R.S.P.E.I. 1988 c.C-16 (office consolidation current to 1 March 2024, https://www.princeedwardisland.ca/sites/default/files/legislation/C-16-Condominium%20Act.pdf) s.11(3)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "nominationWithdrawal": {
+          "value": null,
+          "note": "not read / not verified: not in Act",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "reservedSeats": {
+          "value": "After the declarant stops owning a majority of units a new board must be called within 21 days",
+          "note": "Not a reserved seat.",
+          "source": "Condominium Act, R.S.P.E.I. 1988 c.C-16 (office consolidation current to 1 March 2024, https://www.princeedwardisland.ca/sites/default/files/legislation/C-16-Condominium%20Act.pdf) s.12",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "notes": [
+          "Compiled 2026-10-24; research only, not legal advice.",
+          "The Act is short (1977 base): quorum, proxies and voting method are left to the declaration and by-laws."
+        ]
+      },
+      "engine": {
+        "id": "ca-pe-condo",
+        "name": "Prince Edward Island Condominium Act (c.C-16)",
+        "jurisdiction": "CA-PE",
+        "confidence": "medium",
+        "needsLawyer": true,
+        "params": {
+          "notice.minDays": 10,
+          "requisition.percentBp": 2500,
+          "term.years": 3
+        },
+        "options": {
+          "proxy_voting": null
+        },
+        "locked": {},
+        "notice": {
+          "agm": {
+            "min": 10,
+            "max": null
+          },
+          "sgm": {
+            "min": 10,
+            "max": null
+          }
+        },
+        "recommended": [
+          "s.11(5): give at least ten days' written notice, with place, date, hour and business.",
+          "s.11(3): owners of 25% of the common elements can force a meeting; if the board does not act in 30 days they can call it themselves.",
+          "The Act sets no quorum or proxy rule: enter the values from your declaration or by-laws."
+        ],
+        "gaps": [
+          "Quorum, proxies, voting majority for ordinary items: left to declaration/by-laws.",
+          "66 2/3% of common elements for by-laws; 80% for some alterations (no threshold setting).",
+          "Directors removable by members owning a majority of units."
+        ]
+      }
+    },
+    {
+      "research": {
+        "id": "ca-nt-condo",
+        "name": "Northwest Territories - Condominium Act (R.S.N.W.T. 1988 c.C-15)",
+        "region": "Northwest Territories",
+        "jurisdiction": "CA-NT",
+        "instruments": [
+          {
+            "value": "Condominium Act, RSNWT 1988 c.C-15 as amended (SNWT 2007 c.6 and later)",
+            "note": "Read from a third-party mirror, not the official Justice PDF. Bilingual. Condominium Regulations R-002-2016 NOT read.",
+            "source": "Condominium Act, R.S.N.W.T. 1988 c.C-15 (OpenNWT mirror of the Justice consolidation: https://laws.opennwt.ca/legislation/condominium-act/?lang=bi; official copy at justice.gov.nt.ca returned HTTP 404)",
+            "confidence": "medium",
+            "needsLawyer": true
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "annual general meeting",
+            "calledBy": {
+              "value": "Board must convene an AGM within 6 months of the end of each fiscal year; agenda must include financial statements, budget, capital reserve fund plan, insurance review and election of board members. First AGM called by the developer within 1 year of registration or 45 days after the developer owns under 80% of the common elements",
+              "note": "Owners may convene the first AGM if the developer does not (7 days' notice to other owners).",
+              "source": "Condominium Act, R.S.N.W.T. 1988 c.C-15 (OpenNWT mirror of the Justice consolidation: https://laws.opennwt.ca/legislation/condominium-act/?lang=bi; official copy at justice.gov.nt.ca returned HTTP 404) ss.16.1, 16.2",
+              "confidence": "medium",
+              "needsLawyer": true
+            },
+            "noticeDays": {
+              "value": null,
+              "note": "Financial statements and budget must go to each owner at least 7 days before the AGM (s.16.2(3)(b)). The notice period for the meeting itself is not in the Act text read - left to the declaration/bylaws (s.16(2)).",
+              "source": "Condominium Act, R.S.N.W.T. 1988 c.C-15 (OpenNWT mirror of the Justice consolidation: https://laws.opennwt.ca/legislation/condominium-act/?lang=bi; official copy at justice.gov.nt.ca returned HTTP 404) s.16.2(3)",
+              "confidence": "medium",
+              "needsLawyer": true
+            },
+            "quorum": {
+              "value": null,
+              "note": "Not in the Act text read.",
+              "source": "Condominium Act, R.S.N.W.T. 1988 c.C-15 (OpenNWT mirror of the Justice consolidation: https://laws.opennwt.ca/legislation/condominium-act/?lang=bi; official copy at justice.gov.nt.ca returned HTTP 404)",
+              "confidence": "medium",
+              "needsLawyer": true
+            }
+          }
+        ],
+        "quorum": {
+          "value": null,
+          "note": "not read / not verified: not in the Act text read; declaration/bylaws",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "adjournedQuorum": {
+          "value": null,
+          "note": "not read / not verified: not in the Act text read",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "majorities": {
+          "ordinary": {
+            "value": null,
+            "note": "not read / not verified: not in the Act text read",
+            "source": "not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          },
+          "special": {
+            "value": {
+              "specialResolution": "66 2/3% (or more if the declaration says) of the common elements owned by those attending or voting by proxy, or by signature of owners of that share"
+            },
+            "note": "Used for bylaw changes (s.17).",
+            "source": "Condominium Act, R.S.N.W.T. 1988 c.C-15 (OpenNWT mirror of the Justice consolidation: https://laws.opennwt.ca/legislation/condominium-act/?lang=bi; official copy at justice.gov.nt.ca returned HTTP 404) s.17(1)",
+            "confidence": "medium",
+            "needsLawyer": true
+          }
+        },
+        "weightageModels": {
+          "value": {
+            "model": "voting rights in the proportions set in the declaration; if the declaration is silent, in proportion to the percentage of the common elements owned"
+          },
+          "note": "",
+          "source": "Condominium Act, R.S.N.W.T. 1988 c.C-15 (OpenNWT mirror of the Justice consolidation: https://laws.opennwt.ca/legislation/condominium-act/?lang=bi; official copy at justice.gov.nt.ca returned HTTP 404) s.20(1),(2)",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "proxy": {
+          "value": {
+            "allowed": true,
+            "form": "not specified",
+            "limit": null
+          },
+          "note": "",
+          "source": "Condominium Act, R.S.N.W.T. 1988 c.C-15 (OpenNWT mirror of the Justice consolidation: https://laws.opennwt.ca/legislation/condominium-act/?lang=bi; official copy at justice.gov.nt.ca returned HTTP 404) s.20(4)",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "votingMethods": {
+          "value": null,
+          "note": "not read / not verified: not in Act text read",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "electronicVoting": {
+          "value": null,
+          "note": "not read / not verified: not read",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "minutesDeadlineDays": {
+          "value": null,
+          "note": "not read / not verified: not read",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "recordRetentionYears": {
+          "value": null,
+          "note": "not read / not verified: not read",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "memberInspectionRight": {
+          "value": "Mortgagee may inspect management records and minutes of board and general meetings on 10 days' written notice",
+          "note": "Owners' inspection right not recorded; section number of the mortgagee right not recorded.",
+          "source": "Condominium Act, R.S.N.W.T. 1988 c.C-15 (OpenNWT mirror of the Justice consolidation: https://laws.opennwt.ca/legislation/condominium-act/?lang=bi; official copy at justice.gov.nt.ca returned HTTP 404)",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "electionRoles": {
+          "value": null,
+          "note": "not read / not verified: none named",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "termYears": {
+          "value": null,
+          "note": "not read / not verified: Board number, qualification, nomination, election, term and removal are 'as provided in the declaration or bylaws' (s.16(1)).",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "eligibility": {
+          "value": null,
+          "note": "not read / not verified: by declaration/bylaws",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "defaulterDisqualification": {
+          "value": "An owner or mortgagee cannot vote if a contribution or other obligation to the corporation is in arrears for more than 30 days before the vote",
+          "note": "",
+          "source": "Condominium Act, R.S.N.W.T. 1988 c.C-15 (OpenNWT mirror of the Justice consolidation: https://laws.opennwt.ca/legislation/condominium-act/?lang=bi; official copy at justice.gov.nt.ca returned HTTP 404) s.20(5)",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "requisition": {
+          "value": null,
+          "note": "not read / not verified: not in Act text read",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "nominationWithdrawal": {
+          "value": null,
+          "note": "not read / not verified: not read",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "reservedSeats": {
+          "value": "While the developer owns less than 80% of the common elements, non-developer owners may elect or remove one of the board positions",
+          "note": "",
+          "source": "Condominium Act, R.S.N.W.T. 1988 c.C-15 (OpenNWT mirror of the Justice consolidation: https://laws.opennwt.ca/legislation/condominium-act/?lang=bi; official copy at justice.gov.nt.ca returned HTTP 404) s.16.1(4)",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "notes": [
+          "Compiled 2026-10-24; research only, not legal advice. Mirror-sourced.",
+          "Nunavut applies a version of this Act - NOT read (nunavutlegislation.ca returned 403)."
+        ]
+      },
+      "engine": {
+        "id": "ca-nt-condo",
+        "name": "Northwest Territories Condominium Act (mirror-sourced)",
+        "jurisdiction": "CA-NT",
+        "confidence": "low",
+        "needsLawyer": true,
+        "params": {},
+        "options": {
+          "proxy_voting": true
+        },
+        "locked": {},
+        "notice": {},
+        "recommended": [
+          "The Act leaves notice, quorum, requisition and board term to the declaration and by-laws (s.16): enter those values from your own documents.",
+          "s.16.2: hold the AGM within 6 months of year end and send financial statements and budget at least 7 days before it.",
+          "s.20(5): owners more than 30 days in arrears cannot vote."
+        ],
+        "gaps": [
+          "Special resolution = 66 2/3% of common elements (no threshold setting).",
+          "Voting weight from the declaration, default by share of common elements.",
+          "Arrears bar on voting.",
+          "Developer-controlled board until it owns under 80% of the common elements."
+        ]
+      }
+    }
+  ]
+}

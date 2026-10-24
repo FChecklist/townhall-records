@@ -1445,6 +1445,1276 @@
    "jurisdiction": "IN-AR"
   },
   {
+   "id": "in-dl-apartment-ownership-act",
+   "name": "Delhi Apartment Ownership Act 1986 + model bye-laws",
+   "jurisdiction": "IN-DL",
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "quorum.basis": "weight",
+    "quorum.percentBp": 5100,
+    "quorum.countProxies": false,
+    "adjourned.minHoursLater": 48,
+    "adjourned.minFlats": 2,
+    "requisition.percentBp": 5100,
+    "notice.delivery": "any"
+   },
+   "options": {
+    "proxy_voting": false,
+    "weightage": true,
+    "quorum_check": true,
+    "secret_ballot": null
+   },
+   "notice": {
+    "agm": {
+     "min": 2,
+     "max": 7
+    },
+    "sgm": {
+     "min": 2,
+     "max": 7
+    },
+    "committee": {
+     "min": 3,
+     "max": null
+    },
+    "monthly": {
+     "min": 3,
+     "max": null
+    }
+   },
+   "recommended": [
+    "Notice must be at least 2 and not more than 7 days before an annual or special meeting (model bye-law 16)",
+    "Quorum is a majority of owners in person, counted by votes (51%) per the Declaration (model bye-laws 10, 3(f))",
+    "Votes must be cast in person: no proxies (model bye-law 11)",
+    "If no quorum, adjourn at least 48 hours; at the adjourned meeting any two owners in person are enough (model bye-law 17)",
+    "An owner more than 60 days in arrears on the last day of the previous year cannot vote or stand for the Board (model bye-law 8)",
+    "Send a copy of every meeting notice to the Registrar / housing Commissioner (model bye-law 16)"
+   ],
+   "gaps": [
+    "Product cannot express 'owners in person count of persons vs votes' quorum split (the bye-laws say 'majority of owners' but define majority by votes)",
+    "Product cannot express a different notice rule for meetings of the Association vs 'copy to the Registrar'",
+    "Amendment of bye-laws needs 75 per cent of the total VALUE of units (bye-law 56): no special-majority threshold setting exists",
+    "Proxy ban is a model bye-law the Association can only vary with the Administrator's approval; not locked in the product because that approval route exists"
+   ]
+  },
+  {
+   "id": "in-dl-coop-society",
+   "name": "Delhi Co-operative Societies Act 2003 + Rules 2007",
+   "jurisdiction": "IN-DL",
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "quorum.basis": "flats",
+    "quorum.percentBp": 3333,
+    "adjourned.noQuorum": true,
+    "majority.simple.basis": "cast",
+    "proxy.maxPerHolder": 1,
+    "term.years": 3,
+    "requisition.percentBp": 2000,
+    "reserved.seats": 2,
+    "minutes.deadlineDays": 15,
+    "notice.delivery": "any"
+   },
+   "options": {
+    "proxy_voting": false,
+    "weightage": false,
+    "quorum_check": true,
+    "secret_ballot": null,
+    "minutes": true
+   },
+   "locked": {
+    "proxy_voting": {
+     "value": false,
+     "reason": "Delhi Co-operative Societies Act 2003 s.26(1): a member shall exercise his vote in person and no member may vote by proxy"
+    },
+    "weightage": {
+     "value": false,
+     "reason": "Delhi Co-operative Societies Act 2003 s.25: every member has one vote"
+    }
+   },
+   "notice": {
+    "agm": {
+     "min": 15,
+     "max": null
+    },
+    "sgm": {
+     "min": 7,
+     "max": null
+    },
+    "committee": {
+     "min": 5,
+     "max": null
+    },
+    "monthly": {
+     "min": 5,
+     "max": null
+    }
+   },
+   "recommended": [
+    "AGM notice at least 15 days in writing with the audited accounts (Rules 2007 r.51); special meeting at least 7 days",
+    "Quorum is one-third of members, but never fewer than 10 members (r.48); this overrides the bye-laws",
+    "If there is no quorum after half an hour the meeting adjourns 15 minutes; the adjourned meeting needs no quorum, but a meeting requisitioned by members is dissolved (r.48(3))",
+    "Committee elections must be by secret ballot run by a returning officer who is not a member or employee (s.35(2), Schedule II)",
+    "Committee fixes the election date at least 60 clear days before its term ends; nominations at least 7 clear days before the election (Schedule II)",
+    "Circulate minutes to all members within 15 days (housing societies, r.52(2))",
+    "Committee meets monthly on 5 days' written notice; quorum one-third, minimum three; no resolution by circulation (r.60)"
+   ],
+   "gaps": [
+    "The 1-in-3 quorum has a floor of 10 members for societies with 30 or fewer members: the product only has a cap (quorum.capFlats), not a floor",
+    "A requisitioned meeting is dissolved, not adjourned, when quorum fails: product cannot express this exception",
+    "The adjourned meeting must be held the same day, 15 minutes later: product's adjourned-minutes parameter is in hours",
+    "Poll by secret ballot only if one-third of members present demand it; otherwise show of hands: product's secret_ballot option is per event/point, not 'on demand'",
+    "Two-thirds-of-present special majority for bye-law amendment cannot be set as a fraction",
+    "Returning-officer rules (who may be appointed, Registrar appointment, security deposit, forfeiture) are not modelled"
+   ]
+  },
+  {
+   "id": "in-tn-apartment-ownership-act",
+   "name": "Tamil Nadu Apartment Ownership Act 2022 + Rules 2024 model bye-laws",
+   "jurisdiction": "IN-TN",
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "quorum.basis": "flats",
+    "quorum.percentBp": 3333,
+    "majority.simple.basis": "cast",
+    "majority.special.basis": "cast",
+    "tie.break": "chair_casting_vote",
+    "proxy.maxPerHolder": 1,
+    "requisition.percentBp": 2500,
+    "notice.delivery": "any"
+   },
+   "options": {
+    "proxy_voting": true,
+    "weightage": true,
+    "quorum_check": true,
+    "secret_ballot": null,
+    "minutes": true,
+    "notices": true
+   },
+   "notice": {
+    "agm": {
+     "min": 21,
+     "max": null
+    },
+    "sgm": {
+     "min": 7,
+     "max": null
+    },
+    "committee": {
+     "min": null,
+     "max": null
+    },
+    "monthly": {
+     "min": null,
+     "max": null
+    }
+   },
+   "recommended": [
+    "AGM: 21 days' notice by President, email allowed, within 3 months of the financial year end (model bye-law 9)",
+    "General body and special general meetings: at least 7 days' notice (bye-laws 8, 10)",
+    "Quorum one-third of all members (minimum 3) for AGM/general body; TWO-THIRDS for a special general meeting (bye-laws 8(4), 9(5), 10(6))",
+    "A special general meeting without quorum may be reconvened the same or next day and then proceeds without quorum, except for Reserved Matters (bye-law 10(7))",
+    "Proxy allowed in writing, one member per proxy, proxy cannot speak in the deliberations (bye-law 6(2))",
+    "Voting is by percentage assigned in the Declaration; first Board election is by secret ballot (bye-laws 6(1), 9(1))",
+    "Amending bye-laws, redevelopment: two-thirds of ALL members (Extra-Ordinary Resolution)"
+   ],
+   "gaps": [
+    "Quorum differs by meeting type (1/3 AGM and GBM, 2/3 SGM): product has one quorum per event; set it per event",
+    "Three resolution grades (ordinary 51% of present, special 2/3 of present, extra-ordinary 2/3 of total members) while the product has two majority classes",
+    "Quorum is counted by number of members while voting is by Declaration percentage: product allows only one 'quorum.basis'",
+    "Quorum floor of three members cannot be expressed",
+    "Reserved Matters (Annexure A) can only be decided at an SGM: not modelled"
+   ]
+  },
+  {
+   "id": "in-kl-apartment-ownership-act",
+   "name": "Kerala Apartment Ownership Act 1983 (rules come from your bye-laws)",
+   "jurisdiction": "IN-KL",
+   "confidence": "low",
+   "needsLawyer": true,
+   "params": {},
+   "options": {
+    "proxy_voting": null,
+    "weightage": true,
+    "quorum_check": true
+   },
+   "notice": {},
+   "recommended": [
+    "The Act fixes no notice period or quorum: copy them from your registered bye-laws (Act s.16)",
+    "A change to the bye-laws is only valid if it is recorded as an amendment to the Declaration and filed with the competent authority (Act s.16(2))",
+    "Voting weight follows the percentages in your Declaration (Act s.3(q))"
+   ],
+   "gaps": [
+    "No default values at all: everything depends on the building's own bye-laws"
+   ]
+  },
+  {
+   "id": "in-ts-apartments-act",
+   "name": "Telangana Apartments Act 1987 (enter your bye-law values)",
+   "jurisdiction": "IN-TS",
+   "confidence": "low",
+   "needsLawyer": true,
+   "params": {},
+   "options": {
+    "proxy_voting": null,
+    "quorum_check": true
+   },
+   "notice": {},
+   "recommended": [
+    "The Act leaves notice and quorum to the bye-laws (s.18(2)): copy them from your registered bye-laws"
+   ],
+   "gaps": [
+    "No default values: Form V bye-laws not found"
+   ]
+  },
+  {
+   "id": "in-ts-tmacs",
+   "name": "Telangana Mutually Aided Co-operative Societies Act 1995 (flat owners' societies)",
+   "jurisdiction": "IN-TS",
+   "confidence": "low",
+   "needsLawyer": true,
+   "params": {
+    "term.years": 5,
+    "requisition.percentBp": 1000,
+    "reserved.seats": 3,
+    "minutes.deadlineDays": 30
+   },
+   "options": {
+    "proxy_voting": null,
+    "quorum_check": true
+   },
+   "notice": {},
+   "recommended": [
+    "Board must call a general meeting within 30 days when one-tenth of members requisition it (TMACS s.24(2))",
+    "Send the minutes to everyone invited within 30 days (s.24(4)-(6))",
+    "Take notice days and quorum from your society's registered bye-laws"
+   ],
+   "gaps": [
+    "Notice and quorum are bye-law matters not found",
+    "Elections are run by the State Co-operative Election Authority, not by the society: the product cannot model that"
+   ]
+  },
+  {
+   "id": "in-od-apartment-ownership-act",
+   "name": "Odisha Apartment (Ownership and Management) Act 2023 (enter your bye-law values)",
+   "jurisdiction": "IN-OD",
+   "confidence": "low",
+   "needsLawyer": true,
+   "params": {},
+   "options": {
+    "proxy_voting": null,
+    "quorum_check": true
+   },
+   "notice": {},
+   "recommended": [
+    "Amending the bye-laws needs two-thirds of the members and Competent Authority approval (Act s.16(4))",
+    "Copy notice and quorum from your approved bye-laws"
+   ],
+   "gaps": [
+    "No default values: model bye-laws not found"
+   ]
+  },
+  {
+   "id": "in-wb-apartment-ownership-act",
+   "name": "West Bengal Association of Apartment Owners (WB Apartment Ownership Act 1972 + Bye-laws 2022)",
+   "jurisdiction": "IN-WB",
+   "confidence": "low",
+   "needsLawyer": true,
+   "params": {},
+   "options": {
+    "proxy_voting": null,
+    "quorum_check": true,
+    "secret_ballot": true
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": null,
+     "max": null
+    },
+    "sgm": {
+     "min": null,
+     "max": null
+    },
+    "committee": {
+     "min": null,
+     "max": null
+    },
+    "monthly": {
+     "min": null,
+     "max": null
+    }
+   },
+   "recommended": [
+    "Manager elections are by secret ballot (bye-law 8(2), seen via court summaries)",
+    "The first election meeting needs at least 7 days' notice (bye-law 8(1)); every other meeting rule must come from your bye-laws"
+   ],
+   "gaps": [
+    "Default of common-expense contributions removes the right to vote and stand: the product has no arrears flag in a pack",
+    "The 7-day notice applies only to the first election meeting, so it is not set as an event-type default"
+   ]
+  },
+  {
+   "id": "in-rj-apartment-ownership-act",
+   "name": "Rajasthan Apartment Ownership Act 2015 + Model Bye-Laws 2020",
+   "jurisdiction": "IN-RJ",
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 21,
+    "quorum.basis": "flats",
+    "quorum.percentBp": 6666,
+    "quorum.strict": false,
+    "adjourned.noQuorum": false,
+    "adjourned.minHoursLater": 24,
+    "majority.simple.basis": "present",
+    "majority.special.basis": "present",
+    "proxy.maxPerHolder": 1,
+    "term.years": 2,
+    "requisition.percentBp": 5100
+   },
+   "options": {
+    "proxy_voting": true,
+    "weightage": false,
+    "quorum_check": true,
+    "secret_ballot": null,
+    "notices": true,
+    "minutes": true
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 21,
+     "max": null
+    },
+    "sgm": {
+     "min": 7,
+     "max": null
+    },
+    "committee": {
+     "min": 7,
+     "max": null
+    },
+    "monthly": {
+     "min": 7,
+     "max": null
+    }
+   },
+   "recommended": [
+    "General meeting quorum is two-thirds of Members, but electing, dissolving or removing the Management Committee needs three-quarters present (model bye-law 9(b)); the product has one quorum figure, so raise it to 75% for an election event.",
+    "If two-thirds do not come, the meeting may be adjourned for at least 24 hours; if there is again no quorum the meeting is dissolved (bye-law 14) - there is NO lower quorum at the adjourned meeting.",
+    "Proxy: in writing, handed to the Secretary/President at least 48 hours ahead; one proxy holder may act for only one member (bye-law 10).",
+    "Management Committee election: secret ballot paper, election officer appointed by the committee, two-year term (bye-law 39, 17).",
+    "A member more than 60 days in arrears on the day of the election can neither vote nor stand (bye-law 7(a)) - remove such flats from the voter list."
+   ],
+   "gaps": [
+    "Different quorums for different business (2/3 general, 3/4 election/removal, 90% reserved matters) - the product holds one quorum per event.",
+    "Three majority classes (51% / two-thirds / 90% of ALL members) - the product's special-majority percentage is not a parameter and the 90%-of-total class cannot be expressed.",
+    "Arrears-over-60-days voting and candidacy ban is not an engine setting.",
+    "Proxy deadline of 48 hours before the meeting is not an engine setting.",
+    "Quorum is a whole fraction (two-thirds); loaded as 6666 basis points so that exactly that fraction of members satisfies it"
+   ]
+  },
+  {
+   "id": "in-rj-coop-society",
+   "name": "Rajasthan Co-operative Societies Act 2001 (housing society)",
+   "jurisdiction": "IN-RJ",
+   "confidence": "low",
+   "needsLawyer": true,
+   "params": {
+    "term.years": 5,
+    "requisition.percentBp": 2000,
+    "proxy.maxPerHolder": 1
+   },
+   "options": {
+    "proxy_voting": false,
+    "weightage": false
+   },
+   "locked": {
+    "proxy_voting": {
+     "value": false,
+     "reason": "Rajasthan Co-operative Societies Act s.20(1): a member must vote in person; no voting by proxy (a society-member votes through its Chairperson)"
+    }
+   },
+   "notice": {
+    "agm": {
+     "min": null,
+     "max": null
+    },
+    "sgm": {
+     "min": null,
+     "max": null
+    },
+    "committee": {
+     "min": null,
+     "max": null
+    },
+    "monthly": {
+     "min": null,
+     "max": null
+    }
+   },
+   "recommended": [
+    "Proxy voting is banned by the Act (s.20(1)); each member votes in person, one vote each (s.19).",
+    "Annual general meeting must be called within six months of the financial year end (s.25).",
+    "A special general meeting must be held within one month once at least one-fifth of members (or as the bye-laws set) sign a requisition (s.26).",
+    "The notice period and quorum are NOT in the Act: copy them from your registered bye-laws before starting an event."
+   ],
+   "gaps": [
+    "Elections are run by the State Co-operative Election Authority, not by an Organizer-appointed officer - the product cannot represent that.",
+    "Reserved seats (1 SC, 1 ST, 2 women) are a per-seat rule, not just a count.",
+    "Notice and quorum values are missing because the Rules 2003 could not be found online."
+   ]
+  },
+  {
+   "id": "in-mp-apartment-ownership-act",
+   "name": "Madhya Pradesh Prakoshtha Swamitva Adhiniyam 2000 + Rules 2019 model bye-laws",
+   "jurisdiction": "IN-MP",
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 2,
+    "notice.maxDays": 7,
+    "quorum.basis": "flats",
+    "quorum.percentBp": 3000,
+    "quorum.strict": false,
+    "quorum.countProxies": false,
+    "adjourned.minHoursLater": 48,
+    "term.years": 1,
+    "term.maxConsecutive": 2
+   },
+   "options": {
+    "proxy_voting": true,
+    "weightage": true,
+    "quorum_check": true,
+    "secret_ballot": null,
+    "notices": true,
+    "minutes": true
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 2,
+     "max": 7
+    },
+    "sgm": {
+     "min": 2,
+     "max": 7
+    },
+    "committee": {
+     "min": 3,
+     "max": null
+    },
+    "monthly": {
+     "min": 3,
+     "max": null
+    }
+   },
+   "recommended": [
+    "Model bye-law 10: quorum is 30% of members present IN PERSON, so proxies do not count towards it (but may vote).",
+    "Notice is only two to seven days (bye-law 16), and a copy must also go to the Competent Authority or Registrar.",
+    "If quorum fails: adjourn for at least 48 hours; at the adjourned meeting 25% of owners or two owners (whichever is higher) form the quorum (bye-law 17).",
+    "Votes are weighted by the percentage in the Declaration (bye-law 9).",
+    "An owner more than 60 days in arrears at the end of the previous year cannot vote or stand for the Board (bye-law 8)."
+   ],
+   "gaps": [
+    "Adjourned-meeting quorum is '25% of owners or two owners, whichever is higher' - the product has only a flat count, not a percentage-or-minimum rule.",
+    "Majority wording is ambiguous (majority of those voting vs 51% of all votes), so the majority basis was left unset.",
+    "The 2/3-of-units approval for amending bye-laws (plus Competent Authority approval) cannot be expressed.",
+    "Arrears ban measured at the end of the previous year is not an engine setting."
+   ]
+  },
+  {
+   "id": "in-mp-coop-society",
+   "name": "Madhya Pradesh Co-operative Societies Act 1960 (housing society)",
+   "jurisdiction": "IN-MP",
+   "confidence": "low",
+   "needsLawyer": true,
+   "params": {
+    "term.years": 5,
+    "requisition.percentBp": 1000,
+    "tie.break": "chair_casting_vote",
+    "proxy.maxPerHolder": 1
+   },
+   "options": {
+    "proxy_voting": false,
+    "weightage": false
+   },
+   "locked": {
+    "proxy_voting": {
+     "value": false,
+     "reason": "MP Co-operative Societies Act 1960 s.23(1): every member votes in person; no member may vote by proxy"
+    }
+   },
+   "notice": {
+    "agm": {
+     "min": null,
+     "max": null
+    },
+    "sgm": {
+     "min": null,
+     "max": null
+    },
+    "committee": {
+     "min": null,
+     "max": null
+    },
+    "monthly": {
+     "min": null,
+     "max": null
+    }
+   },
+   "recommended": [
+    "Proxy voting is not allowed (s.23(1)); one member one vote (s.22(1)).",
+    "A special general meeting must be called within one month of a requisition by one-tenth of members (s.50(1)).",
+    "The annual meeting notice must reach the Deputy/Assistant Registrar at least 14 clear days ahead (s.49(2)). That is separate from the notice to members, which your bye-laws set.",
+    "A chairman has a casting vote on a tie (s.22(8))."
+   ],
+   "gaps": [
+    "Notice to members and quorum are not in the Act sections read; they are in the Niyam 1962 / the society's bye-laws.",
+    "The Registrar-notice rule (14 clear days) is a notice to an authority, which the product has no setting for.",
+    "Elections run by a Returning Officer under Registrar rules; reserved seats; committee term extensions by Government."
+   ]
+  },
+  {
+   "id": "in-pb-apartment-ownership-act",
+   "name": "Punjab Apartment Ownership Act 1995 + Rules 1995 model bye-laws",
+   "jurisdiction": "IN-PB",
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 15,
+    "quorum.basis": "flats",
+    "quorum.percentBp": 3333,
+    "quorum.strict": false,
+    "adjourned.noQuorum": true,
+    "majority.simple.basis": "cast",
+    "tie.break": "chair_casting_vote",
+    "requisition.percentBp": 2500
+   },
+   "options": {
+    "proxy_voting": null,
+    "weightage": null,
+    "quorum_check": true,
+    "secret_ballot": null,
+    "notices": true,
+    "minutes": true
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 15,
+     "max": null
+    },
+    "sgm": {
+     "min": 15,
+     "max": null
+    },
+    "committee": {
+     "min": 3,
+     "max": null
+    },
+    "monthly": {
+     "min": 3,
+     "max": null
+    }
+   },
+   "recommended": [
+    "Model bye-law 11: a general meeting needs one-third of members, but never fewer than five.",
+    "If there is no quorum the President adjourns the meeting to another date; at that adjourned meeting no quorum is needed for the same business (bye-law 11(2)).",
+    "Fifteen days' clear notice with date, place, time and agenda (bye-law 10(5)).",
+    "Tie: the person presiding has a second, casting vote (bye-law 11(3)).",
+    "A requisition by one-fourth of the members is the basis for a special meeting (bye-law 10(3))."
+   ],
+   "gaps": [
+    "Minimum of five members in the quorum (one-third subject to a minimum of five) cannot be expressed; only a percentage can.",
+    "Proxy and weighted voting are not stated in the model bye-laws, so the Organizer must decide.",
+    "The Competent Authority's power to summon a meeting and approve bye-law changes is outside the product.",
+    "Quorum is a whole fraction (one-third); loaded as 3333 basis points so that exactly that fraction of members satisfies it"
+   ]
+  },
+  {
+   "id": "in-pb-coop-society",
+   "name": "Punjab Co-operative Societies Act 1961 + Rules 1963 (housing society)",
+   "jurisdiction": "IN-PB",
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 15,
+    "quorum.basis": "flats",
+    "quorum.percentBp": 2500,
+    "quorum.strict": false,
+    "quorum.capFlats": 500,
+    "adjourned.noQuorum": true,
+    "majority.simple.basis": "present",
+    "tie.break": "chair_casting_vote",
+    "requisition.percentBp": 2000,
+    "term.years": 5,
+    "proxy.maxPerHolder": 1
+   },
+   "options": {
+    "proxy_voting": false,
+    "weightage": false,
+    "quorum_check": true,
+    "secret_ballot": null,
+    "notices": true,
+    "minutes": true
+   },
+   "locked": {
+    "proxy_voting": {
+     "value": false,
+     "reason": "Punjab Co-operative Societies Act s.19(1): every member exercises his vote in person; no voting by proxy"
+    }
+   },
+   "notice": {
+    "agm": {
+     "min": 15,
+     "max": null
+    },
+    "sgm": {
+     "min": 15,
+     "max": null
+    },
+    "committee": {
+     "min": null,
+     "max": null
+    },
+    "monthly": {
+     "min": null,
+     "max": null
+    }
+   },
+   "recommended": [
+    "No proxies (s.19): every member votes in person, one vote each (s.18).",
+    "Annual meeting within six months of the financial year end (s.24); 15 days' clear notice with the agenda (Rule 80).",
+    "Quorum figure of one-fourth of members or 500, whichever is less, is the rules' minimum bye-law content (Appendix B Part C); check your registered bye-laws.",
+    "If there is no quorum after one hour the meeting is reconvened after notice; at the reconvened meeting those present after one hour form the quorum (Appendix B Part A rule 6).",
+    "Committee election: secret ballot, one vote per voter, ties by lot, run by a Returning Officer appointed by the Registrar (Appendix C).",
+    "A member who attended fewer than two of the last five general meetings, or joined less than nine months ago, cannot vote in the general-meeting election (s.18 proviso).",
+    "Seats are reserved by law: one for scheduled castes and two for women (s.26(1))."
+   ],
+   "gaps": [
+    "Elections are run by a Returning Officer appointed by the Registrar - the product's election officer is chosen by the Organizer.",
+    "Eligibility to vote depends on past attendance and minimum service use (s.18 proviso) - not an engine setting.",
+    "Quorum 'one-fourth or 500 whichever is less' is expressed with quorum.capFlats = 500; check the cap logic before use.",
+    "Reserved seats (1 SC, 2 women) are not a seat-by-seat feature."
+   ]
+  },
+  {
+   "id": "in-mh-apartment-ownership-act",
+   "name": "Maharashtra Apartment Ownership Act 1970 + model by-laws (Rules 1972 Exhibit B)",
+   "jurisdiction": "IN-MH",
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 2,
+    "notice.maxDays": 7,
+    "quorum.basis": "weight",
+    "quorum.percentBp": 5100,
+    "quorum.strict": false,
+    "quorum.countProxies": false,
+    "adjourned.minHoursLater": 48,
+    "adjourned.minFlats": 2,
+    "term.years": 3,
+    "requisition.percentBp": 5100,
+    "proxy.maxPerHolder": 1
+   },
+   "options": {
+    "proxy_voting": false,
+    "weightage": true,
+    "quorum_check": true,
+    "secret_ballot": null,
+    "notices": true
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 2,
+     "max": 7
+    },
+    "sgm": {
+     "min": 2,
+     "max": 7
+    },
+    "committee": {
+     "min": 3,
+     "max": null
+    },
+    "monthly": {
+     "min": 3,
+     "max": null
+    }
+   },
+   "recommended": [
+    "Notice is only 2 to 7 days (by-law 16); send it inside that window and copy the Housing Commissioner/Registrar. Check your own registered Declaration, which may set longer notice.",
+    "Votes are by percentage assigned to each unit in the Declaration, not one flat one vote (by-law 9): keep weighted votes ticked.",
+    "Votes must be cast in person (by-law 11): do not allow proxies unless your Declaration says so.",
+    "If a meeting lacks quorum it may be adjourned by at least 48 hours; at the adjourned meeting two owners present in person are enough (by-law 17).",
+    "An owner more than 60 days in arrears on the last day of the previous year may not vote or stand in the Board election (by-law 8).",
+    "Since 2022, decisions under ss.6, 6A, 8, 11, 12, 14, 22 need a special meeting with notice to the Competent Authority (by-law 15A)."
+   ],
+   "gaps": [
+    "Defaulter rule (60 days of arrears bars voting and standing) cannot be expressed as a setting.",
+    "'Majority of owners present in person' is counted as 51% of all votes by percentage; the product cannot say 'in person only' for the majority itself.",
+    "Staggered Board terms (3/2/1 years) are not representable; only a single term value is.",
+    "Competent Authority notice and attendance (by-law 15A) is not a field.",
+    "Whether the 51% ordinary majority is of all votes or of votes cast is ambiguous in by-laws 12 and 2(1)(f): left for the Organizer to choose"
+   ]
+  },
+  {
+   "id": "in-mh-mofa",
+   "name": "Maharashtra Ownership Flats Act 1963 (MOFA): flat-owners' body (formation only)",
+   "jurisdiction": "IN-MH",
+   "confidence": "low",
+   "needsLawyer": true,
+   "params": {},
+   "options": {
+    "proxy_voting": null
+   },
+   "locked": {},
+   "notice": {},
+   "recommended": [
+    "MOFA s.10 only decides which body the flat owners form. Pick the Maharashtra co-operative society pack if you are a registered society, or the Apartment Ownership Act pack if your building has a Declaration (MOFA s.10(2))."
+   ],
+   "gaps": [
+    "No MOFA-specific meeting rules were found, so this pack carries no values."
+   ]
+  },
+  {
+   "id": "in-up-coop-society",
+   "name": "UP Co-operative Societies Act 1965 + Rules 1968 (housing society)",
+   "jurisdiction": "IN-UP",
+   "confidence": "low",
+   "needsLawyer": true,
+   "params": {
+    "quorum.countProxies": false,
+    "proxy.maxPerHolder": 1,
+    "majority.simple.basis": "present",
+    "tie.break": "chair_casting_vote",
+    "term.years": 5,
+    "term.maxConsecutive": 2,
+    "requisition.percentBp": 2000,
+    "reserved.seats": 4
+   },
+   "options": {
+    "proxy_voting": false,
+    "weightage": false,
+    "quorum_check": true,
+    "secret_ballot": null,
+    "notices": true
+   },
+   "locked": {
+    "proxy_voting": {
+     "value": false,
+     "reason": "UP Co-operative Societies Act 1965 s.21: members, delegates and nominees must vote in person; no proxy"
+    },
+    "weightage": {
+     "value": false,
+     "reason": "UP Co-operative Societies Act 1965 s.20: every member has one vote whatever his share"
+    }
+   },
+   "notice": {},
+   "recommended": [
+    "Notice period and base quorum are not in the Act or rules: copy them from your society's registered bye-laws (rule 96).",
+    "Proxies are not allowed (s.21) and each member has one vote (s.20).",
+    "A member who has been a defaulter for six months or more cannot vote (s.20(aa)).",
+    "Members holding one-fifth can force an extraordinary general meeting within one month (s.33(2)).",
+    "Four committee seats are reserved: 1 SC/ST, 1 OBC, 2 women (s.29(5)). Elections are run by an Election Officer, not by the society.",
+    "Election polling is by secret ballot paper (rule 421). The presiding person has a casting vote in a tie (rule 105)."
+   ],
+   "gaps": [
+    "Defaulter rule (six months of dues unpaid) is not a setting.",
+    "Reduced quorum at an adjourned meeting (50% of the original, rule 102) is not expressible; only a flat minimum is.",
+    "Election run by a government Election Officer / Election Commission with a fixed election programme cannot be modelled.",
+    "Four reserved seats with specific categories (SC/ST, OBC, women) are carried as a plain number.",
+    "Two-thirds-of-present majority for bye-law amendment and two-thirds of the whole committee for no-confidence need separate settings."
+   ]
+  },
+  {
+   "id": "in-uk-coop-society",
+   "name": "Uttarakhand Co-operative Societies Act 2003 (housing society; Rules not read)",
+   "jurisdiction": "IN-UK",
+   "confidence": "low",
+   "needsLawyer": true,
+   "params": {
+    "proxy.maxPerHolder": 1,
+    "term.years": 3,
+    "requisition.percentBp": 2000
+   },
+   "options": {
+    "proxy_voting": false,
+    "weightage": false,
+    "quorum_check": true,
+    "secret_ballot": null,
+    "notices": true
+   },
+   "locked": {
+    "proxy_voting": {
+     "value": false,
+     "reason": "Uttarakhand Co-operative Societies Act 2003 s.21: members vote in person; no proxy"
+    },
+    "weightage": {
+     "value": false,
+     "reason": "Uttarakhand Co-operative Societies Act 2003 s.20: one vote per member"
+    }
+   },
+   "notice": {},
+   "recommended": [
+    "The Act does not fix the notice period or quorum: take them from your registered bye-laws or the Rules and enter them in the steps.",
+    "Proxies are not allowed (s.21); each member has one vote (s.20).",
+    "A member who has been a defaulter for six months cannot vote (s.20(aa)).",
+    "One-fifth of members can force an extraordinary general meeting within one month (s.33(2)).",
+    "Elections are run by the state Co-operative Election Authority (s.29(3-a)); ask the Registrar two months before the term ends (s.29(4))."
+   ],
+   "gaps": [
+    "Notice, quorum and reserved seats could not be verified because the Rules were not read.",
+    "Defaulter rule (six months) is not a setting.",
+    "State Election Authority running the election cannot be modelled."
+   ]
+  },
+  {
+   "id": "in-od-coop-society",
+   "name": "Odisha Co-operative Societies Act 1962 (housing society; Rules not read)",
+   "jurisdiction": "IN-OD",
+   "confidence": "low",
+   "needsLawyer": true,
+   "params": {
+    "proxy.maxPerHolder": 1,
+    "term.years": 4
+   },
+   "options": {
+    "proxy_voting": false,
+    "weightage": false,
+    "quorum_check": true,
+    "secret_ballot": null,
+    "notices": true
+   },
+   "locked": {
+    "proxy_voting": {
+     "value": false,
+     "reason": "Orissa Co-operative Societies Act 1962 s.21(1): members vote in person; no proxy"
+    },
+    "weightage": {
+     "value": false,
+     "reason": "Orissa Co-operative Societies Act 1962 s.20: one vote per member"
+    }
+   },
+   "notice": {},
+   "recommended": [
+    "The Act does not fix the notice period, quorum or requisition share: copy them from your registered bye-laws or the 1965 Rules.",
+    "Proxies are not allowed (s.21). Each member has one vote (s.20).",
+    "If the committee ignores a valid requisition for a special meeting it stands dissolved (s.30A).",
+    "Committee term is four years in the Act text read (s.28(1-aa)): confirm the current term."
+   ],
+   "gaps": [
+    "Notice, quorum, requisition share and election procedure were not verified (Rules not read).",
+    "The presiding person's casting vote (not for elections or bye-law amendments) cannot be limited that way, so no tie rule is set.",
+    "Reserved seats with overlapping categories cannot be shown as one number, so none is set."
+   ]
+  },
+  {
+   "id": "in-ts-coop-society",
+   "name": "Telangana co-operative housing society (Telangana Co-operative Societies Act 1964 regime)",
+   "jurisdiction": "IN-TS",
+   "confidence": "low",
+   "needsLawyer": true,
+   "params": {
+    "term.years": 5
+   },
+   "options": {
+    "proxy_voting": false,
+    "weightage": false,
+    "quorum_check": true
+   },
+   "locked": {
+    "proxy_voting": {
+     "value": false,
+     "reason": "Telangana Co-operative Societies Act 1964 s.25(1): a member votes in person and not by proxy"
+    },
+    "weightage": {
+     "value": false,
+     "reason": "s.25(1): every member has one vote"
+    }
+   },
+   "notice": {
+    "agm": {
+     "min": null,
+     "max": null
+    },
+    "sgm": {
+     "min": null,
+     "max": null
+    },
+    "committee": {
+     "min": null,
+     "max": null
+    },
+    "monthly": {
+     "min": null,
+     "max": null
+    }
+   },
+   "recommended": [
+    "Enter the notice days and quorum from your registered bye-laws; the Rules only say bye-laws may not set quorum below one-tenth of members (r.23)",
+    "Requisition: the committee must call a special meeting within 30 days (Act s.32(2)); the member fraction is in the bye-laws",
+    "Voting is in person, one member one vote (Act s.25)"
+   ],
+   "gaps": [
+    "General body must meet twice a year, one per half-year, and the committee every 3 months: the product has no meeting-frequency rule",
+    "Quorum floor of one-tenth is a minimum, not a default",
+    "Women seat reservation is not expressible as a count",
+    "Elections run by the Registrar/Election Authority are outside the product's flow"
+   ]
+  },
+  {
+   "id": "in-kl-coop-society",
+   "name": "Kerala co-operative housing society (Kerala Co-operative Societies Act 1969 + Rules 1969)",
+   "jurisdiction": "IN-KL",
+   "confidence": "low",
+   "needsLawyer": true,
+   "params": {
+    "requisition.percentBp": 2000,
+    "reserved.seats": 2
+   },
+   "options": {
+    "proxy_voting": null,
+    "quorum_check": true
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": null,
+     "max": null
+    },
+    "sgm": {
+     "min": null,
+     "max": null
+    },
+    "committee": {
+     "min": null,
+     "max": null
+    },
+    "monthly": {
+     "min": null,
+     "max": null
+    }
+   },
+   "recommended": [
+    "Requisition: one-fifth of total members can demand a special general meeting; the committee must call it within one month (Rules r.36)",
+    "Election nominations must close at least 7 clear days before the election (Rules r.35)",
+    "Enter notice days and quorum from your registered bye-laws; the Act and Rules read do not fix them"
+   ],
+   "gaps": [
+    "Committee term 'not exceeding 5 years' is a cap, so term.years is left blank",
+    "One women seat plus one SC/ST seat is shown as reserved.seats=2 for information; the product cannot enforce which seats",
+    "Registrar-summoned meetings valid without quorum: no setting",
+    "Committee quorum just above 50%: no setting"
+   ]
+  },
+  {
+   "id": "in-tn-coop-society",
+   "name": "Tamil Nadu co-operative housing society (TN Co-operative Societies Act 1983 + Rules 1988)",
+   "jurisdiction": "IN-TN",
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "term.years": 5
+   },
+   "options": {
+    "proxy_voting": false,
+    "weightage": false,
+    "quorum_check": true
+   },
+   "locked": {
+    "proxy_voting": {
+     "value": false,
+     "reason": "TN Co-operative Societies Act 1983 s.26(3): no member may vote by proxy"
+    },
+    "weightage": {
+     "value": false,
+     "reason": "s.26(1)(a): no member has more than one vote"
+    }
+   },
+   "notice": {
+    "agm": {
+     "min": null,
+     "max": null
+    },
+    "sgm": {
+     "min": null,
+     "max": null
+    },
+    "committee": {
+     "min": 3,
+     "max": null
+    },
+    "monthly": {
+     "min": null,
+     "max": null
+    }
+   },
+   "recommended": [
+    "Enter general body notice days and quorum from your registered bye-laws; the Act and Rules do not fix them",
+    "Secret ballot is mandatory at every election poll (Rules r.52); tick it for election points",
+    "A general meeting must be held within six months of year-end (Act s.32(2))",
+    "Election notice at least 15 days before the poll (Rules r.52(6)(b))"
+   ],
+   "gaps": [
+    "Women 30% and SC/ST 18% reservations are percentages, not a seat count",
+    "Tie: lots for elections but president's casting vote for other questions: the product has one tie setting",
+    "Election Commission-run elections and a voters' list fixed 30 days before the poll are outside the product",
+    "Secret ballot for election polls only is per point, not per pack"
+   ]
+  },
+  {
+   "id": "in-wb-coop-society",
+   "name": "West Bengal co-operative housing society (WB Co-operative Societies Act 2006 + Rules 2011)",
+   "jurisdiction": "IN-WB",
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 21,
+    "quorum.basis": "flats",
+    "quorum.percentBp": 2000,
+    "adjourned.noQuorum": true,
+    "tie.break": "chair_casting_vote",
+    "term.years": 5,
+    "requisition.percentBp": 3333,
+    "minutes.deadlineDays": 3
+   },
+   "options": {
+    "proxy_voting": false,
+    "weightage": false,
+    "quorum_check": true,
+    "absentee_voting": false
+   },
+   "locked": {
+    "proxy_voting": {
+     "value": false,
+     "reason": "WB Co-operative Societies Rules 2011 r.28(3): no vote by proxy, post or from outside the meeting"
+    },
+    "weightage": {
+     "value": false,
+     "reason": "r.28(1): every member present has one vote"
+    },
+    "absentee_voting": {
+     "value": false,
+     "reason": "r.28(3): no vote from outside the premises of the meeting"
+    }
+   },
+   "notice": {
+    "agm": {
+     "min": 21,
+     "max": null
+    },
+    "sgm": {
+     "min": null,
+     "max": null
+    },
+    "committee": {
+     "min": null,
+     "max": null
+    },
+    "monthly": {
+     "min": null,
+     "max": null
+    }
+   },
+   "recommended": [
+    "AGM notice 21 days unless your bye-laws say otherwise (Act s.29(3))",
+    "Quorum one-fifth of members, or more if your bye-laws say so (Rules r.26); an adjourned meeting needs no quorum",
+    "Requisitioned special meeting: at least one-third of members; the board must call it within 2 months (Act s.31)",
+    "Minutes must be signed within 3 working days (Rules r.27)"
+   ],
+   "gaps": [
+    "The minutes deadline is in working days, the product counts days",
+    "Requisition 'at least one-third' entered as 3333 basis points, a hair under",
+    "An adjourned meeting is automatically one week later with no fresh notice: only partly expressible",
+    "Poll on a 20% demand for elections, show of hands otherwise, is per point",
+    "Reserved seats (SC/ST/OBC/women) are 'if any' and additional to elected directors"
+   ]
+  },
+  {
+   "id": "in-jk-coop-society",
+   "name": "Jammu & Kashmir co-operative housing society (Co-operative Societies Act 1989 + Rules 2001)",
+   "jurisdiction": "IN-JK",
+   "confidence": "low",
+   "needsLawyer": true,
+   "params": {
+    "term.years": 3,
+    "tie.break": "chair_casting_vote"
+   },
+   "options": {
+    "proxy_voting": false,
+    "weightage": false,
+    "secret_ballot": true
+   },
+   "locked": {
+    "proxy_voting": {
+     "value": false,
+     "reason": "J&K Co-operative Societies Act 1989 s.21(1): every member votes in person; proxy voting is not permitted"
+    },
+    "weightage": {
+     "value": false,
+     "reason": "J&K Co-operative Societies Act 1989 s.20: every member has one vote"
+    }
+   },
+   "notice": {},
+   "recommended": [
+    "Committee elections are run by revenue officers under Rule 16; ask the Assistant Registrar for the date before you plan a vote.",
+    "Election notice: 15 clear days, election meeting not earlier than 30 days after notice (Rules 18(d), 21(d)).",
+    "Committee term is three years (s.29(2)); start arranging the next election within 90 days before it ends (s.29(3)).",
+    "Committee elections are by secret ballot (Rule 16(3)); tick secret ballot for those points.",
+    "On a tie the chair has an additional casting vote (s.20, Rule 10)."
+   ],
+   "gaps": [
+    "No general-meeting quorum or ordinary notice period found - set both from your own bye-laws.",
+    "Elections are run by revenue officers, not the society: the product cannot model that hand-over.",
+    "Office-bearer cap of 3 consecutive years (then 3-year gap) is not expressible (term.maxConsecutive counts terms, not years).",
+    "The separate J&K Apartment Ownership Act 1989 could not be used: no notification or model bye-laws found."
+   ]
+  },
+  {
+   "id": "in-py-coop-society",
+   "name": "Puducherry co-operative society - committee election rules (Rules 1973)",
+   "jurisdiction": "IN-PY",
+   "confidence": "low",
+   "needsLawyer": true,
+   "params": {},
+   "options": {
+    "secret_ballot": true
+   },
+   "locked": {},
+   "notice": {
+    "sgm": {
+     "min": 7,
+     "max": null
+    }
+   },
+   "recommended": [
+    "Election meeting: at least 7 clear days' notice by hand, post, circulation or press, plus the notice board (Rule 33(2)-(3)).",
+    "Publish the voters' list (members as on 30 days before the poll) at least 3 days before; nominations are made at the meeting (Rule 33(4)-(6)).",
+    "Vote by secret written ballot (Rule 33(12)); keep ballot papers 3 months (Rule 33(19)).",
+    "Hold the election within the 90 days before the term ends (Rule 41(1))."
+   ],
+   "gaps": [
+    "Quorum is left entirely to your bye-laws - enter it.",
+    "The Act (committee term, requisition share, proxy rules, AGM notice) was not read; set these from your bye-laws.",
+    "Puducherry Apartment Ownership Act 1987 text not obtained."
+   ]
+  },
+  {
+   "id": "in-sk-coop-society",
+   "name": "Sikkim co-operative society (Act 1978 as amended to 2013)",
+   "jurisdiction": "IN-SK",
+   "confidence": "low",
+   "needsLawyer": true,
+   "params": {
+    "reserved.seats": 3
+   },
+   "options": {
+    "proxy_voting": false,
+    "weightage": false
+   },
+   "locked": {
+    "proxy_voting": {
+     "value": false,
+     "reason": "Sikkim Co-operative Societies Act 1978 s.23(1): every member votes in person; no proxy"
+    },
+    "weightage": {
+     "value": false,
+     "reason": "Sikkim Co-operative Societies Act 1978 s.22: every member has one vote"
+    }
+   },
+   "notice": {},
+   "recommended": [
+    "Hold the annual general meeting within six months of the close of the co-operative year (s.32(1) as amended 2013).",
+    "Committee term: whatever your bye-laws say, up to five co-operative years since 2013 (s.35); hold the election before the old board's term ends (s.34(1a)).",
+    "Keep one board seat for SC/ST and two for women (s.34(1c)).",
+    "term.maxConsecutive 2 applies to office-bearer posts (president, secretary, treasurer etc.), not every committee member (s.36).",
+    "Special meeting: committee must call it within a month of a valid requisition (s.33)."
+   ],
+   "gaps": [
+    "Quorum and notice period are not in the Act; they are in the 1981 Rules / your bye-laws (not obtained) - enter them yourself.",
+    "Requisition share is set by the bye-laws.",
+    "The product cannot express 'office-bearer posts only' for term.maxConsecutive.",
+    "The two-consecutive-terms limit applies only to office-bearer posts, not to every committee seat; the product's term.maxConsecutive cannot say that, so it is left unset"
+   ]
+  },
+  {
+   "id": "in-ml-coop-society",
+   "name": "Meghalaya co-operative society (old Assam-derived Act and Rules - currency unverified)",
+   "jurisdiction": "IN-ML",
+   "confidence": "low",
+   "needsLawyer": true,
+   "params": {},
+   "options": {
+    "proxy_voting": null,
+    "quorum_check": true
+   },
+   "locked": {},
+   "notice": {},
+   "recommended": [
+    "Quorum default is one-fifth of members or 100, whichever is less, unless your bye-laws say otherwise (Rule 24).",
+    "A meeting called on member requisition cannot be adjourned for lack of quorum: it is dissolved (Rule 24 proviso).",
+    "Proxy voting only if the bye-laws allow it (s.17(3)) - the Registrar permits it rarely; decide with your bye-laws in hand.",
+    "Send the proceedings and attendance list to the Registrar: they are not valid until he approves (Rule 26).",
+    "Check whether a newer Meghalaya Act has replaced this one before relying on any figure."
+   ],
+   "gaps": [
+    "Requisition is 'one-tenth OR 20 members, whichever is less' - the product holds only the percentage; quorum cap is flats but the rule counts members.",
+    "The Registrar's approval of proceedings before they are valid cannot be modelled.",
+    "Poll on demand of ten members is not modelled.",
+    "Whether this Act is still in force is not verified.",
+    "Engine values (quorum one-fifth or 100, requisition one-tenth, one vote per member) are NOT loaded: they come from the old Assam-derived Act whose current force in Meghalaya could not be verified"
+   ]
+  },
+  {
+   "id": "in-tr-coop-society",
+   "name": "Tripura co-operative society (Act 1974 / Rules 1976, amended)",
+   "jurisdiction": "IN-TR",
+   "confidence": "low",
+   "needsLawyer": true,
+   "params": {
+    "requisition.percentBp": 2000,
+    "reserved.seats": 3,
+    "nomination.withdrawalDays": 7,
+    "tie.break": "chair_casting_vote"
+   },
+   "options": {
+    "proxy_voting": false,
+    "weightage": false,
+    "secret_ballot": true
+   },
+   "locked": {
+    "proxy_voting": {
+     "value": false,
+     "reason": "Tripura Co-operative Societies Act 1974 s.27(1)(b): every member votes in person, no proxy"
+    },
+    "weightage": {
+     "value": false,
+     "reason": "Tripura Co-operative Societies Act 1974 s.27(1)(a): no member has more than one vote"
+    }
+   },
+   "notice": {},
+   "recommended": [
+    "Annual general meeting within three months of the accounts date, extendable by the Registrar (s.71(1)).",
+    "Special meeting: one-fifth of members (or fewer if your bye-laws say) can force one; committee must call it within one month (s.72).",
+    "Reserve one seat for SC/ST and two for women (Third Amendment 2016).",
+    "Committee elections are by secret voting (s.65(2)); candidates can withdraw up to seven days before the general meeting (Rule 61(8) as substituted 1978).",
+    "term.maxConsecutive 2 applies to office-bearer posts only (s.68)."
+   ],
+   "gaps": [
+    "General-meeting notice period and quorum are not in the text read - enter them from your bye-laws.",
+    "Term of the committee is 'up to 3 years per bye-laws' in the copy read: the product holds a single number, left blank.",
+    "Requisition is 'one-fifth or the smaller number in the bye-laws': only the one-fifth is held.",
+    "Tripura Apartment Ownership Act 1986 gives no numbers.",
+    "The two-consecutive-terms limit applies only to office-bearer posts, not to every committee seat; the product's term.maxConsecutive cannot say that, so it is left unset"
+   ]
+  },
+  {
    "id": "sg-bsma-mcst",
    "name": "Singapore Building (Strata Management) Act 2004 - management corporation (condominium) general meetings",
    "jurisdiction": "SG",
@@ -2147,6 +3417,1240 @@
     "Appointment of an administrator by arbitration where the meeting fails to appoint one.",
     "The text does not say whether voting is by hand, poll or ballot."
    ]
+  },
+  {
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 10,
+    "notice.maxDays": 50,
+    "requisition.percentBp": 2500
+   },
+   "options": {
+    "proxy_voting": false,
+    "absentee_voting": true,
+    "quorum_check": true,
+    "secret_ballot": null
+   },
+   "locked": {
+    "proxy_voting": {
+     "value": false,
+     "reason": "A.R.S. 33-1250(C): after declarant control ends, proxies are not allowed whatever the documents say"
+    },
+    "absentee_voting": {
+     "value": true,
+     "reason": "A.R.S. 33-1250(C): the association must allow absentee ballots in addition to in-person voting"
+    }
+   },
+   "notice": {
+    "agm": {
+     "min": 10,
+     "max": 50
+    },
+    "sgm": {
+     "min": 10,
+     "max": 50
+    }
+   },
+   "recommended": [
+    "Notice must go out 10 to 50 days before an owners' meeting by hand or prepaid mail (33-1248(B)); give the agenda too.",
+    "Absentee ballots must give at least 7 days to return and expire after the one meeting (33-1250(C)).",
+    "Keep ballots and sign-in sheets at least 1 year (33-1250(C)(7))."
+   ],
+   "gaps": [
+    "Quorum number is not in the Condo Act: take it from your bylaws (Nonprofit Act fallback is 10% of votes).",
+    "Board notice is 48 hours, the product counts whole days.",
+    "Removal-by-petition meeting has its own 20%-or-1,000-votes quorum which the product cannot switch per item.",
+    "Proxies are lawful during declarant control; the product locks them off."
+   ],
+   "id": "us-az-condo",
+   "name": "Arizona Condominium Act (A.R.S. 33-1201 et seq.)",
+   "jurisdiction": "Arizona"
+  },
+  {
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 10,
+    "notice.maxDays": 50,
+    "requisition.percentBp": 2500
+   },
+   "options": {
+    "proxy_voting": false,
+    "absentee_voting": true,
+    "quorum_check": true,
+    "secret_ballot": null
+   },
+   "locked": {
+    "proxy_voting": {
+     "value": false,
+     "reason": "A.R.S. 33-1812(A): after declarant control ends, proxies are not allowed whatever the documents say"
+    },
+    "absentee_voting": {
+     "value": true,
+     "reason": "A.R.S. 33-1812(A): members must be allowed absentee ballots"
+    }
+   },
+   "notice": {
+    "agm": {
+     "min": 10,
+     "max": 50
+    },
+    "sgm": {
+     "min": 10,
+     "max": 50
+    }
+   },
+   "recommended": [
+    "Notice 10 to 50 days before any members' meeting, by hand or prepaid mail (33-1804(B)).",
+    "Absentee ballots need at least a 7-day return window and expire after the single meeting (33-1812(A)).",
+    "Meetings must be held inside Arizona (33-1804(B))."
+   ],
+   "gaps": [
+    "Quorum number is not in the Act: use your bylaws (Nonprofit Act fallback 10% of votes).",
+    "48-hour board notice is in hours.",
+    "Removal-petition meeting quorum (20% or 1,000 votes) is separate.",
+    "Proxies are lawful while the declarant controls the association."
+   ],
+   "id": "us-az-hoa",
+   "name": "Arizona Planned Communities Act (A.R.S. 33-1801 et seq.)",
+   "jurisdiction": "Arizona"
+  },
+  {
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 10,
+    "notice.maxDays": 50,
+    "quorum.basis": "weight",
+    "quorum.percentBp": 2000,
+    "requisition.percentBp": 2000
+   },
+   "options": {
+    "proxy_voting": true,
+    "secret_ballot": null
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 10,
+     "max": 50
+    },
+    "sgm": {
+     "min": 10,
+     "max": 50
+    }
+   },
+   "recommended": [
+    "Quorum default is 20% of votes (10% if over 1,000 owners) unless your bylaws say otherwise (38-33.3-309); the engine value uses 20%, change it if you have more than 1,000 owners.",
+    "Contested board elections must be by secret ballot counted by a neutral third party or volunteer owners who are not candidates (38-33.3-310(1)(b)).",
+    "Proxies expire after 11 months and must be dated (38-33.3-310(2))."
+   ],
+   "gaps": [
+    "Quorum is 10% for associations with more than 1,000 owners: the product has one number.",
+    "Quorum is measured on votes cast in board elections, not total votes.",
+    "Secret ballot is mandatory only for contested board seats; the product locks per event, not per agenda item.",
+    "Proxy expiry (11 months) not expressible."
+   ],
+   "id": "us-co-ccioa",
+   "name": "Colorado Common Interest Ownership Act (CCIOA, C.R.S. 38-33.3-101 et seq.)",
+   "jurisdiction": "Colorado"
+  },
+  {
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 10,
+    "notice.maxDays": 30,
+    "quorum.basis": "weight",
+    "quorum.percentBp": 2000,
+    "requisition.percentBp": 2000,
+    "term.years": 2
+   },
+   "options": {
+    "proxy_voting": null,
+    "secret_ballot": null
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 10,
+     "max": 30
+    },
+    "sgm": {
+     "min": 10,
+     "max": 30
+    }
+   },
+   "recommended": [
+    "Owner notice 10 to 30 days in writing; email only if your documents expressly permit it (765 ILCS 605/18(b)(6)).",
+    "20% quorum applies to condominiums of 20 or more units unless owners holding a majority of the interest set a higher figure (18(b)(1)).",
+    "Terms are at most two years (18(a)(11)).",
+    "The board may replace proxies with ballots or electronic voting for board elections by a rule adopted at least 120 days before the election (18(b)(9)(B)); ballots go out 10 to 30 days before the meeting."
+   ],
+   "gaps": [
+    "Quorum rule for condominiums under 20 units not read.",
+    "Proxy expiry (11 months), the 120-day rule-adoption lead time and the owner petition to reject a balloting rule are not expressible.",
+    "Official text unreachable: have a lawyer confirm against ilga.gov."
+   ],
+   "id": "us-il-condo",
+   "name": "Illinois Condominium Property Act (765 ILCS 605)",
+   "jurisdiction": "Illinois"
+  },
+  {
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 10,
+    "notice.maxDays": 30,
+    "quorum.basis": "weight",
+    "quorum.percentBp": 2000,
+    "requisition.percentBp": 2000,
+    "term.years": 4,
+    "retention.years": 7
+   },
+   "options": {
+    "proxy_voting": null,
+    "secret_ballot": null
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 10,
+     "max": 30
+    },
+    "sgm": {
+     "min": 10,
+     "max": 30
+    }
+   },
+   "recommended": [
+    "Notice 10 to 30 days before a membership meeting (1-40(a)).",
+    "Proxies cannot be used to elect the board (1-25(i)); untick proxies for election events.",
+    "Elections at least every 24 months, terms at most 4 years (1-25).",
+    "Electronic board elections need board-adopted rules; voting instructions go out 10 to 30 days before the meeting and a member who votes in person voids an earlier electronic vote (1-25(i))."
+   ],
+   "gaps": [
+    "Proxies are barred for elections but allowed for other items: the product sets proxy per event, not per item.",
+    "Quorum is 20% unless documents set a LOWER figure.",
+    "Official text unreachable: confirm with a lawyer."
+   ],
+   "id": "us-il-cica",
+   "name": "Illinois Common Interest Community Association Act (765 ILCS 160)",
+   "jurisdiction": "Illinois"
+  },
+  {
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 7,
+    "quorum.basis": "weight",
+    "quorum.percentBp": 3333,
+    "quorum.strict": true,
+    "requisition.percentBp": 1500
+   },
+   "options": {
+    "proxy_voting": true,
+    "secret_ballot": null
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 21,
+     "max": null
+    },
+    "sgm": {
+     "min": 7,
+     "max": null
+    }
+   },
+   "recommended": [
+    "Proxies must be dated or they are void; entity owners must use proxies (44-3-79(c)).",
+    "Annual or regularly scheduled meetings need 21 days' notice, others 7 days (44-3-102).",
+    "Quorum is more than one-third of the votes unless your instruments say otherwise (44-3-103).",
+    "Give owners the required reports on finances and the budget at the annual meeting (44-3-102)."
+   ],
+   "gaps": [
+    "Election, term, records and secret-ballot rules of the Condominium Act were not located.",
+    "Notice minimum differs by meeting type: set 21 days for the annual meeting yourself (the engine's notice block does).",
+    "Quorum of MORE than one-third is approximated with 3333 basis points and the strict flag."
+   ],
+   "id": "us-ga-condo",
+   "name": "Georgia Condominium Act (O.C.G.A. 44-3-70 et seq.)",
+   "jurisdiction": "Georgia"
+  },
+  {
+   "confidence": "low",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 7,
+    "requisition.percentBp": 500
+   },
+   "options": {
+    "proxy_voting": null,
+    "secret_ballot": null
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 21,
+     "max": null
+    },
+    "sgm": {
+     "min": 7,
+     "max": null
+    }
+   },
+   "recommended": [
+    "Annual or regularly scheduled meetings need 21 days' notice, others 7 days (44-3-230); notice may go by email under Georgia's electronic-transactions law.",
+    "Proxies are allowed unless your articles or bylaws restrict them; they last 11 months unless the form says otherwise (14-3-724).",
+    "Quorum default depends on when the association was incorporated: check your bylaws first (14-3-722)."
+   ],
+   "gaps": [
+    "Quorum default depends on incorporation date (majority vs 10%); the engine value is left blank so the Organizer enters the bylaw figure.",
+    "Proxy duration (11 months) not expressible."
+   ],
+   "id": "us-ga-poa",
+   "name": "Georgia Property Owners' Association Act (O.C.G.A. 44-3-220 et seq.) with Nonprofit Corporation Code",
+   "jurisdiction": "Georgia"
+  },
+  {
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 10,
+    "notice.maxDays": 90,
+    "quorum.basis": "weight",
+    "quorum.percentBp": 2500,
+    "adjourned.minHoursLater": 360,
+    "adjourned.noQuorum": true
+   },
+   "options": {
+    "proxy_voting": true,
+    "secret_ballot": null
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 10,
+     "max": 90
+    },
+    "sgm": {
+     "min": 10,
+     "max": 90
+    }
+   },
+   "recommended": [
+    "Notice 10 to 90 days before a council meeting (11-109(c)); email notice only where the electronic-notice rules are met.",
+    "Quorum is 25% of unit votes unless the bylaws say otherwise (11-109(c)(8)).",
+    "Proxies last at most 180 days, and a blank proxy cannot elect officers or directors (11-109(c)(10)-(12)).",
+    "Call for nominations at least 45 days before the election notice (11-109(c)(13))."
+   ],
+   "gaps": [
+    "The 180-day proxy life and the ban on blank proxies in elections cannot be expressed.",
+    "Follow-up meeting after a failed quorum needs the original notice to mention it: the product has no switch for that.",
+    "Nomination timetable (45 and 15 days before the election notice) cannot be expressed."
+   ],
+   "id": "us-md-condo",
+   "name": "Maryland Condominium Act (Real Property Title 11)",
+   "jurisdiction": "Maryland"
+  },
+  {
+   "confidence": "low",
+   "needsLawyer": true,
+   "params": {},
+   "options": {
+    "proxy_voting": null,
+    "secret_ballot": null
+   },
+   "locked": {},
+   "notice": {},
+   "recommended": [
+    "Give reasonable notice of open meetings and follow your declaration for notice days and quorum (11B-111).",
+    "If a quorum fails, a follow-up meeting needs the original notice to say so, 15+ days later, with 10 days' separate notice (11B-111)."
+   ],
+   "gaps": [
+    "The Act sets no notice days, quorum, proxy or election rules: enter the figures from your documents (custom values).",
+    "Follow-up meeting after failed quorum is not a product setting."
+   ],
+   "id": "us-md-hoa",
+   "name": "Maryland Homeowners Association Act (Real Property Title 11B)",
+   "jurisdiction": "Maryland"
+  },
+  {
+   "confidence": "high",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 7,
+    "notice.maxDays": 30,
+    "quorum.basis": "weight",
+    "quorum.percentBp": 2000,
+    "quorum.strict": true,
+    "requisition.percentBp": 2000,
+    "notice.delivery": "post"
+   },
+   "options": {
+    "proxy_voting": null,
+    "secret_ballot": null,
+    "quorum_check": true
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 21,
+     "max": 30
+    },
+    "sgm": {
+     "min": 7,
+     "max": 30
+    }
+   },
+   "recommended": [
+    "Annual meeting notice 21 to 30 days, special meeting notice 7 to 30 days, by hand or prepaid mail (515B.3-108(b)); email is not named in the section.",
+    "Quorum is MORE than 20% of the votes unless your bylaws say otherwise (515B.3-109).",
+    "Proxies are allowed only if your articles or bylaws allow them (515B.3-110(b)).",
+    "An owner who is behind on assessments cannot be denied a vote or have the vote ignored for quorum (515B.3-110(a))."
+   ],
+   "gaps": [
+    "Notice delivery is hand or mail only: the product's 'post' setting is closest.",
+    "Mail/electronic votes instead of a meeting need a 15-45 day voting period and a result notice within 30 days: not expressible.",
+    "Ch. 317A and the older condominium chapter (515) not read."
+   ],
+   "id": "us-mn-515b",
+   "name": "Minnesota Common Interest Ownership Act (Minn. Stat. ch. 515B)",
+   "jurisdiction": "Minnesota"
+  },
+  {
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 10,
+    "notice.maxDays": 60,
+    "quorum.basis": "weight",
+    "quorum.percentBp": 2000,
+    "requisition.percentBp": 2000
+   },
+   "options": {
+    "proxy_voting": null,
+    "secret_ballot": null,
+    "quorum_check": true
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 10,
+     "max": 60
+    },
+    "sgm": {
+     "min": 10,
+     "max": 60
+    },
+    "committee": {
+     "min": 5,
+     "max": null
+    }
+   },
+   "recommended": [
+    "Notice 10 to 60 days before every annual or special owners' meeting, with the agenda (47-250(a)(3)).",
+    "Quorum is 20% of the votes present at the start unless your bylaws say otherwise (47-251).",
+    "Proxies expire after one year, must be dated, and no one may hold more than 15% of all votes through undirected proxies (47-252(c)).",
+    "Give owners a chance to comment at every meeting (47-250(a)(4))."
+   ],
+   "gaps": [
+    "The 15% cap on undirected proxies and the one-year proxy life are not expressible.",
+    "Which older communities fall outside this Act was not read.",
+    "Ballot-without-meeting rules (3-day minimum return window) cannot be expressed."
+   ],
+   "id": "us-ct-cioa",
+   "name": "Connecticut Common Interest Ownership Act (Conn. Gen. Stat. 47-200 et seq.)",
+   "jurisdiction": "Connecticut"
+  },
+  {
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 10,
+    "notice.maxDays": 60,
+    "requisition.percentBp": 2000,
+    "quorum.basis": "weight",
+    "quorum.percentBp": 2000
+   },
+   "options": {
+    "proxy_voting": null,
+    "secret_ballot": null
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 10,
+     "max": 60
+    },
+    "sgm": {
+     "min": 10,
+     "max": 60
+    }
+   },
+   "recommended": [
+    "Notice 10 to 60 days before any owners' meeting by hand or prepaid mail, with the agenda (35-8A-308).",
+    "Owners with 20% of the votes (or the lower figure in your bylaws) can call a special meeting."
+   ],
+   "gaps": [
+    "Quorum is counted on votes eligible to elect the board; proxy one-year life cannot be expressed.",
+    "Board-election terms, secret ballot and e-voting not read."
+   ],
+   "id": "us-al-condo",
+   "name": "Alabama Uniform Condominium Act (Ala. Code 35-8A) ",
+   "jurisdiction": "Alabama"
+  },
+  {
+   "confidence": "low",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 10,
+    "notice.maxDays": 60
+   },
+   "options": {
+    "proxy_voting": null,
+    "secret_ballot": null
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 10,
+     "max": 60
+    },
+    "sgm": {
+     "min": 10,
+     "max": 60
+    }
+   },
+   "recommended": [
+    "Notice at least 10 and at most 60 days before a members' meeting unless your documents say otherwise (10A-3-2.03).",
+    "The declarant must call a special meeting to elect the first board within 120 days of members getting that right, with nominations from the floor backed by 10% of members unless the documents say otherwise (35-20-9)."
+   ],
+   "gaps": [
+    "Quorum, proxy, voting, term and requisition rules were not read: enter them from your bylaws."
+   ],
+   "id": "us-al-hoa",
+   "name": "Alabama Homeowners' Association Act (Ala. Code 35-20) with Nonprofit Corporation Law",
+   "jurisdiction": "Alabama"
+  },
+  {
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 10,
+    "notice.maxDays": 60,
+    "quorum.basis": "weight",
+    "quorum.percentBp": 2000,
+    "requisition.percentBp": 2000,
+    "notice.delivery": "post"
+   },
+   "options": {
+    "proxy_voting": null,
+    "secret_ballot": null
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 10,
+     "max": 60
+    },
+    "sgm": {
+     "min": 10,
+     "max": 60
+    }
+   },
+   "recommended": [
+    "Notice 10 to 60 days before any owners' meeting by hand or prepaid mail, with the agenda (AS 34.08.390).",
+    "Quorum is 20% of the votes eligible to elect the board unless your bylaws say otherwise (AS 34.08.400).",
+    "Proxies expire after one year and must be dated (AS 34.08.410)."
+   ],
+   "gaps": [
+    "Quorum is counted on votes eligible for electing the executive board, which the product approximates as total weight.",
+    "Proxy one-year life and revocation-only-by-notice rules cannot be expressed.",
+    "Secret ballot, e-voting, records and minutes rules were not read."
+   ],
+   "id": "us-ak-cioa",
+   "name": "Alaska Common Interest Ownership Act (AS 34.08)",
+   "jurisdiction": "Alaska"
+  },
+  {
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 10,
+    "notice.maxDays": 60,
+    "quorum.basis": "weight",
+    "quorum.percentBp": 2000,
+    "requisition.percentBp": 2000
+   },
+   "options": {
+    "proxy_voting": null,
+    "secret_ballot": null
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 10,
+     "max": 60
+    },
+    "sgm": {
+     "min": 10,
+     "max": 60
+    }
+   },
+   "recommended": [
+    "Notice 10 to 60 days before a regular or special owners' meeting, with the agenda (81-308).",
+    "Quorum default is 20% of votes (present in person, by proxy or by ballot) plus at least 25% of owners unrelated to the declarant, unless the bylaws say otherwise (81-309).",
+    "Proxies expire after one year and must be dated (81-310(b)); you may also vote by ballot without a meeting (81-310(f))."
+   ],
+   "gaps": [
+    "The second quorum limb (25% of owners unrelated to the declarant) cannot be expressed.",
+    "A majority of votes cast must also equal a majority of the quorum number (81-310(e)): not expressible.",
+    "Ballot-without-meeting rules (3-day minimum return) cannot be expressed."
+   ],
+   "id": "us-de-ducioa",
+   "name": "Delaware Uniform Common Interest Ownership Act (25 Del. C. ch. 81)",
+   "jurisdiction": "Delaware"
+  },
+  {
+   "confidence": "low",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 10,
+    "requisition.percentBp": 500
+   },
+   "options": {
+    "proxy_voting": null,
+    "secret_ballot": null
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 10,
+     "max": null
+    },
+    "sgm": {
+     "min": 10,
+     "max": null
+    }
+   },
+   "recommended": [
+    "For an incorporated association, members must get notice at least 10 days before a meeting (35-2-530); check your bylaws, which may require longer.",
+    "Members holding 5% of the voting power can force a special meeting (35-2-527), unless your articles/bylaws set a different figure.",
+    "Remote meetings are allowed unless your declaration or bylaws say otherwise (70-23-309)."
+   ],
+   "gaps": [
+    "The Unit Ownership Act sets no notice, quorum or voting numbers: they come from your bylaws. Quorum is left blank because the condominium default (a 'majority', defined in 70-23-102, not read) differs from the nonprofit default (10% of votes).",
+    "Montana's certified-mail notice window (30 to 60 days) cannot be expressed."
+   ],
+   "id": "us-mt-unit-ownership",
+   "name": "Montana Unit Ownership Act (MCA 70-23) with Nonprofit Corporation Act (MCA 35-2)",
+   "jurisdiction": "Montana"
+  },
+  {
+   "confidence": "high",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 10,
+    "notice.maxDays": 60,
+    "quorum.basis": "weight",
+    "quorum.percentBp": 2000,
+    "requisition.percentBp": 1000,
+    "notice.delivery": "any"
+   },
+   "options": {
+    "proxy_voting": null,
+    "secret_ballot": null,
+    "absentee_voting": true
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 10,
+     "max": 60
+    },
+    "sgm": {
+     "min": 10,
+     "max": 60
+    },
+    "committee": {
+     "min": 5,
+     "max": null
+    }
+   },
+   "recommended": [
+    "Notice 10 to 60 days before every annual or special owners' meeting, with the agenda (58-4611).",
+    "Quorum is 20% of the votes (present, by proxy, or by absentee ballot) unless the bylaws say otherwise (58-4613).",
+    "Owners with 10% of the votes can force a special meeting (58-4611).",
+    "Proxies are void if undated, last only for that meeting, and no one but a board member may hold undirected proxies for more than 15% of the votes (58-4614(c)).",
+    "Send an absentee ballot to any owner who asks at least 3 days before the meeting (58-4614(b))."
+   ],
+   "gaps": [
+    "The 15% cap on undirected proxies and the single-meeting life of a proxy are not expressible.",
+    "Absentee-ballot request rule (3 days) cannot be expressed.",
+    "Which communities the Act covers was not read: confirm applicability."
+   ],
+   "id": "us-ks-ucioba",
+   "name": "Kansas Uniform Common Interest Owners Bill of Rights Act (K.S.A. 58-4601 et seq.)",
+   "jurisdiction": "Kansas"
+  },
+  {
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 10,
+    "notice.maxDays": 60,
+    "quorum.basis": "weight",
+    "quorum.percentBp": 1000,
+    "requisition.percentBp": 2000,
+    "notice.delivery": "post"
+   },
+   "options": {
+    "proxy_voting": null,
+    "secret_ballot": null
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 10,
+     "max": 60
+    },
+    "sgm": {
+     "min": 10,
+     "max": 60
+    }
+   },
+   "recommended": [
+    "Notice 10 to 60 days before any owners' meeting by hand or prepaid mail, with the agenda (KRS 381.9177).",
+    "Quorum is only 10% of the votes available to elect the board unless your bylaws say otherwise (KRS 381.9179): consider setting a higher figure in the bylaws.",
+    "Proxies expire after one year and must be dated (KRS 381.9181)."
+   ],
+   "gaps": [
+    "Quorum is counted on votes available for electing the executive board.",
+    "Proxy one-year life cannot be expressed.",
+    "Secret ballot, electronic voting, records and board-election rules were not read."
+   ],
+   "id": "us-ky-condo",
+   "name": "Kentucky Condominium Act (KRS 381.9101 et seq.)",
+   "jurisdiction": "Kentucky"
+  },
+  {
+   "confidence": "low",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 10,
+    "notice.maxDays": 60,
+    "quorum.basis": "weight",
+    "quorum.percentBp": 1000,
+    "requisition.percentBp": 500
+   },
+   "options": {
+    "proxy_voting": null,
+    "secret_ballot": null
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 10,
+     "max": 60
+    },
+    "sgm": {
+     "min": 10,
+     "max": 60
+    }
+   },
+   "recommended": [
+    "For an incorporated association: notice 10 to 60 days before an annual or special members' meeting; 30 days minimum if not sent by first-class or registered mail (79-11-205).",
+    "Members holding 5% of the voting power can demand a special meeting (79-11-199), unless your articles or bylaws change it.",
+    "The nonprofit default quorum is only 10% of the votes (79-11-217): set a higher figure in your bylaws if you want one.",
+    "Proxies last 11 months unless the form says otherwise, and never more than 3 years (79-11-221)."
+   ],
+   "gaps": [
+    "These are Nonprofit Act defaults, not condominium-specific rules; your declaration/bylaws prevail.",
+    "Notice minimum rises to 30 days when not sent by first-class or registered mail: not expressible.",
+    "Mail ballot, 80% written-consent and proxy-duration rules cannot be expressed."
+   ],
+   "id": "us-ms-nonprofit-condo",
+   "name": "Mississippi Nonprofit Corporation Act (Miss. Code 79-11) and Condominium Law (Miss. Code 89-9)",
+   "jurisdiction": "Mississippi"
+  },
+  {
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 14,
+    "requisition.percentBp": 2500
+   },
+   "options": {
+    "proxy_voting": true,
+    "secret_ballot": null
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 14,
+     "max": null
+    },
+    "sgm": {
+     "min": 14,
+     "max": null
+    },
+    "committee": {
+     "min": 3,
+     "max": null
+    }
+   },
+   "recommended": [
+    "Notice at least 14 days before any meeting (514B-121(d)); email notice only to owners who opted in, in writing.",
+    "Owners with 25% of the units can petition for a special meeting; it must be held within 60 days (514B-121(c)).",
+    "A proxy must reach the secretary or managing agent by 4:30 p.m. on the second business day before the meeting, and a standard-form proxy with no box or two boxes ticked counts for quorum only (514B-123(d)-(e)).",
+    "A managing agent may not solicit proxies for itself (514B-123(j)).",
+    "Board notice is 72 hours, posted (514B-125(e)); the engine counts whole days."
+   ],
+   "gaps": [
+    "Quorum percentage is not in the sections read: take it from your bylaws.",
+    "The proxy cut-off time and the 'quorum only' rule for unmarked proxies are not expressible.",
+    "Emergency electronic/mail voting (514B-121(e)) cannot be modelled.",
+    "Board notice is in hours."
+   ],
+   "id": "us-hi-condo",
+   "name": "Hawaii Condominium Property Act (HRS ch. 514B)",
+   "jurisdiction": "Hawaii"
+  },
+  {
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 14
+   },
+   "options": {
+    "proxy_voting": true,
+    "secret_ballot": null
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 14,
+     "max": null
+    },
+    "sgm": {
+     "min": 14,
+     "max": null
+    }
+   },
+   "recommended": [
+    "Written notice at least 14 days before any members' meeting, delivered as the bylaws say or by two or more listed methods (421J-3.5).",
+    "A removal petition needs 100 units or 25% of all units, whichever is less (421J-3.3).",
+    "Proxies must reach the secretary or managing agent by 4:30 p.m. on the second business day before the meeting; unmarked/multi-marked standard proxies count for quorum only (421J-4).",
+    "Cumulative voting is not allowed unless your documents provide for it (421J-3.2)."
+   ],
+   "gaps": [
+    "Quorum, who may call a special meeting, and term length are not in the chapter as read: enter them from your bylaws.",
+    "Proxy cut-off time is not expressible."
+   ],
+   "id": "us-hi-pcaa",
+   "name": "Hawaii Planned Community Associations Act (HRS ch. 421J)",
+   "jurisdiction": "Hawaii"
+  },
+  {
+   "confidence": "low",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 10,
+    "notice.maxDays": 60
+   },
+   "options": {
+    "proxy_voting": null,
+    "secret_ballot": null
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 10,
+     "max": 60
+    },
+    "sgm": {
+     "min": 10,
+     "max": 60
+    }
+   },
+   "recommended": [
+    "For an incorporated association, notice 10 to 60 days before a meeting, personally, by mail or electronically (MCL 450.2404).",
+    "Check your condominium bylaws first: they set the quorum, special-meeting trigger and voting rules for condominium owners.",
+    "Proxies last up to 3 years from their date unless they say otherwise and are revocable (MCL 450.2421)."
+   ],
+   "gaps": [
+    "Condominium-specific quorum, proxy, voting and special-meeting rules live in each association's bylaws, not the statute: the Nonprofit Act default (a majority) was paraphrased ambiguously, so the quorum is left blank for the Organizer to enter from the bylaws.",
+    "No statutory owner requisition percentage (only a court-ordered meeting on 10%).",
+    "Ballot action: the nonprofit act sets a 20 to 90 day return window which the product cannot express."
+   ],
+   "id": "us-mi-condo-nonprofit",
+   "name": "Michigan Condominium Act (MCL 559) with Nonprofit Corporation Act (MCL 450.2101 et seq.)",
+   "jurisdiction": "Michigan"
+  },
+  {
+   "confidence": "low",
+   "needsLawyer": true,
+   "params": {},
+   "options": {
+    "proxy_voting": null,
+    "secret_ballot": null
+   },
+   "locked": {},
+   "notice": {},
+   "recommended": [
+    "Read your master deed and by-laws: notice days, quorum and voting are set there, not by c. 183A.",
+    "Remote and electronic owner meetings and mail-in or electronic owner ballots are allowed regardless of contrary documents, but a quorum must be present for the vote (c. 183A s. 24)."
+   ],
+   "gaps": [
+    "No statutory notice days, quorum, proxy or requisition numbers were found for condominiums: enter your by-law values (the product cannot prefill any).",
+    "c. 180 proxy rule (a proxy dated more than six months before the meeting is invalid) cannot be expressed."
+   ],
+   "id": "us-ma-183a",
+   "name": "Massachusetts Condominium Act (M.G.L. c. 183A) with c. 180 for incorporated associations",
+   "jurisdiction": "Massachusetts"
+  },
+  {
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 10,
+    "notice.maxDays": 60,
+    "quorum.basis": "weight",
+    "quorum.percentBp": 2000,
+    "requisition.percentBp": 2000,
+    "notice.delivery": "post"
+   },
+   "options": {
+    "proxy_voting": null,
+    "secret_ballot": null
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 10,
+     "max": 60
+    },
+    "sgm": {
+     "min": 10,
+     "max": 60
+    }
+   },
+   "recommended": [
+    "Notice 10 to 60 days before any owners' meeting by hand or prepaid mail, with the agenda (448.3-108).",
+    "Quorum is 20% of the votes for board elections, present in person or by proxy at the start, unless the bylaws say otherwise (448.3-109).",
+    "Proxies expire one year after their date and must be dated (448.3-110).",
+    "Owners can remove a board member by a two-thirds vote of those present at a quorate meeting (448.3-103(7))."
+   ],
+   "gaps": [
+    "Quorum is counted on votes for board elections.",
+    "Proxy one-year life cannot be expressed.",
+    "Records, secret ballot, electronic voting and terms were not read; condominiums created before 29 September 1983 are largely outside this Act."
+   ],
+   "id": "us-mo-uca",
+   "name": "Missouri Uniform Condominium Act (RSMo 448.1-101 et seq.)",
+   "jurisdiction": "Missouri"
+  },
+  {
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 10,
+    "notice.maxDays": 60,
+    "requisition.percentBp": 500
+   },
+   "options": {
+    "proxy_voting": null,
+    "secret_ballot": null
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 10,
+     "max": 60
+    },
+    "sgm": {
+     "min": 10,
+     "max": 60
+    }
+   },
+   "recommended": [
+    "Notice 10 to 60 days before a members' meeting if sent by first-class or registered mail; 30 days minimum otherwise (355.251).",
+    "Members with 5% of the voting power can force a special meeting (355.236).",
+    "Default quorum is 10% of the votes unless your bylaws say otherwise (355.281): consider a higher bylaw figure.",
+    "Proxies last 11 months unless the form says otherwise, never over 3 years (355.291)."
+   ],
+   "gaps": [
+    "Quorum is left blank so the Organizer enters the bylaw figure (the statutory 10% default is low).",
+    "Notice minimum rises to 30 days for non-first-class mail: not expressible.",
+    "Proxy 11-month life cannot be expressed."
+   ],
+   "id": "us-mo-nonprofit-hoa",
+   "name": "Missouri Nonprofit Corporation Act (RSMo ch. 355) for subdivision HOAs",
+   "jurisdiction": "Missouri"
+  },
+  {
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 10,
+    "notice.maxDays": 60,
+    "quorum.basis": "weight",
+    "quorum.percentBp": 2000
+   },
+   "options": {
+    "proxy_voting": null,
+    "secret_ballot": null
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 10,
+     "max": 60
+    },
+    "sgm": {
+     "min": 10,
+     "max": 60
+    }
+   },
+   "recommended": [
+    "Notice 10 to 60 days before any owners' meeting, by hand, prepaid mail or electronic means to the address the owner designated, with the agenda (1603-108).",
+    "Quorum is 20% of the votes cast for board election unless the bylaws say otherwise; the bylaws may go higher or lower, but not below 10% (1603-109).",
+    "Proxies expire 11 months after their date and must be dated (1603-110)."
+   ],
+   "gaps": [
+    "Special-meeting requisition percentage comes from the Nonprofit Act (not opened): left blank.",
+    "Quorum is counted on votes for board election.",
+    "Proxy 11-month life cannot be expressed.",
+    "Secret ballot, electronic voting and board-election terms were not read."
+   ],
+   "id": "us-me-condo",
+   "name": "Maine Condominium Act (33 M.R.S. ch. 31, 1601-101 et seq.)",
+   "jurisdiction": "Maine"
+  },
+  {
+   "confidence": "low",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 10,
+    "requisition.percentBp": 500
+   },
+   "options": {
+    "proxy_voting": null,
+    "secret_ballot": null
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 10,
+     "max": 60
+    },
+    "sgm": {
+     "min": 10,
+     "max": 60
+    },
+    "committee": {
+     "min": 7,
+     "max": null
+    }
+   },
+   "recommended": [
+    "Board meetings need 7 days' notice by mail or delivery and must be open to owners (499B.15); action taken otherwise is not valid or enforceable.",
+    "If your council is a nonprofit corporation, give 10 to 60 days' notice of members' meetings (30 days minimum if not sent by first-class or registered mail) and expect a 5% demand to force a special meeting (504.702, 504.705).",
+    "Check your bylaws for owner-meeting notice and quorum."
+   ],
+   "gaps": [
+    "Chapter 499B sets no owner-meeting notice period, annual meeting, proxy or requisition rule: the engine values are Nonprofit Act defaults and apply only if the council is incorporated.",
+    "Nonprofit Act notice window changes with the mail class (30-day minimum): not expressible."
+   ],
+   "id": "us-ia-499b",
+   "name": "Iowa Horizontal Property Act (Iowa Code ch. 499B) with Nonprofit Corporation Act (ch. 504)",
+   "jurisdiction": "Iowa"
+  },
+  {
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 10,
+    "requisition.percentBp": 1000
+   },
+   "options": {
+    "proxy_voting": null,
+    "secret_ballot": null
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 10,
+     "max": null
+    },
+    "sgm": {
+     "min": 10,
+     "max": null
+    },
+    "committee": {
+     "min": 4,
+     "max": null
+    }
+   },
+   "recommended": [
+    "Notice at least 10 days before a members' meeting; allow 30 to 60 days if you do not send it by first-class or registered mail (IC 23-17-10-5).",
+    "Members with 10% of the membership can demand a special meeting; the board must give notice within 30 days (IC 32-25.5-3-2).",
+    "Proxies under the HOA Act may last at most 180 days from the date given and a proxy missing the required items is void (IC 32-25.5-3-10).",
+    "Board meetings: members may attend; at least 4 days' written notice with agenda (IC 32-25.5-3-3(g))."
+   ],
+   "gaps": [
+    "Quorum is set by the governing documents (Nonprofit Act default 10%): left blank.",
+    "Proxy 180-day life cannot be expressed.",
+    "Voting rights may be suspended only after assessments are more than six months delinquent and only if the documents allow it (3-7): not expressible."
+   ],
+   "id": "us-in-hoa",
+   "name": "Indiana Homeowners Association Act (IC 32-25.5) with Nonprofit Corporation Act of 1991 (IC 23-17)",
+   "jurisdiction": "Indiana"
+  },
+  {
+   "confidence": "low",
+   "needsLawyer": true,
+   "params": {},
+   "options": {
+    "proxy_voting": null,
+    "secret_ballot": null
+   },
+   "locked": {},
+   "notice": {},
+   "recommended": [
+    "Read your bylaws: they set how co-owner meetings are called and the quorum if it is not a majority (IC 32-25-8-2(2)).",
+    "Co-owners may attend any board meeting; the board may meet privately only about delinquent assessments or with counsel about litigation (IC 32-25-8-2.5)."
+   ],
+   "gaps": [
+    "The Act sets no notice days, quorum percentage, proxy or requisition rule: nothing is prefilled."
+   ],
+   "id": "us-in-condo",
+   "name": "Indiana Condominium Act (IC 32-25)",
+   "jurisdiction": "Indiana"
+  },
+  {
+   "confidence": "low",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 10,
+    "notice.maxDays": 60,
+    "requisition.percentBp": 500
+   },
+   "options": {
+    "proxy_voting": null,
+    "secret_ballot": null
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 10,
+     "max": 60
+    },
+    "sgm": {
+     "min": 10,
+     "max": 60
+    }
+   },
+   "recommended": [
+    "For an association under the 1993 Nonprofit Act: notice 10 to 60 days before a members' meeting, minimum 30 days if not sent by first-class or registered mail (4-33-705).",
+    "Members with 5% of the voting power can demand a special meeting (4-33-702).",
+    "The Nonprofit Act default quorum is 10% of the votes (4-33-722): your bylaws may set a different figure, and condominiums under the Horizontal Property Act use a majority (18-13-102(4)(B)); set the figure from your documents."
+   ],
+   "gaps": [
+    "Two different quorum defaults apply: condominium co-owners (a majority) versus nonprofit members (10%): check which governs your association; the engine leaves quorum blank for that reason.",
+    "Whether the 1993 or 1963 Nonprofit Act applies depends on incorporation: not modelled.",
+    "Proxy 11-month life cannot be expressed."
+   ],
+   "id": "us-ar-hpa-nonprofit",
+   "name": "Arkansas Horizontal Property Act (A.C.A. 18-13) with Nonprofit Corporation Act of 1993 (A.C.A. 4-33)",
+   "jurisdiction": "Arkansas"
+  },
+  {
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 10,
+    "notice.maxDays": 60,
+    "requisition.percentBp": 1000,
+    "retention.years": 10
+   },
+   "options": {
+    "proxy_voting": null,
+    "secret_ballot": null
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 10,
+     "max": 60
+    },
+    "sgm": {
+     "min": 10,
+     "max": 60
+    }
+   },
+   "recommended": [
+    "Notice at least 10 days (30 if not first-class or registered mail) and at most 60 days before a members' meeting (30-30-505).",
+    "Hold a membership meeting every calendar year; keep minutes of membership and board meetings at least 10 years (55-3204(3)).",
+    "No owner may hold proxies for more than 50% of the total votes, and two people from one household cannot serve on the board together (55-3204B), except in associations with fewer than 20 residences or during declarant control.",
+    "Members with 10% of the voting power can demand a special meeting (30-30-502)."
+   ],
+   "gaps": [
+    "Retention (10 years) covers minutes only, but the engine has one retention figure.",
+    "The 50% proxy cap and household board limit are not expressible.",
+    "Nonprofit Act quorum (10%) applies only if the documents are silent: left blank for the Organizer."
+   ],
+   "id": "us-id-hoa",
+   "name": "Idaho Homeowner's Association Act (Idaho Code 55-3201 et seq.) with Nonprofit Corporation Act (30-30)",
+   "jurisdiction": "Idaho"
+  },
+  {
+   "confidence": "medium",
+   "needsLawyer": true,
+   "params": {
+    "notice.minDays": 30,
+    "notice.maxDays": 60,
+    "quorum.basis": "weight",
+    "quorum.percentBp": 2000,
+    "requisition.percentBp": 2000
+   },
+   "options": {
+    "proxy_voting": true,
+    "secret_ballot": null,
+    "absentee_voting": true
+   },
+   "locked": {},
+   "notice": {
+    "agm": {
+     "min": 30,
+     "max": 60
+    },
+    "sgm": {
+     "min": 30,
+     "max": 60
+    },
+    "committee": {
+     "min": 30,
+     "max": null
+    }
+   },
+   "recommended": [
+    "Notice 30 to 60 days before every annual or special owners' meeting, with the agenda (9:1141.26(A)).",
+    "Quorum is 20% of the voting interest unless the bylaws say otherwise, counting timely absentee ballots; in a declared emergency it is 10% (9:1141.27).",
+    "Owners may vote in person, by absentee ballot or by proxy; an absentee ballot must be delivered promptly if requested at least 3 days before the meeting (9:1141.28).",
+    "A proxy is valid only for that meeting and any recess of it (9:1141.28(F))."
+   ],
+   "gaps": [
+    "Emergency 10% quorum and the 3-day absentee-ballot request rule are not expressible.",
+    "Proxy single-meeting life cannot be expressed.",
+    "Condominiums under the Condominium Act (bylaws only) are outside this entry."
+   ],
+   "id": "us-la-pca",
+   "name": "Louisiana Planned Community Act (La. R.S. 9:1141.1 et seq., effective 1 January 2025)",
+   "jurisdiction": "Louisiana"
   },
   {
    "id": "us-ny-hoa-npcl",

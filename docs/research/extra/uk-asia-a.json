@@ -1,0 +1,3284 @@
+{
+  "_disclaimer": "Research summary of statutes and model rules for housing-society / residents' meetings and elections. NOT legal advice. Every value must be checked against the current official text and the society's own governing documents before use. Blank (null) means not read or not verified.",
+  "_region": "uk-asia-a",
+  "_compiled": "2026-10-24",
+  "packs": [
+    {
+      "research": {
+        "id": "sg-bsma-mcst",
+        "name": "Singapore management corporation (MCST) - Building (Strata Management) Act 2004, First and Second Schedules",
+        "jurisdiction": "SG",
+        "instruments": [
+          {
+            "value": "Building (Strata Management) Act 2004 (formerly Building Maintenance and Strata Management Act 2004) - s.2 (resolution types), s.27(3) (First Schedule applies to MC meetings), s.53-53B (council), First Schedule (general meetings), Second Schedule (council/records)",
+            "note": "Read the full current text on Singapore Statutes Online (page showed 'Current version as at 24 Oct 2026'). Applies to every management corporation constituted for a strata title plan (condominiums). The First Schedule was rewritten by S 406/2023 (virtual meetings) wef 1 Jul 2023.",
+            "source": "Building (Strata Management) Act 2004 (SSO current version; earlier title Building Maintenance and Strata Management Act), https://sso.agc.gov.sg/Act/BSMA2004?WholeDoc=1, s.2, First Schedule, Second Schedule",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          {
+            "value": "BCA Strata Management Guides 3 and 4 (March 2019)",
+            "note": "Government explainers; used only to cross-check the Act. BCA says the guides are not legal advice and do not interpret the Act. Guide 4 still describes the pre-2023 position in places (for example e-voting), so the Act text wins.",
+            "source": "BCA Strata Management Guide 3, https://www.bca.gov.sg/publications/bmsm/others/SMG3-Preparation-for-a-General-Meeting.pdf ; Guide 4, https://www.bca.gov.sg/publications/bmsm/others/SMG4-Proceedings-of-a-General-Meeting.pdf",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          {
+            "value": null,
+            "note": "Building Maintenance (Strata Management) Regulations 2005 and the management corporation's own by-laws were NOT read.",
+            "source": "not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "annual general meeting",
+            "calledBy": {
+              "value": "Council convenes; one AGM in every calendar year, at most 15 months after the previous AGM (first AGM: developer, within 13 months of constitution).",
+              "note": "Rule is from BCA Guide 3 s.2 citing s.26-27; s.27 itself was not separately opened (section lies outside the schedule I read).",
+              "source": "BCA Strata Management Guide 3, https://www.bca.gov.sg/publications/bmsm/others/SMG3-Preparation-for-a-General-Meeting.pdf ; Guide 4, https://www.bca.gov.sg/publications/bmsm/others/SMG4-Proceedings-of-a-General-Meeting.pdf (Guide 3 para 2.1-2.3)",
+              "confidence": "medium",
+              "needsLawyer": true
+            },
+            "noticeDays": {
+              "value": {
+                "min": 14,
+                "max": null
+              },
+              "note": "Notice served at least 14 days before; meeting can be held on the 15th day or later (s.2(2)). 21 days (22nd day) if any motion needs special / 90% / unanimous / comprehensive / consensus resolution (s.2(3)-(7)). Agenda must carry the statutory AGM motions (para 1A(3)). Notice may be shortened only if the MC passes a special resolution to allow it (para 1A(6)). Max days: none stated.",
+              "source": "Building (Strata Management) Act 2004 (SSO current version; earlier title Building Maintenance and Strata Management Act), https://sso.agc.gov.sg/Act/BSMA2004?WholeDoc=1, First Schedule para 1A(1), 1A(3), 1A(6); s.2(2)-(7)",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeContent": {
+              "value": "Place, day, hour; each proposed motion; any other business; copy of (or online link to) last minutes; statement of accounts and auditor's report; call for council nominations; how to vote incl. by electronic means if virtual.",
+              "note": "Para 1A(2)-(3), 1B(1), 1A(2A).",
+              "source": "Building (Strata Management) Act 2004 (SSO current version; earlier title Building Maintenance and Strata Management Act), https://sso.agc.gov.sg/Act/BSMA2004?WholeDoc=1, First Schedule para 1A, 1B",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "delivery": {
+              "value": "Notice must be served on each subsidiary proprietor and first mortgagee on the strata roll. BCA Guide 3 lists fax, registered post (deemed served 3rd working day), email (also posted), ordinary post (4th working day), hand delivery or affixing to the lot door.",
+              "note": "The delivery list is from the BCA guide citing s.129 of the Act and Interpretation Act s.2; s.129 not opened.",
+              "source": "BCA Strata Management Guide 3, https://www.bca.gov.sg/publications/bmsm/others/SMG3-Preparation-for-a-General-Meeting.pdf ; Guide 4, https://www.bca.gov.sg/publications/bmsm/others/SMG4-Proceedings-of-a-General-Meeting.pdf (Guide 3 para 6.1)",
+              "confidence": "medium",
+              "needsLawyer": true
+            }
+          },
+          {
+            "type": "extraordinary general meeting",
+            "calledBy": {
+              "value": "Council (by majority vote) or on requisition. Requisition signed by owners of at least 20% of aggregate share value, or by at least 25% of the subsidiary proprietors by number; council must convene within 6 weeks of receipt; if council does not move within 14 days the requisitionists (or one holding more than 50% of the requisitionists' voting rights) may convene, within 3 months.",
+              "note": "Para 14(1)-(3). Requisition must state the objects of the meeting and be deposited at the MC's registered address.",
+              "source": "Building (Strata Management) Act 2004 (SSO current version; earlier title Building Maintenance and Strata Management Act), https://sso.agc.gov.sg/Act/BSMA2004?WholeDoc=1, First Schedule para 14",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": 14,
+                "max": null
+              },
+              "note": "Same notice rules as AGM (21 days if a special/90%/etc. resolution is on the agenda). Any SP may also require a motion to be put on the next general meeting agenda by written notice to the council secretary (para 12).",
+              "source": "Building (Strata Management) Act 2004 (SSO current version; earlier title Building Maintenance and Strata Management Act), https://sso.agc.gov.sg/Act/BSMA2004?WholeDoc=1, First Schedule para 1A(1), 12; s.2",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          },
+          {
+            "type": "council meeting",
+            "calledBy": {
+              "value": "Council",
+              "note": "Second Schedule: notice of a council meeting at least 3 days before, by notice board and/or service; minutes of a council meeting displayed within 14 days.",
+              "source": "Building (Strata Management) Act 2004 (SSO current version; earlier title Building Maintenance and Strata Management Act), https://sso.agc.gov.sg/Act/BSMA2004?WholeDoc=1, Second Schedule para 3(2)(a), para 4(1)",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": 3,
+                "max": null
+              },
+              "note": "Second Schedule para 4(1) (read the first words only; the delivery limbs were cut off in my extract).",
+              "source": "Building (Strata Management) Act 2004 (SSO current version; earlier title Building Maintenance and Strata Management Act), https://sso.agc.gov.sg/Act/BSMA2004?WholeDoc=1, Second Schedule para 4(1)",
+              "confidence": "medium",
+              "needsLawyer": true
+            }
+          }
+        ],
+        "quorum": {
+          "value": {
+            "basis": "share value",
+            "percentOfTotal": 30,
+            "countsProxies": true
+          },
+          "note": "Quorum is met when subsidiary proprietors owning at least 30% of the aggregate share value of all lots are present in person or by proxy (para 3(2)). The chairperson alone is enough if the chairperson owns at least 30% (para 11 read with para 3).",
+          "source": "Building (Strata Management) Act 2004 (SSO current version; earlier title Building Maintenance and Strata Management Act), https://sso.agc.gov.sg/Act/BSMA2004?WholeDoc=1, First Schedule para 3(1)-(2), 11",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "adjournedQuorum": {
+          "value": {
+            "halfHourRule": "If no quorum within half an hour of the appointed time, the meeting may go ahead if 2 or more subsidiary proprietors are present IN PERSON",
+            "notAppliesTo": "an EGM convened on requisition by subsidiary proprietors",
+            "adjournedMeetingNotice": "14 days (displayed on notice board and served on every SP)"
+          },
+          "note": "Para 3(3)-(4) and 3A. A general meeting may be adjourned for any reason if a motion to adjourn is passed (para 3A(1)). The text gives no separate quorum for the adjourned meeting: the usual quorum rule (para 3) applies again.",
+          "source": "Building (Strata Management) Act 2004 (SSO current version; earlier title Building Maintenance and Strata Management Act), https://sso.agc.gov.sg/Act/BSMA2004?WholeDoc=1, First Schedule para 3(3)-(4), 3A",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "majorities": {
+          "ordinary": {
+            "value": "Ordinary resolution: valid votes counted FOR are more than valid votes AGAINST, among SPs entitled to vote and present (in person/proxy). Show of hands/voting slips: one vote per lot. On a poll: by share value.",
+            "note": "s.2(2). Abstentions and unmarked/void votes are not counted as valid votes (s.2(8)). A poll is taken if any person entitled to vote demands it personally at the meeting (para 9(2)(a)).",
+            "source": "Building (Strata Management) Act 2004 (SSO current version; earlier title Building Maintenance and Strata Management Act), https://sso.agc.gov.sg/Act/BSMA2004?WholeDoc=1, s.2(2), s.2(8); First Schedule para 9",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "special": {
+            "value": {
+              "special_resolution": "at least 75% of the share value of the valid votes cast on a poll; 22nd day or later after notice",
+              "ninety_percent_resolution": "at least 90% of share value of valid votes cast on a poll; 22nd day notice",
+              "unanimous": "every valid vote cast supports it",
+              "comprehensive": "after 12 weeks, at least 90% of the share value of ALL lots, on a poll",
+              "consensus": "after 12 weeks, every SP supports in writing"
+            },
+            "note": "s.2(3)-(7). Special and 90% resolutions are always decided on share value (para 9(2)(b)). Council members are elected by one vote per lot, and no poll is needed for an election (para 8(4)-(5)).",
+            "source": "Building (Strata Management) Act 2004 (SSO current version; earlier title Building Maintenance and Strata Management Act), https://sso.agc.gov.sg/Act/BSMA2004?WholeDoc=1, s.2(3)-(7); First Schedule para 8, 9",
+            "confidence": "high",
+            "needsLawyer": false
+          }
+        },
+        "weightageModels": {
+          "value": {
+            "default": "one vote per lot",
+            "onPollOrSpecialResolutions": "share value of the lot",
+            "elections": "one vote per lot",
+            "jointOwners": "senior name on the strata roll wins if both vote",
+            "firstMortgagee": "may vote instead of the SP"
+          },
+          "note": "Para 9(1)-(4), 8(4), 2(2)-(3). Votes are cast only by SPs (or mortgagee in possession / receiver) who have paid all contributions due (para 2(1)(a); see arrears).",
+          "source": "Building (Strata Management) Act 2004 (SSO current version; earlier title Building Maintenance and Strata Management Act), https://sso.agc.gov.sg/Act/BSMA2004?WholeDoc=1, First Schedule para 2, 8, 9",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "proxy": {
+          "value": {
+            "allowed": true,
+            "form": "prescribed form in para 17(2) listing each resolution with For/Against/Abstain; signed by SP and proxy; void if SP is present",
+            "deadline": "deposited or emailed at least 48 hours before the meeting (or the poll)",
+            "limitPerProxy": "a proxy can represent at most 2 lots or 2% of the total number of lots (rounded down), whichever is HIGHER; extra proxies are void",
+            "proxyNeedNotBeSP": true
+          },
+          "note": "Para 17-19. A proxy may also vote for his own lot and for several SPs separately; a proxy appointment is deemed to include the power to demand a poll.",
+          "source": "Building (Strata Management) Act 2004 (SSO current version; earlier title Building Maintenance and Strata Management Act), https://sso.agc.gov.sg/Act/BSMA2004?WholeDoc=1, First Schedule para 17, 18, 19",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "votingMethods": {
+          "value": {
+            "normal": "voting slips prepared by the MC, cast in person (or by a proxy)",
+            "poll": "by share value, any person entitled may demand it, manner decided by the chair",
+            "election": "no poll needed; one vote per lot"
+          },
+          "note": "Para 5(1)-(3), 9, 8(5). Votes must be cast in person (physically or via virtual meeting technology) or by a proxy. No postal or advance voting is allowed for ordinary meeting votes; resolutions by consensus / comprehensive resolutions are collected in writing over 12 weeks (s.2(6)-(7)).",
+          "source": "Building (Strata Management) Act 2004 (SSO current version; earlier title Building Maintenance and Strata Management Act), https://sso.agc.gov.sg/Act/BSMA2004?WholeDoc=1, First Schedule para 5, 5A, 8, 9",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "electronicVoting": {
+          "value": {
+            "virtualMeetings": "allowed (physical, hybrid or virtual-only)",
+            "eVotingConditions": "only while present at the virtual meeting; system must count accurately, be auditable, chair must declare result; for council elections the chair's declaration must be audio/video recorded"
+          },
+          "note": "Para 1C, 5A. Virtual-only meeting is NOT allowed unless all members who wish to participate have access to the technology, or if the MC has by ordinary resolution required physical meetings. A person on virtual technology counts as present only if verified by the secretary (or verifier) and acknowledged by the chair (para 1(2)).",
+          "source": "Building (Strata Management) Act 2004 (SSO current version; earlier title Building Maintenance and Strata Management Act), https://sso.agc.gov.sg/Act/BSMA2004?WholeDoc=1, First Schedule para 1(2), 1C, 5A",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "minutesDeadlineDays": {
+          "value": 45,
+          "note": "Minutes of a general meeting must be displayed on the notice board not later than the 45th day after the meeting, and kept displayed at least 14 days (the notice board may be an online one). Minutes must record date, time, place, SPs present, who appointed proxies, proxies present, result of each vote and text of each resolution (para 10A).",
+          "source": "Building (Strata Management) Act 2004 (SSO current version; earlier title Building Maintenance and Strata Management Act), https://sso.agc.gov.sg/Act/BSMA2004?WholeDoc=1, Second Schedule para 3(2)(b), 3(3), 3(2A); First Schedule para 10A",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "recordRetentionYears": {
+          "value": null,
+          "note": "not read / not verified: no retention period found in the parts of the Act I read (Second Schedule para 3 requires keeping minutes but I did not locate a number of years).",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "memberInspectionRight": {
+          "value": {
+            "books of account": "available for inspection at all reasonable times by an SP or mortgagee (or person authorised in writing)"
+          },
+          "note": "Second Schedule para 3(5). A printed copy of minutes/accounts must be sent without charge if requested at least 48 hours before the meeting where only an online link was given (para 1A(3A)). The Act also lists the strata roll and minutes among documents available to an applicant, but that section was not read closely.",
+          "source": "Building (Strata Management) Act 2004 (SSO current version; earlier title Building Maintenance and Strata Management Act), https://sso.agc.gov.sg/Act/BSMA2004?WholeDoc=1, Second Schedule para 3(5); First Schedule para 1A(3A)",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "electionRoles": {
+          "value": {
+            "chair": "chairperson of the MC presides; if absent the SPs present elect one of themselves (para 6)",
+            "nominations": "oral at the meeting, or in writing to the secretary at least 48 hours before (s.53B(3)); candidate consent in writing 48 hours before or orally; consent can be withdrawn only by the candidate in person before the election starts (s.53B(5))",
+            "uncontested": "if candidates are no more than the seats, they are declared elected (para 8(3))",
+            "tie": "drawing lots in the manner the presiding person decides (s.53A(8), mixed-use)",
+            "returningOfficer": null
+          },
+          "note": "No returning officer role in the Act. Council size is decided by the MC in general meeting, maximum 14 natural persons (s.53(1)). BCA Guide 4 Annex A describes the practice but is guidance only.",
+          "source": "Building (Strata Management) Act 2004 (SSO current version; earlier title Building Maintenance and Strata Management Act), https://sso.agc.gov.sg/Act/BSMA2004?WholeDoc=1, s.53, 53A, 53B; First Schedule para 6, 8",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "termYears": {
+          "value": {
+            "years": 1,
+            "note": "All council members retire at the conclusion of the next AGM and may be re-elected (s.53(4)-(5)); treasurer cannot hold office for a 3rd consecutive term (s.53(9B))"
+          },
+          "note": "s.53(4), (5), (9B). Chairperson, secretary and treasurer must be three different people (s.53(9A)).",
+          "source": "Building (Strata Management) Act 2004 (SSO current version; earlier title Building Maintenance and Strata Management Act), https://sso.agc.gov.sg/Act/BSMA2004?WholeDoc=1, s.53",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "eligibility": {
+          "value": {
+            "min age": 21,
+            "who": "an SP, an SP's nominee (if the SP is a company), or an immediate family member nominated by an SP",
+            "undischarged bankrupt": "eligible only if bankruptcy declared in writing at nomination",
+            "multi-lot owners": "limits on how many nominees one owner may have on the council (s.53(8)(b), (12))"
+          },
+          "note": "s.53(6)-(9B), (12).",
+          "source": "Building (Strata Management) Act 2004 (SSO current version; earlier title Building Maintenance and Strata Management Act), https://sso.agc.gov.sg/Act/BSMA2004?WholeDoc=1, s.53",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "defaulterDisqualification": {
+          "value": {
+            "voting": "an SP whose contributions or other moneys are in arrears at the date of notice cannot vote unless paid at least 3 days before the meeting (except unanimous resolutions or resolutions by consensus)",
+            "standing": "ineligible for election to council if any arrears exist on the 3rd day before the election"
+          },
+          "note": "Para 1A(2)(e)(ii) and para 2(1)(a); s.53(7).",
+          "source": "Building (Strata Management) Act 2004 (SSO current version; earlier title Building Maintenance and Strata Management Act), https://sso.agc.gov.sg/Act/BSMA2004?WholeDoc=1, First Schedule para 1A(2)(e), 2(1); s.53(7)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "requisition": {
+          "value": {
+            "egm": "20% of aggregate share value OR 25% of the SPs by number",
+            "agenda motion": "any single SP may require a motion on the next general meeting agenda",
+            "firstAgmByDeveloper": "SPs holding 10% of lots (BCA guide)"
+          },
+          "note": "Para 14(1); para 12(1). The 10% rule for the first AGM comes from BCA Guide 3 para 2.1 citing s.26 (not opened).",
+          "source": "Building (Strata Management) Act 2004 (SSO current version; earlier title Building Maintenance and Strata Management Act), https://sso.agc.gov.sg/Act/BSMA2004?WholeDoc=1, First Schedule para 14, 12",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "nominationPeriods": {
+          "value": {
+            "writtenNomination": "at least 48 hours before the meeting",
+            "consent": "at least 48 hours before the meeting, or orally at it"
+          },
+          "note": "s.53B(3)-(4). No longer nomination period is fixed by the Act; the AGM notice itself must call for nominations (para 1B).",
+          "source": "Building (Strata Management) Act 2004 (SSO current version; earlier title Building Maintenance and Strata Management Act), https://sso.agc.gov.sg/Act/BSMA2004?WholeDoc=1, s.53B; First Schedule para 1B",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "notes": [
+          "Voting in person: the Act requires votes to be cast in person or by proxy (para 5(1)); absentee/postal voting is not available for ordinary meeting votes.",
+          "Mixed-use developments must reserve at least one council seat per class of use (s.53A) - the product cannot yet express that.",
+          "Retrieved 2026-10-24. Research only; not legal advice."
+        ]
+      },
+      "engine": {
+        "id": "sg-bsma-mcst",
+        "name": "Singapore Building (Strata Management) Act 2004 - management corporation (condominium) general meetings",
+        "jurisdiction": "SG",
+        "confidence": "high",
+        "needsLawyer": true,
+        "params": {
+          "notice.minDays": 14,
+          "quorum.basis": "weight",
+          "quorum.percentBp": 3000,
+          "quorum.strict": false,
+          "quorum.countProxies": true,
+          "majority.simple.basis": "cast",
+          "majority.special.basis": "cast",
+          "abstain.inBase": false,
+          "requisition.percentBp": 2000,
+          "minutes.deadlineDays": 45,
+          "term.years": 1
+        },
+        "options": {
+          "proxy_voting": true,
+          "quorum_check": true,
+          "absentee_voting": false,
+          "weightage": null,
+          "secret_ballot": null,
+          "minutes": true,
+          "notices": true
+        },
+        "locked": {
+          "proxy_voting": {
+            "value": true,
+            "reason": "BSMA First Schedule paras 17-19: a subsidiary proprietor may vote by proxy and the MC cannot remove that right"
+          }
+        },
+        "notice": {
+          "agm": {
+            "min": 14,
+            "max": null
+          },
+          "sgm": {
+            "min": 14,
+            "max": null
+          },
+          "committee": {
+            "min": 3,
+            "max": null
+          },
+          "monthly": {
+            "min": null,
+            "max": null
+          }
+        },
+        "recommended": [
+          "Give 21 days' notice (22nd day or later) whenever ANY motion on the agenda needs a special, 90%, unanimous, comprehensive or consensus resolution (s.2(3)-(7)); 14 days is enough only if every motion is an ordinary resolution (s.2(2)).",
+          "Special and 90% resolutions and any demanded poll are counted by SHARE VALUE of the lot; an ordinary show of votes is one vote per lot; council elections are one vote per lot (First Schedule para 8(4), 9).",
+          "Proxy forms must follow the prescribed form, be signed by owner AND proxy, and reach the MC at least 48 hours before the meeting; a proxy may hold at most 2 lots or 2% of lots, whichever is higher (para 17-18).",
+          "An owner in arrears 3 days before the meeting cannot vote (except on unanimous / consensus resolutions) - publish the list of persons entitled to vote on the notice board 48 hours before (para 7).",
+          "Display minutes within 45 days for at least 14 days (Second Schedule para 3).",
+          "Written council nominations must reach the secretary 48 hours before the meeting (s.53B)."
+        ],
+        "gaps": [
+          "Two kinds of vote count (one vote per lot, and share value for polls / special / 90% resolutions) in the SAME meeting - the 'weightage' option is one switch for the whole event.",
+          "Notice is 14 days or 21 days depending on which resolutions are on the agenda.",
+          "Half-hour rule: if there is no quorum after 30 minutes, 2 or more owners present in person are enough (not for requisitioned EGMs).",
+          "Proxy cap is the higher of 2 lots or 2% of all lots - not a fixed number.",
+          "EGM requisition is 20% of share value OR 25% of owners by number (only one number can be stored).",
+          "Mixed-use reserved council seats (one per class of use, s.53A) and the treasurer's 3-consecutive-term ban (s.53(9B)).",
+          "Resolution by consensus / comprehensive resolution run over 12 weeks with written support after the meeting."
+        ]
+      }
+    },
+    {
+      "research": {
+        "id": "hk-bmo-oc",
+        "name": "Hong Kong owners' corporation (OC) - Building Management Ordinance Cap. 344, Schedules 2 and 3",
+        "jurisdiction": "HK",
+        "instruments": [
+          {
+            "value": "Building Management Ordinance (Cap. 344) - Schedule 3 (Meetings and Procedure of Corporation), Schedule 2 (Composition and Procedure of Management Committee), ss.30, 36A",
+            "note": "Read the current consolidated text on the HK e-Legislation site (includes amendments by the Building Management (Amendment) Ordinance 2024, 20 of 2024; its corporate-owner and proxy-list rules apply to meetings noticed on or after 13 July 2025). Schedule 3 prevails over the deed of mutual covenant (Sch 3 para 8).",
+            "source": "Building Management Ordinance (Cap. 344), https://www.elegislation.gov.hk/hk/cap344, Sch 2, Sch 3, s.30, s.36A",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          {
+            "value": null,
+            "note": "Deed of mutual covenant (DMC) of each building, OC constitution, and the Building Management (Amendment) Ordinance 2024 transitional detail were NOT separately read. Tender / large-scale maintenance resolution thresholds under ss.20A etc. were not read.",
+            "source": "not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "annual general meeting",
+            "calledBy": {
+              "value": "Management committee convenes. First AGM within 15 months of registration; later AGMs not earlier than 12 and not later than 15 months after the previous AGM.",
+              "note": "Sch 3 para 1(1)(a)-(b).",
+              "source": "Building Management Ordinance (Cap. 344), https://www.elegislation.gov.hk/hk/cap344, Sch 3 para 1(1)",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": 14,
+                "max": null
+              },
+              "note": "Secretary must give notice to each owner (and tenants' representative) at least 14 days before, and also display the notice in a prominent place in the building 14 days before. Notice may be delivered personally, posted to last known address or left at the flat / its letter box.",
+              "source": "Building Management Ordinance (Cap. 344), https://www.elegislation.gov.hk/hk/cap344, Sch 3 para 2(1), (1A), (2)",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeContent": {
+              "value": "Date, time and place; each resolution to be proposed and other matters to be discussed. A resolution not set out in the notice (or ancillary to one that is) has no effect.",
+              "note": "Sch 3 para 2(1AA) and 3(7). An amended resolution may still be passed (para 3(8)).",
+              "source": "Building Management Ordinance (Cap. 344), https://www.elegislation.gov.hk/hk/cap344, Sch 3 para 2(1AA), 3(7)-(8)",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "chair": {
+              "value": "Chairman of the management committee; if absent the vice-chairman; if both absent a person appointed by owners present from among themselves.",
+              "note": "Sch 3 para 3(1).",
+              "source": "Building Management Ordinance (Cap. 344), https://www.elegislation.gov.hk/hk/cap344, Sch 3 para 3(1)",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          },
+          {
+            "type": "general meeting (special)",
+            "calledBy": {
+              "value": "Management committee at any time; the chairman MUST convene a general meeting on written request of not less than 5% of the owners, within 14 days of receiving the request, and hold it within 45 days.",
+              "note": "Sch 3 para 1(1)(c), 1(2) (2024 amendment).",
+              "source": "Building Management Ordinance (Cap. 344), https://www.elegislation.gov.hk/hk/cap344, Sch 3 para 1(1)(c), 1(2)",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": 14,
+                "max": null
+              },
+              "note": "Same notice rule.",
+              "source": "Building Management Ordinance (Cap. 344), https://www.elegislation.gov.hk/hk/cap344, Sch 3 para 2",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          }
+        ],
+        "quorum": {
+          "value": {
+            "basis": "owners (heads)",
+            "percentOfOwners": 10,
+            "dissolutionMeeting": 20,
+            "countsProxies": true
+          },
+          "note": "Quorum is 10% of the owners, or 20% where a resolution to dissolve the management committee under s.30 is proposed. A proxy counts as the owner being present. The text counts 'owners', so heads, not shares.",
+          "source": "Building Management Ordinance (Cap. 344), https://www.elegislation.gov.hk/hk/cap344, Sch 3 para 5(1)-(2)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "adjournedQuorum": {
+          "value": null,
+          "note": "Para 5A only carries over valid proxy forms (and corporate authorisations) to the adjourned meeting unless revoked or replaced. No separate adjourned-meeting quorum is stated; the 10%/20% quorum is not relaxed. A notice period for the adjourned meeting is not stated in the text I read.",
+          "source": "Building Management Ordinance (Cap. 344), https://www.elegislation.gov.hk/hk/cap344, Sch 3 para 5A, 1A",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "majorities": {
+          "ordinary": {
+            "value": "A matter at a meeting with a quorum is decided by a majority of the votes of the owners voting personally or by proxy; the chair has a casting vote on a tie (in addition to a deliberative vote).",
+            "note": "Sch 3 para 3(3)-(4). Some matters need other majorities in Sch 2 para 5 and the Ordinance (for example s.30 dissolution, tenders); those were not read.",
+            "source": "Building Management Ordinance (Cap. 344), https://www.elegislation.gov.hk/hk/cap344, Sch 3 para 3(3)-(4)",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "special": {
+            "value": null,
+            "note": "not read / not verified: the Ordinance elsewhere sets higher thresholds (for example s.30 dissolution, appointment of administrator, large-scale maintenance tenders); I did not read them.",
+            "source": "not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        },
+        "weightageModels": {
+          "value": {
+            "default": "one vote per undivided share owned",
+            "override": "the deed of mutual covenant may provide otherwise",
+            "coOwners": "vote may be cast by a joint proxy, a co-owner chosen by them, or else the co-owner highest in the Land Registry register",
+            "mortgageeInPossession": "votes instead of the owner"
+          },
+          "note": "Sch 3 para 3(5)-(6). Corporate flat owners: one authorised natural person (para 4A-4B).",
+          "source": "Building Management Ordinance (Cap. 344), https://www.elegislation.gov.hk/hk/cap344, Sch 3 para 3(5), 3(6), 4A",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "proxy": {
+          "value": {
+            "allowed": true,
+            "form": "Form 2 in Schedule 1A, signed by the owner (corporate owner: seal/chop plus signature of authorised person)",
+            "deadline": "lodged with the secretary at least 48 hours before the meeting",
+            "limit": null
+          },
+          "note": "Sch 3 para 4(1)-(5A). The secretary must issue a receipt and display a list of flats with proxies at the meeting. A proxy is treated as the owner present (para 5(2)). No cap on the number of proxies one person may hold was found.",
+          "source": "Building Management Ordinance (Cap. 344), https://www.elegislation.gov.hk/hk/cap344, Sch 3 para 4, 5(2), 5A",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "votingMethods": {
+          "value": {
+            "general": "personally or by proxy",
+            "poll": null
+          },
+          "note": "Sch 3 para 4(1). The Schedule does not mention secret ballot, postal or advance votes; para 7 leaves the rest of the procedure to the corporation itself.",
+          "source": "Building Management Ordinance (Cap. 344), https://www.elegislation.gov.hk/hk/cap344, Sch 3 para 4(1), 7",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "electronicVoting": {
+          "value": "unclear",
+          "note": "No provision for electronic meetings or e-voting found in Sch 3 as read (2024 amendments added electronic submission of corporate authorisation notices only). Para 7 leaves procedure to the corporation.",
+          "source": "Building Management Ordinance (Cap. 344), https://www.elegislation.gov.hk/hk/cap344, Sch 3 para 4A(4)(c)(ii), 7",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "minutesDeadlineDays": {
+          "value": 28,
+          "note": "Certified minutes must be displayed in a prominent place within 28 days after the meeting and stay up at least 7 consecutive days; a copy must be supplied to an owner / tenants' representative / registered mortgagee on written request within 28 days.",
+          "source": "Building Management Ordinance (Cap. 344), https://www.elegislation.gov.hk/hk/cap344, Sch 3 para 6(3), 6A(1)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "recordRetentionYears": {
+          "value": 6,
+          "note": "Certified minutes of general and committee meetings must be kept 6 years from certification; lodged proxy instruments 12 months after the meeting; corporate authorisation notices 3 years.",
+          "source": "Building Management Ordinance (Cap. 344), https://www.elegislation.gov.hk/hk/cap344, s.36A(1)-(3)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "memberInspectionRight": {
+          "value": {
+            "minutesCopy": "any owner, the tenants' representative, a registered mortgagee (or their authorised person) may request a copy of certified minutes; supplied within 28 days (reasonable copying charge for hard copy, free in electronic form)"
+          },
+          "note": "Sch 3 para 6A.",
+          "source": "Building Management Ordinance (Cap. 344), https://www.elegislation.gov.hk/hk/cap344, Sch 3 para 6A",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "electionRoles": {
+          "value": {
+            "chair": "the presiding person at the meeting draws lots on a tie",
+            "method": "first-past-the-post: each owner may vote for up to the number of seats",
+            "uncontested": "if candidates are not more than seats they are deemed appointed",
+            "returningOfficer": null
+          },
+          "note": "Sch 2 para 2(3), 5(2B). No returning officer is prescribed. Chairman, secretary and treasurer are appointed by separate resolutions; vice-chairman optional.",
+          "source": "Building Management Ordinance (Cap. 344), https://www.elegislation.gov.hk/hk/cap344, Sch 2 para 2, 5",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "termYears": {
+          "value": null,
+          "note": "Members retire at the 2nd AGM and then at every alternate AGM (Sch 2 para 5(1)); since AGMs fall 12-15 months apart, a term is roughly 2 years but no fixed year count is stated. Members hold office until new members are appointed (para 3). Re-election not barred in the text read.",
+          "source": "Building Management Ordinance (Cap. 344), https://www.elegislation.gov.hk/hk/cap344, Sch 2 para 3, 5(1)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "eligibility": {
+          "value": {
+            "minimum committee size": "3 (up to 50 flats), 7 (51-100 flats), 9 (over 100 flats)",
+            "must be": "an owner (tenants' representative deemed appointed separately)",
+            "disqualified": "undischarged bankrupt or discharged/arrangement within 5 years without paying creditors in full; imprisonment over 3 months without option of fine within 5 years",
+            "ceasesToBeMember": "absent from 3 consecutive committee meetings without consent; removal by corporation resolution"
+          },
+          "note": "Sch 2 para 1, 2(1)(b), 4.",
+          "source": "Building Management Ordinance (Cap. 344), https://www.elegislation.gov.hk/hk/cap344, Sch 2 para 1, 4",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "defaulterDisqualification": {
+          "value": null,
+          "note": "not read / not verified: no arrears-based bar on voting or standing appears in Sch 2 / Sch 3 as read.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "requisition": {
+          "value": {
+            "percentOfOwners": 5,
+            "conveneWithinDays": 14,
+            "holdWithinDays": 45
+          },
+          "note": "Sch 3 para 1(2).",
+          "source": "Building Management Ordinance (Cap. 344), https://www.elegislation.gov.hk/hk/cap344, Sch 3 para 1(2)",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "nominationPeriods": {
+          "value": null,
+          "note": "not read / not verified: no nomination period or withdrawal period is prescribed in the Ordinance text I read.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "notes": [
+          "Meeting rules in Sch 3 override the deed of mutual covenant (para 8).",
+          "Corporate owners: from 13 July 2025 one authorised natural person acts for the company; its proxy is revoked if that person is available (Sch 3 para 4(1A), 4A).",
+          "Retrieved 2026-10-24. Research only; not legal advice."
+        ]
+      },
+      "engine": {
+        "id": "hk-bmo-oc",
+        "name": "Hong Kong owners' corporation - Building Management Ordinance Cap. 344 (Schedule 3 meetings)",
+        "jurisdiction": "HK",
+        "confidence": "high",
+        "needsLawyer": true,
+        "params": {
+          "notice.minDays": 14,
+          "notice.delivery": "any",
+          "quorum.basis": "flats",
+          "quorum.percentBp": 1000,
+          "quorum.strict": false,
+          "quorum.countProxies": true,
+          "majority.simple.basis": "cast",
+          "tie.break": "chair_casting_vote",
+          "requisition.percentBp": 500,
+          "minutes.deadlineDays": 28,
+          "retention.years": 6
+        },
+        "options": {
+          "proxy_voting": true,
+          "weightage": true,
+          "quorum_check": true,
+          "absentee_voting": false,
+          "secret_ballot": null,
+          "minutes": true,
+          "notices": true
+        },
+        "locked": {
+          "proxy_voting": {
+            "value": true,
+            "reason": "Building Management Ordinance Sch 3 para 4(1) lets every owner vote by proxy, and para 8 makes Sch 3 prevail over the deed of mutual covenant"
+          }
+        },
+        "notice": {
+          "agm": {
+            "min": 14,
+            "max": null
+          },
+          "sgm": {
+            "min": 14,
+            "max": null
+          },
+          "committee": {
+            "min": null,
+            "max": null
+          },
+          "monthly": {
+            "min": null,
+            "max": null
+          }
+        },
+        "recommended": [
+          "Give at least 14 days' notice AND display the notice in a prominent place in the building for the same 14 days (Sch 3 para 2).",
+          "Only resolutions set out in the notice (or ancillary to them) are effective - list every resolution in the notice (Sch 3 para 3(7)).",
+          "Proxy forms must be Form 2 and reach the secretary 48 hours before; display the list of flats with proxies at the meeting (Sch 3 para 4).",
+          "Quorum is 10% of the OWNERS (20% for a vote to dissolve the committee), with proxies counted as present (Sch 3 para 5).",
+          "AGMs must be 12 to 15 months apart (Sch 3 para 1(1)(b)).",
+          "Display certified minutes within 28 days for at least 7 days and keep them 6 years (Sch 3 para 6, s.36A).",
+          "Check the building's deed of mutual covenant: it may change the one-vote-per-share rule (Sch 3 para 3(5)(a))."
+        ],
+        "gaps": [
+          "Quorum counts owners (heads) but votes are normally counted by undivided shares - the product has one 'weightage' switch.",
+          "Quorum is 20% instead of 10% for a dissolution vote (varies by agenda item).",
+          "Committee members retire every alternate AGM (about every 2 years) and the committee's size depends on the number of flats.",
+          "Corporate-owner authorised person and the secretary's public list of proxies.",
+          "Additional special thresholds elsewhere in the Ordinance (dissolution, tenders) were not read."
+        ]
+      }
+    },
+    {
+      "research": {
+        "id": "my-sma2013-jmb-mc",
+        "name": "Malaysia - Strata Management Act 2013 (Act 757): joint management body (JMB) / management corporation (MC) general meetings",
+        "jurisdiction": "MY",
+        "instruments": [
+          {
+            "value": "Strata Management Act 2013 (Act 757), s.2 (resolution definitions), s.22(2), Second Schedule (general meetings of the management corporation and its committee)",
+            "note": "Read through a secondary web reproduction of the Act (lawplayer.com), not the official Gazette PDF. A search summary of Wikipedia says the Act came into force on 1 June 2015 in Peninsular Malaysia and the Federal Territory of Labuan (Sabah and Sarawak not covered) - not verified against a primary source. s.22(2) applies the Second Schedule to the JMB with modifications (for example the developer counts as one person for quorum).",
+            "source": "Strata Management Act 2013 (Act 757), Second Schedule, as reproduced at https://lawplayer.com/my/act/act-757 (secondary reproduction; official text lom.agc.gov.my not opened), s.2, s.22(2), Second Schedule",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          {
+            "value": null,
+            "note": "Strata Management (Maintenance and Management) Regulations 2015 (forms, sample notices), Strata Titles Act 1985 (Act 318), and the by-laws of each scheme were NOT read. A law-firm article (Burgie Law, 2016) summarises the same meeting rules but under the pre-2015 title and without section numbers.",
+            "source": "not verified; secondary: https://www.burgielaw.com/2016/11/18/jmbs-mcs-part-7-exercise-statutory-rights-accorded-agm-egm/",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "annual general meeting",
+            "calledBy": {
+              "value": "Committee convenes. First AGM within one month after the initial period ends; thereafter once a year with no more than 15 months between AGMs (a late AGM stays valid).",
+              "note": "Second Schedule para 10 (as summarised).",
+              "source": "Strata Management Act 2013 (Act 757), Second Schedule, as reproduced at https://lawplayer.com/my/act/act-757 (secondary reproduction; official text lom.agc.gov.my not opened), para 10",
+              "confidence": "medium",
+              "needsLawyer": true
+            },
+            "noticeDays": {
+              "value": {
+                "min": 14,
+                "max": null
+              },
+              "note": "Every proprietor gets at least 14 days' notice of any general meeting (para 12(1)). Special and unanimous resolutions: 21 days' notice (s.2); comprehensive resolution: 30 days (s.2).",
+              "source": "Strata Management Act 2013 (Act 757), Second Schedule, as reproduced at https://lawplayer.com/my/act/act-757 (secondary reproduction; official text lom.agc.gov.my not opened), para 12(1); s.2",
+              "confidence": "medium",
+              "needsLawyer": true
+            },
+            "noticeContent": {
+              "value": "Venue, date and time; each proposed resolution; each proprietor's voting rights and right to appoint a proxy. AGM notice must also attach the last AGM minutes, audited accounts with auditor's report and other matters. Motions need prior notice except amendments (para 12(2)-(4)). A proprietor may require a motion on the agenda by notice at least 7 days before (para 13). Committee posts the voter list at least 48 hours before (para 14).",
+              "note": "",
+              "source": "Strata Management Act 2013 (Act 757), Second Schedule, as reproduced at https://lawplayer.com/my/act/act-757 (secondary reproduction; official text lom.agc.gov.my not opened), para 12-14",
+              "confidence": "medium",
+              "needsLawyer": true
+            }
+          },
+          {
+            "type": "extraordinary general meeting",
+            "calledBy": {
+              "value": "Committee, on its own initiative, or MUST on written requisition by proprietors holding at least one-quarter of the aggregate share units, or on the Commissioner's written direction; to be held within 6 weeks. If the committee fails to act the Commissioner may authorise someone to convene it.",
+              "note": "Para 11(1)-(6).",
+              "source": "Strata Management Act 2013 (Act 757), Second Schedule, as reproduced at https://lawplayer.com/my/act/act-757 (secondary reproduction; official text lom.agc.gov.my not opened), para 11",
+              "confidence": "medium",
+              "needsLawyer": true
+            },
+            "noticeDays": {
+              "value": {
+                "min": 14,
+                "max": null
+              },
+              "note": "Same 14 days (para 12).",
+              "source": "Strata Management Act 2013 (Act 757), Second Schedule, as reproduced at https://lawplayer.com/my/act/act-757 (secondary reproduction; official text lom.agc.gov.my not opened), para 12(1)",
+              "confidence": "medium",
+              "needsLawyer": true
+            }
+          }
+        ],
+        "quorum": {
+          "value": {
+            "basis": "proprietors entitled to vote",
+            "percent": 50,
+            "countsProxies": true
+          },
+          "note": "Quorum is half of the proprietors entitled to vote, present in person or by proxy (para 15(1)). The summary says 'half' - whether it is 'at least half' or 'more than half' was not confirmed.",
+          "source": "Strata Management Act 2013 (Act 757), Second Schedule, as reproduced at https://lawplayer.com/my/act/act-757 (secondary reproduction; official text lom.agc.gov.my not opened), para 15(1)",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "adjournedQuorum": {
+          "value": {
+            "rule": "If no quorum within half an hour of the appointed time, those entitled to vote who are present form the quorum"
+          },
+          "note": "Para 15(2). Whether the meeting is adjourned to another day first is not stated in the summary I read.",
+          "source": "Strata Management Act 2013 (Act 757), Second Schedule, as reproduced at https://lawplayer.com/my/act/act-757 (secondary reproduction; official text lom.agc.gov.my not opened), para 15(2)",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "majorities": {
+          "ordinary": {
+            "value": null,
+            "note": "not read / not verified: the definition of an ordinary resolution / how a simple-majority question is decided was not shown in the text I read (para 17(1) says decisions are by show of hands unless a poll is demanded).",
+            "source": "not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          },
+          "special": {
+            "value": {
+              "special_resolution": "at least 21 days' notice and at least three-quarters of the valid votes cast (show of hands, or poll)",
+              "comprehensive_resolution": "30 days' notice, poll within 60 days, at least two-thirds of the aggregate share units of all proprietors",
+              "unanimous_resolution": "21 days' notice and every valid vote cast in favour"
+            },
+            "note": "s.2 definitions as summarised.",
+            "source": "Strata Management Act 2013 (Act 757), Second Schedule, as reproduced at https://lawplayer.com/my/act/act-757 (secondary reproduction; official text lom.agc.gov.my not opened), s.2",
+            "confidence": "medium",
+            "needsLawyer": true
+          }
+        },
+        "weightageModels": {
+          "value": {
+            "showOfHands": "one vote per parcel (not per co-proprietor)",
+            "poll": "votes follow the parcel's share units"
+          },
+          "note": "Para 21(1); co-proprietors para 22; companies and other bodies para 23.",
+          "source": "Strata Management Act 2013 (Act 757), Second Schedule, as reproduced at https://lawplayer.com/my/act/act-757 (secondary reproduction; official text lom.agc.gov.my not opened), para 21-23",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "proxy": {
+          "value": {
+            "allowed": true,
+            "form": "written, signed by the proprietor or attorney; corporate: under seal or by authorised officer; attorney's instrument must attach the power of attorney",
+            "deadline": "deposited at the registered address at least 48 hours before the meeting or adjourned meeting",
+            "limit": "one person may act as proxy for only one proprietor at a given meeting"
+          },
+          "note": "Para 18-20. A proxy need not be a proprietor and may demand a poll; cannot vote where the appointer votes personally.",
+          "source": "Strata Management Act 2013 (Act 757), Second Schedule, as reproduced at https://lawplayer.com/my/act/act-757 (secondary reproduction; official text lom.agc.gov.my not opened), para 18-20",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "votingMethods": {
+          "value": {
+            "default": "show of hands unless a proprietor or proxy demands a poll",
+            "poll": "manner decided by the chair",
+            "casting vote": "chair on a tie"
+          },
+          "note": "Para 17(1)-(6). Secret ballot / postal voting not mentioned in what I read.",
+          "source": "Strata Management Act 2013 (Act 757), Second Schedule, as reproduced at https://lawplayer.com/my/act/act-757 (secondary reproduction; official text lom.agc.gov.my not opened), para 17",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "electronicVoting": {
+          "value": null,
+          "note": "not read / not verified: no rule on electronic meetings or e-voting appeared in the text I read (the page was truncated for later parts; Part IV rules and 2021 amendments not read).",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "minutesDeadlineDays": {
+          "value": 28,
+          "note": "Within 28 days of a general meeting the committee must file certified audited accounts, resolutions and minutes with the Commissioner and send the minutes to all proprietors or display them (para 7(8)-(9)). Committee minutes must be displayed within 21 days (para 7(2)).",
+          "source": "Strata Management Act 2013 (Act 757), Second Schedule, as reproduced at https://lawplayer.com/my/act/act-757 (secondary reproduction; official text lom.agc.gov.my not opened), para 7",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "recordRetentionYears": {
+          "value": null,
+          "note": "not read / not verified: no retention period appeared in the text read.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "memberInspectionRight": {
+          "value": null,
+          "note": "not read / not verified: not shown in the text read (committee accounts and register inspection rights likely sit in other Parts).",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "electionRoles": {
+          "value": {
+            "chair": "elected by proprietors present",
+            "committeeElection": "all members elected at each AGM",
+            "officers": "committee elects chairman, secretary, treasurer from among its members; each may hold the post for no more than two consecutive years",
+            "returningOfficer": null
+          },
+          "note": "Para 16, 2(4)-(6).",
+          "source": "Strata Management Act 2013 (Act 757), Second Schedule, as reproduced at https://lawplayer.com/my/act/act-757 (secondary reproduction; official text lom.agc.gov.my not opened), para 2, 16",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "termYears": {
+          "value": {
+            "years": 1,
+            "maxConsecutiveTerms": 3
+          },
+          "note": "All members retire at the next AGM and may stand again, but not for more than three consecutive terms (para 2(4),(6)). Committee size 3 to 14 natural persons (para 2(1)).",
+          "source": "Strata Management Act 2013 (Act 757), Second Schedule, as reproduced at https://lawplayer.com/my/act/act-757 (secondary reproduction; official text lom.agc.gov.my not opened), para 2",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "eligibility": {
+          "value": {
+            "minAge": 21,
+            "who": "proprietor/co-proprietor, nominee of a corporate proprietor, or immediate family member nominated by a proprietor holding two or more parcels",
+            "proxyCannotBeElected": true,
+            "multiParcelCap": "nominees capped at the lower of share-proportional number or 49% of committee size"
+          },
+          "note": "Para 2(7)-(13).",
+          "source": "Strata Management Act 2013 (Act 757), Second Schedule, as reproduced at https://lawplayer.com/my/act/act-757 (secondary reproduction; official text lom.agc.gov.my not opened), para 2(7)-(13)",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "defaulterDisqualification": {
+          "value": {
+            "voting": "a proprietor cannot vote if charges or sinking-fund contributions for the parcel are in arrears on the 7th day before the meeting",
+            "standing": "a candidate is ineligible if arrears exist on the 7th day before the election"
+          },
+          "note": "Para 21(2), 2(9). Exception for unanimous resolutions (as in the Burgie summary) not confirmed.",
+          "source": "Strata Management Act 2013 (Act 757), Second Schedule, as reproduced at https://lawplayer.com/my/act/act-757 (secondary reproduction; official text lom.agc.gov.my not opened), para 21(2), 2(9)",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "requisition": {
+          "value": {
+            "percentOfShareUnits": 25,
+            "holdWithinWeeks": 6
+          },
+          "note": "Para 11(1)-(4).",
+          "source": "Strata Management Act 2013 (Act 757), Second Schedule, as reproduced at https://lawplayer.com/my/act/act-757 (secondary reproduction; official text lom.agc.gov.my not opened), para 11",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "nominationPeriods": {
+          "value": null,
+          "note": "not read / not verified: no nomination period or withdrawal period found.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "notes": [
+          "Verify every figure against the official Act 757 (lom.agc.gov.my) before relying on it: this regime was read only through a secondary reproduction.",
+          "Older schemes may still be run under the Building and Common Property (Maintenance and Management) Act 2007 (Act 663) or Strata Titles Act 1985 - not read.",
+          "Retrieved 2026-10-24. Research only; not legal advice."
+        ]
+      },
+      "engine": {
+        "id": "my-sma2013-jmb-mc",
+        "name": "Malaysia Strata Management Act 2013 - JMB / management corporation general meetings",
+        "jurisdiction": "MY",
+        "confidence": "medium",
+        "needsLawyer": true,
+        "params": {
+          "notice.minDays": 14,
+          "quorum.basis": "flats",
+          "quorum.percentBp": 5000,
+          "quorum.strict": false,
+          "quorum.countProxies": true,
+          "majority.special.basis": "cast",
+          "tie.break": "chair_casting_vote",
+          "proxy.maxPerHolder": 1,
+          "requisition.percentBp": 2500,
+          "minutes.deadlineDays": 28,
+          "term.years": 1,
+          "term.maxConsecutive": 3
+        },
+        "options": {
+          "proxy_voting": true,
+          "quorum_check": true,
+          "weightage": null,
+          "secret_ballot": null,
+          "minutes": true,
+          "notices": true
+        },
+        "locked": {},
+        "notice": {
+          "agm": {
+            "min": 14,
+            "max": null
+          },
+          "sgm": {
+            "min": 14,
+            "max": null
+          },
+          "committee": {
+            "min": 7,
+            "max": null
+          },
+          "monthly": {
+            "min": null,
+            "max": null
+          }
+        },
+        "recommended": [
+          "Give at least 14 days' notice (Second Schedule para 12); special or unanimous resolutions need 21 days' notice and a comprehensive resolution 30 days (s.2).",
+          "Show of hands is one vote per parcel; on a demanded poll votes follow share units (para 21).",
+          "A person may act as proxy for only ONE proprietor at a meeting; deposit proxy forms 48 hours before (para 18).",
+          "A proprietor with unpaid charges on the 7th day before the meeting cannot vote or stand (para 21(2), 2(9)).",
+          "Committee members retire every AGM and cannot serve more than three consecutive terms (para 2(6)).",
+          "Confirm every number against the official Act: this pack came from a secondary web reproduction."
+        ],
+        "gaps": [
+          "One vote per parcel on a show of hands but share-unit votes on a poll in the same meeting.",
+          "Quorum fallback: if no quorum after half an hour, those present form the quorum.",
+          "Special / unanimous / comprehensive resolutions have different notice (21 / 21 / 30 days) and thresholds (75% of valid votes cast / all valid votes / two-thirds of ALL share units after a 60-day poll window).",
+          "Committee officers (chairman, secretary, treasurer) limited to two consecutive years each.",
+          "Ordinary-resolution rule not read."
+        ]
+      }
+    },
+    {
+      "research": {
+        "id": "ie-mud-omc",
+        "name": "Ireland - owners' management company (OMC): Multi-Unit Developments Act 2011 + Companies Act 2014 general meeting rules",
+        "jurisdiction": "IE",
+        "instruments": [
+          {
+            "value": "Multi-Unit Developments Act 2011 (No. 2 of 2011) - s.14 (OMC voting structure), s.16 (director terms), s.17 (annual meeting and report), s.18-23 (service charge, sinking fund)",
+            "note": "Read ss.14, 16, 17 in the enacted text. The Irish Statute Book legislation directory (checked 2026-10-24) lists no amendment to s.14, s.16 or s.17; Planning and Development Act 2024 and other amendments touch other sections. s.14 applies to OMCs of developments where no sale contract was signed before the Act (s.14(4)); s.15 (existing developments) was NOT read.",
+            "source": "Multi-Unit Developments Act 2011 (Irish Statute Book), https://www.irishstatutebook.ie/eli/2011/act/2/section/14/enacted/en/html, s.14, s.16, s.17; directory https://www.irishstatutebook.ie/eli/isbc/2011_2.html",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          {
+            "value": "Companies Act 2014 (No. 38 of 2014) - general meeting rules ss.176-187, 191 (an OMC is a company limited by guarantee; the Act governs unless the OMC's constitution says otherwise)",
+            "note": "Read ss.177, 178, 180, 181, 182, 183, 186, 191 in the enacted text. The directory shows later amendments only to peripheral subsections (for example s.181(5)(aa), (7); s.182(2A) repealed; s.183(9)-(10); s.184; s.176 virtual meeting changes of 2024), not to the rules cited here. Many rules apply 'unless the constitution provides otherwise'. The company's constitution (articles) was not read for any OMC.",
+            "source": "Companies Act 2014 (Irish Statute Book), https://www.irishstatutebook.ie/eli/2014/act/38/section/181/enacted/en/html, s.181 ; directory https://www.irishstatutebook.ie/eli/isbc/2014_38.html",
+            "confidence": "high",
+            "needsLawyer": true
+          },
+          {
+            "value": null,
+            "note": "Multi-Unit Developments Act 2011 s.15 (older developments), Companies Act 2014 s.175 (AGM duty), s.187 chair casting vote text, and the Planning and Development Act 2024 changes were NOT read.",
+            "source": "not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "annual meeting (AGM)",
+            "calledBy": {
+              "value": "The OMC must hold a meeting at least once every year to consider the annual report; it must be within reasonable proximity of the development at a reasonable time unless 75% of members agree otherwise in writing.",
+              "note": "MUD Act s.17(1)(b),(5).",
+              "source": "Multi-Unit Developments Act 2011 (Irish Statute Book), https://www.irishstatutebook.ie/eli/2011/act/2/section/17/enacted/en/html, s.17",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": 21,
+                "max": null
+              },
+              "note": "At least 21 days' notice to each member (s.17(3)); annual report to each member at least 10 days before the meeting (s.17(4)). Companies Act 2014 s.181(1)(a) also requires not less than 21 days for an AGM unless the constitution requires more. Day of service and day of meeting are not counted (s.181(4)); ordinary post is deemed delivered after 24 hours (s.181(3)).",
+              "source": "Multi-Unit Developments Act 2011 (Irish Statute Book), https://www.irishstatutebook.ie/eli/2011/act/2/section/17/enacted/en/html, s.17 ; Companies Act 2014 (Irish Statute Book), https://www.irishstatutebook.ie/eli/2014/act/38/section/181/enacted/en/html, s.181",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeContent": {
+              "value": "Place, date and time; general nature of the business; text of any special resolution; statement of the right to appoint a proxy (no need to be a member) and deadline for proxies.",
+              "note": "CA 2014 s.181(5).",
+              "source": "Companies Act 2014 (Irish Statute Book), https://www.irishstatutebook.ie/eli/2014/act/38/section/181/enacted/en/html, s.181",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          },
+          {
+            "type": "extraordinary general meeting",
+            "calledBy": {
+              "value": "Directors at any time; or members holding 10% of the paid-up capital carrying votes may requisition it (directors must convene within 21 days to hold the meeting within 2 months, else requisitionists, if more than 50% of their voting rights, may convene within 3 months). Members with 50% (or a lower percentage set by the constitution) may convene one directly.",
+              "note": "CA 2014 s.177, 178. The 10% figure is expressed in terms of paid-up share capital; how it works for a guarantee company with no share capital was not checked.",
+              "source": "Companies Act 2014 (Irish Statute Book), https://www.irishstatutebook.ie/eli/2014/act/38/section/178/enacted/en/html, s.178",
+              "confidence": "medium",
+              "needsLawyer": true
+            },
+            "noticeDays": {
+              "value": {
+                "min": 7,
+                "max": null
+              },
+              "note": "7 days' notice for an EGM, but 21 days for an EGM that will pass a special resolution (s.181(1)(a)-(b)). Shorter notice is valid if ALL members entitled to attend and vote (and the auditors, if any) agree (s.181(2)).",
+              "source": "Companies Act 2014 (Irish Statute Book), https://www.irishstatutebook.ie/eli/2014/act/38/section/181/enacted/en/html, s.181",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          }
+        ],
+        "quorum": {
+          "value": {
+            "default": "2 members present in person or by proxy",
+            "singleMember": 1,
+            "constitutionMayChange": true
+          },
+          "note": "CA 2014 s.182(2): two members unless the constitution provides otherwise. This is a head-count of two, not a percentage.",
+          "source": "Companies Act 2014 (Irish Statute Book), https://www.irishstatutebook.ie/eli/2014/act/38/section/182/enacted/en/html, s.182",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "adjournedQuorum": {
+          "value": {
+            "rule": "If no quorum within 15 minutes: a requisitioned meeting is dissolved; any other meeting stands adjourned to the same day next week (same time/place) or as the directors decide; at the adjourned meeting, if there is still no quorum within half an hour, the members present are the quorum",
+            "constitutionMayChange": true
+          },
+          "note": "CA 2014 s.182(5). No notice needed for an adjournment of under 30 days; notice as for the original meeting if adjourned 30 days or more (s.187(6)).",
+          "source": "Companies Act 2014 (Irish Statute Book), https://www.irishstatutebook.ie/eli/2014/act/38/section/182/enacted/en/html, s.182 ; Companies Act 2014 (Irish Statute Book), https://www.irishstatutebook.ie/eli/2014/act/38/section/187/enacted/en/html, s.187",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "majorities": {
+          "ordinary": {
+            "value": "Simple majority of the votes cast by members who vote in person or by proxy.",
+            "note": "CA 2014 s.191(1).",
+            "source": "Companies Act 2014 (Irish Statute Book), https://www.irishstatutebook.ie/eli/2014/act/38/section/191/enacted/en/html, s.191",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "special": {
+            "value": {
+              "special_resolution": "not less than 75% of the votes cast by members voting in person or by proxy; notice of at least 21 days with the text of the resolution (shorter if agreed by a majority in number holding at least 90% of the votes)"
+            },
+            "note": "CA 2014 s.191(2)-(4).",
+            "source": "Companies Act 2014 (Irish Statute Book), https://www.irishstatutebook.ie/eli/2014/act/38/section/191/enacted/en/html, s.191",
+            "confidence": "high",
+            "needsLawyer": false
+          }
+        },
+        "weightageModels": {
+          "value": {
+            "newDevelopments": "one vote per residential unit, all votes equal, no other person votes",
+            "olderDevelopments": null
+          },
+          "note": "MUD Act s.14(1)-(2) (applies where no sale contract was signed before the Act, s.14(4)). Older OMCs follow their own constitution; s.15 not read. Show of hands vs poll voting rights for ordinary companies are in CA 2014 s.187 / 189, not read.",
+          "source": "Multi-Unit Developments Act 2011 (Irish Statute Book), https://www.irishstatutebook.ie/eli/2011/act/2/section/14/enacted/en/html, s.14",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "proxy": {
+          "value": {
+            "allowed": true,
+            "form": "written instrument in the form in s.184; signed by the member or attorney; corporate member under seal or by an officer",
+            "deadline": "deposited at the registered office (or place named in the notice) not later than 48 hours before the meeting or adjourned meeting, or any lesser period in the constitution",
+            "limit": "one proxy per member unless the constitution allows more"
+          },
+          "note": "CA 2014 s.183(1)-(6), s.184. The proxy has the same right to speak and vote on a show of hands and on a poll. Proxy cannot be required to be a member.",
+          "source": "Companies Act 2014 (Irish Statute Book), https://www.irishstatutebook.ie/eli/2014/act/38/section/183/enacted/en/html, s.183 ; Companies Act 2014 (Irish Statute Book), https://www.irishstatutebook.ie/eli/2014/act/38/section/184/enacted/en/html, s.184",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "votingMethods": {
+          "value": {
+            "default": "unless the constitution says otherwise: show of hands, with a poll on demand (s.187, s.189)"
+          },
+          "note": "s.187(7) and s.189 were not read in full; do not rely on this beyond the existence of show-of-hands and poll voting.",
+          "source": "Companies Act 2014 (Irish Statute Book), https://www.irishstatutebook.ie/eli/2014/act/38/section/187/enacted/en/html, s.187",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "electronicVoting": {
+          "value": "unclear",
+          "note": "CA 2014 s.176(4) lets a general meeting be held at several venues using technology that gives members a reasonable opportunity to participate (enacted text; section amended on 3 Dec 2024 by Companies (Corporate Governance, Enforcement and Regulatory Provisions) Act 2024 - amended wording not read).",
+          "source": "Companies Act 2014 (Irish Statute Book), https://www.irishstatutebook.ie/eli/2014/act/38/section/176/enacted/en/html, s.176",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "minutesDeadlineDays": {
+          "value": null,
+          "note": "not read / not verified: no deadline for minutes found in the sections read.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "recordRetentionYears": {
+          "value": null,
+          "note": "not read / not verified: not read.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "memberInspectionRight": {
+          "value": null,
+          "note": "not read / not verified: not read.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "electionRoles": {
+          "value": {
+            "directors": "the AGM business includes election/re-election of directors only 'where the company's constitution so provides'",
+            "returningOfficer": null
+          },
+          "note": "CA 2014 s.186(d). No statutory election procedure for OMC directors.",
+          "source": "Companies Act 2014 (Irish Statute Book), https://www.irishstatutebook.ie/eli/2014/act/38/section/186/enacted/en/html, s.186",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "termYears": {
+          "value": {
+            "maxYears": 3,
+            "note": "No director of an OMC may be appointed for life or for a term longer than 3 years; existing longer appointments lapsed 3 years after commencement (s.16(2))"
+          },
+          "note": "MUD Act s.16. A person may be re-elected at the AGM unless the articles forbid it (s.16(3)).",
+          "source": "Multi-Unit Developments Act 2011 (Irish Statute Book), https://www.irishstatutebook.ie/eli/2011/act/2/section/16/enacted/en/html, s.16",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "eligibility": {
+          "value": null,
+          "note": "not read / not verified: not read; depends on the OMC's constitution and the Companies Act director rules.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "defaulterDisqualification": {
+          "value": null,
+          "note": "not read / not verified: MUD Act s.22 (recovery of charges) was not read; any voting bar for unpaid service charges would sit in the constitution.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "requisition": {
+          "value": {
+            "percentOfPaidUpCapital": 10,
+            "conveneWithinDays": 21,
+            "holdWithinMonths": 2
+          },
+          "note": "CA 2014 s.178(3),(5). Applies 'notwithstanding the constitution'.",
+          "source": "Companies Act 2014 (Irish Statute Book), https://www.irishstatutebook.ie/eli/2014/act/38/section/178/enacted/en/html, s.178",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "nominationPeriods": {
+          "value": null,
+          "note": "not read / not verified: none prescribed in the sections read.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "notes": [
+          "Both Acts apply: the MUD Act adds OMC-specific duties on top of the ordinary company rules, and the OMC's own constitution may vary many of the company-law defaults.",
+          "A Law Society Gazette item of 24 Oct 2026 reports that MUD Act reform is being discussed; no further amendment was found in the Statute Book directory.",
+          "Retrieved 2026-10-24. Research only; not legal advice."
+        ]
+      },
+      "engine": {
+        "id": "ie-mud-omc",
+        "name": "Ireland owners' management company (OMC) - Multi-Unit Developments Act 2011 and Companies Act 2014",
+        "jurisdiction": "IE",
+        "confidence": "medium",
+        "needsLawyer": true,
+        "params": {
+          "notice.minDays": 21,
+          "adjourned.noQuorum": true,
+          "majority.simple.basis": "cast",
+          "majority.special.basis": "cast",
+          "abstain.inBase": false
+        },
+        "options": {
+          "proxy_voting": true,
+          "weightage": false,
+          "quorum_check": true,
+          "secret_ballot": null,
+          "minutes": true,
+          "notices": true
+        },
+        "locked": {
+          "proxy_voting": {
+            "value": true,
+            "reason": "Companies Act 2014 s.183(1): a member entitled to attend and vote 'shall be entitled' to appoint a proxy"
+          }
+        },
+        "notice": {
+          "agm": {
+            "min": 21,
+            "max": null
+          },
+          "sgm": {
+            "min": 7,
+            "max": null
+          },
+          "committee": {
+            "min": null,
+            "max": null
+          },
+          "monthly": {
+            "min": null,
+            "max": null
+          }
+        },
+        "recommended": [
+          "Give at least 21 days' notice of the annual meeting and send the annual report to every member at least 10 days before it (MUD Act s.17(3)-(4)).",
+          "An extraordinary meeting needs 7 days' notice, but 21 days if a special resolution (75% of votes cast) will be passed (Companies Act 2014 s.181(1), s.191).",
+          "Hold the meeting near the development at a reasonable time unless 75% of members agree otherwise in writing (MUD Act s.17(5)).",
+          "In OMCs for developments sold after the Act, each residential unit has exactly one equal vote (MUD Act s.14).",
+          "Proxy forms must reach the company at least 48 hours before the meeting unless the constitution allows less (CA 2014 s.183(6)).",
+          "No OMC director may be appointed for more than 3 years (MUD Act s.16).",
+          "Enter the quorum yourself: the statutory default is 2 members present, but the OMC's constitution usually sets its own (CA 2014 s.182)."
+        ],
+        "gaps": [
+          "Statutory default quorum is a head-count of 2 members (not a percentage); the product asks for a percentage.",
+          "If a requisitioned meeting has no quorum within 15 minutes it is dissolved (no adjournment).",
+          "Quorum fallback at the adjourned meeting: members present form a quorum after half an hour.",
+          "10% requisition is expressed in paid-up share capital; not expressible for a company without share capital in the product.",
+          "Older OMCs (s.15 of the MUD Act and their constitutions) may use share-based votes.",
+          "Voting by show of hands vs poll for ordinary company votes not read."
+        ]
+      }
+    },
+    {
+      "research": {
+        "id": "uk-ew-rtm-company",
+        "name": "England - Right to Manage (RTM) company: prescribed articles (SI 2009/2767) + Companies Act 2006",
+        "jurisdiction": "GB-ENG",
+        "instruments": [
+          {
+            "value": "Commonhold and Leasehold Reform Act 2002 Part 2 Chapter 1 (RTM companies; s.73-74 articles; s.75 qualifying tenants)",
+            "note": "Only the regulation-level articles were read; ss.72-113 of the 2002 Act were not opened. The RTM Companies (Memorandum and Articles of Association) (England) Regulations 2009 (SI 2009/2767) prescribe the articles for companies incorporated on or after the 2009 commencement; older RTM companies may use earlier prescribed articles and Wales has its own regulations - neither read.",
+            "source": "Commonhold and Leasehold Reform Act 2002 s.74 (referred to in the Explanatory Note of SI 2009/2767)",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          {
+            "value": "RTM company articles (SI 2009/2767 Sch) - arts 28-38 (general meetings), 22-25 (directors), 26-27 (membership), 41 (inspection)",
+            "note": "Read the text as made (2009). Amendments after 2009 were not checked.",
+            "source": "Right to Manage Companies (Memorandum and Articles of Association) (England) Regulations 2009 (SI 2009/2767), prescribed articles as made, https://www.legislation.gov.uk/uksi/2009/2767/made, article 28-41",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          {
+            "value": "Companies Act 2006 - Part 13 (resolutions and meetings) applies to every RTM company (a private company limited by guarantee)",
+            "note": "See sections cited below; Part 13 default rules apply where the articles are silent.",
+            "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/307 etc.",
+            "confidence": "high",
+            "needsLawyer": false
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "general meeting (annual or other)",
+            "calledBy": {
+              "value": "Directors (CA 2006); members holding at least 5% of total voting rights can require the directors to call a general meeting (s.303). The articles as made contain no annual general meeting requirement; CA 2006 requires AGMs only for public companies (s.336, not opened).",
+              "note": "CA 2006 s.303; RTM arts 28-35 (no AGM article found).",
+              "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/303",
+              "confidence": "medium",
+              "needsLawyer": true
+            },
+            "noticeDays": {
+              "value": {
+                "min": 14,
+                "max": null
+              },
+              "note": "A general meeting of a private company must be called by at least 14 days' notice (CA 2006 s.307(1)); shorter notice if agreed by 90% (articles may raise to 95%) of members entitled to vote (s.307(4)-(6)). The RTM articles contain no longer period. If an adjourned meeting is to be held more than 14 days after the adjournment, at least 7 clear days' notice is required (art 32(5)).",
+              "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/307 ; Right to Manage Companies (Memorandum and Articles of Association) (England) Regulations 2009 (SI 2009/2767), prescribed articles as made, https://www.legislation.gov.uk/uksi/2009/2767/made, article 32(5)",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          }
+        ],
+        "quorum": {
+          "value": {
+            "basis": "members",
+            "percentOfMembers": 20,
+            "minimumPersons": 2,
+            "countsProxies": true
+          },
+          "note": "Quorum is 20% of the members entitled to vote on the business, or two members so entitled, whichever is greater, present in person or by proxy. No business except choosing the chair if there is no quorum.",
+          "source": "Right to Manage Companies (Memorandum and Articles of Association) (England) Regulations 2009 (SI 2009/2767), prescribed articles as made, https://www.legislation.gov.uk/uksi/2009/2767/made, article 29",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "adjournedQuorum": {
+          "value": {
+            "rule": "If no quorum within half an hour of the start, or if quorum is lost, the chairman must adjourn the meeting; no relaxed quorum for the adjourned meeting is stated",
+            "adjournedNotice": "7 clear days if the adjourned meeting is more than 14 days later"
+          },
+          "note": "Art 32(1),(4)-(6).",
+          "source": "Right to Manage Companies (Memorandum and Articles of Association) (England) Regulations 2009 (SI 2009/2767), prescribed articles as made, https://www.legislation.gov.uk/uksi/2009/2767/made, article 32",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "majorities": {
+          "ordinary": {
+            "value": "Simple majority: on a show of hands a simple majority of votes cast by those entitled to vote; on a poll a simple majority of the voting rights of members who vote in person, by proxy or in advance.",
+            "note": "CA 2006 s.282.",
+            "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/282",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "special": {
+            "value": {
+              "special_resolution": "75% of votes cast (show of hands) or 75% of voting rights of members who vote (poll); notice must give the text and say it is proposed as a special resolution"
+            },
+            "note": "CA 2006 s.283(4)-(6).",
+            "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/283",
+            "confidence": "high",
+            "needsLawyer": false
+          }
+        },
+        "weightageModels": {
+          "value": {
+            "showOfHands": "each member present has one vote (CA 2006 s.284(2))",
+            "pollWhenNoLandlordMembers": "one vote per flat, cast by the qualifying tenant",
+            "pollWhenLandlordMembers": "each residential unit gets as many votes as there are landlord members; non-residential parts are weighted by internal floor area; landlords with no other votes get 1 vote"
+          },
+          "note": "Art 33(1)-(4): resolutions are decided on a show of hands unless a poll is duly demanded; votes under 33(2)-(3) are the vote allocation. Joint members: the senior on the register votes.",
+          "source": "Right to Manage Companies (Memorandum and Articles of Association) (England) Regulations 2009 (SI 2009/2767), prescribed articles as made, https://www.legislation.gov.uk/uksi/2009/2767/made, article 33",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "proxy": {
+          "value": {
+            "allowed": true,
+            "form": "written proxy notice stating member's name/address, proxy, meeting; signed or authenticated; delivered as the articles/notice instruct",
+            "deadline": "articles may not require delivery earlier than 48 hours before the meeting (CA 2006 s.327(2)); working-day rules in s.327(3)",
+            "limit": "a member with shares may appoint several proxies for different shares; a company limited by guarantee has no shares so effectively one"
+          },
+          "note": "CA 2006 s.324, 327; RTM arts 36-37. A person entitled to attend remains entitled to vote despite appointing a proxy. A proxy notice also covers adjournments unless it says otherwise.",
+          "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/324 ; Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/327 ; Right to Manage Companies (Memorandum and Articles of Association) (England) Regulations 2009 (SI 2009/2767), prescribed articles as made, https://www.legislation.gov.uk/uksi/2009/2767/made, article 36-37",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "votingMethods": {
+          "value": {
+            "default": "show of hands, poll on demand",
+            "pollDemandedBy": "the chair, the directors, two or more persons entitled to vote, or holders of at least 1/10 of the voting rights",
+            "pollAdvance": "may be demanded in advance of the meeting"
+          },
+          "note": "Art 33(1), 35. CA 2006 s.321: articles cannot exclude a poll demand by 5 members or 10% (other than for chair election/adjournment).",
+          "source": "Right to Manage Companies (Memorandum and Articles of Association) (England) Regulations 2009 (SI 2009/2767), prescribed articles as made, https://www.legislation.gov.uk/uksi/2009/2767/made, article 33, 35 ; Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/321",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "electronicVoting": {
+          "value": true,
+          "note": "Members may attend and vote by electronic means (CA 2006 s.360A); art 28 describes when a person can speak and vote while not in the same place. Votes in advance on a poll only if the articles provide (s.322A) - the prescribed RTM articles as read do not.",
+          "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/360A ; Right to Manage Companies (Memorandum and Articles of Association) (England) Regulations 2009 (SI 2009/2767), prescribed articles as made, https://www.legislation.gov.uk/uksi/2009/2767/made, article 28",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "minutesDeadlineDays": {
+          "value": null,
+          "note": "not read / not verified: no minutes deadline in the articles or the CA 2006 sections read.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "recordRetentionYears": {
+          "value": 10,
+          "note": "Minutes of general meetings and members' resolutions must be kept at least 10 years from the date of the meeting; available for inspection by any member free of charge at the registered office.",
+          "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/355 ; Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/358",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "memberInspectionRight": {
+          "value": {
+            "records": "members may inspect minutes and records of the previous ten years without charge (CA 2006 s.358); art 41 adds a right to inspect and copy any book, minute, document or accounting record on reasonable notice (confidential material may be excluded)"
+          },
+          "note": "",
+          "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/358 ; Right to Manage Companies (Memorandum and Articles of Association) (England) Regulations 2009 (SI 2009/2767), prescribed articles as made, https://www.legislation.gov.uk/uksi/2009/2767/made, article 41",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "electionRoles": {
+          "value": {
+            "directors": "appointed by ordinary resolution or by a decision of the directors (art 22)",
+            "chair": "directors' chairman, otherwise a director or member appointed at the meeting (art 30)",
+            "returningOfficer": null
+          },
+          "note": "No election procedure, term or rotation is prescribed in the articles as read.",
+          "source": "Right to Manage Companies (Memorandum and Articles of Association) (England) Regulations 2009 (SI 2009/2767), prescribed articles as made, https://www.legislation.gov.uk/uksi/2009/2767/made, article 22, 30",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "termYears": {
+          "value": null,
+          "note": "not read / not verified: the prescribed articles read contain no fixed term or rotation for directors.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "eligibility": {
+          "value": {
+            "membership": "only qualifying tenants of flats in the premises and, after the right to manage is acquired, landlords under leases of the premises"
+          },
+          "note": "Art 26(2). Directors need only be 'willing to act and permitted by law' (art 22(1)).",
+          "source": "Right to Manage Companies (Memorandum and Articles of Association) (England) Regulations 2009 (SI 2009/2767), prescribed articles as made, https://www.legislation.gov.uk/uksi/2009/2767/made, article 22, 26",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "defaulterDisqualification": {
+          "value": null,
+          "note": "not read / not verified: none in the articles read.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "requisition": {
+          "value": {
+            "percentOfVotingRights": 5
+          },
+          "note": "CA 2006 s.303(2). Directors' duty to call within a set time is in s.304 (not read).",
+          "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/303",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "nominationPeriods": {
+          "value": null,
+          "note": "not read / not verified: none prescribed.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "notes": [
+          "RTM articles are prescribed: a company cannot freely vary them, but the law lets a company adopt additional rules; confirm the actual articles of the RTM company.",
+          "Wales has separate regulations (not read).",
+          "Retrieved 2026-10-24. Research only; not legal advice."
+        ]
+      },
+      "engine": {
+        "id": "uk-ew-rtm-company",
+        "name": "England RTM company - prescribed articles (SI 2009/2767) and Companies Act 2006",
+        "jurisdiction": "GB-ENG",
+        "confidence": "medium",
+        "needsLawyer": true,
+        "params": {
+          "notice.minDays": 14,
+          "quorum.basis": "flats",
+          "quorum.percentBp": 2000,
+          "quorum.strict": false,
+          "quorum.countProxies": true,
+          "majority.simple.basis": "cast",
+          "majority.special.basis": "cast",
+          "abstain.inBase": false,
+          "requisition.percentBp": 500,
+          "retention.years": 10
+        },
+        "options": {
+          "proxy_voting": true,
+          "weightage": null,
+          "quorum_check": true,
+          "secret_ballot": null,
+          "minutes": true,
+          "notices": true
+        },
+        "locked": {
+          "proxy_voting": {
+            "value": true,
+            "reason": "Companies Act 2006 s.324(1): every member is entitled to appoint a proxy; RTM art 36"
+          }
+        },
+        "notice": {
+          "agm": {
+            "min": 14,
+            "max": null
+          },
+          "sgm": {
+            "min": 14,
+            "max": null
+          },
+          "committee": {
+            "min": null,
+            "max": null
+          },
+          "monthly": {
+            "min": null,
+            "max": null
+          }
+        },
+        "recommended": [
+          "Give at least 14 days' notice of a general meeting (Companies Act 2006 s.307); a special resolution needs its text in the notice and 75% of votes (s.283).",
+          "The quorum is 20% of the members entitled to vote or two members, whichever is more (RTM art 29).",
+          "Proxy forms may be required no earlier than 48 hours before the meeting (CA 2006 s.327).",
+          "Voting rights: one vote per flat when no landlord is a member; with landlord members the allocation is more complex (art 33) - check the register before the meeting.",
+          "Members holding 5% of the voting rights can require the directors to call a meeting (s.303).",
+          "Keep minutes for at least 10 years (CA 2006 s.355)."
+        ],
+        "gaps": [
+          "Vote allocation under art 33 when landlords are members (votes multiplied by number of landlord members; floor-area weighting for non-residential parts).",
+          "Quorum is the higher of 20% or two members (a minimum of two persons cannot be expressed).",
+          "Short-notice agreement by 90% of members (s.307(4)-(6)) and the 7 clear days' notice for an adjourned meeting more than 14 days later.",
+          "Poll can be demanded in advance of the meeting by the chair, directors, two members or 1/10 of the votes.",
+          "Directors' appointment and any rotation are not covered by the prescribed articles."
+        ]
+      }
+    },
+    {
+      "research": {
+        "id": "uk-ew-rmc-company",
+        "name": "England & Wales - residents' / owners' management company (private company limited by guarantee): Companies Act 2006 defaults",
+        "jurisdiction": "GB-ENG",
+        "instruments": [
+          {
+            "value": "Companies Act 2006 Part 13 (ss.282-284 resolutions and votes, 303 members' requisition, 307 notice, 318 quorum, 321-327 poll and proxies, 355-358 records, 360A electronic meetings)",
+            "note": "Read each cited section on legislation.gov.uk. An RMC is an ordinary private company; its own articles can vary most of these defaults ('subject to the articles'), and its leases (service-charge and management covenants) may add duties. The articles of any particular RMC and the SI 2008/3229 model articles for private companies were NOT read.",
+            "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/307 ; Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/318 ; Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/282",
+            "confidence": "high",
+            "needsLawyer": true
+          },
+          {
+            "value": "Landlord and Tenant Act 1985 / 1987 (service charge, s.20 consultation, tenants' rights)",
+            "note": "Not read for meeting rules; they do not regulate how an RMC holds meetings.",
+            "source": "not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "general meeting",
+            "calledBy": {
+              "value": "Directors; members holding at least 5% of the voting rights can require the directors to call one (s.303). A private company has no statutory duty to hold an AGM (public-company rule s.336; not opened) - the RMC's articles or the leases may require one.",
+              "note": "CA 2006 s.303.",
+              "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/303",
+              "confidence": "medium",
+              "needsLawyer": true
+            },
+            "noticeDays": {
+              "value": {
+                "min": 14,
+                "max": null
+              },
+              "note": "At least 14 days' notice for a private company general meeting; articles may require longer; shorter notice if a majority in number holding at least 90% of the voting rights agrees (up to 95% if the articles say so).",
+              "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/307(1),(3)-(6)",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          }
+        ],
+        "quorum": {
+          "value": {
+            "default": "two qualifying persons present (one if the company has a single member)",
+            "qualifyingPerson": "a member (individual), an authorised corporate representative, or a proxy - but two proxies of the same member, or two representatives of the same corporation, count as one",
+            "articlesMayChange": true
+          },
+          "note": "CA 2006 s.318. A head-count of two, not a percentage.",
+          "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/318",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "adjournedQuorum": {
+          "value": null,
+          "note": "not read / not verified: CA 2006 has no default adjourned-meeting quorum; the rule (if any) is in the RMC's articles, which were not read.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "majorities": {
+          "ordinary": {
+            "value": "Simple majority: of votes cast on a show of hands; of the voting rights of members who vote on a poll.",
+            "note": "CA 2006 s.282.",
+            "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/282",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "special": {
+            "value": {
+              "special_resolution": "75% of votes cast on a show of hands, or 75% of voting rights of members voting on a poll; notice must include the text and say it is proposed as a special resolution"
+            },
+            "note": "CA 2006 s.283.",
+            "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/283",
+            "confidence": "high",
+            "needsLawyer": false
+          }
+        },
+        "weightageModels": {
+          "value": {
+            "showOfHands": "each member present has one vote",
+            "poll": "one vote per share (or per £10 of stock) if the company has share capital, otherwise one vote per member",
+            "articlesMayChange": true
+          },
+          "note": "CA 2006 s.284(2)-(4). Flat-owner RMCs usually issue one share per flat so a poll is one vote per flat, but this depends on the articles.",
+          "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/284",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "proxy": {
+          "value": {
+            "allowed": true,
+            "form": "any proper written appointment; the articles may prescribe a form",
+            "deadline": "articles cannot require it earlier than 48 hours before the meeting (working days only)",
+            "limit": "with shares, a member may appoint several proxies for different shares"
+          },
+          "note": "CA 2006 s.324, 327.",
+          "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/324 ; Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/327",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "votingMethods": {
+          "value": {
+            "showOfHands": true,
+            "poll": "right to demand a poll cannot be excluded by the articles when demanded by 5 members or members with 10% of the voting rights",
+            "advanceVotesOnPoll": "only if the articles allow"
+          },
+          "note": "CA 2006 s.321, 322A.",
+          "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/321 ; Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/322A",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "electronicVoting": {
+          "value": true,
+          "note": "Nothing in Part 13 precludes a meeting where members attend, speak and vote by electronic means; advance poll votes depend on the articles.",
+          "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/360A",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "minutesDeadlineDays": {
+          "value": null,
+          "note": "not read / not verified: CA 2006 sets no deadline for writing up minutes in the sections read.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "recordRetentionYears": {
+          "value": 10,
+          "note": "Minutes of general meetings and written/other members' resolutions must be kept at least 10 years; they must be open to inspection by members without charge.",
+          "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/355 ; Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/358",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "memberInspectionRight": {
+          "value": {
+            "minutesAndResolutions": "any member may inspect the last ten years' records free and request copies for a fee"
+          },
+          "note": "CA 2006 s.358.",
+          "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/358",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "electionRoles": {
+          "value": null,
+          "note": "not read / not verified: director appointment and retirement rules are in the RMC's articles, which were not read.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "termYears": {
+          "value": null,
+          "note": "not read / not verified: depends on the articles.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "eligibility": {
+          "value": null,
+          "note": "not read / not verified: depends on the articles and company-law director disqualification rules (not read).",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "defaulterDisqualification": {
+          "value": null,
+          "note": "not read / not verified: depends on the articles / lease.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "requisition": {
+          "value": {
+            "percentOfVotingRights": 5
+          },
+          "note": "CA 2006 s.303(2).",
+          "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/303",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "nominationPeriods": {
+          "value": null,
+          "note": "not read / not verified: none prescribed by statute.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "notes": [
+          "This is the most common structure for a block of flats in England and Wales that is not commonhold and not RTM: the freehold or management is held by a residents' company, and meetings follow the Companies Act plus the company's articles.",
+          "Unknown articles are the main risk: the numbers in the engine block are only the Companies Act defaults and are overridden by the company's own articles where the Act says 'subject to the articles'.",
+          "Retrieved 2026-10-24. Research only; not legal advice."
+        ]
+      },
+      "engine": {
+        "id": "uk-ew-rmc-company",
+        "name": "England & Wales residents' management company - Companies Act 2006 defaults",
+        "jurisdiction": "GB-ENG",
+        "confidence": "medium",
+        "needsLawyer": true,
+        "params": {
+          "notice.minDays": 14,
+          "majority.simple.basis": "cast",
+          "majority.special.basis": "cast",
+          "abstain.inBase": false,
+          "requisition.percentBp": 500,
+          "retention.years": 10
+        },
+        "options": {
+          "proxy_voting": true,
+          "quorum_check": true,
+          "weightage": null,
+          "secret_ballot": null,
+          "minutes": true,
+          "notices": true
+        },
+        "locked": {
+          "proxy_voting": {
+            "value": true,
+            "reason": "Companies Act 2006 s.324(1): every member of a company may appoint a proxy"
+          }
+        },
+        "notice": {
+          "agm": {
+            "min": 14,
+            "max": null
+          },
+          "sgm": {
+            "min": 14,
+            "max": null
+          },
+          "committee": {
+            "min": null,
+            "max": null
+          },
+          "monthly": {
+            "min": null,
+            "max": null
+          }
+        },
+        "recommended": [
+          "Read the company's own articles first: the Companies Act figures here are only defaults (s.307, s.318 are 'subject to the articles').",
+          "14 days' notice for a private company general meeting (s.307); special resolutions need 75% and the notice must give the text (s.283).",
+          "The default quorum is two members present (s.318); enter your articles' quorum in the quorum settings.",
+          "Proxy forms can be required no earlier than 48 hours before the meeting (s.327).",
+          "Members holding 5% of the voting rights can require a general meeting (s.303).",
+          "Keep minutes at least 10 years (s.355)."
+        ],
+        "gaps": [
+          "Default quorum is 'two qualifying persons' (a head-count), not a percentage.",
+          "Vote count depends on the articles: one vote per share on a poll, one per member on a show of hands.",
+          "Short-notice agreement by 90%-95% of members (s.307).",
+          "Directors' election, rotation and term come from the articles, not the Act.",
+          "The Landlord and Tenant Act service-charge consultation rules are not meeting rules and are not modelled."
+        ]
+      }
+    },
+    {
+      "research": {
+        "id": "uk-ew-commonhold",
+        "name": "England & Wales - commonhold association (Commonhold and Leasehold Reform Act 2002 Part 1 + Commonhold Regulations 2004)",
+        "jurisdiction": "GB-ENG",
+        "instruments": [
+          {
+            "value": "Commonhold and Leasehold Reform Act 2002 Part 1 (ss.34-36, Schedule 3)",
+            "note": "Read ss.34-36 and Schedule 3 paras 1-13. The association is a private company limited by guarantee (s.34(1)); its members are the unit-holders (Sch 3 paras 5-12); Companies Act 2006 s.20 default model articles do NOT apply (Sch 3 para 2(6)). Regulations prescribe the articles and the commonhold community statement (CCS).",
+            "source": "Commonhold and Leasehold Reform Act 2002, https://www.legislation.gov.uk/ukpga/2002/15/section/34-36 ; https://www.legislation.gov.uk/ukpga/2002/15/schedule/3",
+            "confidence": "high",
+            "needsLawyer": true
+          },
+          {
+            "value": null,
+            "note": "Commonhold Regulations 2004 (SI 2004/1829) Schedule 2 (articles) and Schedule 3 (CCS) - these hold the actual notice period, quorum, voting and director rules. The legislation.gov.uk 'as made' schedules are scanned images with no text layer and I could not obtain a readable copy; secondary pages (lease-advice.org returned 403; vLex failed). Also the Commonhold and Leasehold Reform Act 2024 reforms and the Commonhold (Amendment) Regulations 2009 (SI 2009/2363) were not read.",
+            "source": "not verified; https://www.legislation.gov.uk/uksi/2004/1829/schedule/2/made (image-only)",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "annual and other general meetings",
+            "calledBy": {
+              "value": null,
+              "note": "not read / not verified: Schedule 2 articles not readable",
+              "source": "not verified",
+              "confidence": "low",
+              "needsLawyer": true
+            },
+            "noticeDays": {
+              "value": null,
+              "note": "not read / not verified: Schedule 2 articles not readable (Commonhold (Amendment) Regulations 2009 let an association lengthen the notice periods in article 21 and change the proportion in articles 16 and 61 - numbers not seen)",
+              "source": "not verified",
+              "confidence": "low",
+              "needsLawyer": true
+            }
+          }
+        ],
+        "quorum": {
+          "value": null,
+          "note": "not read / not verified: articles (Commonhold Regulations 2004 Sch 2) not readable; a secondary summary says a quorum applies to all general meetings but gave no figure.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "adjournedQuorum": {
+          "value": null,
+          "note": "not read / not verified: articles not readable.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "majorities": {
+          "ordinary": {
+            "value": null,
+            "note": "not read / not verified: articles not readable.",
+            "source": "not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          },
+          "special": {
+            "value": null,
+            "note": "s.36(4): for the Part 1 provisions that refer to a resolution of the association, 'unanimous' means every member who casts a vote votes in favour. Other required majorities are in the CCS / articles (not read).",
+            "source": "Commonhold and Leasehold Reform Act 2002, https://www.legislation.gov.uk/ukpga/2002/15/section/36",
+            "confidence": "medium",
+            "needsLawyer": true
+          }
+        },
+        "weightageModels": {
+          "value": null,
+          "note": "not read / not verified: articles / CCS not readable. Membership is one entry per commonhold unit (joint unit-holders nominate one member, Sch 3 paras 7-8).",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "proxy": {
+          "value": {
+            "allowed": "permitted if the articles or the CCS provide for it"
+          },
+          "note": "s.36(3): a vote is cast whether in person or in accordance with a provision for voting by post, by proxy or otherwise contained in the articles or the CCS. s.36(2): every member must be given an opportunity to vote.",
+          "source": "Commonhold and Leasehold Reform Act 2002, https://www.legislation.gov.uk/ukpga/2002/15/section/36",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "votingMethods": {
+          "value": null,
+          "note": "not read / not verified: see articles.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "electronicVoting": {
+          "value": null,
+          "note": "not read / not verified: not read.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "minutesDeadlineDays": {
+          "value": null,
+          "note": "not read / not verified: not read.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "recordRetentionYears": {
+          "value": null,
+          "note": "not read / not verified: not read (Companies Act 2006 s.355 ten-year minute-keeping applies to every company).",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "memberInspectionRight": {
+          "value": null,
+          "note": "not read / not verified: not read.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "electionRoles": {
+          "value": null,
+          "note": "not read / not verified: not read.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "termYears": {
+          "value": null,
+          "note": "not read / not verified: not read. A lease-advice.org summary (not opened) says directors must resign at the first AGM after the developer's transitional period.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "eligibility": {
+          "value": {
+            "membership": "only unit-holders (and, during the pre-commonhold / transitional period, the subscribers and the developer)"
+          },
+          "note": "Sch 3 paras 5-12.",
+          "source": "https://www.legislation.gov.uk/ukpga/2002/15/schedule/3",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "defaulterDisqualification": {
+          "value": null,
+          "note": "not read / not verified: not read.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "requisition": {
+          "value": null,
+          "note": "not read / not verified: not read. (Companies Act 2006 s.303 gives members of any company the right to require a meeting at 5% of the voting rights; whether the commonhold articles change this was not checked.)",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "nominationPeriods": {
+          "value": null,
+          "note": "not read / not verified: not read.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "notes": [
+          "Commonhold is rare in practice. Because Schedule 2 of the 2004 Regulations could not be read, this pack carries NO numeric rule; the Organizer must enter the figures from the association's registered articles and CCS.",
+          "Retrieved 2026-10-24. Research only; not legal advice."
+        ]
+      },
+      "engine": {
+        "id": "uk-ew-commonhold",
+        "name": "England & Wales commonhold association (figures must come from its articles and CCS)",
+        "jurisdiction": "GB-ENG",
+        "confidence": "low",
+        "needsLawyer": true,
+        "params": {},
+        "options": {
+          "proxy_voting": null,
+          "quorum_check": true
+        },
+        "locked": {},
+        "notice": {
+          "agm": {
+            "min": null,
+            "max": null
+          },
+          "sgm": {
+            "min": null,
+            "max": null
+          },
+          "committee": {
+            "min": null,
+            "max": null
+          },
+          "monthly": {
+            "min": null,
+            "max": null
+          }
+        },
+        "recommended": [
+          "Copy the notice period, quorum and voting rules from the association's registered articles (based on the Commonhold Regulations 2004 Sch 2) and its commonhold community statement.",
+          "Every member must be given an opportunity to vote; postal or proxy voting is allowed only where the articles or CCS provide for it (Commonhold and Leasehold Reform Act 2002 s.36)."
+        ],
+        "gaps": [
+          "Notice period, quorum and voting rules of the standard commonhold articles could not be read.",
+          "Proxy and postal voting are permitted only if the articles/CCS say so."
+        ]
+      }
+    },
+    {
+      "research": {
+        "id": "uk-ew-recognised-tenants-association",
+        "name": "England & Wales - recognised tenants' association (Landlord and Tenant Act 1985 s.29)",
+        "jurisdiction": "GB-ENG",
+        "instruments": [
+          {
+            "value": "Landlord and Tenant Act 1985 s.29 (meaning of 'recognised tenants' association')",
+            "note": "Read s.29: an association of qualifying tenants (those who pay into the same service charge), recognised for the service-charge provisions either by written notice from the landlord to the association's secretary or by a certificate of the First-tier Tribunal (England) or a rent assessment committee panel member (Wales). The landlord can withdraw its recognition on 6 months' notice. The section says nothing about how the association meets, votes or elects officers.",
+            "source": "Landlord and Tenant Act 1985 s.29, https://www.legislation.gov.uk/ukpga/1985/70/section/29",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          {
+            "value": null,
+            "note": "Procedure regulations under s.29(5) (certificates), and the 1985 Act ss.30B-30K (consultation rights of recognised associations) were NOT read.",
+            "source": "not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "any meeting",
+            "calledBy": {
+              "value": null,
+              "note": "not read / not verified: the statute has no meeting rules; each association follows its own constitution",
+              "source": "not verified",
+              "confidence": "low",
+              "needsLawyer": true
+            },
+            "noticeDays": {
+              "value": null,
+              "note": "not read / not verified: same",
+              "source": "not verified",
+              "confidence": "low",
+              "needsLawyer": true
+            }
+          }
+        ],
+        "quorum": {
+          "value": null,
+          "note": "not read / not verified: no statutory rule; the association's own constitution applies.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "adjournedQuorum": {
+          "value": null,
+          "note": "not read / not verified: no statutory rule.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "majorities": {
+          "ordinary": {
+            "value": null,
+            "note": "not read / not verified: no statutory rule.",
+            "source": "not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          },
+          "special": {
+            "value": null,
+            "note": "not read / not verified: no statutory rule.",
+            "source": "not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        },
+        "weightageModels": {
+          "value": null,
+          "note": "not read / not verified: no statutory rule.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "proxy": {
+          "value": null,
+          "note": "not read / not verified: no statutory rule.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "votingMethods": {
+          "value": null,
+          "note": "not read / not verified: no statutory rule.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "electronicVoting": {
+          "value": null,
+          "note": "not read / not verified: no statutory rule.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "minutesDeadlineDays": {
+          "value": null,
+          "note": "not read / not verified: no statutory rule.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "recordRetentionYears": {
+          "value": null,
+          "note": "not read / not verified: no statutory rule.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "memberInspectionRight": {
+          "value": null,
+          "note": "not read / not verified: no statutory rule.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "electionRoles": {
+          "value": null,
+          "note": "not read / not verified: no statutory rule.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "termYears": {
+          "value": null,
+          "note": "not read / not verified: no statutory rule.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "eligibility": {
+          "value": {
+            "members": "qualifying tenants of the same service charge, 'with or without other tenants'",
+            "secretary": "recognition notices are addressed to the association's secretary"
+          },
+          "note": "s.29(1),(4).",
+          "source": "https://www.legislation.gov.uk/ukpga/1985/70/section/29",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "defaulterDisqualification": {
+          "value": null,
+          "note": "not read / not verified: no statutory rule.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "requisition": {
+          "value": null,
+          "note": "not read / not verified: no statutory rule.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "nominationPeriods": {
+          "value": null,
+          "note": "not read / not verified: no statutory rule.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "notes": [
+          "A tenants' association is an unincorporated body governed by its own rules; s.29 only gives the landlord-recognition status. Use the Any-country (custom) pack with the association's own constitution.",
+          "Retrieved 2026-10-24. Research only; not legal advice."
+        ]
+      },
+      "engine": {
+        "id": "uk-ew-recognised-tenants-association",
+        "name": "England & Wales recognised tenants' association (no statutory meeting rules)",
+        "jurisdiction": "GB-ENG",
+        "confidence": "low",
+        "needsLawyer": true,
+        "params": {},
+        "options": {
+          "proxy_voting": null,
+          "quorum_check": true
+        },
+        "locked": {},
+        "notice": {
+          "agm": {
+            "min": null,
+            "max": null
+          },
+          "sgm": {
+            "min": null,
+            "max": null
+          },
+          "committee": {
+            "min": null,
+            "max": null
+          },
+          "monthly": {
+            "min": null,
+            "max": null
+          }
+        },
+        "recommended": [
+          "Landlord and Tenant Act 1985 s.29 gives no meeting or election rules: copy them from the association's own constitution."
+        ],
+        "gaps": [
+          "No statutory meeting rules exist, so the pack carries no values."
+        ]
+      }
+    },
+    {
+      "research": {
+        "id": "uk-sct-tenement-tms",
+        "name": "Scotland - Tenement Management Scheme (Tenements (Scotland) Act 2004, Sched. 1) for flat owners in a tenement",
+        "jurisdiction": "GB-SCT",
+        "instruments": [
+          {
+            "value": "Tenements (Scotland) Act 2004, s.4 and Schedule 1 (Tenement Management Scheme, TMS) rules 1-3",
+            "note": "Read s.4 and TMS rules 1.1-3.1 on legislation.gov.uk (revised version). Rule 2 (procedure for decisions) applies unless a tenement burden in the title deeds sets a procedure that is the same for every flat (s.4(4)); rule 3 applies only where the deeds do not already give the owners that power (s.4(5)). The TMS does not apply while a Development Management Scheme applies (s.4(2)).",
+            "source": "Tenements (Scotland) Act 2004 s.4, https://www.legislation.gov.uk/asp/2004/11/section/4",
+            "confidence": "high",
+            "needsLawyer": true
+          },
+          {
+            "value": null,
+            "note": "Title Conditions (Scotland) Act 2003 (manager burdens, Development Management Scheme s.71) and the Property Factors (Scotland) Act 2011 (factor registration, Code of Conduct) were NOT read; neither was the Tenement Management Scheme rules 4-9 (costs, emergency work, liability).",
+            "source": "not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "owners' meeting",
+            "calledBy": {
+              "value": "Any one owner may call a meeting of the owners to make a scheme decision.",
+              "note": "Rule 2.6. Alternatively an owner may instead consult each owner and count the votes without a meeting (rule 2.7).",
+              "source": "Tenements (Scotland) Act 2004, Schedule 1 (Tenement Management Scheme), https://www.legislation.gov.uk/asp/2004/11/schedule/1, rule 2.6, 2.7",
+              "confidence": "high",
+              "needsLawyer": false
+            },
+            "noticeDays": {
+              "value": {
+                "min": 2,
+                "max": null
+              },
+              "note": "At least 48 hours' notice of the date, time, purpose and place to the other owners (rule 2.6). 48 hours is expressed here as 2 days.",
+              "source": "Tenements (Scotland) Act 2004, Schedule 1 (Tenement Management Scheme), https://www.legislation.gov.uk/asp/2004/11/schedule/1, rule 2.6",
+              "confidence": "high",
+              "needsLawyer": false
+            }
+          }
+        ],
+        "quorum": {
+          "value": null,
+          "note": "The TMS has no quorum rule. Rule 2.5 requires a majority of ALL the votes allocated, so absentees effectively count against.",
+          "source": "Tenements (Scotland) Act 2004, Schedule 1 (Tenement Management Scheme), https://www.legislation.gov.uk/asp/2004/11/schedule/1, rule 2.5",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "adjournedQuorum": {
+          "value": null,
+          "note": "No rule.",
+          "source": "Tenements (Scotland) Act 2004, Schedule 1 (Tenement Management Scheme), https://www.legislation.gov.uk/asp/2004/11/schedule/1, rule 2",
+          "confidence": "medium",
+          "needsLawyer": false
+        },
+        "majorities": {
+          "ordinary": {
+            "value": "A scheme decision is made by majority vote of all the votes allocated (not of votes cast).",
+            "note": "Rule 2.5.",
+            "source": "Tenements (Scotland) Act 2004, Schedule 1 (Tenement Management Scheme), https://www.legislation.gov.uk/asp/2004/11/schedule/1, rule 2.5",
+            "confidence": "high",
+            "needsLawyer": false
+          },
+          "special": {
+            "value": {
+              "annulment": "an owner (or owners) who did not vote in favour of a maintenance decision and who would bear at least 75% of its cost may annul it by notice to the other owners within 21 days of the meeting or of being notified"
+            },
+            "note": "Rules 2.10-2.11. No other special majority in rule 2.",
+            "source": "Tenements (Scotland) Act 2004, Schedule 1 (Tenement Management Scheme), https://www.legislation.gov.uk/asp/2004/11/schedule/1, rule 2.10-2.11",
+            "confidence": "high",
+            "needsLawyer": false
+          }
+        },
+        "weightageModels": {
+          "value": {
+            "default": "one vote per flat",
+            "exception": "no vote for a flat whose owner is not liable to maintain (or pay for) the property concerned (maintenance decisions only)",
+            "jointOwners": "either may vote; if they disagree the vote counts only if the owner of more than half the flat, or the owners of more than half, agree"
+          },
+          "note": "Rules 2.2-2.4. A vote can be exercised by the owner or someone the owner nominates.",
+          "source": "Tenements (Scotland) Act 2004, Schedule 1 (Tenement Management Scheme), https://www.legislation.gov.uk/asp/2004/11/schedule/1, rule 2.2-2.4",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "proxy": {
+          "value": {
+            "allowed": true,
+            "form": "owner 'nominates' someone to vote for the flat (no form prescribed)"
+          },
+          "note": "Rule 2.2.",
+          "source": "Tenements (Scotland) Act 2004, Schedule 1 (Tenement Management Scheme), https://www.legislation.gov.uk/asp/2004/11/schedule/1, rule 2.2",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "votingMethods": {
+          "value": {
+            "meeting": "by owners present or nominees",
+            "withoutMeeting": "proposer consults every owner with a vote and counts the votes"
+          },
+          "note": "Rule 2.7-2.8 (consultation of one co-owner satisfies the duty for that flat). Decisions must be notified to absent owners as soon as practicable (rule 2.9).",
+          "source": "Tenements (Scotland) Act 2004, Schedule 1 (Tenement Management Scheme), https://www.legislation.gov.uk/asp/2004/11/schedule/1, rule 2.7-2.9",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "electronicVoting": {
+          "value": null,
+          "note": "not read / not verified: not addressed in rules 1-3.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "minutesDeadlineDays": {
+          "value": null,
+          "note": "not read / not verified: no minutes rule in rules 1-3.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "recordRetentionYears": {
+          "value": null,
+          "note": "not read / not verified: no rule.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "memberInspectionRight": {
+          "value": null,
+          "note": "not read / not verified: no rule in rules 1-3.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "electionRoles": {
+          "value": {
+            "manager": "owners may by scheme decision appoint and dismiss a manager and delegate powers (rule 3.1(c)-(d)) unless a manager burden applies",
+            "returningOfficer": null
+          },
+          "note": "There are no elections of office-bearers in the TMS.",
+          "source": "Tenements (Scotland) Act 2004, Schedule 1 (Tenement Management Scheme), https://www.legislation.gov.uk/asp/2004/11/schedule/1, rule 3.1",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "termYears": {
+          "value": null,
+          "note": "not read / not verified: none in the TMS.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "eligibility": {
+          "value": null,
+          "note": "not read / not verified: owners of flats in the tenement.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "defaulterDisqualification": {
+          "value": null,
+          "note": "not read / not verified: none in rules 1-3.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "requisition": {
+          "value": {
+            "rule": "a single owner can call a meeting"
+          },
+          "note": "Rule 2.6.",
+          "source": "Tenements (Scotland) Act 2004, Schedule 1 (Tenement Management Scheme), https://www.legislation.gov.uk/asp/2004/11/schedule/1, rule 2.6",
+          "confidence": "high",
+          "needsLawyer": false
+        },
+        "nominationPeriods": {
+          "value": null,
+          "note": "not read / not verified: none.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "notes": [
+          "A procedural defect does not necessarily void a decision: rule 6 (not read) covers the effect of irregularities.",
+          "Retrieved 2026-10-24. Research only; not legal advice."
+        ]
+      },
+      "engine": {
+        "id": "uk-sct-tenement-tms",
+        "name": "Scotland tenement owners - Tenement Management Scheme (default rules)",
+        "jurisdiction": "GB-SCT",
+        "confidence": "high",
+        "needsLawyer": true,
+        "params": {
+          "notice.minDays": 2,
+          "majority.simple.basis": "total",
+          "abstain.inBase": true,
+          "tie.break": "none"
+        },
+        "options": {
+          "proxy_voting": true,
+          "weightage": false,
+          "quorum_check": false,
+          "absentee_voting": true,
+          "secret_ballot": null
+        },
+        "locked": {},
+        "notice": {
+          "agm": {
+            "min": null,
+            "max": null
+          },
+          "sgm": {
+            "min": 2,
+            "max": null
+          },
+          "committee": {
+            "min": null,
+            "max": null
+          },
+          "monthly": {
+            "min": null,
+            "max": null
+          }
+        },
+        "recommended": [
+          "Give at least 48 hours' notice of date, time, purpose and place to every other owner (TMS rule 2.6).",
+          "A decision needs a majority of ALL the votes allocated, one vote per flat (rules 2.2, 2.5), so count absent owners as 'no'.",
+          "A decision can be reached without a meeting by consulting every owner and counting the votes (rule 2.7).",
+          "Owners liable for 75% of the cost who did not vote for a maintenance decision can annul it within 21 days (rules 2.10-2.11).",
+          "First check the title deeds: a tenement burden with its own decision procedure for all flats replaces rule 2 (Tenements (Scotland) Act 2004 s.4(4))."
+        ],
+        "gaps": [
+          "Flats whose owners are not liable for the cost of the property in question get no vote (rule 2.3) - the vote allocation changes per decision.",
+          "No elections or officers exist under the TMS; it covers only owners' decisions.",
+          "75% annulment right after a decision (rules 2.10-2.11).",
+          "Written consultation without a meeting is the equivalent of absentee voting but has no deadline in the rules."
+        ]
+      }
+    },
+    {
+      "research": {
+        "id": "uk-ni-owner-management-company",
+        "name": "Northern Ireland - apartment / owner-run management company (Companies Act 2006 as it applies in NI)",
+        "jurisdiction": "GB-NIR",
+        "instruments": [
+          {
+            "value": "Companies Act 2006 - extends to the whole of the United Kingdom, including Northern Ireland, except where otherwise provided",
+            "note": "s.1299 read. The same Part 13 sections quoted for England & Wales therefore govern any apartment management company registered in NI; companies registered at Companies House NI use the same Act. Whether a specific section is carved back for NI was not checked section-by-section.",
+            "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/1299",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          {
+            "value": null,
+            "note": "A Northern Ireland-specific statute on apartment owners (a private member's 'Apartment Developments' Management Reform Bill', Bill 4/10, introduced 2010 in the NI Assembly, covering OMC voting, 21 days' notice for annual meetings and annual reports) was found, but only as introduced; I could not confirm it ever became law and found no enacted equivalent. Commonhold does not exist in NI (the bill's promoter rejected it as unsuitable).",
+            "source": "https://archive.niassembly.gov.uk/legislation/primary/2010/niabill4_10.htm (as introduced only); status not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          },
+          {
+            "value": null,
+            "note": "Freehold flat / ground-rent legislation in NI (Ground Rents Act (NI) 2001, Property (NI) Order 1997), the Landlord and Tenant (Amendment) Act (NI) 1980 and any managing-agent regulation were NOT read.",
+            "source": "not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "general meeting (company)",
+            "calledBy": {
+              "value": "Directors; members with 5% of voting rights can require a meeting (CA 2006 s.303).",
+              "note": "As for England & Wales.",
+              "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/303",
+              "confidence": "medium",
+              "needsLawyer": true
+            },
+            "noticeDays": {
+              "value": {
+                "min": 14,
+                "max": null
+              },
+              "note": "14 days for a private company (CA 2006 s.307(1)); articles may demand longer.",
+              "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/307",
+              "confidence": "medium",
+              "needsLawyer": true
+            }
+          }
+        ],
+        "quorum": {
+          "value": {
+            "default": "two qualifying persons present in person or by proxy (articles may change)"
+          },
+          "note": "CA 2006 s.318.",
+          "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/318",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "adjournedQuorum": {
+          "value": null,
+          "note": "not read / not verified: depends on articles.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "majorities": {
+          "ordinary": {
+            "value": "Simple majority.",
+            "note": "CA 2006 s.282.",
+            "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/282",
+            "confidence": "medium",
+            "needsLawyer": true
+          },
+          "special": {
+            "value": {
+              "special_resolution": "75%"
+            },
+            "note": "CA 2006 s.283.",
+            "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/283",
+            "confidence": "medium",
+            "needsLawyer": true
+          }
+        },
+        "weightageModels": {
+          "value": {
+            "showOfHands": "one vote per member",
+            "poll": "one per share (or per member if no share capital)"
+          },
+          "note": "CA 2006 s.284.",
+          "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/284",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "proxy": {
+          "value": {
+            "allowed": true,
+            "deadline": "articles cannot require it earlier than 48 hours before"
+          },
+          "note": "CA 2006 s.324, 327.",
+          "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/324",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "votingMethods": {
+          "value": {
+            "showOfHands": true,
+            "poll": "on demand"
+          },
+          "note": "CA 2006 s.321.",
+          "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/321",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "electronicVoting": {
+          "value": true,
+          "note": "CA 2006 s.360A.",
+          "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/360A",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "minutesDeadlineDays": {
+          "value": null,
+          "note": "not read / not verified: not set by statute.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "recordRetentionYears": {
+          "value": 10,
+          "note": "CA 2006 s.355(2).",
+          "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/355",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "memberInspectionRight": {
+          "value": {
+            "minutes": "members may inspect free"
+          },
+          "note": "CA 2006 s.358.",
+          "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/358",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "electionRoles": {
+          "value": null,
+          "note": "not read / not verified: articles.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "termYears": {
+          "value": null,
+          "note": "not read / not verified: articles.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "eligibility": {
+          "value": null,
+          "note": "not read / not verified: articles.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "defaulterDisqualification": {
+          "value": null,
+          "note": "not read / not verified: articles / lease.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "requisition": {
+          "value": {
+            "percentOfVotingRights": 5
+          },
+          "note": "CA 2006 s.303.",
+          "source": "Companies Act 2006, https://www.legislation.gov.uk/ukpga/2006/46/section/303",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "nominationPeriods": {
+          "value": null,
+          "note": "not read / not verified: none.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "notes": [
+          "Regime mirrors uk-ew-rmc-company; kept separate because NI has no leasehold-reform or commonhold regime of its own to model and a different court system.",
+          "Retrieved 2026-10-24. Research only; not legal advice."
+        ]
+      },
+      "engine": {
+        "id": "uk-ni-owner-management-company",
+        "name": "Northern Ireland apartment management company - Companies Act 2006 defaults",
+        "jurisdiction": "GB-NIR",
+        "confidence": "medium",
+        "needsLawyer": true,
+        "params": {
+          "notice.minDays": 14,
+          "majority.simple.basis": "cast",
+          "majority.special.basis": "cast",
+          "abstain.inBase": false,
+          "requisition.percentBp": 500,
+          "retention.years": 10
+        },
+        "options": {
+          "proxy_voting": true,
+          "quorum_check": true,
+          "weightage": null,
+          "secret_ballot": null,
+          "minutes": true,
+          "notices": true
+        },
+        "locked": {
+          "proxy_voting": {
+            "value": true,
+            "reason": "Companies Act 2006 s.324(1) (extends to Northern Ireland, s.1299)"
+          }
+        },
+        "notice": {
+          "agm": {
+            "min": 14,
+            "max": null
+          },
+          "sgm": {
+            "min": 14,
+            "max": null
+          },
+          "committee": {
+            "min": null,
+            "max": null
+          },
+          "monthly": {
+            "min": null,
+            "max": null
+          }
+        },
+        "recommended": [
+          "Use the management company's own articles first: the numbers here are only the Companies Act 2006 defaults.",
+          "14 days' notice; special resolutions need 75% (CA 2006 ss.307, 283).",
+          "Enter the quorum from your articles (statutory default: two members present, s.318)."
+        ],
+        "gaps": [
+          "No NI apartment-specific statute could be confirmed; quorum default is a head-count of two.",
+          "Directors' election and terms depend on the company's articles."
+        ]
+      }
+    },
+    {
+      "research": {
+        "id": "cy-cap224-communal-building",
+        "name": "Cyprus - communal ('co-owned') buildings: Immovable Property (Tenure, Registration and Valuation) Law Cap. 224, Part IIIA + Model Regulations (Annex)",
+        "jurisdiction": "CY",
+        "instruments": [
+          {
+            "value": "Cap. 224 ss.38A-38ΛΓ (co-owned buildings): 38ΙΘ (regulations), 38ΚΑ (model regulations apply when none registered), 38ΚΒ-38ΚΔ (management committee), 38ΚΘ (Director of Land Registry may convene a late general meeting), 38Λ (binding decisions)",
+            "note": "Read the consolidated Greek text on CyLaw (translation by me; the consolidation date was not verified). Owners may draft, amend or revoke their registered regulations by a decision of owners of at least 75% of the common property unless the Law sets another percentage (s.38ΙΘ(2)).",
+            "source": "Immovable Property (Tenure, Registration and Valuation) Law, Cap. 224, consolidated Greek text, https://www.cylaw.org/nomoi/enop/non-ind/0_224/full.html, s.38ΙΘ, 38ΚΑ",
+            "confidence": "high",
+            "needsLawyer": true
+          },
+          {
+            "value": "Model Regulations (Annex to Cap. 224), Part V (general meeting of owners) and Part VI (management committee), regs 14-47",
+            "note": "Apply by default when no regulations were registered (s.38ΚΑ(1)), and fill any gap in registered regulations (s.38ΚΑ(2)). Read in full.",
+            "source": "Immovable Property (Tenure, Registration and Valuation) Law, Cap. 224, consolidated Greek text, https://www.cylaw.org/nomoi/enop/non-ind/0_224/full.html, Annex, regs 14-47",
+            "confidence": "high",
+            "needsLawyer": true
+          },
+          {
+            "value": null,
+            "note": "Horizontal-property practice for buildings registered before the 1990s, the 2012-2018 amendments, and any non-standard registered regulations of a particular building were NOT read.",
+            "source": "not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "annual (ordinary) general meeting",
+            "calledBy": {
+              "value": "Management committee. First general meeting within 3 months of registration of the building; later one meeting a year, never more than 14 months apart.",
+              "note": "Regs 14-15. If a meeting is not convened on time the Director of the Land Registry may convene it on any owner's application (s.38ΚΘ).",
+              "source": "Immovable Property (Tenure, Registration and Valuation) Law, Cap. 224, consolidated Greek text, https://www.cylaw.org/nomoi/enop/non-ind/0_224/full.html, Annex regs 14-15; s.38ΚΘ",
+              "confidence": "high",
+              "needsLawyer": true
+            },
+            "noticeDays": {
+              "value": {
+                "min": 7,
+                "max": null
+              },
+              "note": "Seven days' notice stating place, date, time and the nature of any special business; accidental omission to notify an owner does not invalidate the meeting. A notice posted prominently in the building is treated as given to every owner one day after posting.",
+              "source": "Immovable Property (Tenure, Registration and Valuation) Law, Cap. 224, consolidated Greek text, https://www.cylaw.org/nomoi/enop/non-ind/0_224/full.html, Annex reg 18",
+              "confidence": "high",
+              "needsLawyer": true
+            },
+            "noticeContent": {
+              "value": "Place, date, time; for special business, its nature. Apart from reviewing accounts and electing the committee, all AGM business counts as special business.",
+              "note": "Regs 18-19.",
+              "source": "Immovable Property (Tenure, Registration and Valuation) Law, Cap. 224, consolidated Greek text, https://www.cylaw.org/nomoi/enop/non-ind/0_224/full.html, Annex regs 18-19",
+              "confidence": "high",
+              "needsLawyer": true
+            }
+          },
+          {
+            "type": "extraordinary general meeting",
+            "calledBy": {
+              "value": "Management committee whenever it thinks fit; it must on a written request of owners of at least 25% of the common property; if it does not convene within 14 days the requesting owners may convene it.",
+              "note": "Reg 17.",
+              "source": "Immovable Property (Tenure, Registration and Valuation) Law, Cap. 224, consolidated Greek text, https://www.cylaw.org/nomoi/enop/non-ind/0_224/full.html, Annex reg 17",
+              "confidence": "high",
+              "needsLawyer": true
+            },
+            "noticeDays": {
+              "value": {
+                "min": 7,
+                "max": null
+              },
+              "note": "Reg 18 (same).",
+              "source": "Immovable Property (Tenure, Registration and Valuation) Law, Cap. 224, consolidated Greek text, https://www.cylaw.org/nomoi/enop/non-ind/0_224/full.html, Annex reg 18",
+              "confidence": "high",
+              "needsLawyer": true
+            }
+          }
+        ],
+        "quorum": {
+          "value": {
+            "basis": "share of common property",
+            "percentOfTotal": 50,
+            "countsProxies": true
+          },
+          "note": "Quorum is persons owning at least 50% of the common property (shares per s.38Θ), present in person or by proxy. No business may be done without it.",
+          "source": "Immovable Property (Tenure, Registration and Valuation) Law, Cap. 224, consolidated Greek text, https://www.cylaw.org/nomoi/enop/non-ind/0_224/full.html, Annex reg 20",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "adjournedQuorum": {
+          "value": {
+            "rule": "If no quorum half an hour after the appointed time the meeting is adjourned to the same day of the following week, same place and time; at that meeting, if still no quorum after half an hour, the owners present and entitled to vote are the quorum"
+          },
+          "note": "Reg 21.",
+          "source": "Immovable Property (Tenure, Registration and Valuation) Law, Cap. 224, consolidated Greek text, https://www.cylaw.org/nomoi/enop/non-ind/0_224/full.html, Annex reg 21",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "majorities": {
+          "ordinary": {
+            "value": "Majority of the votes of the persons present and entitled to vote, unless the Law or regulations require a greater or special majority; a special-majority decision is invalid unless that majority is reached.",
+            "note": "Reg 33.",
+            "source": "Immovable Property (Tenure, Registration and Valuation) Law, Cap. 224, consolidated Greek text, https://www.cylaw.org/nomoi/enop/non-ind/0_224/full.html, Annex reg 33",
+            "confidence": "high",
+            "needsLawyer": true
+          },
+          "special": {
+            "value": {
+              "changeRegulations": "owners of at least 75% of the common property (s.38ΙΘ(2))",
+              "totalDestruction": "100% of units (s.38ΙΕ(1))"
+            },
+            "note": "Other special percentages sit in ss.38ΙΓ-38ΙΣΤ (partial destruction, sale) and were not individually read.",
+            "source": "Immovable Property (Tenure, Registration and Valuation) Law, Cap. 224, consolidated Greek text, https://www.cylaw.org/nomoi/enop/non-ind/0_224/full.html, s.38ΙΘ(2), 38ΙΕ(1)",
+            "confidence": "high",
+            "needsLawyer": true
+          }
+        },
+        "weightageModels": {
+          "value": {
+            "showOfHands": "one vote per owner",
+            "poll": "votes equal to the share of common property attached to the owner's unit (s.38Θ)",
+            "decisionNotBindingOnObjector": "a decision that imposes a new payment or obligation not provided by the Law or regulations does not bind an owner who has not consented (reg 34)"
+          },
+          "note": "Regs 23-26, 30, 34.",
+          "source": "Immovable Property (Tenure, Registration and Valuation) Law, Cap. 224, consolidated Greek text, https://www.cylaw.org/nomoi/enop/non-ind/0_224/full.html, Annex regs 23-26, 30, 34",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "proxy": {
+          "value": {
+            "allowed": true,
+            "form": "written document signed by the appointer or his representative; general or for one meeting; the proxy need not be an owner; co-owners appoint jointly; a company votes through an authorised person or proxy",
+            "limit": null,
+            "deadline": null
+          },
+          "note": "Regs 27-30. No deposit deadline or per-proxy cap in the Model Regulations.",
+          "source": "Immovable Property (Tenure, Registration and Valuation) Law, Cap. 224, consolidated Greek text, https://www.cylaw.org/nomoi/enop/non-ind/0_224/full.html, Annex regs 27-30",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "votingMethods": {
+          "value": {
+            "default": "show of hands unless any owner present in person or by proxy demands a poll",
+            "poll": "manner decided by the chair",
+            "tie": "chair has a second or casting vote"
+          },
+          "note": "Regs 23-25.",
+          "source": "Immovable Property (Tenure, Registration and Valuation) Law, Cap. 224, consolidated Greek text, https://www.cylaw.org/nomoi/enop/non-ind/0_224/full.html, Annex regs 23-25",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "electronicVoting": {
+          "value": null,
+          "note": "not read / not verified: A law-firm article (Mondaq, via search) says Cap. 224 has not been updated to cover electronic meetings; nothing found in the text.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "minutesDeadlineDays": {
+          "value": null,
+          "note": "not read / not verified: Reg 35 requires the meeting secretary to keep minutes 'appropriately' with no deadline.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "recordRetentionYears": {
+          "value": null,
+          "note": "not read / not verified: not specified.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "memberInspectionRight": {
+          "value": {
+            "decisionsRegister": "any owner may inspect the register of decisions at a reasonable time (s.38Λ)",
+            "accounts": "any owner may inspect income and expenditure statements and supporting documents at a reasonable time (reg 46)"
+          },
+          "note": "Decisions registered in the register bind every owner, present or future.",
+          "source": "Immovable Property (Tenure, Registration and Valuation) Law, Cap. 224, consolidated Greek text, https://www.cylaw.org/nomoi/enop/non-ind/0_224/full.html, s.38Λ ; Annex reg 46",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "electionRoles": {
+          "value": {
+            "meeting officers": "at the start of each general meeting a Chairman and a Secretary of the meeting are elected (reg 22)",
+            "committee": "first general meeting decides the number of committee members (max five) and elects them; a treasurer is elected if more than one member; with more than two members a chairman is elected among them (regs 36-37, 42)",
+            "fallback": "if no committee exists the Director of the Land Registry may appoint one (s.38ΚΔ), but only after calling a general meeting if the regulations provide for election by the meeting"
+          },
+          "note": "",
+          "source": "Immovable Property (Tenure, Registration and Valuation) Law, Cap. 224, consolidated Greek text, https://www.cylaw.org/nomoi/enop/non-ind/0_224/full.html, s.38ΚΓ-38ΚΔ ; Annex regs 22, 36-42",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "termYears": {
+          "value": {
+            "years": 1,
+            "note": "Committee serves until the new committee is elected at the next ordinary general meeting; owners can remove any member at any time by decision of a general meeting; members may be re-elected"
+          },
+          "note": "Regs 40-41.",
+          "source": "Immovable Property (Tenure, Registration and Valuation) Law, Cap. 224, consolidated Greek text, https://www.cylaw.org/nomoi/enop/non-ind/0_224/full.html, Annex regs 40-41",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "eligibility": {
+          "value": {
+            "committee of one or two members": "must be unit owners",
+            "committee size": "up to five"
+          },
+          "note": "Regs 36-37.",
+          "source": "Immovable Property (Tenure, Registration and Valuation) Law, Cap. 224, consolidated Greek text, https://www.cylaw.org/nomoi/enop/non-ind/0_224/full.html, Annex reg 36-37",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "defaulterDisqualification": {
+          "value": {
+            "voting": "no owner may vote at a general meeting unless all contributions due on the unit are paid, except where the Law requires a unanimous decision"
+          },
+          "note": "Reg 31.",
+          "source": "Immovable Property (Tenure, Registration and Valuation) Law, Cap. 224, consolidated Greek text, https://www.cylaw.org/nomoi/enop/non-ind/0_224/full.html, Annex reg 31",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "requisition": {
+          "value": {
+            "percentOfCommonProperty": 25,
+            "conveneWithinDays": 14
+          },
+          "note": "Reg 17.",
+          "source": "Immovable Property (Tenure, Registration and Valuation) Law, Cap. 224, consolidated Greek text, https://www.cylaw.org/nomoi/enop/non-ind/0_224/full.html, Annex reg 17",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "nominationPeriods": {
+          "value": null,
+          "note": "not read / not verified: none.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "notes": [
+          "Applies to buildings registered as co-owned buildings with separate unit titles. Registered regulations (s.38Κ) override the Model Regulations; always check the building's registered regulations first.",
+          "Greek text translated by the researcher; the Model Regulations are the legal default only when nothing else was registered.",
+          "Retrieved 2026-10-24. Research only; not legal advice."
+        ]
+      },
+      "engine": {
+        "id": "cy-cap224-communal-building",
+        "name": "Cyprus co-owned building - Cap. 224 Model Regulations (default rules)",
+        "jurisdiction": "CY",
+        "confidence": "medium",
+        "needsLawyer": true,
+        "params": {
+          "notice.minDays": 7,
+          "quorum.basis": "weight",
+          "quorum.percentBp": 5000,
+          "quorum.strict": false,
+          "quorum.countProxies": true,
+          "adjourned.noQuorum": true,
+          "majority.simple.basis": "present",
+          "majority.special.basis": "total",
+          "tie.break": "chair_casting_vote",
+          "requisition.percentBp": 2500,
+          "term.years": 1
+        },
+        "options": {
+          "proxy_voting": true,
+          "quorum_check": true,
+          "weightage": null,
+          "secret_ballot": null,
+          "minutes": true,
+          "notices": true
+        },
+        "locked": {},
+        "notice": {
+          "agm": {
+            "min": 7,
+            "max": null
+          },
+          "sgm": {
+            "min": 7,
+            "max": null
+          },
+          "committee": {
+            "min": null,
+            "max": null
+          },
+          "monthly": {
+            "min": null,
+            "max": null
+          }
+        },
+        "recommended": [
+          "Check the building's REGISTERED regulations first; the figures here are the Model Regulations that apply when nothing else is registered (Cap. 224 s.38ΚΑ).",
+          "Give 7 days' notice with place, date, time and the nature of any special business; a notice posted prominently in the building counts as delivered one day later (reg 18).",
+          "Quorum is owners of 50% of the common property; if the first meeting fails, it moves to the same day next week and then those present are the quorum (regs 20-21).",
+          "Show of hands is one vote per owner; if any owner demands a poll, votes follow the unit's share of the common property (regs 23-26).",
+          "Changing the regulations needs owners of 75% of the common property, not 75% of those present (s.38ΙΘ(2)).",
+          "An owner with unpaid contributions cannot vote (reg 31)."
+        ],
+        "gaps": [
+          "Show of hands is one vote per owner but a poll is by share of common property - one 'weightage' switch per event.",
+          "Majority is of votes of 'persons present and entitled to vote', modelled as 'present'; special majorities are a percentage of the whole common property.",
+          "Fallback quorum at the second meeting (any owners present) after an adjournment of exactly one week.",
+          "Committee limited to five members; a treasurer is required if more than one.",
+          "The Director of the Land Registry's power to convene a late meeting or appoint a committee."
+        ]
+      }
+    },
+    {
+      "research": {
+        "id": "mt-condominium-act",
+        "name": "Malta - Condominium Act (Chapter 398): meetings of the condomini and the administrator",
+        "jurisdiction": "MT",
+        "instruments": [
+          {
+            "value": "Condominium Act (Cap. 398, Act XXIX of 1997 as amended; consolidated version on legislation.mt dated 1 Jan 2008)",
+            "note": "Read the whole official PDF (13 pages). The portal shows the Act as fully in force with the latest listed amendments in 2006-2008; later amendments, if any, were not checked.",
+            "source": "https://legislation.mt/eli/cap/398/eng",
+            "confidence": "high",
+            "needsLawyer": true
+          },
+          {
+            "value": null,
+            "note": "The condominium's registered rules (art 24) and any title provisions were NOT read.",
+            "source": "not verified",
+            "confidence": "low",
+            "needsLawyer": true
+          }
+        ],
+        "meetingTypes": [
+          {
+            "type": "general meeting of the condomini",
+            "calledBy": {
+              "value": "Administrator convenes. The meeting must be held at least once a year (art 21); an administrator who intends to resign must call a meeting (art 15(3)); an administrator must convene when a lawsuit goes beyond his functions (art 17(3)). No requisition right for a share of owners is stated.",
+              "note": "Arts 15, 17, 21.",
+              "source": "Condominium Act (Cap. 398), official consolidated PDF, https://legislation.mt/eli/cap/398/eng, article 15, 17, 21",
+              "confidence": "high",
+              "needsLawyer": true
+            },
+            "noticeDays": {
+              "value": {
+                "min": 7,
+                "max": null
+              },
+              "note": "No meeting may be held before 7 days have passed from service of the notice by registered mail (deemed served 3 days after posting in Malta, 7 days overseas), fax or other electronic means (served the next day) AND from affixing the notice on the condominium notice board.",
+              "source": "Condominium Act (Cap. 398), official consolidated PDF, https://legislation.mt/eli/cap/398/eng, article 22(3)-(5)",
+              "confidence": "high",
+              "needsLawyer": true
+            },
+            "chair": {
+              "value": "The administrator chairs; if absent, a condominus chosen at the start. The chair has a casting vote on a tie; a non-condominus administrator has only a casting vote.",
+              "note": "Art 22(14).",
+              "source": "Condominium Act (Cap. 398), official consolidated PDF, https://legislation.mt/eli/cap/398/eng, article 22(14)",
+              "confidence": "high",
+              "needsLawyer": true
+            }
+          }
+        ],
+        "quorum": {
+          "value": {
+            "basis": "units",
+            "percentOfTotal": 66.67,
+            "countsProxies": true
+          },
+          "note": "Quorum is a number of condomini representing two-thirds of the units; proxies have the rights of the owner they represent.",
+          "source": "Condominium Act (Cap. 398), official consolidated PDF, https://legislation.mt/eli/cap/398/eng, article 22(6), 22(13)",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "adjournedQuorum": {
+          "value": {
+            "rule": "If no quorum within half an hour, the meeting is adjourned to the same day next week (same time and place) or such other day as the administrator indicated in the notice; at that adjourned meeting, if there is still no quorum within half an hour, the condomini present or represented are a quorum"
+          },
+          "note": "Art 22(6).",
+          "source": "Condominium Act (Cap. 398), official consolidated PDF, https://legislation.mt/eli/cap/398/eng, article 22(6)",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "majorities": {
+          "ordinary": {
+            "value": "Simple majority of the units represented during the meeting.",
+            "note": "Art 22(8).",
+            "source": "Condominium Act (Cap. 398), official consolidated PDF, https://legislation.mt/eli/cap/398/eng, article 22(8)",
+            "confidence": "high",
+            "needsLawyer": true
+          },
+          "special": {
+            "value": {
+              "twoThirdsOfUnitsRepresented": "removal of the administrator; litigation outside his functions; extraordinary repairs; alterations to common parts (art 8(1)); approval or amendment of the condominium rules"
+            },
+            "note": "Art 22(7), 24(3). Also art 9(4): alterations not usable separately need two-thirds of the units represented.",
+            "source": "Condominium Act (Cap. 398), official consolidated PDF, https://legislation.mt/eli/cap/398/eng, article 22(7), 24(3), 9(4)",
+            "confidence": "high",
+            "needsLawyer": true
+          }
+        },
+        "weightageModels": {
+          "value": {
+            "votes": "counted by units (decisions need a majority 'of the units represented'); co-owners of a unit name one representative; fees apportioned by share value (art 11)"
+          },
+          "note": "Art 22(7)-(8), (10)-(12). No explicit vote-weighting by share value found; the Act counts units.",
+          "source": "Condominium Act (Cap. 398), official consolidated PDF, https://legislation.mt/eli/cap/398/eng, article 22(7)-(12)",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "proxy": {
+          "value": {
+            "allowed": true,
+            "form": "written instrument",
+            "limit": null,
+            "deadline": null
+          },
+          "note": "Art 22(13). A proxy has the same rights and duties as the condominus.",
+          "source": "Condominium Act (Cap. 398), official consolidated PDF, https://legislation.mt/eli/cap/398/eng, article 22(13)",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "votingMethods": {
+          "value": null,
+          "note": "not read / not verified: the Act does not prescribe show of hands, ballot or poll.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "electronicVoting": {
+          "value": "unclear",
+          "note": "The Act allows notices by fax or other electronic means (art 22(3)) but says nothing about electronic meetings or voting.",
+          "source": "Condominium Act (Cap. 398), official consolidated PDF, https://legislation.mt/eli/cap/398/eng, article 22(3)",
+          "confidence": "medium",
+          "needsLawyer": true
+        },
+        "minutesDeadlineDays": {
+          "value": null,
+          "note": "not read / not verified: no deadline; the administrator keeps a register of minutes (art 16(2)); decisions are affixed on the notice board (art 22(5)) and a dissenting owner has 30 days from notification to go to arbitration (art 23(2)).",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "recordRetentionYears": {
+          "value": null,
+          "note": "not read / not verified: not specified.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "memberInspectionRight": {
+          "value": null,
+          "note": "not read / not verified: not stated in the meeting provisions; the Land Registrar's register of administrators is public (art 15(8)).",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "electionRoles": {
+          "value": {
+            "administrator": "mandatory when there are more than three condomini, appointed by the meeting; failing that, by arbitration; with three or fewer they administer jointly unless they agree otherwise",
+            "returningOfficer": null
+          },
+          "note": "Art 15(1). No election procedure is prescribed.",
+          "source": "Condominium Act (Cap. 398), official consolidated PDF, https://legislation.mt/eli/cap/398/eng, article 15",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "termYears": {
+          "value": {
+            "years": 2,
+            "note": "Unless the appointment says otherwise; he stays until a successor is appointed"
+          },
+          "note": "Art 15(2).",
+          "source": "Condominium Act (Cap. 398), official consolidated PDF, https://legislation.mt/eli/cap/398/eng, article 15(2)",
+          "confidence": "high",
+          "needsLawyer": true
+        },
+        "eligibility": {
+          "value": null,
+          "note": "not read / not verified: not restricted by the Act (administrator need not be a condominus, art 22(14)).",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "defaulterDisqualification": {
+          "value": null,
+          "note": "not read / not verified: none found.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "requisition": {
+          "value": null,
+          "note": "not read / not verified: not stated.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "nominationPeriods": {
+          "value": null,
+          "note": "not read / not verified: none.",
+          "source": "not verified",
+          "confidence": "low",
+          "needsLawyer": true
+        },
+        "notes": [
+          "Rules approved by two-thirds of the units represented must be registered with the Land Registrar (art 24(3)).",
+          "Retrieved 2026-10-24. Research only; not legal advice."
+        ]
+      },
+      "engine": {
+        "id": "mt-condominium-act",
+        "name": "Malta Condominium Act (Cap. 398) - meetings of the condomini",
+        "jurisdiction": "MT",
+        "confidence": "high",
+        "needsLawyer": true,
+        "params": {
+          "notice.minDays": 7,
+          "quorum.basis": "flats",
+          "quorum.percentBp": 6666,
+          "quorum.strict": false,
+          "quorum.countProxies": true,
+          "adjourned.noQuorum": true,
+          "majority.simple.basis": "present",
+          "majority.special.basis": "present",
+          "tie.break": "chair_casting_vote",
+          "term.years": 2
+        },
+        "options": {
+          "proxy_voting": true,
+          "quorum_check": true,
+          "weightage": false,
+          "secret_ballot": null,
+          "minutes": true,
+          "notices": true
+        },
+        "locked": {
+          "proxy_voting": {
+            "value": true,
+            "reason": "Condominium Act art 22(13): a condominus may be represented by a proxy; rules made under art 24 cannot derogate from art 22 (art 24(8))"
+          }
+        },
+        "notice": {
+          "agm": {
+            "min": 7,
+            "max": null
+          },
+          "sgm": {
+            "min": 7,
+            "max": null
+          },
+          "committee": {
+            "min": null,
+            "max": null
+          },
+          "monthly": {
+            "min": null,
+            "max": null
+          }
+        },
+        "recommended": [
+          "Serve notice by registered mail (deemed served 3 days later in Malta, 7 overseas) or by fax / electronic means (next day) AND pin it on the notice board; the meeting cannot be held until 7 days after both (art 22(3)-(5)).",
+          "Quorum is two-thirds of the units; if absent, the meeting moves to the same day next week and then whoever attends is the quorum (art 22(6)).",
+          "Two-thirds of the units represented are needed to remove the administrator, undertake extraordinary repairs, alter the common parts or adopt the condominium rules (art 22(7)).",
+          "Hold at least one meeting a year to confirm the administrator, approve the budget and accounts (art 21).",
+          "A dissenting condominus has 30 days to refer a decision to arbitration (art 23)."
+        ],
+        "gaps": [
+          "No statutory way for a share of owners to demand a meeting.",
+          "Quorum is 'condomini representing two-thirds of the units' - modelled as a share of flats.",
+          "Majorities are counted on units represented (modelled as 'present').",
+          "Appointment of an administrator by arbitration where the meeting fails to appoint one.",
+          "The text does not say whether voting is by hand, poll or ballot."
+        ]
+      }
+    }
+  ]
+}

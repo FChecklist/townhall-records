@@ -1,14 +1,17 @@
 // Builds the plain-words reference document of every role, rule, option and jurisdiction pack in the product, FROM THE CODE (so it cannot drift from what is built).
 // Usage: bun scripts/make-rules-doc.ts [output.html]
 import rulePacks from "../docs/research/rule-packs.json";
-import { CUSTOM_WORLD_PACK, FORMAT_LABEL, LANGUAGES, OPTIONS, PARAMS, ROLE_LIMITS, TERMS_VERSION, ATTENDANCE_CHECKS, defaultBallotDesign, loadAllPacks, priceFor } from "../packages/engine/src";
+import extraPacks from "../docs/research/rule-packs-extra.json";
+import { readdirSync, readFileSync } from "node:fs";
+import { CUSTOM_WORLD_PACK, FORMAT_LABEL, OFFICIAL_GROUPS, OUTCOMES, REASON_CODES, LANGUAGES, OPTIONS, PARAMS, ROLE_LIMITS, TERMS_VERSION, ATTENDANCE_CHECKS, defaultBallotDesign, loadAllPacks, priceFor } from "../packages/engine/src";
 
 const out = process.argv[2] ?? `${process.env.USERPROFILE}\\Downloads\\Townhall-Rules-Options-Roles.html`;
 const e = (s: unknown) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const tbl = (head: string[], rows: unknown[][], cls = "") => `<table class="${cls}"><thead><tr>${head.map((h) => `<th>${e(h)}</th>`).join("")}</tr></thead><tbody>${rows.map((r) => `<tr>${r.map((c) => `<td>${typeof c === "string" && c.startsWith("<!--raw-->") ? c.slice(10) : e(c)}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
 const raw = (s: string) => "<!--raw-->" + s;
 const yn = (v: unknown) => (v === true ? "Yes" : v === false ? "No" : "Organizer must decide");
-const packs = [...loadAllPacks(rulePacks).values()];
+const packs = [...loadAllPacks(rulePacks, [], extraPacks).values()];
+const coverageFiles = readdirSync(new URL("../docs/research/extra/", import.meta.url)).filter((f) => f.endsWith(".COVERAGE.md")).sort();
 const optLabel = new Map(OPTIONS.map((o) => [o.key, o.label]));
 const paramLabel = new Map(PARAMS.map((p) => [p.id, p.label]));
 const money = (k: "meeting" | "election", c: string) => formatMoney(priceFor(k, c));
@@ -82,6 +85,18 @@ ${tbl(["Stage", "What happens"], [
 <h3>Four dates, each with day, date, time and place</h3>
 <p>Meeting (or election) starts - Voting starts - Voting ends - Meeting (or election) ends. Each can only be at or after the one before. Count-down clocks run to the next one. The schedule cannot change once the event has started.</p>
 
+<h3>How an event can end or move</h3>
+${tbl(["Outcome", "Meaning"], OUTCOMES.map((o) => [o.label, o.plain]))}
+<p>The Organizer or Host ticks one outcome, ticks the reasons (more than one allowed: ${REASON_CODES.map((r) => e(r.label)).join("; ")}), answers "Are you sure?" with Yes, and then types the 4-digit number shown on the screen. Five wrong numbers cancel the request. Cancelling is refused once voting has begun (choose Stopped in between; votes already cast stay on record). The public page then shows a large COMPLETED / STOPPED IN BETWEEN / POSTPONED / CANCELLED (or RESCHEDULED) box with the reasons and the history.</p>
+<h3>Postponing and its price</h3>
+${tbl(["When", "Price"], [["Before the scheduled start time (any number of times)", "Free"], ["After the start time, the first postponement (a quorum failure counts)", "Free"], ["After the start time, every later postponement", "50% of the event price: India meeting Rs 249.50, election Rs 749.50; elsewhere USD 2.50 and 7.50"]])}
+<p>The Organizer or Host chooses the new date, time and place of each of the four milestones; there is no minimum gap. After a postponement that happens after the start, the same event continues (same list, rules, team and the votes already cast), attendance is taken again, and the adjourned-meeting quorum rule of the pack applies if it has one. When a fee is due, a payment link is shown; <b>anyone</b> can pay it and the new date takes effect when it is paid. No refunds.</p>
+<h3>Paying</h3>
+<p>The Organizer or Host can create a payment link for the event price and forward it; anyone with the link can pay without signing in (payer name and e-mail are kept private). Payments run through the central Razorpay path; the service is in test mode until live keys are connected.</p>
+<h3>Committee, officers and observers (all optional)</h3>
+<p>The Organizer or Host can add, edit and delete entries for: ${OFFICIAL_GROUPS.map((g) => e(g.label)).join("; ")}. For each they type the name, designation and authority or status. The list is published before the start and closes when the event starts (open again between sittings). The Attendance Monitor marks their attendance. The web report has a blank signature cell for each and the PDF a signature line for each.</p>
+<h3>Watermark</h3>
+<p>Every PDF page and the web report carry a diagonal faint watermark "MEETING ID (or ELECTION ID) &lt;event id&gt;".</p>
 <h2 id="s5">5. Options (tick-boxes)</h2>
 <p>Each option is a tick-box. A jurisdiction pack may <b>lock</b> an option (for example "secret ballot is required for director elections") and then nobody can change it; the reason is shown.</p>
 ${tbl(["Option", "Default", "Notes"], OPTIONS.map((o) => [o.label, o.default === null ? "Organizer must decide" : yn(o.default), o.forceDecision ? "The law pack leaves this open, so the Organizer must choose before the agenda can be published." : ""]))}
@@ -91,7 +106,7 @@ ${tbl(["Option", "Default", "Notes"], OPTIONS.map((o) => [o.label, o.default ===
 ${tbl(["Rule", "Type and range", "Default", "Meaning"], PARAMS.map((p) => [p.label, p.type === "int" ? `whole number ${p.min ?? ""}-${p.max ?? ""}` : p.type === "enum" ? (p.enumValues ?? []).join(" / ") : "yes / no", p.default === null ? "blank (must be filled" + (p.required ? ", required)" : ")") : String(p.default), (RULE_INFO_ONLY.has(p.id) ? "[shown on report] " : "") + p.help]))}
 
 <h2 id="s7">7. Jurisdiction packs</h2>
-<p>${packs.length} packs are loaded. Each lists: what the law locks, what it recommends, the notice days it found, and how sure the research is. <b>Only ${packs.length - 1} regimes have been read; everywhere else use "Any country" and enter the society's own bye-law values.</b> The research data is in <code>docs/research/rule-packs.json</code> with the source of every value.</p>
+<p>${packs.length} packs are loaded (${packs.length - 8} from the worldwide research, plus the 7 earlier ones and the "Any country" pack). Each lists: what the law locks, what it recommends, the notice days it found, and how sure the research is. <b>Not every regime in the world could be read; for any not listed use "Any country" and enter the society's own bye-law values.</b> The research data is in <code>docs/research/rule-packs.json</code> with the source of every value.</p>
 ${packs.map((p) => `<details><summary>${e(p.name)} <span class="tag">${e(p.jurisdiction)}</span> <span class="tag">confidence: ${e(p.confidence)}</span> ${p.needsLawyer ? '<span class="tag">needs a lawyer</span>' : ""}</summary>
 ${tbl(["Option", "Value from the pack", "Locked by law?"], OPTIONS.filter((o) => p.options[o.key] !== undefined || p.locked[o.key]).map((o) => [o.label, p.locked[o.key] ? yn(p.locked[o.key]!.value) : yn(p.options[o.key]), p.locked[o.key] ? "LOCKED: " + p.locked[o.key]!.reason : "no"]))}
 ${tbl(["Rule", "Value"], Object.entries(p.params).filter(([, v]) => v !== null && v !== undefined).map(([k, v]) => [paramLabel.get(k) ?? k, String(v)]))}
@@ -99,6 +114,11 @@ ${Object.keys(p.notice).length ? tbl(["Event type", "Notice days (min - max)"], 
 ${p.recommended.length ? "<p><b>Recommended:</b> " + p.recommended.map(e).join("; ") + "</p>" : ""}</details>`).join("\n")}
 <details><summary>${e(CUSTOM_WORLD_PACK.name)} <span class="tag">ANY</span></summary><p>For any country or any society whose law is not in the list. Nothing is pre-filled except "check quorum". The Organizer enters notice period, quorum, majorities and proxy rules from their own bye-laws, and the report shows that these values were entered by the society.</p></details>
 
+<h3>Law coverage and what was NOT read</h3>
+<p>The research was done region by region by separate researchers who were told never to guess. Each file below lists every regime of its region as read with high, medium or low confidence, or <b>NOT READ</b> (with why), and the law features the software cannot yet express. Many official sites block automated reading, so the NOT READ lists matter as much as the packs.</p>
+${coverageFiles.map((f) => `<details><summary>${e(f.replace(".COVERAGE.md", ""))}</summary><pre style="white-space:pre-wrap;font-size:12px">${e(readFileSync(new URL("../docs/research/extra/" + f, import.meta.url), "utf8"))}</pre></details>`).join("")}
+<h3>Society's own rules</h3>
+<p>Where the society's registered bye-laws differ from a rule the law pack locks, the Organizer can override it by typing a declaration (at least 10 letters); the report shows what the pack said, the society's choice and the declaration. The Organizer can also add any extra rule as text, a number or yes/no (up to 60), and withdraw it before the start. Both are closed once the event starts.</p>
 <h2 id="s8">8. Attendance</h2>
 <p>The person shows proof to the Attendance Monitor, who enters the name against the flat. If the name was uploaded earlier, the monitor confirms it; a change must go to the Organizer or a Host. The attendee then checks their own name, flat and status on their own phone and submits a <b>4-digit number</b>; the monitor enters theirs; both must match. This gives two independent confirmations.</p>
 <ul><li>Exchange of the two 4-digit numbers: 5 wrong tries per side, valid 10 minutes; the monitor's device and the voter's device must differ; an optional text-message check of the mobile number is available.</li>
@@ -149,7 +169,7 @@ ${tbl(["Setting", "Choices"], [["Layout", "list / cards / grid"], ["Columns (wid
 <p><b>Languages (${LANGUAGES.length}):</b> ${LANGUAGES.map((l) => `${e(l.name)} (${e(l.native)})${l.status === "complete" ? "" : " - draft"}`).join(", ")}. Languages other than English and Hindi are drafts that need a native reader before launch. Each role has a plain-words guide.</p>
 <h3>What is not finished (honest list)</h3>
 <ul><li>No user screens yet (the screens are designed, not built); never run on the live platform.</li>
-<li>Only ${packs.length - 1} legal regimes have been researched, with confidence marks; every value needs a lawyer's review before it is relied on.</li>
+<li>${packs.length - 1} legal regimes have been researched, with confidence marks; many official sites could not be read, so some regimes are marked NOT READ; every value needs a lawyer's review before it is relied on.</li>
 <li>The printed-ballot reader is tested on drawn images only, not real photographs. The flat-list PDF reader is tested on PDFs built like Excel's, not yet on a real file saved by Excel.</li>
 <li>The working name "Townhall" has not been cleared as a brand. Translations need native review.</li>
 <li>No software can promise 100% correctness; the tests, simulations and breakage checks are recorded in the project's confidence document.</li></ul>
