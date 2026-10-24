@@ -6,10 +6,11 @@ import type { SignedEntry } from "./log";
 import { effectiveForPoint, type RuleSet } from "./rules";
 import { defaultBallotDesign, normalizeBallotDesign } from "./ballot";
 import { roleCounts, roleLimitProblem } from "./attendance";
+import { REASON_IDS, postponeQuote, type Outcome, type PostponePhase } from "./lifecycle";
 import { defaultSchedule, validateSchedule, type Schedule } from "./schedule";
 import { aggregate, computeQuorum, effectiveWeight, tallyAgg, type Aggregate, type Flat, type PointDef, type PointTally, type QuorumResult } from "./tally";
 
-export type EventStatus = "setup" | "agenda_published" | "live" | "closed" | "suspended";
+export type EventStatus = "setup" | "agenda_published" | "live" | "postponed" | "closed" | "suspended";
 export type Role = "organizer" | "host" | "attendance_officer";
 
 export interface PersonState { pid: string; maskedName: string; maskedEmail: string; flatNo: string | null; verified: boolean; roles: Role[]; label: string | null; appointedBy: Partial<Record<Role, string | null>>; appointedSeq: Partial<Record<Role, number>> }
@@ -27,7 +28,7 @@ export interface EventState {
   eid: string; seqCount: number; head: { seq: number; hash: string } | null; firstTs: number | null; lastTs: number | null;
   created: null | { kind: "meeting" | "election"; eventType: string; title: string; venue: string; scheduledMs: number; schedule: Schedule; country: string; packId: string; timezone: string; society: { name: string; address: string; registrationNo: string; kind: string }; createdFrom: string | null };
   rules: RuleSet | null; initialRules: RuleSet | null; ruleHistory: RuleChange[]; rejectedChanges: RuleChange[];
-  status: EventStatus; paid: boolean; payments: Array<{ paymentId: string; state: string; amountMinor: number; currency: string; mode: string; seq: number }>;
+  status: EventStatus; paid: boolean; payments: Array<{ paymentId: string; state: string; amountMinor: number; currency: string; mode: string; seq: number; purpose: string }>;
   people: Map<string, PersonState>; roleLog: Array<{ seq: number; ts: number; action: "appoint" | "remove"; pid: string; role: Role; by: string | null }>;
   roll: Flat[]; rollRev: number;
   points: Map<string, PointRun>; pointOrder: string[];
@@ -36,7 +37,9 @@ export interface EventState {
   devices: Array<{ seq: number; flatNo: string; replaced: boolean }>; handshakes: number;
   seals: Map<string, BoxSeal>; results: Map<string, PointTally>;
   agenda: null | { seq: number; ts: number; givenDays: number; minDays: number | null; maxDays: number | null; met: boolean | null };
-  startedTs: number | null; closedInfo: null | { seq: number; ts: number };
+  startedTs: number | null; closedInfo: null | { seq: number; ts: number; outcome: Outcome; reasonCodes: string[]; reason: string };
+  outcome: Outcome | null; sitting: number;
+  postponements: Array<{ seq: number; ts: number; phase: PostponePhase; sitting: number; reasonCodes: string[]; reason: string; feeMinor: number; paymentId: string | null; fromStartMs: number; to: Schedule }>;
   clones: Array<{ direction: string; eventId: string }>; platformActions: Array<{ seq: number; action: string; reason: string }>;
   contactsReads: number; anchors: Array<{ headSeq: number; headHash: string }>;
   scheduleChanges: Array<{ seq: number; ts: number; reason: string }>;
@@ -50,7 +53,7 @@ export function emptyState(eid: string): EventState {
   return {
     eid, seqCount: 0, head: null, firstTs: null, lastTs: null, created: null, rules: null, initialRules: null, ruleHistory: [], rejectedChanges: [], status: "setup", paid: false, payments: [],
     people: new Map(), roleLog: [], roll: [], rollRev: 0, points: new Map(), pointOrder: [], attendance: new Map(), attendanceLog: [], ledger: new Map(),
-    seals: new Map(), results: new Map(), devices: [], handshakes: 0, agenda: null, startedTs: null, closedInfo: null, clones: [], platformActions: [], contactsReads: 0, anchors: [], scheduleChanges: [], terms: new Set(), accEntries: 0, packInfo: { name: "", confidence: "", needsLawyer: true }, problems: [],
+    seals: new Map(), results: new Map(), devices: [], handshakes: 0, agenda: null, startedTs: null, closedInfo: null, outcome: null, sitting: 1, postponements: [], clones: [], platformActions: [], contactsReads: 0, anchors: [], scheduleChanges: [], terms: new Set(), accEntries: 0, packInfo: { name: "", confidence: "", needsLawyer: true }, problems: [],
   };
 }
 
@@ -128,7 +131,7 @@ export async function replayLog(entries: SignedEntry[]): Promise<EventState> {
       }
       case "rule_change_rejected": s.rejectedChanges.push({ seq, ts: e.ts, scope: p.scope, param: p.param, old: null, new: null, reason: asStr(p.reason), by: actorPid }); break;
       case "roll_set": {
-        if (s.status === "live" || [...s.points.values()].some((x) => x.state !== "pending")) bad(seq, "roll changed after voting started");
+        if (s.status === "live" || s.status === "postponed" || [...s.points.values()].some((x) => x.state !== "pending")) bad(seq, "roll changed after voting started");
         s.roll = (p.flats as Flat[]).map((f) => ({ flatNo: f.flatNo, weight: f.weight, eligible: f.eligible })); s.rollRev = p.rev; break;
       }
       case "point_added": case "point_amended": {
@@ -146,14 +149,14 @@ export async function replayLog(entries: SignedEntry[]): Promise<EventState> {
         break;
       }
       case "agenda_published": s.status = "agenda_published"; s.agenda = { seq, ts: e.ts, givenDays: p.givenDays, minDays: p.minDays ?? null, maxDays: p.maxDays ?? null, met: p.met ?? null }; break;
-      case "payment_state": s.payments.push({ paymentId: p.paymentId, state: p.state, amountMinor: p.amountMinor, currency: p.currency ?? "INR", mode: p.mode, seq }); if (p.state === "paid") s.paid = true; break;
+      case "payment_state": { const purpose = p.purpose === "reschedule" ? "reschedule" : "event"; s.payments.push({ paymentId: p.paymentId, state: p.state, amountMinor: p.amountMinor, currency: p.currency ?? "INR", mode: p.mode, seq, purpose }); if (p.state === "paid" && purpose === "event") s.paid = true; break; }
       case "attendance_marked": {
         const pr: Presence = { flatNo: p.flatNo, maskedName: p.maskedName ?? "", mode: p.mode, method: p.method, docType: p.docType ?? null, docLast4: p.docLast4 ?? null, by: p.by, independent: !!p.independent, evidenceHash: p.evidenceHash ?? null, seq, ts: e.ts };
         s.attendanceLog.push(pr);
         if (p.present === false) s.attendance.delete(p.flatNo); else s.attendance.set(p.flatNo, pr);
         break;
       }
-      case "event_started": s.status = "live"; s.startedTs = e.ts; break;
+      case "event_started": if (s.status === "postponed") s.sitting += 1; s.status = "live"; if (s.startedTs === null) s.startedTs = e.ts; break;
       case "point_opened": {
         const pt = s.points.get(p.pointId); if (!pt) { bad(seq, "opened unknown point"); break; }
         if (s.status !== "live") bad(seq, "point opened while event not live");
@@ -215,7 +218,29 @@ export async function replayLog(entries: SignedEntry[]): Promise<EventState> {
         if (canonical(calc as unknown as Json) !== canonical(p.tally)) bad(seq, `result of point ${pt.def.number} does not match the recomputed tally`);
         s.results.set(p.pointId, p.tally as PointTally); break;
       }
-      case "event_closed": s.status = "closed"; s.closedInfo = { seq, ts: e.ts }; for (const pt of s.points.values()) if (pt.state === "open") bad(seq, "event closed with a point still open"); break;
+      case "event_closed": {
+        const oc = (p.outcome ?? "completed") as Outcome; if (!["completed", "stopped", "cancelled"].includes(oc)) bad(seq, "unknown outcome " + String(p.outcome));
+        const codes = Array.isArray(p.reasonCodes) ? (p.reasonCodes as unknown[]).filter((x): x is string => typeof x === "string") : []; if (codes.some((x) => !REASON_IDS.has(x))) bad(seq, "unknown reason code");
+        if (oc !== "completed" && !asStr(p.reason) && !codes.length) bad(seq, "stopping or cancelling needs a reason");
+        s.outcome = oc; s.status = "closed"; s.closedInfo = { seq, ts: e.ts, outcome: oc, reasonCodes: codes, reason: asStr(p.reason) }; for (const pt of s.points.values()) if (pt.state === "open") bad(seq, "event closed with a point still open"); break;
+      }
+      case "event_postponed": {
+        if (!s.created) { bad(seq, "postponed before the event existed"); break; }
+        if (s.status === "closed" || s.status === "suspended" || s.status === "setup") { bad(seq, "postponed in a state where that is not possible: " + s.status); break; }
+        if ([...s.points.values()].some((x) => x.state === "open")) bad(seq, "postponed with a point still open");
+        const why = validateSchedule(p.newSchedule); if (why) bad(seq, "invalid new schedule: " + why);
+        const codes = Array.isArray(p.reasonCodes) ? (p.reasonCodes as unknown[]).filter((x): x is string => typeof x === "string") : []; if (codes.some((x) => !REASON_IDS.has(x))) bad(seq, "unknown reason code");
+        if (!asStr(p.reason) && !codes.length) bad(seq, "postponing needs a reason");
+        const startMs = s.created.schedule.start.atMs; const prior = s.postponements.filter((x) => x.phase === "after_start").length;
+        const q = postponeQuote(s.created.kind, s.created.country, startMs, e.ts, prior);
+        if (p.phase !== q.phase) bad(seq, "postponement phase does not match the clock"); if (p.feeMinor !== q.feeMinor) bad(seq, `postponement fee ${String(p.feeMinor)} should be ${q.feeMinor}`);
+        if (q.feeMinor > 0 && !s.payments.some((x) => x.paymentId === p.paymentId && x.state === "paid" && x.purpose === "reschedule" && x.amountMinor >= q.feeMinor)) bad(seq, "postponement fee not paid");
+        s.postponements.push({ seq, ts: e.ts, phase: q.phase, sitting: s.sitting, reasonCodes: codes, reason: asStr(p.reason), feeMinor: q.feeMinor, paymentId: (p.paymentId as string) ?? null, fromStartMs: startMs, to: p.newSchedule as Schedule });
+        if (!why) { s.created.schedule = p.newSchedule as Schedule; s.created.scheduledMs = (p.newSchedule as Schedule).start.atMs; }
+        s.scheduleChanges.push({ seq, ts: e.ts, reason: "postponed: " + (asStr(p.reason) || codes.join(", ")) });
+        if (s.status === "live") { s.status = "postponed"; s.attendance.clear(); } else if (s.status === "postponed") s.attendance.clear();
+        break;
+      }
       case "event_suspended": s.status = "suspended"; break;
       case "platform_action": s.platformActions.push({ seq, action: p.action, reason: asStr(p.reason) }); break;
       case "contacts_read": s.contactsReads += 1; break;

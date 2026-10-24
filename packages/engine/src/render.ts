@@ -73,6 +73,17 @@ export function renderReportHtml(model: ReportModel, log: SignedEntry[], publicK
   const rej = model.rejected.length ? `<p class="warn">${model.rejected.length} attempt(s) to change a rule after voting opened were refused and logged.</p>` : "";
   const noticeTxt = model.notice ? (model.notice.met === null ? `Notice given: ${model.notice.givenDays} days (no minimum was set).` : `Notice given: ${model.notice.givenDays} days; required at least ${model.notice.minDays}${model.notice.maxDays !== null ? ` and at most ${model.notice.maxDays}` : ""}: <b>${model.notice.met ? "met" : "NOT met"}</b>.`) : "The agenda has not been published yet.";
   const attRows = att.rows.map((r) => `<tr><td>${esc(r.flatNo)}</td><td>${esc(r.mode)}</td><td>${esc(r.method)}${r.docType ? " · " + esc(r.docType) + (r.docLast4 ? " …" + esc(r.docLast4) : "") : ""}</td><td>${r.independent ? "officer" : "organizer/host"}</td></tr>`).join("");
+  const dtl = (ms: number) => esc(dt(ms));
+  const sb = (cls: string, head: string, body: string) => `<div class="card outcome ${cls}" id="outcome"><p style="font-size:1.35em;margin:.1em 0"><b>${head}</b></p>${body}</div>`;
+  const reasonsLine = (rs: string[], r: string) => (rs.length || r ? `<p><b>Why:</b> ${rs.map(esc).join("; ")}${rs.length && r ? ". " : ""}${esc(r)}</p>` : "");
+  const lastPp = model.postponements[model.postponements.length - 1];
+  const ppRows = model.postponements.length ? `<table><tr><th>#</th><th>When decided</th><th>Moved from</th><th>Moved to</th><th>Why</th><th>Fee</th></tr>${model.postponements.map((x, i) => `<tr><td>${i + 1}</td><td>${dtl(x.ts)}${x.phase === "before_start" ? " (before the start time)" : " (after the start time)"}</td><td>${dtl(x.fromStartMs)}</td><td>${dtl(x.to.start.atMs)} · ${esc(x.to.start.place)}</td><td>${x.reasons.map(esc).join("; ")}${x.reason ? " " + esc(x.reason) : ""}</td><td>${x.feeMinor ? (x.feeMinor / 100).toFixed(2) : "free"}</td></tr>`).join("")}</table>` : "";
+  const statusBlock = model.outcome === "postponed" && lastPp
+    ? sb("warnbox", "POSTPONED", `<p>This ${esc(model.kind)} is postponed to <b>${dtl(lastPp.to.start.atMs)}</b> at <b>${esc(lastPp.to.start.place)}</b>. What was decided so far stays on record. Attendance is taken again on the new date.</p>${reasonsLine(lastPp.reasons, lastPp.reason)}${ppRows}`)
+    : model.outcome === "completed" ? sb("okbox", "COMPLETED", `<p>Every agenda point was taken up and the ${esc(model.kind)} finished.</p>${ppRows ? "<h3>It was postponed earlier</h3>" + ppRows : ""}`)
+    : model.outcome === "stopped" ? sb("warnbox", "STOPPED IN BETWEEN", `<p>The ${esc(model.kind)} began but was stopped before every point was taken up. Votes already cast are in this record. Points not taken up are marked so below.</p>${model.outcomeInfo ? reasonsLine(model.outcomeInfo.reasons, model.outcomeInfo.reason) : ""}${ppRows ? "<h3>It was postponed earlier</h3>" + ppRows : ""}`)
+    : model.outcome === "cancelled" ? sb("warnbox", "CANCELLED", `<p>This ${esc(model.kind)} was cancelled and did not take place.</p>${model.outcomeInfo ? reasonsLine(model.outcomeInfo.reasons, model.outcomeInfo.reason) : ""}${ppRows ? "<h3>It was postponed earlier</h3>" + ppRows : ""}`)
+    : lastPp ? sb("warnbox", "RESCHEDULED", `<p>This ${esc(model.kind)} now starts <b>${dtl(lastPp.to.start.atMs)}</b> at <b>${esc(lastPp.to.start.place)}</b>.</p>${reasonsLine(lastPp.reasons, lastPp.reason)}${ppRows}`) : "";
   const banner = live
     ? `<div class="banner live" id="banner"><b data-i18n="page.live">LIVE</b> <span data-i18n="note.liveBanner">This page updates by itself. When the event closes, this same page becomes the final signed report.</span></div>`
     : `<div class="banner done" id="banner"><b data-i18n="page.final">FINAL REPORT</b> <span data-i18n="note.finalBanner">Signed and sealed. Anyone may save this page. It cannot be edited without being detected.</span></div>`;
@@ -86,6 +97,7 @@ export function renderReportHtml(model: ReportModel, log: SignedEntry[], publicK
 <p class="fine" data-i18n="note.privacy">Personal details on this page are partly hidden with * to protect privacy.</p>
 <h1>${esc(model.title)}</h1><p><b>${esc(model.society.name)}</b> · ${esc(model.society.kind)} · Reg. no. ${esc(model.society.registrationNo)}<br>${esc(model.society.address)}<br>${esc(model.eventType.toUpperCase())} · ${esc(dt(model.scheduledMs))} · ${esc(model.venue)}${model.createdFrom ? `<br><small>Created from event ${esc(model.createdFrom.slice(0, 8))}…</small>` : ""}</p>
 ${tracker}${banner}
+${statusBlock}
 ${scheduleHtml}
 <div class="card"><b>Check this page</b> <button class="noprint" id="vbtn" type="button" data-i18n="btn.verify">Verify</button>${live ? "" : ` <a class="noprint" href="/api/r/${esc(model.eid)}/pdf" data-i18n="btn.pdf">Download PDF</a> <a class="noprint" href="/api/r/${esc(model.eid)}?download=1" data-i18n="btn.save">Save this page</a>`} <span id="verify-out" role="status">Not checked yet.</span>
 <p class="fine mono">Log entries: ${model.head?.seq ?? 0} · head ${esc(model.head?.hash ?? "")} · key ${esc(kid)}</p>

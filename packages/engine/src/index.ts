@@ -16,6 +16,7 @@ export * from "./schedule";
 export * from "./ballot";
 export * from "./brand";
 export * from "./journey";
+export * from "./lifecycle";
 export * from "./attendance";
 export * from "./rolltemplate";
 export * from "./pdftext";

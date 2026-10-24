@@ -2,7 +2,7 @@
 // Routes and rules: docs/design/API.md. There is no DELETE route and no route that edits history.
 import rulePacks from "../../../docs/research/rule-packs.json";
 import {
-  type Bytes, BRAND, journeyFor, ROLE_LIMITS, roleCounts, appointProblem, missingChecks, geoFlags, buildRollTemplateXlsx, readPdfTable, parseRollTable, diffRoll, type SheetFlat, HANDSHAKE_MAX_TRIES, HANDSHAKE_TTL_MS, codeHash, openLink, voterConfirm, monitorConfirm, type Handshake, hmacHex, newSerial, paperToken, parsePaperToken, paperLayout, renderPaperSvg, LANGUAGES, coverage, dictionary, isLang, playbook,
+  type Bytes, BRAND, journeyFor, OUTCOMES, REASON_CODES, REASON_IDS, postponeQuote, ROLE_LIMITS, roleCounts, appointProblem, missingChecks, geoFlags, buildRollTemplateXlsx, readPdfTable, parseRollTable, diffRoll, type SheetFlat, HANDSHAKE_MAX_TRIES, HANDSHAKE_TTL_MS, codeHash, openLink, voterConfirm, monitorConfirm, type Handshake, hmacHex, newSerial, paperToken, parsePaperToken, paperLayout, renderPaperSvg, LANGUAGES, coverage, dictionary, isLang, playbook,
   defaultSchedule, validateSchedule, type Schedule, TERMS_VERSION, TERMS_TEXT, termsSha256, priceFor, isCountry, formatPrice, renderReportPdf, pdfSha256, extractSeal, normalizeBallotDesign, defaultBallotDesign, ballotInstruction, type Actor,
   CUSTOM_WORLD_PACK, OPTIONS, PARAMS, RuleError, aesDecrypt, aesEncrypt, applyRecommended, b64url, buildReportModel, canAmendPoint, canChangeRoll, canChangeRule, canDo, canVote, cloneTemplate,
   deriveKey32, effectiveWeight, extractData, fromB64url, issuePasscode, loadAllPacks, maskEmail, maskName, maskPhone, newRuleSet, parseMajority, progressOf, proxyAllowed, randomHex, renderReportHtml,
@@ -415,6 +415,129 @@ route("GET", "/api/events/:id/attendance/photos/:evid", async (c, m) => {
   const b64 = await aesDecrypt(await eventKey(c, tx.eid), r.ct, tx.eid + "|photo|" + r.sha256); const bin = Uint8Array.from(atob(b64), (ch) => ch.charCodeAt(0));
   return new Response(bin as any, { status: 200, headers: { "content-type": r.mime, "cache-control": "no-store", "x-content-sha256": r.sha256 } });
 });
+// ---- ending, stopping, cancelling, postponing: tick-boxes, an "are you sure", a 4-digit number typed by hand, and (for later postponements) a payment anyone can make
+const INTENT_TTL = 10 * 60_000;
+type Intent = { eid: string; pid: string; action: "complete" | "stop" | "cancel" | "postpone"; reasonCodes: string[]; reason: string; newSchedule?: Schedule; codeHash: string; tries: number; exp: number; paymentId?: string; done?: boolean };
+const kvGet = async (c: Ctx, k: string) => (await c.db.prepare("SELECT v FROM kv_state WHERE k=?").bind(k).first<{ v: string }>())?.v ?? null;
+const kvSet = (c: Ctx, k: string, v: string) => c.db.prepare("INSERT INTO kv_state(k,v) VALUES(?,?) ON CONFLICT(k) DO UPDATE SET v=excluded.v").bind(k, v).run();
+const cleanReasons = (b: any) => {
+  const codes = Array.isArray(b.reasonCodes) ? [...new Set((b.reasonCodes as unknown[]).filter((x): x is string => typeof x === "string"))] : [];
+  if (codes.some((x) => !REASON_IDS.has(x))) throw err(400, "bad_reason", "One of the reasons ticked is not known."); const reason = optStr(b.reason, "reason", 400) ?? "";
+  return { codes, reason };
+};
+route("GET", "/api/events/:id/end-options", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!); const st = await tx.st(); const me = (a: Parameters<typeof canDo>[2]) => canDo(st, pid, a).ok;
+  const everOpened = [...st.points.values()].some((p) => p.state !== "pending");
+  const quote = postponeQuote(st.created!.kind, st.created!.country, st.created!.schedule.start.atMs, c.now, st.postponements.filter((x) => x.phase === "after_start").length);
+  return json({
+    status: st.status, outcome: st.outcome, reasons: REASON_CODES,
+    choices: [
+      { id: "complete", outcome: "completed", label: "Completed", allowed: st.status === "live" && me("close_event") },
+      { id: "stop", outcome: "stopped", label: "Stopped in between", allowed: (st.status === "live" || st.status === "postponed") && me("end_event") },
+      { id: "postpone", outcome: "postponed", label: "Postponed (give a new date, time and place)", allowed: me("postpone") && st.status !== "closed", quote },
+      { id: "cancel", outcome: "cancelled", label: "Cancelled", allowed: me("end_event") && !everOpened && st.status !== "closed" },
+    ].map((x) => ({ ...x, plain: OUTCOMES.find((o) => o.id === x.outcome)!.plain })),
+    note: "Choose one, tick the reasons, press Yes on the question, then type the 4-digit number shown on the screen.",
+  });
+});
+route("POST", "/api/events/:id/intent", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!); const st = await tx.st(); await rateLimit(c, "intent", pid, 20, 600);
+  const action = String(c.body.action ?? "") as Intent["action"]; if (!["complete", "stop", "cancel", "postpone"].includes(action)) throw err(400, "bad_action", "Choose complete, stop, cancel or postpone.");
+  const need = action === "postpone" ? "postpone" : action === "complete" ? "close_event" : "end_event"; const d = canDo(st, pid, need); if (!d.ok) throw err(403, d.code, d.message);
+  if (st.status === "closed") throw err(409, "already_over", "This event is already over.");
+  if (action === "complete" && st.status !== "live") throw err(409, "not_live", "Only a meeting that is running can be completed.");
+  if (action === "stop" && !(st.status === "live" || st.status === "postponed")) throw err(409, "not_started", "It has not started. Choose Cancelled or Postponed instead.");
+  if (action === "cancel" && [...st.points.values()].some((p) => p.state !== "pending")) throw err(409, "has_votes", "Voting has already begun, so choose Stopped in between. Votes already cast stay on record.");
+  const { codes, reason } = cleanReasons(c.body); if (action !== "complete" && !codes.length && !reason) throw err(400, "reason_needed", "Tick at least one reason, or write one.");
+  let newSchedule: Schedule | undefined; let quote: ReturnType<typeof postponeQuote> | null = null;
+  if (action === "postpone") {
+    newSchedule = c.body.newSchedule as Schedule; const why = validateSchedule(newSchedule); if (why) throw err(400, "bad_schedule", why);
+    if (newSchedule.start.atMs <= c.now) throw err(400, "past_date", "The new date and time must be in the future.");
+    quote = postponeQuote(st.created!.kind, st.created!.country, st.created!.schedule.start.atMs, c.now, st.postponements.filter((x) => x.phase === "after_start").length);
+  }
+  const id = newId("in_", 8); const code = String(1000 + (crypto.getRandomValues(new Uint32Array(1))[0]! % 9000));
+  const intent: Intent = { eid: tx.eid, pid, action, reasonCodes: codes, reason, newSchedule, codeHash: await pepperHash(c.env, "intent", id + ":" + code), tries: 0, exp: c.now + INTENT_TTL };
+  await kvSet(c, "intent:" + id, JSON.stringify(intent));
+  const verb = { complete: "mark this as COMPLETED", stop: "STOP it in between", cancel: "CANCEL it", postpone: "POSTPONE it" }[action];
+  return json({ intentId: id, areYouSure: `Are you sure you want to ${verb}? This is recorded on the public page and cannot be undone.`, confirmCode: code, enterThisNumber: "Type the 4-digit number below to confirm.", expiresMs: intent.exp, fee: quote ? { feeMinor: quote.feeMinor, currency: quote.currency, free: quote.free, why: quote.why } : null }, 201);
+});
+async function applyPostpone(c: Ctx, eid: string, it: Intent, paymentId: string | null, actorSystem: boolean) {
+  const tx = await Tx.load(c, eid); const st = await tx.st(); const actor: Actor = actorSystem ? { system: true } : ENTRY_ACTOR(st, it.pid);
+  const q = postponeQuote(st.created!.kind, st.created!.country, st.created!.schedule.start.atMs, c.now, st.postponements.filter((x) => x.phase === "after_start").length);
+  const wasLive = st.status === "live"; const nextRev = st.scheduleChanges.length + 2;
+  await tx.add("event_postponed", actor, { phase: q.phase, feeMinor: q.feeMinor, paymentId: q.feeMinor ? paymentId : null, reasonCodes: it.reasonCodes, reason: it.reason, newSchedule: it.newSchedule as any, by: it.pid, sitting: st.sitting } as any, (seq) => [
+    ...(wasLive ? [statusStmt(c, eid, "postponed", seq)] : []),
+    c.db.prepare("INSERT INTO event_rules(event_id,scope,param,value_json,rev,changed_by,reason,log_seq,at_ms) VALUES(?,?,?,?,?,?,?,?,?)").bind(eid, "event", "schedule", JSON.stringify(it.newSchedule), nextRev, it.pid, "postponed: " + (it.reason || it.reasonCodes.join(", ")), seq, c.now)]);
+  await tx.commit();
+}
+route("POST", "/api/events/:id/confirm", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!); await rateLimit(c, "confirm", pid, 30, 600);
+  const id = str(c.body.intentId, "intentId", 4, 40); const raw = await kvGet(c, "intent:" + id); if (!raw) throw err(404, "no_intent", "That request has expired. Start again.");
+  const it = JSON.parse(raw) as Intent; if (it.eid !== tx.eid || it.pid !== pid) throw err(403, "not_yours", "That request was made by someone else.");
+  if (it.done) throw err(409, "already_done", "That was already done."); if (c.now > it.exp) throw err(410, "expired", "That request has expired. Start again.");
+  if (it.tries >= 5) throw err(429, "too_many_tries", "Too many wrong numbers. Start again.");
+  const code = str(c.body.code, "code", 4, 4);
+  if ((await pepperHash(c.env, "intent", id + ":" + code)) !== it.codeHash) { it.tries++; await kvSet(c, "intent:" + id, JSON.stringify(it)); throw err(400, "wrong_code", `That number is not right. ${5 - it.tries} tries left.`); }
+  const st = await tx.st(); const need = it.action === "postpone" ? "postpone" : it.action === "complete" ? "close_event" : "end_event"; const d = canDo(st, pid, need); if (!d.ok) throw err(403, d.code, d.message);
+  if (it.action === "postpone") {
+    const q = postponeQuote(st.created!.kind, st.created!.country, st.created!.schedule.start.atMs, c.now, st.postponements.filter((x) => x.phase === "after_start").length);
+    if (q.feeMinor > 0) {
+      let payId = it.paymentId; const paid = payId && (await tx.st()).payments.some((p) => p.paymentId === payId && p.state === "paid");
+      if (!paid) {
+        if (!payId) { payId = (await createPayment(c, tx, st, pid, "reschedule", q.feeMinor, q.currency)).paymentId; it.paymentId = payId; await kvSet(c, "intentpay:" + payId, id); await kvSet(c, "intent:" + id, JSON.stringify(it)); }
+        return json({ awaitingPayment: true, feeMinor: q.feeMinor, currency: q.currency, why: q.why, payPath: await payPathFor(c, payId), message: "Postponing again costs half the price. Share the payment link; the new date takes effect as soon as it is paid." }, 202);
+      }
+    }
+    it.done = true; await kvSet(c, "intent:" + id, JSON.stringify(it)); await applyPostpone(c, tx.eid, it, it.paymentId ?? null, false);
+    return json({ ok: true, outcome: "postponed", newStart: it.newSchedule!.start.atMs, feeMinor: q.feeMinor });
+  }
+  it.done = true; await kvSet(c, "intent:" + id, JSON.stringify(it));
+  const r = await closeAndPublish(c, tx, pid, { outcome: it.action === "complete" ? "completed" : it.action === "stop" ? "stopped" : "cancelled", reasonCodes: it.reasonCodes, reason: it.reason });
+  return json({ ok: true, outcome: it.action === "complete" ? "completed" : it.action === "stop" ? "stopped" : "cancelled", report: `/api/r/${tx.eid}`, pdf: `/api/r/${tx.eid}/pdf`, fileSha256: r.fileSha256, headSeq: r.headSeq });
+});
+
+// ---- payment links: the Organizer or a Host creates one, anyone can pay it (no sign-in), like the Corporate Tambola payment link
+async function createPayment(c: Ctx, tx: Tx, st: EventState, pid: string, purpose: "event" | "reschedule", amountMinor: number, currency: string) {
+  const paymentId = newId("pay_", 8); let orderId: string | null = null;
+  if (c.env.PAY_SERVICE_KEY) {
+    try {
+      const r = await fetch(`${(c.env.PAY_SERVICE_URL ?? "https://itservices-rajat-agarwal.pages.dev").replace(/\/+$/, "")}/api/pay/order`, { method: "POST", headers: { "content-type": "application/json", "x-site-key": c.env.PAY_SERVICE_KEY }, body: JSON.stringify({ site: c.env.PAY_SITE ?? "aoa-rwa", product: "aoa_rwa", plan: purpose === "event" ? st.created!.kind : "reschedule", amount_minor: amountMinor, currency, payment_ref: paymentId }) });
+      const d: any = await r.json().catch(() => ({})); if (r.ok && d.orderId) orderId = String(d.orderId);
+    } catch { /* falls back to the local test order */ }
+  }
+  await tx.add("payment_state", ENTRY_ACTOR(st, pid), { paymentId, state: "created", amountMinor, currency, mode: "test", purpose }, (seq) => [c.db.prepare("INSERT INTO payments(payment_id,event_id,state,mode,order_id,amount_minor,currency,ref,log_seq,at_ms) VALUES(?,?,'created','test',?,?,?,?,?,?)").bind(paymentId, tx.eid, orderId, amountMinor, currency, purpose, seq, c.now)]);
+  await tx.commit(); return { paymentId, orderId };
+}
+const payTokenFor = async (c: Ctx, paymentId: string) => paymentId + "." + (await pepperHash(c.env, "paylink", paymentId)).slice(0, 20);
+const payPathFor = async (c: Ctx, paymentId: string) => "/pay/" + (await payTokenFor(c, paymentId));
+async function payByToken(c: Ctx, token: string) {
+  const [paymentId, mac] = token.split("."); if (!paymentId || !mac || mac !== (await pepperHash(c.env, "paylink", paymentId)).slice(0, 20)) throw err(404, "no_link", "This payment link is not valid.");
+  const row = await c.db.prepare("SELECT event_id, order_id FROM payments WHERE payment_id=? AND state='created'").bind(paymentId).first<{ event_id: string; order_id: string | null }>(); if (!row) throw err(404, "no_link", "This payment link is not valid.");
+  const tx = await Tx.load(c, row.event_id); const st = await tx.st(); const pay = st.payments.find((p) => p.paymentId === paymentId && p.state === "created"); if (!pay) throw err(404, "no_link", "This payment link is not valid.");
+  return { paymentId, eventId: row.event_id, orderId: row.order_id, st, pay, paid: st.payments.some((p) => p.paymentId === paymentId && p.state === "paid") };
+}
+route("POST", "/api/events/:id/pay-link", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!, "edit_setup"); const st = await tx.st();
+  if (st.paid) throw err(409, "already_paid", "This event is already paid.");
+  const existing = st.payments.find((p) => p.state === "created" && p.purpose === "event" && !st.payments.some((q) => q.paymentId === p.paymentId && q.state === "paid"));
+  let paymentId = existing?.paymentId; const price = priceFor(st.created!.kind, st.created!.country);
+  if (!paymentId) paymentId = (await createPayment(c, tx, st, pid, "event", price.amountMinor, price.currency)).paymentId;
+  return json({ paymentId, payPath: await payPathFor(c, paymentId), amountMinor: price.amountMinor, currency: price.currency, price: formatPrice(price), note: "Send this link to anyone. They can pay without signing in." }, 201);
+});
+route("GET", "/api/pay/link/:token", async (c, m) => {
+  const p = await payByToken(c, m[1]!); const cr = p.st.created!;
+  return json({ event: { title: cr.title, society: cr.society.name, kind: cr.kind }, purpose: p.pay.purpose, amountMinor: p.pay.amountMinor, currency: p.pay.currency, paid: p.paid, orderId: p.orderId, mode: "test",
+    note: p.pay.purpose === "reschedule" ? "This is the charge for postponing the meeting again. It is half the event price." : "This pays for the meeting or election. Anyone may pay." });
+});
+route("POST", "/api/pay/link/:token/payer", async (c, m) => {
+  const p = await payByToken(c, m[1]!); await rateLimit(c, "paylink", p.paymentId, 20, 600);
+  const who = { name: str(c.body.name, "name", 2, 80), email: emailOf(c.body.email), at: c.now };
+  await kvSet(c, "payer:" + p.paymentId, await aesEncrypt(await eventKey(c, p.eventId), JSON.stringify(who), p.eventId + "|payer|" + p.paymentId)); return json({ ok: true });
+});
+route("POST", "/api/pay/link/:token/test-pay", async (c, m) => {
+  if (c.env.TEST_MODE !== "1") throw err(404, "not_found", "Not found."); const p = await payByToken(c, m[1]!);
+  c.eventId = p.eventId; await markPaid(c, p.eventId, p.paymentId, "pay-link"); return json({ ok: true });
+});
 function pointInput(b: any, cur?: any) {
   const kindIn = b.kind ?? cur?.kind;
   const kind = ["discussion", "resolution", "election_post"].includes(kindIn) ? (kindIn as string) : (() => { throw err(400, "bad_kind", "kind must be discussion, resolution or election_post."); })();
@@ -541,8 +664,12 @@ async function markPaid(c: Ctx, eid: string, paymentId: string, via: string): Pr
   const tx = await Tx.load(c, eid); const st = await tx.st();
   const created = st.payments.find((p) => p.paymentId === paymentId && p.state === "created"); if (!created) throw err(404, "no_payment", "No such payment.");
   if (st.payments.some((p) => p.paymentId === paymentId && p.state === "paid")) return; // idempotent
-  await tx.add("payment_state", { system: true }, { paymentId, state: "paid", amountMinor: created.amountMinor, currency: created.currency, mode: "test" }, (seq) => [c.db.prepare("INSERT INTO payments(payment_id,event_id,state,mode,order_id,amount_minor,currency,ref,log_seq,at_ms) VALUES(?,?,'paid','test',NULL,?,?,?,?,?)").bind(paymentId, eid, created.amountMinor, created.currency, via, seq, c.now)]);
+  await tx.add("payment_state", { system: true }, { paymentId, state: "paid", amountMinor: created.amountMinor, currency: created.currency, mode: "test", purpose: created.purpose }, (seq) => [c.db.prepare("INSERT INTO payments(payment_id,event_id,state,mode,order_id,amount_minor,currency,ref,log_seq,at_ms) VALUES(?,?,'paid','test',NULL,?,?,?,?,?)").bind(paymentId, eid, created.amountMinor, created.currency, via, seq, c.now)]);
   await tx.commit();
+  if (created.purpose === "reschedule") { // the postponement the payment was waiting for takes effect now
+    const iid = await kvGet(c, "intentpay:" + paymentId); const raw = iid ? await kvGet(c, "intent:" + iid) : null;
+    if (iid && raw) { const it = JSON.parse(raw) as Intent; if (!it.done) { it.done = true; await kvSet(c, "intent:" + iid, JSON.stringify(it)); await applyPostpone(c, eid, it, paymentId, true); } }
+  }
 }
 route("POST", "/api/pay/test-confirm", async (c) => {
   if (c.env.TEST_MODE !== "1") throw err(404, "not_found", "Not found.");
@@ -662,12 +789,12 @@ route("POST", "/api/events/:id/points/:pid/close", async (c, m) => {
   await closePoint(c, tx, pid, m[2]!); await tx.commit(); return json({ ok: true, result: (await tx.st()).results.get(m[2]!) });
 });
 /** Closes every open point, closes the event, builds + signs + stores the report, all in ONE atomic write. Used by the Host's button and by the automatic end-of-event tick. */
-async function closeAndPublish(c: Ctx, tx: Tx, pid: string | null): Promise<{ fileSha256: string; headSeq: number }> {
+async function closeAndPublish(c: Ctx, tx: Tx, pid: string | null, end?: { outcome: "completed" | "stopped" | "cancelled"; reasonCodes: string[]; reason: string }): Promise<{ fileSha256: string; headSeq: number }> {
   let st = await tx.st();
   for (const id of st.pointOrder) if (st.points.get(id)!.state === "open") { await closePoint(c, tx, pid, id); st = await tx.st(); }
   for (const id of st.pointOrder) { const p = st.points.get(id)!; if (p.state === "closed" && !st.results.has(id) && p.def.kind !== "discussion") { await finishCount(c, tx, pid, id); st = await tx.st(); } }
   st = await tx.st(); const actor: Actor = pid ? ENTRY_ACTOR(st, pid) : { system: true };
-  await tx.add("event_closed", actor, { headSeq: tx.nextSeq, auto: pid === null }, (seq) => [statusStmt(c, tx.eid, "closed", seq)]);
+  await tx.add("event_closed", actor, { headSeq: tx.nextSeq, auto: pid === null, outcome: end?.outcome ?? "completed", reasonCodes: end?.reasonCodes ?? [], reason: end?.reason ?? "" } as any, (seq) => [statusStmt(c, tx.eid, "closed", seq)]);
   st = await tx.st(); const model = buildReportModel(st); const pk = await publicKey(c.env);
   const { html, seal } = await sealReport(renderReportHtml(model, tx.entries, pk.publicKey, pk.kid), model, c.env.SIGNING_KEY, pk.kid);
   await tx.commit([

@@ -1,3 +1,4 @@
+import { REASON_CODES, outcomeLabel } from "./lifecycle";
 // The report/live-page model: a deterministic function of the replayed log. Integers and strings only (so it can be canonicalised and compared).
 import { canonical, type Json } from "./canonical";
 import { sha256Hex, verifyMessage } from "./crypto";
@@ -45,6 +46,8 @@ export interface ReportModel {
   platformActions: Array<{ seq: number; action: string; reason: string }>;
   clones: Array<{ direction: string; eventId: string }>; anchors: Array<{ headSeq: number; headHash: string }>;
   problems: string[]; contactsReads: number;
+  outcome: string | null; outcomeLabel: string; outcomeInfo: { reasonCodes: string[]; reasons: string[]; reason: string; atTs: number } | null; sitting: number;
+  postponements: Array<{ seq: number; ts: number; phase: string; sitting: number; reasons: string[]; reason: string; feeMinor: number; fromStartMs: number; to: Schedule }>;
   compliance: Compliance; access: { termsAccepted: number; entriesWithAccessFingerprint: number; entries: number };
 }
 
@@ -53,7 +56,7 @@ export type Stage = "rules" | "attendance" | "quorum" | "vote" | "count" | "publ
 export function stageOf(s: EventState): Stage {
   if (s.status === "closed") return "publish";
   if (s.status === "setup" || s.status === "suspended") return "rules";
-  if (s.status === "agenda_published") return "attendance";
+  if (s.status === "agenda_published" || s.status === "postponed") return "attendance";
   const pts = [...s.points.values()].filter((p) => p.def.kind !== "discussion");
   if (pts.some((p) => p.state === "open")) return "vote";
   if (pts.some((p) => p.state === "closed" && !s.results.has(p.def.pointId)) || (pts.length > 0 && pts.every((p) => p.state === "closed"))) return "count";
@@ -106,6 +109,10 @@ export function buildReportModel(s: EventState): ReportModel {
     quorum, points,
     payments: s.payments.map((p) => ({ state: p.state, amountMinor: p.amountMinor, currency: p.currency, mode: p.mode })),
     platformActions: s.platformActions, clones: s.clones, anchors: s.anchors, problems: s.problems, contactsReads: s.contactsReads,
+    outcome: s.outcome ?? (s.status === "postponed" ? "postponed" : null), outcomeLabel: outcomeLabel(s.outcome ?? (s.status === "postponed" ? "postponed" : null)),
+    outcomeInfo: s.closedInfo ? { reasonCodes: s.closedInfo.reasonCodes, reasons: s.closedInfo.reasonCodes.map((x) => REASON_CODES.find((r) => r.id === x)?.label ?? x), reason: s.closedInfo.reason, atTs: s.closedInfo.ts } : null,
+    sitting: s.sitting,
+    postponements: s.postponements.map((x) => ({ seq: x.seq, ts: x.ts, phase: x.phase, sitting: x.sitting, reasons: x.reasonCodes.map((c) => REASON_CODES.find((r) => r.id === c)?.label ?? c), reason: x.reason, feeMinor: x.feeMinor, fromStartMs: x.fromStartMs, to: x.to })),
     compliance: complianceChecks(s), access: { termsAccepted: s.terms.size, entriesWithAccessFingerprint: s.accEntries, entries: s.seqCount },
   };
 }

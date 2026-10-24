@@ -5,7 +5,7 @@ import { currentRoles, hasRole, presentFlatNos, type EventState, type Role } fro
 
 export type Action =
   | "edit_setup" | "pay" | "publish_agenda" | "start" | "open_point" | "close_point" | "extend_point" | "close_event"
-  | "mark_attendance" | "issue_voter_code" | "read_contacts" | "change_rules" | "erase_data";
+  | "mark_attendance" | "issue_voter_code" | "read_contacts" | "change_rules" | "erase_data" | "postpone" | "end_event";
 export type Refusal = { ok: false; code: string; message: string };
 export type Allowed = { ok: true };
 export type Decision = Allowed | Refusal;
@@ -46,9 +46,9 @@ export function canDo(s: EventState, pid: string | null, action: Action, ctx: { 
     }
     case "start":
       if (!isOH) return no("not_allowed", "Only the Organizer or a Host can do this.");
-      return s.status === "agenda_published" ? yes : no("bad_state", "Publish the agenda before starting.");
+      return s.status === "agenda_published" || s.status === "postponed" ? yes : no("bad_state", "Publish the agenda before starting.");
     case "mark_attendance": case "issue_voter_code": {
-      if (s.status !== "agenda_published" && s.status !== "live") return no("bad_state", "Attendance opens once the agenda is published.");
+      if (s.status !== "agenda_published" && s.status !== "live" && s.status !== "postponed") return no("bad_state", "Attendance opens once the agenda is published.");
       if (isOfficer) return yes;
       if (isOH && !anyOfficer(s)) return yes;
       return no("not_allowed", anyOfficer(s) ? "An Attendance Officer does this for this event." : "Not allowed.");
@@ -75,6 +75,15 @@ export function canDo(s: EventState, pid: string | null, action: Action, ctx: { 
       }
       return yes;
     }
+    case "postpone":
+      if (!isOH) return no("not_allowed", "Only the Organizer or a Host can do this.");
+      if (s.status === "setup") return no("bad_state", "Change the dates in the set-up; postponing is for a published event.");
+      if ([...s.points.values()].some((x) => x.state === "open")) return no("point_open", "Close the point that is open first.");
+      return yes;
+    case "end_event":
+      if (!isOH) return no("not_allowed", "Only the Organizer or a Host can do this.");
+      if ([...s.points.values()].some((x) => x.state === "open")) return no("point_open", "Close the point that is open first.");
+      return yes;
     case "close_event":
       if (!isOH) return no("not_allowed", "Only the Organizer or a Host can do this.");
       return s.status === "live" ? yes : no("bad_state", "The meeting is not running.");
