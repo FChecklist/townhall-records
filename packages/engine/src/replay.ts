@@ -6,7 +6,7 @@ import type { SignedEntry } from "./log";
 import { effectiveForPoint, type RuleSet } from "./rules";
 import { defaultBallotDesign, normalizeBallotDesign } from "./ballot";
 import { roleCounts, roleLimitProblem } from "./attendance";
-import { REASON_IDS, postponeQuote, type Outcome, type PostponePhase } from "./lifecycle";
+import { OFFICIAL_GROUP_IDS, REASON_IDS, postponeQuote, type Outcome, type PostponePhase } from "./lifecycle";
 import { defaultSchedule, validateSchedule, type Schedule } from "./schedule";
 import { aggregate, computeQuorum, effectiveWeight, tallyAgg, type Aggregate, type Flat, type PointDef, type PointTally, type QuorumResult } from "./tally";
 
@@ -39,6 +39,8 @@ export interface EventState {
   agenda: null | { seq: number; ts: number; givenDays: number; minDays: number | null; maxDays: number | null; met: boolean | null };
   startedTs: number | null; closedInfo: null | { seq: number; ts: number; outcome: Outcome; reasonCodes: string[]; reason: string };
   outcome: Outcome | null; sitting: number;
+  officials: Map<string, { id: string; seq: number; ts: number; group: string; groupLabel: string; name: string; designation: string; authority: string; note: string }>;
+  officialPresence: Map<string, { seq: number; ts: number; mode: string; by: string | null }>;
   overrides: Array<{ seq: number; ts: number; key: string; value: boolean; declaration: string; lawReason: string }>;
   customRules: Map<string, { seq: number; ts: number; title: string; kind: "text" | "number" | "yes_no"; value: string | number | boolean; note: string }>;
   postponements: Array<{ seq: number; ts: number; phase: PostponePhase; sitting: number; reasonCodes: string[]; reason: string; feeMinor: number; paymentId: string | null; fromStartMs: number; to: Schedule }>;
@@ -55,7 +57,7 @@ export function emptyState(eid: string): EventState {
   return {
     eid, seqCount: 0, head: null, firstTs: null, lastTs: null, created: null, rules: null, initialRules: null, ruleHistory: [], rejectedChanges: [], status: "setup", paid: false, payments: [],
     people: new Map(), roleLog: [], roll: [], rollRev: 0, points: new Map(), pointOrder: [], attendance: new Map(), attendanceLog: [], ledger: new Map(),
-    seals: new Map(), results: new Map(), devices: [], handshakes: 0, agenda: null, startedTs: null, closedInfo: null, outcome: null, sitting: 1, postponements: [], overrides: [], customRules: new Map(), clones: [], platformActions: [], contactsReads: 0, anchors: [], scheduleChanges: [], terms: new Set(), accEntries: 0, packInfo: { name: "", confidence: "", needsLawyer: true }, problems: [],
+    seals: new Map(), results: new Map(), devices: [], handshakes: 0, agenda: null, startedTs: null, closedInfo: null, outcome: null, sitting: 1, postponements: [], overrides: [], customRules: new Map(), officials: new Map(), officialPresence: new Map(), clones: [], platformActions: [], contactsReads: 0, anchors: [], scheduleChanges: [], terms: new Set(), accEntries: 0, packInfo: { name: "", confidence: "", needsLawyer: true }, problems: [],
   };
 }
 
@@ -125,6 +127,19 @@ export async function replayLog(entries: SignedEntry[]): Promise<EventState> {
       case "email_verified": { const pr = s.people.get(p.pid); if (pr) pr.verified = true; else bad(seq, "email_verified for unknown person"); break; }
       case "label_set": { const pr = s.people.get(p.pid); if (pr) pr.label = asStr(p.label) || null; break; }
       case "options_set": if (s.rules) for (const [k, v] of Object.entries(p.options as Record<string, boolean>)) { const l = s.rules.locked[k]; if (l && l.value !== v) bad(seq, `locked option ${k} changed`); s.rules.options[k] = v; } break;
+      case "official_set": {
+        const id = asStr(p.id); const name = asStr(p.name).trim(); const group = asStr(p.group);
+        if (!/^of_[0-9a-f]{6,16}$/.test(id) || name.length < 2 || name.length > 120 || !OFFICIAL_GROUP_IDS.has(group)) { bad(seq, "invalid official entry"); break; }
+        if (s.status === "live" || s.status === "closed") bad(seq, "officials changed after the event started");
+        const f = (k: string, n: number) => { const v = asStr(p[k]); if (v.length > n) bad(seq, `official ${k} too long`); return v.slice(0, n); };
+        const prev = s.officials.get(id);
+        s.officials.set(id, { id, seq: prev?.seq ?? seq, ts: prev?.ts ?? e.ts, group, groupLabel: f("groupLabel", 100), name, designation: f("designation", 160), authority: f("authority", 200), note: f("note", 300) }); break;
+      }
+      case "official_removed": { if (s.status === "live" || s.status === "closed") bad(seq, "officials changed after the event started"); s.officials.delete(asStr(p.id)); s.officialPresence.delete(asStr(p.id)); break; }
+      case "official_attendance": {
+        const id = asStr(p.id); if (!s.officials.has(id)) { bad(seq, "attendance for an unknown official"); break; }
+        if (p.present === false) s.officialPresence.delete(id); else s.officialPresence.set(id, { seq, ts: e.ts, mode: asStr(p.mode) || "physical", by: (e.actor as any).pid ?? null }); break;
+      }
       case "option_overridden": {
         const k = asStr(p.key); const lock = s.rules?.locked[k];
         if (!s.rules || !lock) { bad(seq, `override of option ${k} that the law pack does not lock`); break; }
@@ -255,7 +270,7 @@ export async function replayLog(entries: SignedEntry[]): Promise<EventState> {
         s.postponements.push({ seq, ts: e.ts, phase: q.phase, sitting: s.sitting, reasonCodes: codes, reason: asStr(p.reason), feeMinor: q.feeMinor, paymentId: (p.paymentId as string) ?? null, fromStartMs: startMs, to: p.newSchedule as Schedule });
         if (!why) { s.created.schedule = p.newSchedule as Schedule; s.created.scheduledMs = (p.newSchedule as Schedule).start.atMs; }
         s.scheduleChanges.push({ seq, ts: e.ts, reason: "postponed: " + (asStr(p.reason) || codes.join(", ")) });
-        if (s.status === "live") { s.status = "postponed"; s.attendance.clear(); } else if (s.status === "postponed") s.attendance.clear();
+        if (s.status === "live") { s.status = "postponed"; s.attendance.clear(); s.officialPresence.clear(); } else if (s.status === "postponed") { s.attendance.clear(); s.officialPresence.clear(); }
         break;
       }
       case "event_suspended": s.status = "suspended"; break;

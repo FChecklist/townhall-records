@@ -1,6 +1,7 @@
 // Printable PDF of the sealed report, for signature by the Returning Officer / Presiding Officer and submission.
 // A deterministic function of the sealed report (same report in, same bytes out): plain A4 text pages with the standard PDF fonts, no external resources.
 // Limit, stated: the standard fonts cover Latin text only. Characters outside Latin-1 (for example Devanagari) print as '?' in the PDF; the full text is always in the HTML report.
+import { watermarkText } from "./lifecycle";
 import { dayParts, milestoneLabel, MILESTONE_KEYS } from "./schedule";
 import { sha256Hex, type Bytes } from "./crypto";
 import type { EmbeddedData, Seal } from "./model";
@@ -20,7 +21,7 @@ const latin = (s: string): string => Array.from(String(s ?? "")).map((ch) => {
 const esc = (s: string) => latin(s).replace(/\\/g, "\\\\").replace(/\(/g, "\\(").replace(/\)/g, "\\)");
 
 class Doc {
-  pages: string[][] = [[]]; y = H - M; constructor(private footer: string) {}
+  pages: string[][] = [[]]; y = H - M; constructor(private footer: string, private watermark: string = "") {}
   private get cur() { return this.pages[this.pages.length - 1]!; }
   private ensure(h: number) { if (this.y - h < M + 18) { this.pages.push([]); this.y = H - M; } }
   space(n = 6) { this.y -= n; }
@@ -61,7 +62,10 @@ class Doc {
     objs[0] = "";
     this.pages.forEach((ops, i) => {
       const footer = `BT /F1 7.5 Tf ${M} 28 Td (${esc(this.footer)}   Page ${i + 1} of ${n}) Tj ET`;
-      const stream = [...ops, footer].join("\n");
+      // watermark first, so it sits behind the text: light grey, 45 degrees, centred, sized to fit the diagonal
+      const wm = this.watermark ? latin(this.watermark) : ""; const size = Math.min(34, 700 / Math.max(1, wm.length * CW.F2)); const half = (wm.length * size * CW.F2) / 2; const k = 0.70711;
+      const mark = wm ? [`q 0.86 g BT /F2 ${size.toFixed(1)} Tf ${k} ${k} ${-k} ${k} ${(W / 2 - half * k).toFixed(1)} ${(H / 2 - half * k).toFixed(1)} Tm (${esc(wm)}) Tj ET Q`] : [];
+      const stream = [...mark, ...ops, footer].join("\n");
       objs[6 + i * 2] = `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${W} ${H}] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents ${7 + i * 2} 0 R >>`;
       objs[7 + i * 2] = `<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`;
     });
@@ -81,7 +85,7 @@ const pct = (bp: number) => `${Math.floor(bp / 100)}.${String(bp % 100).padStart
 export interface PdfOptions { reportUrl?: string }
 export async function renderReportPdf(data: EmbeddedData, seal: Seal | null, opts: PdfOptions = {}): Promise<Bytes> {
   const m = data.model, kindWord = m.kind === "election" ? "Election" : "Meeting";
-  const d = new Doc(`Event ${m.eid.slice(0, 12)}...  Log head ${m.head?.hash.slice(0, 16) ?? ""}...`);
+  const d = new Doc(`Event ${m.eid}   Log head ${m.head?.hash.slice(0, 16) ?? ""}...`, watermarkText(m.kind, m.eid));
   d.text(`${BRAND} | Record of a ${kindWord}`, { size: 9, font: "F2" });
   d.text(m.title, { size: 20, font: "F2", gap: 4 });
   d.text(`${m.society.name} (${m.society.kind}) | Registration no. ${m.society.registrationNo}`, { size: 11, font: "F2" });
@@ -134,6 +138,12 @@ export async function renderReportPdf(data: EmbeddedData, seal: Seal | null, opt
   d.row(["Signing key", data.kid], [90, 400], { font: "F3", size: 8 });
   if (seal) { d.row(["Report file SHA-256", seal.fileSha256], [90, 400], { font: "F3", size: 8 }); d.row(["Report signature", seal.sig.slice(0, 64) + "..."], [90, 400], { font: "F3", size: 8 }); }
   if (opts.reportUrl) d.text(`Check the live record and run the verifier at: ${opts.reportUrl}`, { size: 9, font: "F2" });
+  if (m.officials.length) {
+    d.h("7A. Committee, officers and observers");
+    d.row(["Role", "Name", "Designation / authority", "Attendance"], [110, 120, 170, 90], { font: "F2", size: 8 });
+    for (const o of m.officials.slice(0, 60)) d.row([o.groupLabel, o.name, [o.designation, o.authority].filter(Boolean).join(" - "), o.present ? "present " + isoZ(o.presentTs!).slice(0, 16) : "not marked"], [110, 120, 170, 90], { size: 8 });
+    d.space(4); for (const o of m.officials.slice(0, 60)) d.sig(`${o.name}${o.designation ? ", " + o.designation : ""} (${o.groupLabel})`);
+  }
   d.h("8. Certification");
   d.text(`We, the undersigned, certify that this document is a true print of the record of the ${kindWord.toLowerCase()} identified above, as published on the platform with the log head and file fingerprint shown in section 7.`, { size: 10 });
   d.sig("Returning Officer / Presiding Officer"); d.sig("Chairperson"); d.sig("Secretary"); d.space(10);

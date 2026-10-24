@@ -3,7 +3,7 @@
 import rulePacks from "../../../docs/research/rule-packs.json";
 import extraPacks from "../../../docs/research/rule-packs-extra.json";
 import {
-  type Bytes, BRAND, journeyFor, OUTCOMES, REASON_CODES, REASON_IDS, postponeQuote, ROLE_LIMITS, roleCounts, appointProblem, missingChecks, geoFlags, buildRollTemplateXlsx, readPdfTable, parseRollTable, diffRoll, type SheetFlat, HANDSHAKE_MAX_TRIES, HANDSHAKE_TTL_MS, codeHash, openLink, voterConfirm, monitorConfirm, type Handshake, hmacHex, newSerial, paperToken, parsePaperToken, paperLayout, renderPaperSvg, LANGUAGES, coverage, dictionary, isLang, playbook,
+  type Bytes, BRAND, journeyFor, OFFICIAL_GROUPS, OFFICIAL_GROUP_IDS, OUTCOMES, REASON_CODES, REASON_IDS, postponeQuote, ROLE_LIMITS, roleCounts, appointProblem, missingChecks, geoFlags, buildRollTemplateXlsx, readPdfTable, parseRollTable, diffRoll, type SheetFlat, HANDSHAKE_MAX_TRIES, HANDSHAKE_TTL_MS, codeHash, openLink, voterConfirm, monitorConfirm, type Handshake, hmacHex, newSerial, paperToken, parsePaperToken, paperLayout, renderPaperSvg, LANGUAGES, coverage, dictionary, isLang, playbook,
   defaultSchedule, validateSchedule, type Schedule, TERMS_VERSION, TERMS_TEXT, termsSha256, priceFor, isCountry, formatPrice, renderReportPdf, pdfSha256, extractSeal, normalizeBallotDesign, defaultBallotDesign, ballotInstruction, type Actor,
   CUSTOM_WORLD_PACK, OPTIONS, PARAMS, RuleError, aesDecrypt, aesEncrypt, applyRecommended, b64url, buildReportModel, canAmendPoint, canChangeRoll, canChangeRule, canDo, canVote, cloneTemplate,
   deriveKey32, effectiveWeight, extractData, fromB64url, issuePasscode, loadAllPacks, maskEmail, maskName, maskPhone, newRuleSet, parseMajority, progressOf, proxyAllowed, randomHex, renderReportHtml,
@@ -556,6 +556,24 @@ route("POST", "/api/events/:id/custom-rules", async (c, m) => {
   const value = remove ? null : kind === "number" ? (Number.isFinite(Number(c.body.value)) && c.body.value !== "" && c.body.value !== null ? Number(c.body.value) : (() => { throw err(400, "bad_value", "Give a number."); })()) : kind === "yes_no" ? (typeof c.body.value === "boolean" ? c.body.value : (() => { throw err(400, "bad_value", "Give yes or no."); })()) : str(c.body.value, "value", 1, 1000);
   await tx.add("custom_rule_set", ENTRY_ACTOR(st, pid), { title, kind, value, note: optStr(c.body.note, "note", 300) ?? "" } as any); await tx.commit();
   return json({ ok: true, count: (await tx.st()).customRules.size });
+});
+// ---- committee, returning officers, government officers, observers ... (all optional, all typed by the Organizer; attendance is marked; signature lines are printed)
+route("GET", "/api/officials/groups", async () => json({ groups: OFFICIAL_GROUPS, note: "All optional. Write the name, designation and authority yourself; the same group can be used many times." }));
+route("POST", "/api/events/:id/officials", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!, "edit_setup"); const st = await tx.st();
+  if (st.status === "live" || st.status === "closed") throw err(403, "frozen", "The list of officials is published before the start and cannot change after it.");
+  const remove = c.body.remove === true; const given = typeof c.body.id === "string" ? c.body.id : "";
+  if (remove) { if (!st.officials.has(given)) throw err(404, "no_official", "No such entry."); await tx.add("official_removed", ENTRY_ACTOR(st, pid), { id: given } as any); await tx.commit(); return json({ ok: true, count: (await tx.st()).officials.size }); }
+  const group = String(c.body.group ?? ""); if (!OFFICIAL_GROUP_IDS.has(group)) throw err(400, "bad_group", "Choose one of the groups, or Other and write the title yourself.");
+  if (given && !st.officials.has(given)) throw err(404, "no_official", "No such entry."); if (!given && st.officials.size >= 60) throw err(400, "too_many", "That is enough entries (60).");
+  const id = given || newId("of_", 6);
+  const entry = { id, group, groupLabel: optStr(c.body.groupLabel, "groupLabel", 100) ?? "", name: str(c.body.name, "name", 2, 120), designation: optStr(c.body.designation, "designation", 160) ?? "", authority: optStr(c.body.authority, "authority", 200) ?? "", note: optStr(c.body.note, "note", 300) ?? "" };
+  await tx.add("official_set", ENTRY_ACTOR(st, pid), entry as any); await tx.commit(); return json({ ok: true, id, count: (await tx.st()).officials.size }, given ? 200 : 201);
+});
+route("POST", "/api/events/:id/officials/:oid/attendance", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!, "mark_attendance"); const st = await tx.st(); if (!st.officials.has(m[2]!)) throw err(404, "no_official", "No such entry.");
+  const mode = c.body.mode === "online" ? "online" : "physical"; const present = c.body.present !== false;
+  await tx.add("official_attendance", ENTRY_ACTOR(st, pid), { id: m[2]!, present, mode } as any); await tx.commit(); return json({ ok: true, present });
 });
 function pointInput(b: any, cur?: any) {
   const kindIn = b.kind ?? cur?.kind;

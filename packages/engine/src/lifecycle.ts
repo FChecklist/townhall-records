@@ -37,3 +37,17 @@ export function postponeQuote(kind: EventKind, country: string, startMs: number,
   const fee = Math.ceil(price.amountMinor / 2);
   return { phase, priorAfterStart, feeMinor: fee, currency: price.currency, free: false, why: "Every postponement after the start time, after the first, costs half the event price." };
 }
+
+/** Optional people who are not voters or staff: the Organizer types whatever fits this society and law. Everything here is a free-text placeholder. */
+export const OFFICIAL_GROUPS: Array<{ id: string; label: string; example: string }> = [
+  { id: "committee", label: "Election Conduct Committee / Meeting Conduct Committee", example: "Election Conduct Committee 2026" },
+  { id: "returning_officer", label: "Returning Officer", example: "Returning Officer" },
+  { id: "government_officer", label: "Government Officer", example: "Registrar of Co-operative Societies' nominee" },
+  { id: "observer", label: "Observer", example: "Observer appointed by the court" },
+  { id: "other", label: "Other (write the title yourself)", example: "Auditor" },
+];
+export const OFFICIAL_GROUP_IDS = new Set(OFFICIAL_GROUPS.map((g) => g.id));
+export const officialGroupLabel = (id: string) => OFFICIAL_GROUPS.find((g) => g.id === id)?.label ?? id;
+
+/** The text laid diagonally behind every page of the PDF and the web report, so a printed or saved copy always shows which event it belongs to. */
+export const watermarkText = (kind: string, eid: string) => `${kind === "election" ? "ELECTION" : "MEETING"} ID ${eid}`;
