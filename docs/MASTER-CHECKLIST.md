@@ -96,8 +96,9 @@ Evidence: tests live in `apps/api/test/*.test.ts` and `packages/engine/test/*.te
 ## 11. Payment
 - [x] pay-per-event: India Rs 499 meeting / Rs 1499 election; elsewhere USD 5 / 15 (`postpone`)
 - [x] anyone with the link can pay without signing in; payer name and e-mail kept encrypted and private (`postpone`)
-- [x] no refunds [D]; no built-in payment host: a payment service must be configured for this product
-- [ ] live Razorpay (India) and international (applied for by the owner)
+- [x] no refunds [D]
+- [x] ALL payment goes through IT SERVICES BY RAJAT AGARWAL, like Corporate Tambola: order, verify, forwarded webhook, ledger C (`payment_attempt`, `payment_refund`, `webhook_log`, owner ledger), C->B monthly summary; ids shared with ledgers A and B (`ledger`; docs/payments/PAYMENTS-VIA-IT-SERVICES.md)
+- [~] **to switch on (owner says go):** register this product as a website in the central service (SQL and key script prepared in docs/payments), set the Pages secrets, one real Rs 1 payment to prove A = B = C. International cards depend on the owner's Razorpay application.
 
 ## 12. Report, PDF, web page
 - [x] one sealed HTML file with data and verifier inside; PDF for signature with signature lines for Returning Officer/Chair/Secretary and for every listed official (`features`, `officials`)
@@ -123,7 +124,8 @@ Evidence: tests live in `apps/api/test/*.test.ts` and `packages/engine/test/*.te
 - [x] erasure of everything private by destroying the event key; [x] automatic after the retention period (default 365 days, never shorter than the pack's record-keeping period) [~] retention job written; its test is pending (see section R)
 - [x] subject rights: access (self and by Organizer with a reason), correction, withdrawal, erasure, grievance via signed-in route or public form; every step logged; requests are accepted after publication (`transparency`)
 - [x] consent: terms ticked once by everyone, as a signed log entry; photo needs consent; terms say what is public and what is hidden
-- [~] **Not code, needs the owner/lawyer:** named grievance officer and contact; data-processing agreements with the mail and payment providers; breach-notification procedure; data location statement; DPDP/GDPR mapping reviewed by counsel (`docs/COMPLIANCE-MAP.md`)
+- [x] Grievance Officer: Rajat Agarwal (terms + `GET /api/privacy/officer`); processors and breach procedure written (`docs/GRIEVANCE-PROCESSORS-BREACH.md`)
+- [~] **Still the owner's / a lawyer's:** confirm the published grievance e-mail, accept each provider's online DPA, sign the breach procedure, data location statement, counsel's review of `docs/COMPLIANCE-MAP.md`
 
 ## 15. Security
 - [x] AES-256-GCM field encryption; HMAC-keyed blind indexes and fingerprints; Ed25519 signatures; SHA-256; no passwords anywhere
@@ -145,7 +147,7 @@ Evidence: tests live in `apps/api/test/*.test.ts` and `packages/engine/test/*.te
 
 ## R. Open items (honest list)
 1. User interface and screens (designed in `docs/UI-CONTRACT.md`, not built).
-2. Real Razorpay (owner keys), refunds none by decision.
+2. Switch on payments through IT Services (registration + one real payment); refunds none by decision.
 3. Real-device paper-ballot photos; real Excel-saved PDF for the flat list.
 4. Mutation checks for: team limits, photo, outcomes, postponement fees, own rules, officials, privacy, working view, ballot lock, retention.
 5. Retention job test; erase-photo test; recreate test with officials and own rules already passes, retention not.
@@ -154,4 +156,5 @@ Evidence: tests live in `apps/api/test/*.test.ts` and `packages/engine/test/*.te
 8. Correction of a holder's name; two-person rule for name changes after attendance; roll published and hash-locked before the meeting.
 9. External witness for the daily anchor; independent security review; key rotation.
 10. Brand clearance for the name "Townhall"; native review of translations.
-11. Named grievance officer, processor agreements, breach procedure (owner/lawyer).
+11. Owner: confirm grievance e-mail, accept DPAs, sign the breach procedure (drafted).
+12. Register the product in the central payment service and prove A = B = C with one real payment.

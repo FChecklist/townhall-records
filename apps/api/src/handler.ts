@@ -10,6 +10,7 @@ import {
   sealReport, setOption, validateBallot, validateParam, verifyPasscode, LOGIN_TTL_MS, sha256Hex, type EnginePack, type EventState, type PointDef, type RuleSet, type Json, type Role,
 } from "../../../packages/engine/src";
 import { agendaPayload, openPointPayload, receiptOf, resultPayload, sealBoxPayload, type BoxBallot } from "../../../packages/engine/src/commands";
+import { centralConfigured, centralOrder, centralVerify, handleRazorpayWebhook, ownerLedger, pushSiteSummary, recordAttempt, hmacHex as payHmac, same as paySame } from "./payments";
 import {
   ApiError, D1PasscodeStore, Tx, actorOf, checkTurnstile, createSession, err, int, json, loadEntries, mailLimit, mailQuotaLeft, mailsToday, newId, optStr, pepperHash, publicKey, rateLimit, readBody, requireSession,
   sendMail, str, email as emailOf, type Ctx, type D1Stmt, type Env,
@@ -524,15 +525,10 @@ route("POST", "/api/events/:id/confirm", async (c, m) => {
 
 // ---- payment links: the Organizer or a Host creates one, anyone can pay it (no sign-in), like the Corporate Tambola payment link
 async function createPayment(c: Ctx, tx: Tx, st: EventState, pid: string, purpose: "event" | "reschedule", amountMinor: number, currency: string) {
-  const paymentId = newId("pay_", 8); let orderId: string | null = null;
-  if (c.env.PAY_SERVICE_KEY && c.env.PAY_SERVICE_URL) {
-    try {
-      const r = await fetch(`${(c.env.PAY_SERVICE_URL ?? "").replace(/\/+$/, "")}/api/pay/order`, { method: "POST", headers: { "content-type": "application/json", "x-site-key": c.env.PAY_SERVICE_KEY }, body: JSON.stringify({ site: c.env.PAY_SITE ?? "aoa-rwa", product: "aoa_rwa", plan: purpose === "event" ? st.created!.kind : "reschedule", amount_minor: amountMinor, currency, payment_ref: paymentId }) });
-      const d: any = await r.json().catch(() => ({})); if (r.ok && d.orderId) orderId = String(d.orderId);
-    } catch { /* falls back to the local test order */ }
-  }
-  await tx.add("payment_state", ENTRY_ACTOR(st, pid), { paymentId, state: "created", amountMinor, currency, mode: "test", purpose }, (seq) => [c.db.prepare("INSERT INTO payments(payment_id,event_id,state,mode,order_id,amount_minor,currency,ref,log_seq,at_ms) VALUES(?,?,'created','test',?,?,?,?,?,?)").bind(paymentId, tx.eid, orderId, amountMinor, currency, purpose, seq, c.now)]);
-  await tx.commit(); return { paymentId, orderId };
+  const paymentId = newId("pay_", 8); const mode = c.env.TEST_MODE === "1" ? "test" : "live";
+  const o = await centralOrder(c, { paymentId, kind: st.created!.kind, purpose, amountMinor, currency, eventId: tx.eid, label: `${st.created!.kind}: ${st.created!.title}`, userRef: pid });
+  await tx.add("payment_state", ENTRY_ACTOR(st, pid), { paymentId, state: "created", amountMinor, currency, mode, purpose, txnId: o.txnId, orderId: o.orderId } as any, (seq) => [c.db.prepare("INSERT INTO payments(payment_id,event_id,state,mode,order_id,amount_minor,currency,ref,log_seq,at_ms,txn_id) VALUES(?,?,'created',?,?,?,?,?,?,?,?)").bind(paymentId, tx.eid, mode, o.orderId, amountMinor, currency, purpose, seq, c.now, o.txnId)]);
+  await tx.commit(); return { paymentId, orderId: o.orderId, keyId: o.keyId, txnId: o.txnId };
 }
 const payTokenFor = async (c: Ctx, paymentId: string) => paymentId + "." + (await pepperHash(c.env, "paylink", paymentId)).slice(0, 20);
 const payPathFor = async (c: Ctx, paymentId: string) => "/pay/" + (await payTokenFor(c, paymentId));
@@ -552,7 +548,7 @@ route("POST", "/api/events/:id/pay-link", async (c, m) => {
 });
 route("GET", "/api/pay/link/:token", async (c, m) => {
   const p = await payByToken(c, m[1]!); const cr = p.st.created!;
-  return json({ event: { title: cr.title, society: cr.society.name, kind: cr.kind }, purpose: p.pay.purpose, amountMinor: p.pay.amountMinor, currency: p.pay.currency, paid: p.paid, orderId: p.orderId, mode: "test",
+  return json({ event: { title: cr.title, society: cr.society.name, kind: cr.kind }, purpose: p.pay.purpose, amountMinor: p.pay.amountMinor, currency: p.pay.currency, paid: p.paid, orderId: p.orderId, mode: c.env.TEST_MODE === "1" ? "test" : "live", keyId: null, txnId: (await c.db.prepare("SELECT txn_id FROM payments WHERE payment_id=? AND state='created'").bind(p.paymentId).first<{ txn_id: string | null }>())?.txn_id ?? null, checkoutOrigin: centralConfigured(c.env) ? (c.env.PAY_SERVICE_URL ?? "https://itservices-rajat-agarwal.pages.dev").replace(/\/+$/, "") : null,
     note: p.pay.purpose === "reschedule" ? "This is the charge for postponing the meeting again. It is half the event price." : "This pays for the meeting or election. Anyone may pay." });
 });
 route("POST", "/api/pay/link/:token/payer", async (c, m) => {
@@ -679,6 +675,21 @@ route("GET", "/api/events/:id/verify/:flat", async (c, m) => {
   await tx.add("contacts_read", ENTRY_ACTOR(st, pid), { by: pid, scope: "verify", flatNo } as any); await tx.commit();
   return json({ flatNo, weight: f.weight, eligible: f.eligible, alreadyPresent: present, holders, note: present ? "Already marked present: details are hidden again." : "Compare the name with the proof shown. It is hidden again as soon as you mark this flat present." });
 });
+/** The buyer's checkout came back: the central service checks the signature and asks Razorpay what really happened; the attempt is filed in ledger C and, if paid, the payment is marked paid. Anyone holding the link may call it. */
+route("POST", "/api/pay/link/:token/verify", async (c, m) => {
+  const p = await payByToken(c, m[1]!); await rateLimit(c, "payverify", p.paymentId, 30, 600);
+  const oid = str(c.body.razorpay_order_id, "order", 6, 60), pid2 = str(c.body.razorpay_payment_id, "payment", 6, 60), sig = str(c.body.razorpay_signature, "signature", 10, 200);
+  const row = await c.db.prepare("SELECT order_id, txn_id FROM payments WHERE payment_id=? AND state='created'").bind(p.paymentId).first<{ order_id: string | null; txn_id: string | null }>();
+  if (!row?.order_id || row.order_id !== oid) throw err(409, "wrong_order", "That payment belongs to a different order.");
+  c.eventId = p.eventId; const d = await centralVerify(c, { orderId: oid, paymentId: pid2, signature: sig });
+  await recordAttempt(c, { rzpPaymentId: pid2, rzpOrderId: oid, paymentId: p.paymentId, eventId: p.eventId, txnId: d.txn_id ?? row.txn_id, status: d.paid ? "paid" : d.status === "failed" ? "failed" : d.status === "authorized" ? "authorized" : "created", amountMinor: p.pay.amountMinor, currency: p.pay.currency, method: d.method ?? null, feeMinor: typeof d.fee_minor === "number" ? d.fee_minor : null, taxMinor: typeof d.tax_minor === "number" ? d.tax_minor : null, email: d.payer_email ?? null, atMs: c.now });
+  if (d.paid) await markPaid(c, p.eventId, p.paymentId, "central-verify");
+  return json({ paid: !!d.paid, status: d.status ?? null, txnId: d.txn_id ?? row.txn_id });
+});
+/** Ledger C for the owner: Bearer OWNER_LEDGER_KEY. ?month=YYYY-MM */
+route("GET", "/api/owner/ledger", async (c) => json({ site: c.env.PAY_SITE ?? null, ledger: "C", rows: await ownerLedger(c, c.url.searchParams.get("month")) }));
+/** The person to complain to about personal data (DPDP s.13 / GDPR art. 77): set by the deployer; the name defaults to the owner. */
+route("GET", "/api/privacy/officer", async (c) => json({ grievanceOfficer: c.env.GRIEVANCE_NAME ?? "Rajat Agarwal", email: c.env.GRIEVANCE_EMAIL ?? null, form: "POST /api/events/:id/privacy/contact", answerWithin: "30 days", note: "You may also write through the privacy form of any event." }));
 function pointInput(b: any, cur?: any) {
   const kindIn = b.kind ?? cur?.kind;
   const kind = ["discussion", "resolution", "election_post"].includes(kindIn) ? (kindIn as string) : (() => { throw err(400, "bad_kind", "kind must be discussion, resolution or election_post."); })();
@@ -788,24 +799,16 @@ route("POST", "/api/events/:id/crypto-shred", async (c, m) => {
 // ------------------------------------------------------------------------------------------------ payment (TEST mode only in this build)
 route("POST", "/api/events/:id/pay", async (c, m) => {
   const { tx, pid } = await staff(c, m[1]!, "pay"); const st = await tx.st();
-  if (c.env.TEST_MODE !== "1") throw err(503, "pay_disabled", "Payments are not switched on yet.");
+  if (c.env.TEST_MODE !== "1" && !centralConfigured(c.env)) throw err(503, "pay_disabled", "Payments are not switched on yet.");
   if (st.paid) throw err(409, "already_paid", "This event is already paid.");
-  const price = priceFor(st.created!.kind, st.created!.country); const amountMinor = price.amountMinor; const paymentId = newId("pay_", 8);
-  let orderId: string | null = null;
-  if (c.env.PAY_SERVICE_KEY && c.env.PAY_SERVICE_URL) { // central path (IT Services by Rajat Agarwal), same call shape as Corporate Bingo; TEST mode only
-    try {
-      const r = await fetch(`${(c.env.PAY_SERVICE_URL ?? "").replace(/\/+$/, "")}/api/pay/order`, { method: "POST", headers: { "content-type": "application/json", "x-site-key": c.env.PAY_SERVICE_KEY }, body: JSON.stringify({ site: c.env.PAY_SITE ?? "aoa-rwa", product: "aoa_rwa", plan: st.created!.kind, amount_minor: amountMinor, currency: price.currency, payment_ref: paymentId, extra_notes: { event: tx.eid.slice(0, 8), test: "1" } }), signal: AbortSignal.timeout(6000) });
-      const d: any = await r.json().catch(() => ({})); if (r.ok && d.orderId) orderId = String(d.orderId);
-    } catch { /* falls back to the local test order */ }
-  }
-  await tx.add("payment_state", ENTRY_ACTOR(st, pid), { paymentId, state: "created", amountMinor, currency: price.currency, mode: "test" }, (seq) => [c.db.prepare("INSERT INTO payments(payment_id,event_id,state,mode,order_id,amount_minor,currency,ref,log_seq,at_ms) VALUES(?,?,'created','test',?,?,?,?,?,?)").bind(paymentId, tx.eid, orderId, amountMinor, price.currency, null, seq, c.now)]);
-  await tx.commit(); return json({ paymentId, amountMinor, currency: price.currency, price: formatPrice(price), mode: "test", orderId }, 201);
+  const price = priceFor(st.created!.kind, st.created!.country); const p = await createPayment(c, tx, st, pid, "event", price.amountMinor, price.currency);
+  return json({ paymentId: p.paymentId, amountMinor: price.amountMinor, currency: price.currency, price: formatPrice(price), mode: c.env.TEST_MODE === "1" ? "test" : "live", orderId: p.orderId, keyId: p.keyId, txnId: p.txnId, payPath: await payPathFor(c, p.paymentId) }, 201);
 });
 async function markPaid(c: Ctx, eid: string, paymentId: string, via: string): Promise<void> {
   const tx = await Tx.load(c, eid); const st = await tx.st();
   const created = st.payments.find((p) => p.paymentId === paymentId && p.state === "created"); if (!created) throw err(404, "no_payment", "No such payment.");
   if (st.payments.some((p) => p.paymentId === paymentId && p.state === "paid")) return; // idempotent
-  await tx.add("payment_state", { system: true }, { paymentId, state: "paid", amountMinor: created.amountMinor, currency: created.currency, mode: "test", purpose: created.purpose }, (seq) => [c.db.prepare("INSERT INTO payments(payment_id,event_id,state,mode,order_id,amount_minor,currency,ref,log_seq,at_ms) VALUES(?,?,'paid','test',NULL,?,?,?,?,?)").bind(paymentId, eid, created.amountMinor, created.currency, via, seq, c.now)]);
+  await tx.add("payment_state", { system: true }, { paymentId, state: "paid", amountMinor: created.amountMinor, currency: created.currency, mode: created.mode, purpose: created.purpose }, (seq) => [c.db.prepare("INSERT INTO payments(payment_id,event_id,state,mode,order_id,amount_minor,currency,ref,log_seq,at_ms) VALUES(?,?,'paid',?,NULL,?,?,?,?,?)").bind(paymentId, eid, created.mode, created.amountMinor, created.currency, via, seq, c.now)]);
   await tx.commit();
   if (created.purpose === "reschedule") { // the postponement the payment was waiting for takes effect now
     const iid = await kvGet(c, "intentpay:" + paymentId); const raw = iid ? await kvGet(c, "intent:" + iid) : null;
@@ -818,6 +821,9 @@ route("POST", "/api/pay/test-confirm", async (c) => {
   void pid; await markPaid(c, eid, str(c.body.paymentId, "paymentId", 3, 40), "test-confirm"); return json({ ok: true });
 });
 route("POST", "/api/pay/webhook", async (c) => {
+  if (c.req.headers.get("x-razorpay-signature")) { // a delivery forwarded by IT Services (Razorpay's own signature over the raw body)
+    const r = await handleRazorpayWebhook(c, String((c.body as any).__raw ?? JSON.stringify(c.body)), async (eid, pid2, via) => { c.eventId = eid; await markPaid(c, eid, pid2, via); }); return json({ ok: true, result: r.result });
+  }
   const sig = c.req.headers.get("x-signature") ?? ""; const secret = c.env.PAY_WEBHOOK_SECRET;
   if (!secret || c.env.TEST_MODE !== "1") throw err(404, "not_found", "Not found.");
   const raw = JSON.stringify(c.body);
@@ -972,7 +978,8 @@ route("POST", "/api/internal/tick", async (c) => {
     c.eventId = r.event_id; await tx.add("key_destroyed", { system: true }, { auto: true, reason: `retention period of ${days} days is over` } as any);
     await tx.commit([c.db.prepare("UPDATE event_keys SET wrapped_key=NULL, destroyed_ms=? WHERE event_id=?").bind(c.now, r.event_id)]); erased.push(r.event_id);
   }
-  return json({ closed: closed.length, events: closed, erased: erased.length });
+  const summaries = await pushSiteSummary(c).catch(() => 0);
+  return json({ closed: closed.length, events: closed, erased: erased.length, summariesSent: summaries });
 });
 async function reportBytes(c: Ctx, eid: string): Promise<{ html: string; pdf: Uint8Array; pdfSha256: string; fileSha256: string }> {
   const rep = await c.db.prepare("SELECT html FROM reports WHERE event_id=? ORDER BY rev DESC LIMIT 1").bind(eid).first<{ html: string }>();

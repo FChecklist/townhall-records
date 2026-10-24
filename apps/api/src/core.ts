@@ -24,7 +24,7 @@ export interface Env {
   RESEND_API_KEY?: string; MAIL_FROM?: string; MAIL_DAILY_LIMIT?: string;
   /** Injected mailers (local file stub, second provider). */
   MAILER?: Mailer; MAILER2?: Mailer;
-  PAY_SERVICE_KEY?: string; PAY_SERVICE_URL?: string; PAY_SITE?: string; PAY_WEBHOOK_SECRET?: string;
+  RAZORPAY_WEBHOOK_SECRET?: string; OWNER_LEDGER_KEY?: string; GRIEVANCE_NAME?: string; GRIEVANCE_EMAIL?: string; PAY_SERVICE_KEY?: string; PAY_SERVICE_URL?: string; PAY_SITE?: string; PAY_WEBHOOK_SECRET?: string;
   PUBLIC_ORIGIN?: string;
   /** "1" = also write an audit row for anonymous reads of public pages (off by default: public data, read-heavy). */
   AUDIT_PUBLIC_READS?: string;
@@ -45,7 +45,7 @@ export async function readBody(req: Request, max = 65_536): Promise<any> {
   const t = await req.text();
   if (t.length > max) throw err(413, "too_large", "That request is too big.");
   if (!t) return {};
-  try { const v = JSON.parse(t); if (v === null || typeof v !== "object") throw 0; return v; } catch { throw err(400, "bad_json", "The request body must be JSON."); }
+  try { const v = JSON.parse(t); if (v === null || typeof v !== "object") throw 0; Object.defineProperty(v, "__raw", { value: t, enumerable: false }); return v; } catch { throw err(400, "bad_json", "The request body must be JSON."); }
 }
 
 // ---- small validators ----

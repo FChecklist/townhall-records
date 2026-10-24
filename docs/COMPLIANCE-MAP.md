@@ -15,9 +15,9 @@ The society (Organizer) is the data fiduciary / controller of its members' data;
 | Access to one's data | s.11 | 15 | `GET /api/me/data` (signed-in), Organizer export with a reason (logged), voter `GET /api/vote/me` | Built |
 | Correction / erasure | s.12 | 16, 17 | Privacy requests (signed-in or public form), resolution by the Organizer, erasure of one person or one flat by destroying their key, also after publication; the public record keeps verifying because it only holds the hidden form | Built |
 | Withdraw consent | s.6(4) | 7(3) | Request type "withdraw" | Built (request logged; effect through erasure) |
-| Grievance redressal | s.13 | 77 | Request type "grievance" via public form on every event; handled and logged | Built; Owner: name a grievance officer and publish contact |
-| Breach notification | s.8(6) | 33, 34 | Not code. The access audit and the chain make a breach detectable | Owner: written procedure and contact |
-| Processors | s.8(2) | 28 | The mail and payment providers see e-mail addresses / payer details | Owner: agreements |
+| Grievance redressal | s.13 | 77 | Request type "grievance" via public form on every event; handled and logged | Built; Grievance Officer = Rajat Agarwal (named in the terms, served by `GET /api/privacy/officer`); Owner: confirm the published e-mail |
+| Breach notification | s.8(6) | 33, 34 | Not code. The access audit and the chain make a breach detectable | Written: docs/GRIEVANCE-PROCESSORS-BREACH.md (lead: Rajat Agarwal); Owner: sign it and save the authority contacts |
+| Processors | s.8(2) | 28 | The mail and payment providers see e-mail addresses / payer details | Listed with what each sees in docs/GRIEVANCE-PROCESSORS-BREACH.md; Owner: accept each online DPA once |
 | Children's data | s.9 | 8 | No children's data is collected by design | Owner: confirm |
 | Cross-border / location | s.16 | 44-49 | Cloudflare edge; data location is the deployer's choice | Owner: state it in the notice |
 | Records of processing | - | 30 | Chronology and access audit are the record | Built |
