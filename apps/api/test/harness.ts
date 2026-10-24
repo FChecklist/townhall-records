@@ -16,11 +16,11 @@ export class H {
   pub = "";
   device: string | null = "device-test-00000001";
   /** The terms box is ticked automatically on the three calls that need it, unless the test sets acceptTerms itself. */
-  async call(method: string, path: string, body?: unknown, token?: string, ip = "9.9.9." + (this.ip++ % 250)): Promise<{ status: number; body: any; text: string }> {
+  async call(method: string, path: string, body?: unknown, token?: string, ip = "9.9.9." + (this.ip++ % 250)): Promise<{ status: number; body: any; text: string; headers: Headers }> {
     if (body && typeof body === "object" && !("acceptTerms" in (body as any)) && method === "POST" && (path === "/api/events" || path === "/api/auth/verify" || path === "/api/vote/login" || (path.startsWith("/api/h/") && path.endsWith("/confirm")))) body = { ...(body as any), acceptTerms: true, termsVersion: TERMS_VERSION };
     const r = await handle(new Request("http://x" + path, { method, headers: { "content-type": "application/json", "cf-connecting-ip": ip, "user-agent": "TestBrowser/1.0 (test)", ...(this.device ? { "x-device-id": this.device } : {}), ...(token ? { authorization: "Bearer " + token } : {}) }, body: method === "GET" || body === undefined ? undefined : JSON.stringify(body) }), this.env, this.now);
     const text = await r.text(); let b: any = null; try { b = JSON.parse(text); } catch { /* html */ }
-    return { status: r.status, body: b, text };
+    return { status: r.status, body: b, text, headers: r.headers };
   }
   /** The last 6-digit code mailed to this address (local outbox stub). */
   codeFor(to: string): string {
@@ -33,7 +33,10 @@ export class H {
 export const ORG = { name: "Rajat Agarwal", email: "rajat.agarwal@example.org", phone: "9876543210" };
 export const HOSTP = { name: "Neha Gupta", email: "neha.gupta@example.org", phone: "9123456780" };
 export const OFFP = { name: "Sunil Verma", email: "sunil.verma@example.org", phone: "9988776655" };
+/** What must never be public. ONE universal rule (owner directive 2026-10-24): on the public page, PDF, log and every public answer, nobody is shown in full, staff included. */
 export const PRIVATE = [ORG, HOSTP, OFFP].flatMap((p) => [p.name, p.email, p.phone, ...p.name.split(" ")]);
+/** Kept so older tests compile: nothing is public in full any more. */
+export const STAFF_PUBLIC: string[] = [];
 
 export interface EventCtx { h: H; eid: string; org: string; pid: string }
 export async function newEvent(h: H, over: Record<string, unknown> = {}): Promise<EventCtx & { ip: string }> {

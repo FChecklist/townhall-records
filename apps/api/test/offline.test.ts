@@ -1,7 +1,7 @@
 // Owner directives: attendance by exchanging 4-digit codes between two screens; printed ballot papers with unique QR codes, photographed and counted; languages and guides.
 import { describe, expect, test } from "bun:test";
 import { buildReportModel, defaultBallotDesign, detectTicks, replayLog, type PaperLayout, scanPublic } from "../../../packages/engine/src";
-import { H, OFFP, ORG, PRIVATE, appointVerified, getLog, newEvent, setup, flatsOf, DAY } from "./harness";
+import { H, OFFP, ORG, PRIVATE, appointVerified, getLog, newEvent, setup, flatsOf, DAY, STAFF_PUBLIC } from "./harness";
 
 const OFFICER_DEV = "device-officer-0000001", VOTER_DEV = "device-voter-00000001", VOTER2_DEV = "device-voter-00000002";
 const ok = async (p: Promise<any>) => { const r = await p; if (r.status >= 300) throw new Error(JSON.stringify(r.body)); return r; };
@@ -106,8 +106,8 @@ describe("attendance by exchanging two 4-digit codes (no SMS cost)", () => {
     const hs = await ok(h.call("POST", `/api/events/${e.eid}/handshakes`, { flatNo: "A-101", attendeeName: "Owner One", mobile: "98765 43210" }, e.off.token)); expect(hs.body.smsHint).toContain("their own phone");
     h.device = VOTER_DEV; const pg = await ok(h.call("GET", `/api/h/${hs.body.token}`)); h.device = OFFICER_DEV; expect(pg.body.smsLink === null || pg.body.smsLink.startsWith("sms:")).toBe(true);
     expect((await h.call("POST", `/api/events/${e.eid}/handshakes/${hs.body.handshakeId}/sms-confirm`, { senderNumber: "+91 98765 43211" }, e.off.token)).body.error).toBe("number_differs");
-    const good = await ok(h.call("POST", `/api/events/${e.eid}/handshakes/${hs.body.handshakeId}/sms-confirm`, { senderNumber: "+91 98765 43210" }, e.off.token)); expect(good.body.maskedMobile).toBe("98******10");
-    const log = JSON.stringify((await getLog(h, e.eid)).entries); expect(log).toContain("mobile_confirmed"); expect(scanPublic(log, { allow: ["REG/2020/118"], forbidden: ["9876543210", "98765 43210"] })).toEqual([]);
+    const good = await ok(h.call("POST", `/api/events/${e.eid}/handshakes/${hs.body.handshakeId}/sms-confirm`, { senderNumber: "+91 98765 43210" }, e.off.token)); expect(good.body.maskedMobile).toBe("******3210");
+    const log = JSON.stringify((await getLog(h, e.eid)).entries); expect(log).toContain("mobile_confirmed"); expect(scanPublic(log, { allow: ["REG/2020/118", ...STAFF_PUBLIC], forbidden: ["9876543210", "98765 43210"] })).toEqual([]);
     expect(h.count("SELECT COUNT(*) c FROM mail_outbox WHERE body LIKE '%98765%'")).toBe(0);
     const noMob = await ok(h.call("POST", `/api/events/${e.eid}/handshakes`, { flatNo: "A-102", attendeeName: "Owner Two" }, e.off.token)); expect((await h.call("POST", `/api/events/${e.eid}/handshakes/${noMob.body.handshakeId}/sms-confirm`, { senderNumber: "9876543210" }, e.off.token)).body.error).toBe("no_mobile");
   });

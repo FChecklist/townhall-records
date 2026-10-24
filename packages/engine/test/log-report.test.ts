@@ -167,7 +167,7 @@ describe("the public page / report", () => {
     for (const text of [html, page, JSON.stringify(model), JSON.stringify(s.entries), JSON.stringify(m2)]) {
       expect(scanPublic(text, { allow: ["REG/2020/118"], forbidden: PRIVATE_STRINGS })).toEqual([]);
     }
-    expect(page).toContain("R**** A*****"); expect(page).toContain("ra****@e****.org".replace("ra", "ra"));
+    expect(page).toContain("Raj****** Aga******");
   });
   test("the embedded verifier bundle is current with the source and runs in a bare JS context", async () => {
     expect(VERIFIER_JS.length).toBeGreaterThan(5000);

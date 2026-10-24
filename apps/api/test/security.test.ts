@@ -1,7 +1,7 @@
 // The tests the PM listed: each one tries to cheat and must FAIL to cheat. scripts/mutate.ts breaks the code and shows them failing.
 import { describe, expect, test } from "bun:test";
-import { buildReportModel, extractData, replayLog, scanPublic, verifyChain, verifyEmbedded, verifyReportHtml } from "../../../packages/engine/src";
-import { DAY, H, HOSTP, OFFP, ORG, PRIVATE, appointVerified, chainOk, flatsOf, getLog, newEvent, setup } from "./harness";
+import { maskEmail, buildReportModel, extractData, replayLog, scanPublic, verifyChain, verifyEmbedded, verifyReportHtml } from "../../../packages/engine/src";
+import { DAY, H, HOSTP, OFFP, ORG, PRIVATE, STAFF_PUBLIC, appointVerified, chainOk, flatsOf, getLog, newEvent, setup } from "./harness";
 
 /** A live event with an officer, `n` flats present, first point open for 30 minutes. */
 async function liveEvent(h: H, o: { flats?: number; present?: number; secret?: boolean; pack?: string } = {}) {
@@ -275,11 +275,11 @@ describe("privacy: nothing personal in public output", () => {
     await h.call("POST", `/api/events/${e.eid}/close`, {}, e.org);
     for (const p of [...pages, `/api/r/${e.eid}?download=1`, `/api/events/${e.eid}/receipts/${e.pointId}`]) {
       const r = await h.call("GET", p);
-      expect(scanPublic(r.text, { allow: ["REG/2020/118"], forbidden: PRIVATE })).toEqual([]);
+      expect(scanPublic(r.text, { allow: ["REG/2020/118", ...STAFF_PUBLIC], forbidden: PRIVATE })).toEqual([]);
     }
     const publicTables = ["societies", "events", "event_status", "event_options", "event_rules", "flats", "agenda_points", "point_state", "people", "person_labels", "role_assignments", "attendance", "voter_ledger", "ballot_box", "box_seals", "log_entries", "reports", "anchors"];
-    for (const t of publicTables) expect(scanPublic(JSON.stringify(h.raw.query(`SELECT * FROM ${t}`).all()), { allow: ["REG/2020/118"], forbidden: PRIVATE })).toEqual([]);
-    expect((h.raw.query("SELECT masked_email FROM people LIMIT 1").get() as any).masked_email).toBe("ra****@e****.org");
+    for (const t of publicTables) expect(scanPublic(JSON.stringify(h.raw.query(`SELECT * FROM ${t}`).all()), { allow: ["REG/2020/118", ...STAFF_PUBLIC], forbidden: PRIVATE })).toEqual([]);
+    expect((h.raw.query("SELECT masked_email FROM people LIMIT 1").get() as any).masked_email).toBe(maskEmail(ORG.email));
   });
   test("the private store is encrypted: no plaintext e-mail in private_contacts; contacts readable only by verified staff, and each read is logged", async () => {
     const h = await H.make(); const e = await liveEvent(h);
@@ -362,7 +362,7 @@ describe("clone from an old event", () => {
     const nid = r.body.eventId;
     const m = (await h.call("GET", `/api/events/${nid}`)).body.model;
     expect(m.society.registrationNo).toBe("REG/2020/118"); expect(m.createdFrom).toBe(e.eid); expect(m.points.length).toBe(1); expect(m.attendance.total).toBe(10);
-    expect(m.people.length).toBe(1); expect(m.people[0].maskedName).toBe("P**** S****"); // only the new Organizer, unverified
+    expect(m.people.length).toBe(1); expect(m.people[0].maskedName).toBe("Poo****** Sin******"); // only the new Organizer, unverified
     expect(m.attendance.present).toBe(0); expect(m.points[0].voted).toEqual([]); expect(m.payments).toEqual([]);
     expect(h.count("SELECT COUNT(*) c FROM voter_ledger WHERE event_id=?", nid)).toBe(0);
     expect(h.count("SELECT COUNT(*) c FROM passcodes WHERE event_id=? AND purpose='voter'", nid)).toBe(0);

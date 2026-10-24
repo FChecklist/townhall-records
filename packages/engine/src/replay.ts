@@ -6,7 +6,7 @@ import type { SignedEntry } from "./log";
 import { effectiveForPoint, type RuleSet } from "./rules";
 import { defaultBallotDesign, normalizeBallotDesign } from "./ballot";
 import { roleCounts, roleLimitProblem } from "./attendance";
-import { OFFICIAL_GROUP_IDS, REASON_IDS, postponeQuote, type Outcome, type PostponePhase } from "./lifecycle";
+import { describeAction, OFFICIAL_GROUP_IDS, REASON_IDS, postponeQuote, type Outcome, type PostponePhase } from "./lifecycle";
 import { defaultSchedule, validateSchedule, type Schedule } from "./schedule";
 import { aggregate, computeQuorum, effectiveWeight, tallyAgg, type Aggregate, type Flat, type PointDef, type PointTally, type QuorumResult } from "./tally";
 
@@ -19,7 +19,7 @@ export interface PointRun {
   def: PointFull; state: "pending" | "open" | "closed"; endsMs: number | null; extensions: number; openedSeq: number | null; closedSeq: number | null;
   frozen: RuleSet | null; presentWeightAtClose: number | null; totalWeightAtClose: number | null; quorumAtOpen: QuorumResult | null;
 }
-export interface Presence { flatNo: string; maskedName: string; mode: string; method: string; docType: string | null; docLast4: string | null; by: string; independent: boolean; evidenceHash: string | null; seq: number; ts: number }
+export interface Presence { flatNo: string; maskedName: string; mode: string; method: string; docType: string | null; docLast4: string | null; by: string; independent: boolean; evidenceHash: string | null; idChecked: boolean; idVerifiedBy: string | null; seq: number; ts: number }
 export interface PaperStats { serials: number; counted: number; invalid: number; voided: number; uncounted: number; imagesDigest: string }
 export interface BoxSeal { n: number; receipts: string[]; counts: Record<string, { weight: number; count: number }>; castWeight: number; digest: string; split: Aggregate["split"]; paper: PaperStats | null }
 export interface RuleChange { seq: number; ts: number; scope: string; param: string; old: Json | null; new: Json | null; reason: string; by: string | null }
@@ -41,6 +41,10 @@ export interface EventState {
   outcome: Outcome | null; sitting: number;
   officials: Map<string, { id: string; seq: number; ts: number; group: string; groupLabel: string; name: string; designation: string; authority: string; note: string }>;
   officialPresence: Map<string, { seq: number; ts: number; mode: string; by: string | null }>;
+  /** who did what and when: every action of a named person (Organizer, Host, Attendance Monitor), in order */
+  actions: Array<{ seq: number; ts: number; pid: string; type: string; detail: string }>;
+  /** every entry in order, with a plain description: the chronology */
+  timeline: Array<{ seq: number; ts: number; type: string; pid: string | null; flat: string | null; hash: string; detail: string }>;
   overrides: Array<{ seq: number; ts: number; key: string; value: boolean; declaration: string; lawReason: string }>;
   customRules: Map<string, { seq: number; ts: number; title: string; kind: "text" | "number" | "yes_no"; value: string | number | boolean; note: string }>;
   postponements: Array<{ seq: number; ts: number; phase: PostponePhase; sitting: number; reasonCodes: string[]; reason: string; feeMinor: number; paymentId: string | null; fromStartMs: number; to: Schedule }>;
@@ -57,7 +61,7 @@ export function emptyState(eid: string): EventState {
   return {
     eid, seqCount: 0, head: null, firstTs: null, lastTs: null, created: null, rules: null, initialRules: null, ruleHistory: [], rejectedChanges: [], status: "setup", paid: false, payments: [],
     people: new Map(), roleLog: [], roll: [], rollRev: 0, points: new Map(), pointOrder: [], attendance: new Map(), attendanceLog: [], ledger: new Map(),
-    seals: new Map(), results: new Map(), devices: [], handshakes: 0, agenda: null, startedTs: null, closedInfo: null, outcome: null, sitting: 1, postponements: [], overrides: [], customRules: new Map(), officials: new Map(), officialPresence: new Map(), clones: [], platformActions: [], contactsReads: 0, anchors: [], scheduleChanges: [], terms: new Set(), accEntries: 0, packInfo: { name: "", confidence: "", needsLawyer: true }, problems: [],
+    seals: new Map(), results: new Map(), devices: [], handshakes: 0, agenda: null, startedTs: null, closedInfo: null, outcome: null, sitting: 1, postponements: [], overrides: [], actions: [], timeline: [], customRules: new Map(), officials: new Map(), officialPresence: new Map(), clones: [], platformActions: [], contactsReads: 0, anchors: [], scheduleChanges: [], terms: new Set(), accEntries: 0, packInfo: { name: "", confidence: "", needsLawyer: true }, problems: [],
   };
 }
 
@@ -98,6 +102,9 @@ export async function replayLog(entries: SignedEntry[]): Promise<EventState> {
   const bad = (seq: number, m: string) => s.problems.push(`#${seq}: ${m}`);
   for (const se of entries) {
     const e = se.entry, p = e.payload as any, seq = e.seq;
+    { const act = e.actor as any; s.timeline.push({ seq, ts: e.ts, type: e.type, pid: typeof act?.pid === "string" ? act.pid : null, flat: typeof act?.flat === "string" ? act.flat : null, hash: se.hash.slice(0, 12), detail: describeAction(e.type, p) });
+      const prevTs = s.timeline.length > 1 ? s.timeline[s.timeline.length - 2]!.ts : 0; if (e.ts < prevTs - 5000) bad(seq, "the time goes backwards by more than 5 seconds"); }
+    { const ap = (e.actor as any)?.pid; if (typeof ap === "string" && !["terms_accepted", "email_verified", "passcode_issued", "passcode_locked"].includes(e.type)) s.actions.push({ seq, ts: e.ts, pid: ap, type: e.type, detail: describeAction(e.type, p) }); }
     s.seqCount = seq; s.head = { seq, hash: se.hash }; s.firstTs ??= e.ts; s.lastTs = e.ts;
     const actorPid = "pid" in e.actor ? e.actor.pid : null;
     if (e.type === "terms_accepted") s.terms.add(`${p.subject === "flat" ? "flat" : "pid"}:${p.ref}`);
@@ -183,7 +190,7 @@ export async function replayLog(entries: SignedEntry[]): Promise<EventState> {
       case "agenda_published": s.status = "agenda_published"; s.agenda = { seq, ts: e.ts, givenDays: p.givenDays, minDays: p.minDays ?? null, maxDays: p.maxDays ?? null, met: p.met ?? null }; break;
       case "payment_state": { const purpose = p.purpose === "reschedule" ? "reschedule" : "event"; s.payments.push({ paymentId: p.paymentId, state: p.state, amountMinor: p.amountMinor, currency: p.currency ?? "INR", mode: p.mode, seq, purpose }); if (p.state === "paid" && purpose === "event") s.paid = true; break; }
       case "attendance_marked": {
-        const pr: Presence = { flatNo: p.flatNo, maskedName: p.maskedName ?? "", mode: p.mode, method: p.method, docType: p.docType ?? null, docLast4: p.docLast4 ?? null, by: p.by, independent: !!p.independent, evidenceHash: p.evidenceHash ?? null, seq, ts: e.ts };
+        const pr: Presence = { flatNo: p.flatNo, maskedName: p.maskedName ?? "", mode: p.mode, method: p.method, docType: p.docType ?? null, docLast4: p.docLast4 ?? null, by: p.by, independent: !!p.independent, evidenceHash: p.evidenceHash ?? null, idChecked: !!p.idChecked || !!p.docType, idVerifiedBy: typeof p.idVerifiedBy === "string" ? p.idVerifiedBy : (p.docType ? p.by : null), seq, ts: e.ts };
         s.attendanceLog.push(pr);
         if (p.present === false) s.attendance.delete(p.flatNo); else s.attendance.set(p.flatNo, pr);
         break;

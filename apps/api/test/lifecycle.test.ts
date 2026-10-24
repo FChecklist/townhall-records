@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { scanPublic, verifyReportHtml, buildReportModel, replayLog, extractData } from "../../../packages/engine/src";
-import { H, HOSTP, OFFP, PRIVATE, appointVerified, chainOk, getLog, newEvent, setup, ORG } from "./harness";
+import { H, HOSTP, OFFP, PRIVATE, STAFF_PUBLIC, appointVerified, chainOk, getLog, newEvent, setup, ORG } from "./harness";
 
 describe("a whole event through the API", () => {
   test("open-vote meeting: setup -> pay -> publish -> check-in -> vote -> close -> sealed report that verifies", async () => {
@@ -39,7 +39,7 @@ describe("a whole event through the API", () => {
     expect(model.points[0]!.tally!.options.find((o) => o.option === "yes")!.count).toBe(4);
     expect(model.attendance.line).toContain("independently verified by 1");
     // the same page, public, with private details never in it
-    expect(scanPublic(rep.text, { allow: ["REG/2020/118"], forbidden: PRIVATE })).toEqual([]);
+    expect(scanPublic(rep.text, { allow: ["REG/2020/118", ...STAFF_PUBLIC], forbidden: PRIVATE })).toEqual([]);
     expect(h.count("SELECT COUNT(*) c FROM reports")).toBe(1);
     void HOSTP; void newEvent; void ORG; void extractData;
   });

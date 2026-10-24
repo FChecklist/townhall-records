@@ -208,7 +208,7 @@ export class Tx {
     this.stmts.push(insertEntry(this.c.db, se), ...rows(se.entry.seq));
     return se;
   }
-  private allow(): string[] { const reg = this.state?.created?.society.registrationNo; return reg ? [reg] : this.regAllow; }
+  private allow(): string[] { const reg = this.state?.created?.society.registrationNo; return [...(reg ? [reg] : []), ...this.regAllow]; } // plus the e-mail a staff member agreed to publish
   regAllow: string[] = [];
   get nextSeq() { return this.entries.length + 1; }
   async commit(extra: D1Stmt[] = []): Promise<void> {

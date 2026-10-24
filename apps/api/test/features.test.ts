@@ -1,8 +1,8 @@
 // Owner additions of 2026-10-23: prices by country, unique ids, ballot design, checkbox ballots, election formats, PDF for signature, e-mail of the report,
 // automatic publication within 120 seconds, and a published record that nobody can change.
 import { describe, expect, test } from "bun:test";
-import { buildReportModel, replayLog, renderReportPdf, extractData, extractSeal, scanPublic } from "../../../packages/engine/src";
-import { DAY, H, OFFP, ORG, PRIVATE, appointVerified, getLog, newEvent, setup, flatsOf } from "./harness";
+import { maskEmail, buildReportModel, replayLog, renderReportPdf, extractData, extractSeal, scanPublic } from "../../../packages/engine/src";
+import { DAY, H, OFFP, ORG, PRIVATE, STAFF_PUBLIC, appointVerified, getLog, newEvent, setup, flatsOf } from "./harness";
 
 const T = Date.UTC(2026, 10, 14, 10, 30, 0), HR = 3_600_000;
 const sched = (startMs: number) => ({ start: { atMs: startMs, place: "Hall" }, votingStart: { atMs: startMs, place: "Hall" }, votingEnd: { atMs: startMs + 2 * HR, place: "Hall" }, end: { atMs: startMs + 3 * HR, place: "Hall" } });
@@ -150,7 +150,7 @@ describe("the final report as a PDF for the Returning Officer", () => {
     const t = text(r1.bytes);
     for (const needle of ["Returning Officer / Presiding Officer - signature", e.eid, "Appendix A. Complete log", "Ticked (yes)", "Green Park Apartments", "Election"]) expect(t).toContain(needle);
     const rep = await h.call("GET", `/api/r/${e.eid}`); expect(t).toContain(extractSeal(rep.text)!.fileSha256);
-    const found = scanPublic(t, { allow: ["REG/2020/118"], forbidden: PRIVATE }); expect(found.map((f) => f.kind + ":" + f.sample)).toEqual([]);
+    const found = scanPublic(t, { allow: ["REG/2020/118", ...STAFF_PUBLIC], forbidden: PRIVATE }); expect(found.map((f) => f.kind + ":" + f.sample)).toEqual([]);
   });
   test("the publish step answers with the report and the PDF; the Organizer is e-mailed the PDF automatically", async () => {
     const h = await H.make(); const c = await closed(h);
@@ -158,7 +158,7 @@ describe("the final report as a PDF for the Returning Officer", () => {
     const mail = h.raw.query("SELECT * FROM mail_outbox WHERE to_addr=? AND subject LIKE 'Report:%'").all(ORG.email) as any[];
     expect(mail.length).toBe(1); expect(mail[0].body).toContain("[attachment aoa-rwa-"); expect(mail[0].body).toContain("application/pdf"); expect(mail[0].body).toContain("Returning Officer");
     const log = (await getLog(h, c.eid)).entries.filter((x) => x.entry.type === "report_emailed").map((x) => x.entry.payload as any);
-    expect(log.length).toBe(1); expect(log[0].recipients).toEqual(["ra****@e****.org".replace("ra", "ra")]); expect(JSON.stringify(log)).not.toContain(ORG.email);
+    expect(log.length).toBe(1); expect(log[0].recipients).toEqual([maskEmail(ORG.email)]); expect(JSON.stringify(log)).not.toContain(ORG.email);
     expect(log[0].pdfSha256).toBe((await fetchPdf(h, c.eid)).sha);
   });
   test("the Organizer can e-mail the same report to others (up to 10); others cannot; the log records who was mailed in masked form", async () => {

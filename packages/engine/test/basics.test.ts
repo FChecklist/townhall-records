@@ -20,14 +20,17 @@ describe("canonical JSON", () => {
 
 describe("masking (Amendment A6 examples)", () => {
   test("e-mail, phone, name match the owner's examples", () => {
-    expect(maskEmail("rajat@gmail.com")).toBe("ra****@g****.com");
-    expect(maskPhone("9876543210")).toBe("98******10");
-    expect(maskName("Rajat Agarwal")).toBe("R**** A*****");
+    expect(maskEmail("raajat.agarwal@gmail.com")).toBe("********rwal@gmail.com");
+    expect(maskEmail("rajat@gmail.com")).toBe("********at@gmail.com");
+    expect(maskPhone("9876543210")).toBe("******3210");
+    expect(maskName("Rajat Agarwal")).toBe("Raj****** Aga******");
+    expect(maskName("Rajat Kumar Agarwal")).toBe("Raj****** Kum****** Aga******");
+    expect(maskName("Anil")).toBe("Ani******"); expect(maskName("Om Rao")).toBe("O****** R******");
   });
   test("odd inputs never leak", () => {
-    expect(maskEmail("a@b.co.in")).toBe("a****@b****.co.in");
-    expect(maskEmail("not an email")).toBe("****@****");
-    expect(maskPhone("+91 98765 43210")).toBe("98******10");
+    expect(maskEmail("a@b.co.in")).toBe("********a@b.co.in");
+    expect(maskEmail("not an email")).toBe("********@****");
+    expect(maskPhone("+91 98765 43210")).toBe("******3210");
     expect(maskPhone("123")).toBe("******");
     expect(maskName("  ")).toBe("*");
   });

@@ -39,18 +39,32 @@ async function eventKey(c: Ctx, eid: string): Promise<Bytes> {
   return fromB64url(await aesDecrypt(await wrapKey(c.env), r.wrapped_key, eid));
 }
 interface Contact { name: string; email: string; phone: string }
+/** One random key per person ('p:<id>') and per flat's attendee ('f:<flat>'), wrapped under the event key. Throwing the wrapped key away erases that one subject for ever. */
+async function subjectKey(c: Ctx, eid: string, ref: string, create: boolean, evKey?: Bytes): Promise<Bytes | null> {
+  const r = await c.db.prepare("SELECT wrapped_key FROM subject_keys WHERE event_id=? AND ref=?").bind(eid, ref).first<{ wrapped_key: string | null }>();
+  const ek = evKey ?? (r || create ? await eventKey(c, eid) : null);
+  if (r) { if (!r.wrapped_key) throw err(410, "subject_erased", "These details have been erased."); return fromB64url(await aesDecrypt(ek!, r.wrapped_key, eid + "|subj|" + ref)); }
+  if (!create) return null;
+  const k = crypto.getRandomValues(new Uint8Array(32));
+  await c.db.prepare("INSERT OR IGNORE INTO subject_keys(event_id,ref,wrapped_key,created_ms,destroyed_ms) VALUES(?,?,?,?,NULL)").bind(eid, ref, await aesEncrypt(ek!, b64url(k), eid + "|subj|" + ref), c.now).run();
+  return subjectKey(c, eid, ref, false, ek!); // read back what is really stored (another request may have won the race)
+}
 async function personStmts(c: Ctx, eid: string, pid: string, p: Contact, flatNo: string | null, key: Bytes): Promise<D1Stmt[]> {
-  const ct = await aesEncrypt(key, JSON.stringify(p), eid + "|" + pid);
+  const sk = (await subjectKey(c, eid, "p:" + pid, true, key))!; const ct = await aesEncrypt(sk, JSON.stringify(p), eid + "|" + pid);
   const idx = p.email ? await pepperHash(c.env, "email:" + eid, p.email) : "";
   return [
     c.db.prepare("INSERT INTO people(id,event_id,masked_name,masked_email,masked_phone,flat_no,created_ms) VALUES(?,?,?,?,?,?,?)").bind(pid, eid, maskName(p.name), p.email ? maskEmail(p.email) : "", p.phone ? maskPhone(p.phone) : "", flatNo, c.now),
     c.db.prepare("INSERT INTO private_contacts(person_id,event_id,ct,email_idx,created_ms) VALUES(?,?,?,?,?)").bind(pid, eid, ct, idx, c.now),
   ];
 }
+/** null when that person was erased. Contacts written before per-person keys existed still open with the event key. */
+async function openContact(c: Ctx, eid: string, pid: string, ct: string): Promise<Contact | null> {
+  try { const sk = await subjectKey(c, eid, "p:" + pid, false); return JSON.parse(await aesDecrypt(sk ?? (await eventKey(c, eid)), ct, eid + "|" + pid)); } catch (e) { if (e instanceof ApiError && e.status === 410) return null; throw e; }
+}
 async function contactOf(c: Ctx, eid: string, pid: string): Promise<Contact> {
   const r = await c.db.prepare("SELECT ct FROM private_contacts WHERE person_id=? AND event_id=?").bind(pid, eid).first<{ ct: string }>();
   if (!r) throw err(404, "no_person", "No such person.");
-  return JSON.parse(await aesDecrypt(await eventKey(c, eid), r.ct, eid + "|" + pid));
+  const o = await openContact(c, eid, pid, r.ct); if (!o) throw err(410, "subject_erased", "These details have been erased."); return o;
 }
 const statusStmt = (c: Ctx, eid: string, status: string, seq: number) => c.db.prepare("INSERT INTO event_status(event_id,status,log_seq,at_ms) VALUES(?,?,?,?)").bind(eid, status, seq, c.now);
 const roleStmt = (c: Ctx, eid: string, pid: string, role: string, action: string, by: string | null, seq: number) => c.db.prepare("INSERT INTO role_assignments(event_id,person_id,role,action,appointed_by,log_seq,at_ms) VALUES(?,?,?,?,?,?,?)").bind(eid, pid, role, action, by, seq, c.now);
@@ -64,6 +78,14 @@ const DEVICE_RE = /^[A-Za-z0-9_-]{16,64}$/;
 async function auditKey(c: Ctx, eid: string): Promise<{ key: Bytes; scope: "event" | "platform" }> {
   if (eid !== "platform") { try { return { key: await eventKey(c, eid), scope: "event" }; } catch { /* destroyed or none: platform key */ } }
   return { key: await deriveKey32(c.env.MASTER_SECRET, "platform-audit"), scope: "platform" };
+}
+/** Browser-side protection on every answer: no framing, no sniffing, HTTPS only, no referrer, camera and place only for our own pages, and a closed content policy (the sealed report is one self-contained page, so it may run its own inline code and nothing from elsewhere). */
+function secureHeaders(res: Response): void {
+  const h = res.headers; const html = (h.get("content-type") ?? "").includes("text/html");
+  const set = (k: string, v: string) => { try { h.set(k, v); } catch { /* immutable response: skipped */ } };
+  set("strict-transport-security", "max-age=63072000; includeSubDomains; preload"); set("x-content-type-options", "nosniff"); set("x-frame-options", "DENY"); set("referrer-policy", "no-referrer");
+  set("permissions-policy", "geolocation=(self), camera=(self), microphone=(), payment=(self), usb=(), interest-cohort=()"); set("cross-origin-opener-policy", "same-origin"); set("cross-origin-resource-policy", "same-origin");
+  set("content-security-policy", html ? "default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'" : "default-src 'none'; frame-ancestors 'none'");
 }
 const routeName = (path: string) => path.replace(/\b[0-9a-f]{32,}\b/g, ":id").replace(/\bp_[0-9a-f]{16}\b/g, ":pid").replace(/\bpt_[0-9a-f]{16}\b/g, ":pt");
 /** Writes one audit row. Choices, receipts and passcodes are never part of it. Throws if the row cannot be written (the caller then refuses the request). */
@@ -173,7 +195,7 @@ route("POST", "/api/events", async (c) => {
   if (b.cloneFrom) {
     srcTx = await Tx.load(c, String(b.cloneFrom)); const sst = await srcTx.st();
     const m = /^Bearer ([0-9a-f]{64})$/.exec(c.req.headers.get("authorization") ?? "");
-    if (m) { const sess = await c.db.prepare("SELECT person_id, event_id FROM sessions WHERE token_hash=? AND kind='staff' AND expires_ms>?").bind(await pepperHash(c.env, "session", m[1]!), c.now).first<any>(); isSrcOrg = !!sess && sess.event_id === srcTx.eid && !!sst.people.get(sess.person_id)?.roles.includes("organizer") && !!sst.people.get(sess.person_id)?.verified; }
+    if (m) { const sess = await c.db.prepare("SELECT person_id, event_id FROM sessions WHERE token_hash=? AND kind='staff' AND expires_ms>?").bind(await pepperHash(c.env, "session", m[1]!), c.now).first<any>(); isSrcOrg = !!sess && sess.event_id === srcTx.eid && !!(sst.people.get(sess.person_id)?.roles.includes("organizer") || sst.people.get(sess.person_id)?.roles.includes("host")) && !!sst.people.get(sess.person_id)?.verified; }
     tpl = cloneTemplate(sst, { cloneIsVerifiedOrganizerOfSource: isSrcOrg, wantPrivateRoll: !!b.privateRoll });
   }
   const soc = b.society ?? {};
@@ -217,12 +239,15 @@ route("POST", "/api/events", async (c) => {
       const pointId = newId("pt_", 8);
       await tx.add("point_added", actorOf(pid, "organizer"), { pointId, ...p, rev: 1 } as any, (seq) => [pointStmt(c, eid, pointId, p, 1, seq)]);
     }
+    for (const o of tpl.officials) await tx.add("official_set", actorOf(pid, "organizer"), { id: newId("of_", 6), ...o } as any);
+    for (const r of tpl.customRules) await tx.add("custom_rule_set", actorOf(pid, "organizer"), r as any);
+    for (const o of tpl.overrides) if (rs.locked[o.key]) await tx.add("option_overridden", actorOf(pid, "organizer"), { key: o.key, value: o.value, declaration: o.declaration, lawReason: rs.locked[o.key]!.reason } as any, (seq) => [db.prepare("INSERT INTO event_options(event_id,key,value,locked,locked_reason,rev,log_seq) VALUES(?,?,?,0,NULL,?,?)").bind(eid, o.key, o.value ? 1 : 0, 1000, seq)]);
     await tx.add("clone_linked", { system: true }, { direction: "from", eventId: tpl.createdFrom });
     if (tpl.includePrivateRoll && srcTx) {
       const rows = (await db.prepare("SELECT p.id, p.flat_no, c.ct FROM people p JOIN private_contacts c ON c.person_id=p.id WHERE p.event_id=? AND p.flat_no IS NOT NULL").bind(srcTx.eid).all<any>()).results;
       const srcKey = await eventKey(c, srcTx.eid);
       for (const r of rows) {
-        const contact: Contact = JSON.parse(await aesDecrypt(srcKey, r.ct, srcTx.eid + "|" + r.id)); const hid = newId("p_", 8);
+        const contact = await openContact(c, srcTx.eid, r.id, r.ct); if (!contact) continue; const hid = newId("p_", 8); void srcKey;
         stmts.push(...(await personStmts(c, eid, hid, contact, r.flat_no, key)));
         await tx.add("holder_added", actorOf(pid, "organizer"), { pid: hid, flatNo: r.flat_no, maskedName: maskName(contact.name) });
       }
@@ -403,7 +428,7 @@ route("POST", "/api/events/:id/attendance/photo", async (c, m) => {
   const client = g && g.lat !== null && g.lon !== null ? { lat: g.lat, lon: g.lon, accuracyM: g.accuracyM ?? undefined } : null;
   const nl = num(Number((c.cf as any)?.latitude)), nn = num(Number((c.cf as any)?.longitude)); const net = nl !== null && nn !== null ? { lat: nl, lon: nn } : null;
   const capturedMs = num(c.body.capturedAtMs); const flags = geoFlags(client, net, capturedMs, c.now);
-  const sha = await sha256Hex(bytes as Bytes); const ct = await aesEncrypt(await eventKey(c, tx.eid), raw, tx.eid + "|photo|" + sha);
+  const sha = await sha256Hex(bytes as Bytes); const ct = await aesEncrypt((await subjectKey(c, tx.eid, "f:" + flatNo, true))!, raw, tx.eid + "|photo|" + sha);
   const checks = c.body.checks && typeof c.body.checks === "object" ? Object.fromEntries(Object.entries(c.body.checks).filter(([, v]) => typeof v === "boolean").slice(0, 12)) : null;
   await tx.add("evidence_filed", ENTRY_ACTOR(st, pid), { flatNo, kind: "photo", sha256: sha, size: bytes.length, capturedMs, hasLocation: !!client, flags, by: pid } as any, (seq) => [
     c.db.prepare("INSERT INTO attendance_evidence(event_id,flat_no,kind,mime,sha256,size,ct,captured_ms,server_ms,lat,lon,accuracy_m,geo_error,net_lat,net_lon,flags,consent,checks_json,by_pid,log_seq) VALUES(?,?,'photo',?,?,?,?,?,?,?,?,?,?,?,?,?,1,?,?,?)")
@@ -412,8 +437,8 @@ route("POST", "/api/events/:id/attendance/photo", async (c, m) => {
 });
 route("GET", "/api/events/:id/attendance/photos/:evid", async (c, m) => {
   const { tx } = await staff(c, m[1]!, "read_contacts");
-  const r = await c.db.prepare("SELECT mime, sha256, ct FROM attendance_evidence WHERE id=? AND event_id=?").bind(+m[2]!, tx.eid).first<{ mime: string; sha256: string; ct: string }>(); if (!r) throw err(404, "no_photo", "No such photo.");
-  const b64 = await aesDecrypt(await eventKey(c, tx.eid), r.ct, tx.eid + "|photo|" + r.sha256); const bin = Uint8Array.from(atob(b64), (ch) => ch.charCodeAt(0));
+  const r = await c.db.prepare("SELECT flat_no, mime, sha256, ct FROM attendance_evidence WHERE id=? AND event_id=?").bind(+m[2]!, tx.eid).first<{ flat_no: string; mime: string; sha256: string; ct: string }>(); if (!r) throw err(404, "no_photo", "No such photo.");
+  const fk = await subjectKey(c, tx.eid, "f:" + r.flat_no, false); const b64 = await aesDecrypt(fk ?? (await eventKey(c, tx.eid)), r.ct, tx.eid + "|photo|" + r.sha256); const bin = Uint8Array.from(atob(b64), (ch) => ch.charCodeAt(0));
   return new Response(bin as any, { status: 200, headers: { "content-type": r.mime, "cache-control": "no-store", "x-content-sha256": r.sha256 } });
 });
 // ---- ending, stopping, cancelling, postponing: tick-boxes, an "are you sure", a 4-digit number typed by hand, and (for later postponements) a payment anyone can make
@@ -500,9 +525,9 @@ route("POST", "/api/events/:id/confirm", async (c, m) => {
 // ---- payment links: the Organizer or a Host creates one, anyone can pay it (no sign-in), like the Corporate Tambola payment link
 async function createPayment(c: Ctx, tx: Tx, st: EventState, pid: string, purpose: "event" | "reschedule", amountMinor: number, currency: string) {
   const paymentId = newId("pay_", 8); let orderId: string | null = null;
-  if (c.env.PAY_SERVICE_KEY) {
+  if (c.env.PAY_SERVICE_KEY && c.env.PAY_SERVICE_URL) {
     try {
-      const r = await fetch(`${(c.env.PAY_SERVICE_URL ?? "https://itservices-rajat-agarwal.pages.dev").replace(/\/+$/, "")}/api/pay/order`, { method: "POST", headers: { "content-type": "application/json", "x-site-key": c.env.PAY_SERVICE_KEY }, body: JSON.stringify({ site: c.env.PAY_SITE ?? "aoa-rwa", product: "aoa_rwa", plan: purpose === "event" ? st.created!.kind : "reschedule", amount_minor: amountMinor, currency, payment_ref: paymentId }) });
+      const r = await fetch(`${(c.env.PAY_SERVICE_URL ?? "").replace(/\/+$/, "")}/api/pay/order`, { method: "POST", headers: { "content-type": "application/json", "x-site-key": c.env.PAY_SERVICE_KEY }, body: JSON.stringify({ site: c.env.PAY_SITE ?? "aoa-rwa", product: "aoa_rwa", plan: purpose === "event" ? st.created!.kind : "reschedule", amount_minor: amountMinor, currency, payment_ref: paymentId }) });
       const d: any = await r.json().catch(() => ({})); if (r.ok && d.orderId) orderId = String(d.orderId);
     } catch { /* falls back to the local test order */ }
   }
@@ -574,6 +599,85 @@ route("POST", "/api/events/:id/officials/:oid/attendance", async (c, m) => {
   const { tx, pid } = await staff(c, m[1]!, "mark_attendance"); const st = await tx.st(); if (!st.officials.has(m[2]!)) throw err(404, "no_official", "No such entry.");
   const mode = c.body.mode === "online" ? "online" : "physical"; const present = c.body.present !== false;
   await tx.add("official_attendance", ENTRY_ACTOR(st, pid), { id: m[2]!, present, mode } as any); await tx.commit(); return json({ ok: true, present });
+});
+/** "Make a new meeting or election from this old one": the Organizer or a Host of the old event gets a new event with the same society, rules, options, own rules, officials, agenda,
+ *  flat list and (optionally) the private names and contacts. They give the new date, place and title and tick the terms again; the new Organizer then confirms by the usual e-mailed code. */
+route("POST", "/api/events/:id/recreate", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!, "edit_setup"); const st = await tx.st(); const me = await contactOf(c, tx.eid, pid);
+  const b = c.body; if (!b.schedule && !b.scheduledMs) throw err(400, "need_date", "Give the new date, time and place.");
+  const kind = b.kind === "election" || b.kind === "meeting" ? b.kind : st.created!.kind;
+  const sub = new Request(new URL("/api/events", c.url).toString(), { method: "POST", headers: new Headers({ "content-type": "application/json", authorization: c.req.headers.get("authorization") ?? "", "cf-connecting-ip": c.ip, "user-agent": c.req.headers.get("user-agent") ?? "", ...(c.deviceId ? { "x-device-id": c.deviceId } : {}) }),
+    body: JSON.stringify({ kind, eventType: b.eventType ?? st.created!.eventType, title: b.title ?? st.created!.title, venue: b.venue ?? st.created!.schedule.start.place, schedule: b.schedule, scheduledMs: b.scheduledMs, cloneFrom: tx.eid, privateRoll: b.privateRoll !== false, organizer: { name: me.name, email: me.email, phone: me.phone }, turnstile: b.turnstile, acceptTerms: b.acceptTerms, termsVersion: b.termsVersion, useRecommended: false }) });
+  const res = await handle(sub, c.env, c.now); const body: any = await res.clone().json().catch(() => ({}));
+  return json({ ...body, copied: "society, rules, options, the society's own rules, officials, agenda, flat list" + (b.privateRoll !== false ? " and the private names and contacts" : ""), notCopied: "votes, attendance, codes, payments, photos, dates, the team (appoint them again)", next: "The new Organizer confirms with the code e-mailed to them." }, res.status);
+});
+// ---- privacy rights (DPDP Act 2023 / GDPR): see what is held about you, ask for a correction, withdraw, erase ONE person, complain. Every step is logged.
+const SUBJECT_TYPES = ["access", "correct", "erase", "withdraw", "grievance"];
+async function subjectExport(c: Ctx, tx: Tx, st: EventState, pid: string) {
+  const person = st.people.get(pid) ?? { roles: [] as string[], label: null, verified: false, appointedBy: {} }; if (!(await c.db.prepare("SELECT 1 x FROM people WHERE id=? AND event_id=?").bind(pid, tx.eid).first())) throw err(404, "no_person", "No such person.");
+  let contact: Contact | null = null; try { contact = await contactOf(c, tx.eid, pid); } catch (e) { if (!(e instanceof ApiError && e.status === 410)) throw e; }
+  const mine = st.attendanceLog.filter((a) => a.by === pid).length;
+  const reqs = (await c.db.prepare("SELECT id, type, channel, at_ms FROM privacy_requests WHERE event_id=? AND subject_ref=? ORDER BY at_ms").bind(tx.eid, "p:" + pid).all<any>()).results;
+  return { person: { id: pid, roles: person.roles, label: person.label, emailVerified: person.verified, flatNo: (await c.db.prepare("SELECT flat_no f FROM people WHERE id=?").bind(pid).first<{ f: string | null }>())?.f ?? null },
+    stored: contact ? { name: contact.name, email: contact.email, phone: contact.phone } : "erased", appointedBy: person.appointedBy, attendanceMarkedByThem: mine, termsAccepted: st.terms.has("pid:" + pid),
+    requests: reqs, why: "Your contact details are kept only to run this meeting or election, to e-mail you a sign-in code and the report. They are never shown in full to anyone but the Organizer and Hosts.", rights: "You may ask for a correction, withdraw consent, ask for erasure, or complain, through the privacy request route." };
+}
+route("GET", "/api/me/data", async (c) => {
+  const s = await requireSession(c, "staff"); const tx = await Tx.load(c, s.eventId!); const st = await tx.st();
+  await tx.add("subject_access", ENTRY_ACTOR(st, s.personId!), { by: s.personId!, self: true } as any); await tx.commit(); return json(await subjectExport(c, tx, st, s.personId!));
+});
+route("GET", "/api/events/:id/privacy/export/:pid", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!, "read_contacts"); const st = await tx.st(); const reason = str(c.url.searchParams.get("reason"), "reason", 5, 300);
+  await tx.add("subject_access", ENTRY_ACTOR(st, pid), { by: pid, subject: m[2]!, reason } as any); await tx.commit(); return json(await subjectExport(c, tx, st, m[2]!));
+});
+/** A signed-in person (staff or voter) files a request about their own data; or anyone files one through the public form with an e-mail the Organizer can reply to. */
+async function fileRequest(c: Ctx, eid: string, channel: string, subjectRef: string | null, type: string, detail: Record<string, unknown>) {
+  if (!SUBJECT_TYPES.includes(type)) throw err(400, "bad_type", "type must be access, correct, erase, withdraw or grievance.");
+  const tx = await Tx.load(c, eid); const st = await tx.st(); const id = newId("pr_", 8);
+  const ct = await aesEncrypt(await eventKey(c, eid), JSON.stringify(detail), eid + "|privacy|" + id);
+  await tx.add("privacy_request", { system: true }, { requestId: id, type, channel } as any, (seq) => [c.db.prepare("INSERT INTO privacy_requests(id,event_id,type,channel,subject_ref,ct,at_ms,log_seq) VALUES(?,?,?,?,?,?,?,?)").bind(id, eid, type, channel, subjectRef, ct, c.now, seq)]);
+  await tx.commit(); return id;
+}
+route("POST", "/api/privacy/request", async (c) => {
+  const bearer = /^Bearer ([0-9a-f]{64})$/.exec(c.req.headers.get("authorization") ?? ""); if (!bearer) throw err(401, "not_signed_in", "Please sign in, or use the public form of the event.");
+  const row = await c.db.prepare("SELECT kind, event_id, person_id, flat_no FROM sessions WHERE token_hash=? AND expires_ms>?").bind(await pepperHash(c.env, "session", bearer[1]!), c.now).first<any>(); if (!row) throw err(401, "not_signed_in", "Please sign in again.");
+  await rateLimit(c, "privacy", row.event_id, 30, 3600); c.eventId = row.event_id;
+  const ref = row.kind === "staff" ? "p:" + row.person_id : "f:" + row.flat_no; const id = await fileRequest(c, row.event_id, row.kind, ref, String(c.body.type ?? ""), { note: optStr(c.body.note, "note", 1000) ?? "" });
+  return json({ requestId: id, message: "Received. The Organizer will answer; the date of your request is on record." }, 201);
+});
+route("POST", "/api/events/:id/privacy/contact", async (c, m) => {
+  await rateLimit(c, "privacy-pub", c.ip, 5, 3600); await checkTurnstile(c, c.body.turnstile); c.eventId = m[1]!;
+  const detail = { name: str(c.body.name, "name", 2, 80), email: emailOf(c.body.email), note: str(c.body.note, "note", 3, 1000) };
+  const id = await fileRequest(c, m[1]!, "public_form", null, String(c.body.type ?? ""), detail); return json({ requestId: id, message: "Received. The Organizer will reply to the e-mail you gave." }, 201);
+});
+route("GET", "/api/events/:id/privacy/requests", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!, "read_contacts"); const st = await tx.st(); const key = await eventKey(c, tx.eid);
+  const rows = (await c.db.prepare("SELECT r.id, r.type, r.channel, r.subject_ref, r.ct, r.at_ms, (SELECT action FROM privacy_resolutions x WHERE x.request_id=r.id ORDER BY x.id DESC LIMIT 1) status FROM privacy_requests r WHERE r.event_id=? ORDER BY r.at_ms").bind(tx.eid).all<any>()).results;
+  const out = []; for (const r of rows) out.push({ id: r.id, type: r.type, channel: r.channel, subject: r.subject_ref, atMs: r.at_ms, status: r.status ?? "open", ...(await (async () => { try { return JSON.parse(await aesDecrypt(key, r.ct, tx.eid + "|privacy|" + r.id)); } catch { return { erased: true }; } })()) });
+  await tx.add("contacts_read", ENTRY_ACTOR(st, pid), { by: pid, scope: "privacy_requests" }); await tx.commit(); return json({ requests: out });
+});
+route("POST", "/api/events/:id/privacy/requests/:rid/resolve", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!, "read_contacts"); const st = await tx.st(); const action = c.body.action === "refused" ? "refused" : c.body.action === "done" ? "done" : (() => { throw err(400, "bad_action", "action must be done or refused."); })();
+  const note = str(c.body.note, "note", 5, 500); const r = await c.db.prepare("SELECT id FROM privacy_requests WHERE id=? AND event_id=?").bind(m[2]!, tx.eid).first(); if (!r) throw err(404, "no_request", "No such request.");
+  await tx.add("privacy_resolved", ENTRY_ACTOR(st, pid), { requestId: m[2]!, action } as any, (seq) => [c.db.prepare("INSERT INTO privacy_resolutions(request_id,event_id,action,note,by_pid,at_ms,log_seq) VALUES(?,?,?,?,?,?,?)").bind(m[2]!, tx.eid, action, note, pid, c.now, seq)]);
+  await tx.commit(); return json({ ok: true });
+});
+/** Erase ONE person (their contact) and/or ONE flat's attendee data (photos and the name written at check-in). Organizer only; also after the event is over. The public record is unchanged. */
+route("POST", "/api/events/:id/privacy/erase", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!, "erase_data"); const st = await tx.st(); const reason = str(c.body.reason, "reason", 5, 300); const refs: string[] = [];
+  if (typeof c.body.personId === "string") { if (!(await c.db.prepare("SELECT 1 x FROM people WHERE id=? AND event_id=?").bind(c.body.personId, tx.eid).first())) throw err(404, "no_person", "No such person."); refs.push("p:" + c.body.personId); }
+  if (typeof c.body.flatNo === "string") refs.push("f:" + c.body.flatNo); if (!refs.length) throw err(400, "nothing", "Say personId and/or flatNo.");
+  for (const ref of refs) await c.db.prepare("INSERT INTO subject_keys(event_id,ref,wrapped_key,created_ms,destroyed_ms) VALUES(?,?,NULL,?,?) ON CONFLICT(event_id,ref) DO UPDATE SET wrapped_key=NULL, destroyed_ms=excluded.destroyed_ms").bind(tx.eid, ref, c.now, c.now).run();
+  await tx.add("person_erased", ENTRY_ACTOR(st, pid), { refs, reason } as any); await tx.commit(); return json({ ok: true, erased: refs, note: "These details can no longer be read by anyone. The public record is unchanged." });
+});
+/** The WORKING view: while an Attendance Monitor is checking a person in, they see that person's name in full to compare with the ID; the moment the flat is marked present it is hidden again. Every look is logged. */
+route("GET", "/api/events/:id/verify/:flat", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!, "mark_attendance"); const st = await tx.st(); const flatNo = decodeURIComponent(m[2]!); const f = st.roll.find((x) => x.flatNo === flatNo);
+  if (!f) throw err(404, "no_flat", "That flat is not on the list."); const present = st.attendance.has(flatNo);
+  const rows = (await c.db.prepare("SELECT p.id, p.masked_name, p.masked_phone, c.ct FROM people p JOIN private_contacts c ON c.person_id=p.id WHERE p.event_id=? AND p.flat_no=?").bind(tx.eid, flatNo).all<any>()).results;
+  const holders = []; for (const r of rows) { if (present) { holders.push({ name: r.masked_name, phone: r.masked_phone, hidden: true }); continue; } const ct = await openContact(c, tx.eid, r.id, r.ct); holders.push(ct ? { name: ct.name, phone: ct.phone, hidden: false } : { name: r.masked_name, phone: r.masked_phone, erased: true, hidden: true }); }
+  await tx.add("contacts_read", ENTRY_ACTOR(st, pid), { by: pid, scope: "verify", flatNo } as any); await tx.commit();
+  return json({ flatNo, weight: f.weight, eligible: f.eligible, alreadyPresent: present, holders, note: present ? "Already marked present: details are hidden again." : "Compare the name with the proof shown. It is hidden again as soon as you mark this flat present." });
 });
 function pointInput(b: any, cur?: any) {
   const kindIn = b.kind ?? cur?.kind;
@@ -667,7 +771,7 @@ route("GET", "/api/events/:id/contacts", async (c, m) => {
   const { tx, pid } = await staff(c, m[1]!, "read_contacts"); const st = await tx.st();
   const key = await eventKey(c, tx.eid);
   const rows = (await c.db.prepare("SELECT p.id, p.flat_no, c.ct FROM people p JOIN private_contacts c ON c.person_id=p.id WHERE p.event_id=?").bind(tx.eid).all<any>()).results;
-  const out = []; for (const r of rows) out.push({ pid: r.id, flatNo: r.flat_no, roles: st.people.get(r.id)?.roles ?? [], ...JSON.parse(await aesDecrypt(key, r.ct, tx.eid + "|" + r.id)) });
+  const out = []; for (const r of rows) { const ct = await openContact(c, tx.eid, r.id, r.ct); out.push({ pid: r.id, flatNo: r.flat_no, roles: st.people.get(r.id)?.roles ?? [], ...(ct ?? { erased: true }) }); } void key;
   await tx.add("contacts_read", ENTRY_ACTOR(st, pid), { by: pid, scope: "all" }); await tx.commit();
   return json({ contacts: out });
 });
@@ -688,9 +792,9 @@ route("POST", "/api/events/:id/pay", async (c, m) => {
   if (st.paid) throw err(409, "already_paid", "This event is already paid.");
   const price = priceFor(st.created!.kind, st.created!.country); const amountMinor = price.amountMinor; const paymentId = newId("pay_", 8);
   let orderId: string | null = null;
-  if (c.env.PAY_SERVICE_KEY) { // central path (IT Services by Rajat Agarwal), same call shape as Corporate Bingo; TEST mode only
+  if (c.env.PAY_SERVICE_KEY && c.env.PAY_SERVICE_URL) { // central path (IT Services by Rajat Agarwal), same call shape as Corporate Bingo; TEST mode only
     try {
-      const r = await fetch(`${(c.env.PAY_SERVICE_URL ?? "https://itservices-rajat-agarwal.pages.dev").replace(/\/+$/, "")}/api/pay/order`, { method: "POST", headers: { "content-type": "application/json", "x-site-key": c.env.PAY_SERVICE_KEY }, body: JSON.stringify({ site: c.env.PAY_SITE ?? "aoa-rwa", product: "aoa_rwa", plan: st.created!.kind, amount_minor: amountMinor, currency: price.currency, payment_ref: paymentId, extra_notes: { event: tx.eid.slice(0, 8), test: "1" } }), signal: AbortSignal.timeout(6000) });
+      const r = await fetch(`${(c.env.PAY_SERVICE_URL ?? "").replace(/\/+$/, "")}/api/pay/order`, { method: "POST", headers: { "content-type": "application/json", "x-site-key": c.env.PAY_SERVICE_KEY }, body: JSON.stringify({ site: c.env.PAY_SITE ?? "aoa-rwa", product: "aoa_rwa", plan: st.created!.kind, amount_minor: amountMinor, currency: price.currency, payment_ref: paymentId, extra_notes: { event: tx.eid.slice(0, 8), test: "1" } }), signal: AbortSignal.timeout(6000) });
       const d: any = await r.json().catch(() => ({})); if (r.ok && d.orderId) orderId = String(d.orderId);
     } catch { /* falls back to the local test order */ }
   }
@@ -748,8 +852,7 @@ route("POST", "/api/events/:id/attendance", async (c, m) => {
   const flatNo = str(c.body.flatNo, "flatNo", 1, 24); const f = st.roll.find((x) => x.flatNo === flatNo);
   if (!f || !f.eligible) throw err(400, "no_flat", "That flat is not on the voting list.");
   const attendee = str(c.body.attendeeName, "attendeeName", 2, 80), mode = c.body.mode === "online" ? "online" : "physical";
-  const method = str(c.body.method ?? "visual", "method", 2, 40), docType = optStr(c.body.docType, "docType", 30) || null, docLast4 = optStr(c.body.docLast4, "docLast4", 4) || null;
-  if (docLast4 && !/^[A-Za-z0-9]{1,4}$/.test(docLast4)) throw err(400, "bad_doc", "Only the last 4 characters of an ID are kept.");
+  const method = str(c.body.method ?? "visual", "method", 2, 40), docType = optStr(c.body.docType, "docType", 30) || null, docLast4: string | null = null; // an ID number, even its last digits, is never kept: only the kind of document and who checked it
   const evidenceHash = optStr(c.body.evidenceHash, "evidenceHash", 64) || null; const present = c.body.present !== false;
   const checks = c.body.checks && typeof c.body.checks === "object" ? Object.fromEntries(Object.entries(c.body.checks).filter(([, v]) => typeof v === "boolean").slice(0, 12)) as Record<string, boolean> : null;
   if (present && st.rules?.options.attendance_checklist) {
@@ -758,8 +861,8 @@ route("POST", "/api/events/:id/attendance", async (c, m) => {
     if (st.rules.options.attendance_photo && !(await c.db.prepare("SELECT 1 x FROM attendance_evidence WHERE event_id=? AND flat_no=?").bind(tx.eid, flatNo).first())) throw err(400, "photo_first", "Take the photo of the attendee first, then mark present.");
   }
   const independent = st.people.get(pid)!.roles.includes("attendance_officer");
-  const key = await eventKey(c, tx.eid); const ct = await aesEncrypt(key, JSON.stringify({ attendee }), tx.eid + "|att|" + flatNo);
-  await tx.add("attendance_marked", ENTRY_ACTOR(st, pid), { flatNo, mode, method, docType, docLast4, maskedName: maskName(attendee), by: pid, independent, evidenceHash, present, checks },
+  const key = (await subjectKey(c, tx.eid, "f:" + flatNo, true))!; const ct = await aesEncrypt(key, JSON.stringify({ attendee }), tx.eid + "|att|" + flatNo);
+  await tx.add("attendance_marked", ENTRY_ACTOR(st, pid), { flatNo, mode, method, docType, docLast4, maskedName: maskName(attendee), by: pid, independent, evidenceHash, present, checks, idChecked: !!docType, idVerifiedBy: docType ? pid : null },
     (seq) => [c.db.prepare("INSERT INTO attendance(event_id,flat_no,attendee_masked_name,mode,method,doc_type,doc_last4,marked_by,independent,evidence_hash,supersedes_id,log_seq,at_ms) VALUES(?,?,?,?,?,?,?,?,?,?,NULL,?,?)").bind(tx.eid, flatNo, maskName(attendee), mode, method, docType, docLast4, pid, independent ? 1 : 0, evidenceHash, seq, c.now),
       c.db.prepare("INSERT INTO private_evidence(event_id,flat_no,kind,ct,evidence_hash,created_ms) VALUES(?,?,'attendee_name',?,?,?)").bind(tx.eid, flatNo, ct, evidenceHash ?? "", c.now)]);
   await tx.commit(); return json({ ok: true, independent, present: (await tx.st()).attendance.size });
@@ -911,8 +1014,8 @@ async function hsByToken(c: Ctx, token: string): Promise<Handshake> {
 async function hsComplete(c: Ctx, h: Handshake, monitorPid: string): Promise<void> {
   const tx = await Tx.load(c, h.eventId); const st = await tx.st(); const actor = ENTRY_ACTOR(st, monitorPid);
   const independent = !!st.people.get(monitorPid)?.roles.includes("attendance_officer");
-  const key = await eventKey(c, h.eventId); const ct = await aesEncrypt(key, JSON.stringify({ attendee: h.attendeeName }), h.eventId + "|att|" + h.flatNo);
-  await tx.add("attendance_marked", actor, { flatNo: h.flatNo, mode: "physical", method: "mutual_code_exchange", docType: null, docLast4: null, maskedName: maskName(h.attendeeName), by: monitorPid, independent, evidenceHash: null, present: true },
+  const key = (await subjectKey(c, h.eventId, "f:" + h.flatNo, true))!; const ct = await aesEncrypt(key, JSON.stringify({ attendee: h.attendeeName }), h.eventId + "|att|" + h.flatNo);
+  await tx.add("attendance_marked", actor, { flatNo: h.flatNo, mode: "physical", method: "mutual_code_exchange", docType: null, docLast4: null, maskedName: maskName(h.attendeeName), by: monitorPid, independent, evidenceHash: null, present: true, idChecked: false, idVerifiedBy: null },
     (seq) => [c.db.prepare("INSERT INTO attendance(event_id,flat_no,attendee_masked_name,mode,method,doc_type,doc_last4,marked_by,independent,evidence_hash,supersedes_id,log_seq,at_ms) VALUES(?,?,?,?,?,?,?,?,?,?,NULL,?,?)").bind(h.eventId, h.flatNo, maskName(h.attendeeName), "physical", "mutual_code_exchange", null, null, monitorPid, independent ? 1 : 0, null, seq, c.now),
       c.db.prepare("INSERT INTO private_evidence(event_id,flat_no,kind,ct,evidence_hash,created_ms) VALUES(?,?,'attendee_name',?,?,?)").bind(h.eventId, h.flatNo, ct, "", c.now)]);
   const prev = await c.db.prepare("SELECT COUNT(*) c FROM sessions WHERE kind='voter' AND event_id=? AND flat_no=? AND expires_ms>? AND device_hash IS NOT NULL").bind(h.eventId, h.flatNo, c.now).first<{ c: number }>();
@@ -1170,6 +1273,20 @@ route("GET", "/api/vote/points", async (c) => {
   const s = await requireSession(c, "voter"); const st = await (await Tx.load(c, s.eventId!)).st();
   return json({ flatNo: s.flatNo, points: st.pointOrder.map((id) => st.points.get(id)!).filter((p) => p.state === "open").map((p) => ({ pointId: p.def.pointId, number: p.def.number, title: p.def.title, body: p.def.body, kind: p.def.kind, options: p.def.options, maxChoices: p.def.maxChoices, secret: p.def.secret, endsMs: p.endsMs, labels: p.def.labels, minChoices: p.def.minChoices ?? 1, design: p.def.design, instruction: ballotInstruction(p.def.minChoices ?? 1, p.def.maxChoices), voted: !!st.ledger.get(p.def.pointId)?.has(s.flatNo!) })) });
 });
+const lockNumber = async (c: Ctx, tokenHash: string, pointId: string, choices: string[], nonce: string) => String(1000 + (parseInt((await pepperHash(c.env, "votelock", `${tokenHash}:${pointId}:${[...choices].sort().join("|")}:${nonce}`)).slice(0, 8), 16) % 9000));
+/** Step 1 of locking: the voter's ballot is checked and shown back; a 4-digit number appears on the screen and must be typed into the cast call. Nothing is recorded yet. */
+route("POST", "/api/vote/prepare", async (c) => {
+  const s = await requireSession(c, "voter"); await rateLimit(c, "vote-prepare", s.tokenHash, 60, 60);
+  const tx = await Tx.load(c, s.eventId!); const st = await tx.st(); const pointId = str(c.body.pointId, "pointId", 4, 64); const flatNo = s.flatNo!;
+  const d = canVote(st, flatNo, pointId, c.now); if (!d.ok) throw err(d.code === "already_voted" ? 409 : 403, d.code, d.message);
+  const pt = st.points.get(pointId)!; const rules = pt.frozen ?? st.rules!; if (!rules.options.vote_lock_code) throw err(409, "lock_off", "Locking is not switched on for this event; cast the ballot directly.");
+  let rawChoices = c.body.choices;
+  if (c.body.marks !== undefined) { const mk = c.body.marks; if (!mk || typeof mk !== "object" || Array.isArray(mk)) throw err(400, "bad_ballot", "The ticks could not be read."); for (const k of Object.keys(mk)) if (!pt.def.options.includes(k)) throw err(400, "bad_ballot", "That option is not on the ballot."); rawChoices = Object.entries(mk).filter(([, v]) => v === true).map(([k]) => k); }
+  const bc = validateBallot(pt.def as PointDef, rawChoices); if (!bc.ok) throw err(400, "bad_ballot", "That ballot is not valid. " + (bc as any).reason);
+  const nonce = randomHex(8); const exp = c.now + 5 * 60_000; const code = await lockNumber(c, s.tokenHash, pointId, bc.choices, nonce);
+  await kvSet(c, `vl:${s.tokenHash}:${pointId}`, JSON.stringify({ nonce, exp, tries: 0 }));
+  return json({ review: bc.choices.map((id) => ({ id, label: pt.def.labels?.[id] ?? id })), lockCode: code, expiresMs: exp, message: "Check your choice. To lock your vote, type this 4-digit number and press Cast." });
+});
 route("POST", "/api/vote/cast", async (c) => {
   const s = await requireSession(c, "voter"); await rateLimit(c, "vote-cast", s.tokenHash, 60, 60);
   const tx = await Tx.load(c, s.eventId!); const st = await tx.st(); const pointId = str(c.body.pointId, "pointId", 3, 40), flatNo = s.flatNo!;
@@ -1188,6 +1305,16 @@ route("POST", "/api/vote/cast", async (c) => {
   }
   const bc = validateBallot(pt.def as PointDef, rawChoices); if (!bc.ok) throw err(400, "bad_ballot", "That ballot is not valid: " + bc.reason);
   const rules = pt.frozen ?? st.rules!; const flat = st.roll.find((f) => f.flatNo === flatNo)!; const weight = effectiveWeight(flat, !!rules.options.weightage);
+  if (rules.options.vote_lock_code) { // the voter reviewed the ballot and typed the 4-digit number shown to them: only then is it cast
+    const raw = await kvGet(c, `vl:${s.tokenHash}:${pointId}`); const given = String(c.body.lockCode ?? "");
+    if (!raw) throw err(409, "lock_required", "Review your ballot and lock it first: press Review, then type the 4-digit number shown.");
+    const pre = JSON.parse(raw) as { nonce: string; exp: number; tries: number };
+    if (c.now > pre.exp) throw err(410, "lock_expired", "That lock has expired. Review your ballot again.");
+    if (pre.tries >= 5) throw err(429, "lock_too_many", "Too many wrong numbers. Review your ballot again.");
+    // the number is recomputed from the ballot and a server secret, so nothing stored links this voter to a choice
+    if (given !== (await lockNumber(c, s.tokenHash, pointId, bc.choices, pre.nonce))) { pre.tries++; await kvSet(c, `vl:${s.tokenHash}:${pointId}`, JSON.stringify(pre)); throw err(400, "wrong_lock_code", `That number is not right, or the ballot is not the one you reviewed. ${5 - pre.tries} tries left.`); }
+    await kvSet(c, `vl:${s.tokenHash}:${pointId}`, ""); // used up (an empty value counts as no lock)
+  }
   const kind = ((await c.db.prepare("SELECT voter_kind FROM sessions WHERE token_hash=?").bind(s.tokenHash).first<{ voter_kind: string }>())?.voter_kind === "proxy") ? "proxy" : "official";
   if (pt.def.secret) {
     const nonce = randomHex(16); const receipt = await receiptOf(pointId, bc.choices, nonce);
@@ -1281,6 +1408,7 @@ export async function handle(req: Request, env: Env, now = Date.now()): Promise<
     catch (e3: any) { status = e3 instanceof ApiError ? e3.status : String(e3?.message ?? "").startsWith("log payload not masked") ? 400 : 500; if (mustAudit) await writeAudit(c, "result", status).catch(() => {}); throw e3; }
     if (mustAudit) await writeAudit(c, "result", status).catch((e4) => console.error("audit result failed", String(e4)));
     if (c.newBid) res.headers.append("set-cookie", `tw_bid=${c.newBid}; Path=/; Max-Age=31536000; HttpOnly; Secure; SameSite=Lax`); // recognises this browser when the same link is opened again
+    secureHeaders(res);
     return res;
   } catch (e: any) {
     if (e instanceof ApiError) return json({ error: e.code, message: e.message, ...e.extra }, e.status);

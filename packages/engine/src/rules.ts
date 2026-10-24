@@ -54,6 +54,7 @@ export const OPTIONS: OptionDef[] = [
   { key: "open_vote_by_flat", label: "Record votes openly by flat", default: false },
   { key: "attendance_photo", label: "Photo of the attendee", default: false },
   { key: "id_check", label: "ID document check", default: false },
+  { key: "vote_lock_code", label: "Voter must LOCK the ballot with a 4-digit number shown on the screen", default: false },
   { key: "attendance_checklist", label: "Attendance Monitor must tick every box before marking someone present", default: false },
   { key: "absentee_voting", label: "Absentee voting", default: false },
   { key: "extensions", label: "Allow extending the voting window", default: false },

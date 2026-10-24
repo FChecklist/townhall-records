@@ -1,7 +1,7 @@
 // Owner directive 2026-10-23: everything is logged with IP address and device ID (mandatory); everyone ticks the terms; full traceability without breaking the secret ballot.
 import { describe, expect, test } from "bun:test";
 import { TERMS_VERSION, buildReportModel, replayLog, scanPublic } from "../../../packages/engine/src";
-import { H, OFFP, ORG, appointVerified, getLog, newEvent, setup } from "./harness";
+import { H, OFFP, ORG, appointVerified, getLog, newEvent, setup, STAFF_PUBLIC } from "./harness";
 import { DAY } from "./harness";
 
 const DEVICE = "device-test-00000001";
@@ -112,7 +112,7 @@ describe("every action: IP address + device ID, audited before it is processed",
     // public output never shows an IP address or a device id
     for (const p of [`/api/r/${e.eid}`, `/api/events/${e.eid}/log`, `/api/r/${e.eid}/data`, `/api/events/${e.eid}`]) {
       const t = (await h.call("GET", p)).text;
-      expect(scanPublic(t, { allow: ["R1"], forbidden: [DEVICE, "9.9.9."] })).toEqual([]);
+      expect(scanPublic(t, { allow: ["R1", ...STAFF_PUBLIC], forbidden: [DEVICE, "9.9.9."] })).toEqual([]);
     }
   });
   test("what the Organizer sees is SHORTENED; what the owner sees is FULL, needs a reason, and the viewing is on the public page", async () => {

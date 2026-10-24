@@ -51,3 +51,70 @@ export const officialGroupLabel = (id: string) => OFFICIAL_GROUPS.find((g) => g.
 
 /** The text laid diagonally behind every page of the PDF and the web report, so a printed or saved copy always shows which event it belongs to. */
 export const watermarkText = (kind: string, eid: string) => `${kind === "election" ? "ELECTION" : "MEETING"} ID ${eid}`;
+
+/** One plain line for the public "who did what, and when" register. Only entries whose actor is a named person (Organizer, Host, Attendance Monitor) get a line. */
+export function describeAction(type: string, p: any): string {
+  const n = (v: unknown) => (typeof v === "string" ? v : "");
+  const role = (r: string) => (r === "attendance_officer" ? "Attendance Monitor" : r === "host" ? "Host" : r === "organizer" ? "Organizer" : r);
+  const t = (() => {
+    switch (type) {
+      case "event_created": return "Created the " + n(p.kind) + " " + n(p.title);
+      case "role_appointed": return `Appointed ${n(p.maskedName)} as ${role(n(p.role))}`;
+      case "role_removed": return `Removed a ${role(n(p.role))}`;
+      case "terms_accepted": return "Accepted the terms";
+      case "email_verified": return "Confirmed their e-mail address";
+      case "roll_set": return `Set the flat list (revision ${p.rev}, ${Array.isArray(p.flats) ? p.flats.length : "?"} flats${p.source ? ", by " + n(p.source) : ""})${n(p.reason) ? ": " + n(p.reason) : ""}`;
+      case "holder_added": return `Added the holder of flat ${n(p.flatNo)} (${n(p.maskedName)})`;
+      case "rule_changed": return `Changed rule ${n(p.param)}: ${JSON.stringify(p.old)} to ${JSON.stringify(p.new)} (${n(p.reason)})`;
+      case "rule_change_rejected": return `Tried to change rule ${n(p.param)} (refused: ${n(p.reason)})`;
+      case "options_set": return "Changed options: " + Object.entries(p.options ?? {}).map(([k, v]) => `${k}=${v ? "yes" : "no"}`).join(", ");
+      case "option_overridden": return `Overrode the locked option ${n(p.key)}: ${n(p.declaration)}`;
+      case "custom_rule_set": return p.value === null ? `Withdrew the extra rule "${n(p.title)}"` : `Set the extra rule "${n(p.title)}"`;
+      case "official_set": return `Listed ${n(p.name)} (${n(p.designation) || n(p.group)})`;
+      case "official_removed": return "Removed an entry from the committee / officers list";
+      case "official_attendance": return `Marked an official ${p.present === false ? "not present" : "present"}`;
+      case "point_added": return `Added agenda point ${n(p.number)}: ${n(p.title)}`;
+      case "point_amended": return `Changed agenda point ${n(p.number)}`;
+      case "schedule_set": return "Changed the schedule: " + n(p.reason);
+      case "agenda_published": return "Published the agenda and notice";
+      case "event_started": return "Started the event";
+      case "point_opened": return "Opened a point for voting";
+      case "point_closed": return "Closed a point";
+      case "point_extended": return "Extended the voting time";
+      case "attendance_marked": return `Marked flat ${n(p.flatNo)} ${p.present === false ? "NOT present" : "present"}${p.docType ? ", ID checked (" + n(p.docType) + ")" : ""}`;
+      case "evidence_filed": return `Took the attendance photo of flat ${n(p.flatNo)}`;
+      case "payment_state": return `Payment ${n(p.state)}`;
+      case "event_postponed": return `Postponed the event (${p.phase === "before_start" ? "before" : "after"} the start time, fee ${p.feeMinor || 0})`;
+      case "event_closed": return `Ended the event as ${n(p.outcome) || "completed"}`;
+      case "report_emailed": return "E-mailed the report";
+      case "contacts_read": return "Viewed the private contact details";
+      case "subject_access": return "Opened a person's stored data (access request)";
+      case "person_erased": return "Erased a person's private details";
+      case "key_destroyed": return "Erased all private details of the event";
+      case "privacy_resolved": return `Answered a privacy request (${n(p.action)})`;
+      case "label_set": return `Gave a designation: ${n(p.label)}`;
+      case "rules_initialized": return `Rules set from the pack ${n(p.packName)}`;
+      case "anchor": return "Integrity checkpoint signed (a fingerprint of the whole record so far)";
+      case "ballot_box_sealed": return "Sealed the ballot box of a point (the receipts were fixed)";
+      case "result_computed": return "Counted a point and fixed its result";
+      case "vote_recorded": return `Flat ${n(p.flatNo)} voted (secret ballot: the choice is not recorded with the flat)`;
+      case "vote_cast_open": return `Flat ${n(p.flatNo)} voted (open vote)`;
+      case "vote_rejected": return `A vote was refused: ${n(p.code) || n(p.reason) || "not allowed"}`;
+      case "device_bound": return `The phone of flat ${n(p.flatNo)} was linked to its vote`;
+      case "session_resumed": return `Flat ${n(p.flatNo)} opened its link again and was taken back to where it was`;
+      case "handshake_started": return `Check-in of flat ${n(p.flatNo)} started (two 4-digit numbers)`;
+      case "mobile_confirmed": return `Mobile number of flat ${n(p.flatNo)} confirmed by the text-message check`;
+      case "passcode_issued": return `A code was issued (${n(p.purpose)})`;
+      case "passcode_locked": return "A code was locked after too many wrong tries";
+      case "paper_issued": return "A printed ballot paper was issued";
+      case "paper_reissued": return "A printed ballot paper was issued again";
+      case "paper_voided": return "A printed ballot paper was voided";
+      case "event_suspended": return "The platform suspended the event";
+      case "clone_linked": return p.direction === "from" ? "Made as a copy of an earlier event" : "An earlier event was copied into a new one";
+      case "platform_action": return `Platform action: ${n(p.action)}`;
+      case "privacy_request": return `A privacy request was received (${n(p.type)})`;
+      default: return type.replace(/_/g, " ");
+    }
+  })();
+  return t.length > 220 ? t.slice(0, 217) + "..." : t;
+}

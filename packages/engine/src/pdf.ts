@@ -144,6 +144,9 @@ export async function renderReportPdf(data: EmbeddedData, seal: Seal | null, opt
     for (const o of m.officials.slice(0, 60)) d.row([o.groupLabel, o.name, [o.designation, o.authority].filter(Boolean).join(" - "), o.present ? "present " + isoZ(o.presentTs!).slice(0, 16) : "not marked"], [110, 120, 170, 90], { size: 8 });
     d.space(4); for (const o of m.officials.slice(0, 60)) d.sig(`${o.name}${o.designation ? ", " + o.designation : ""} (${o.groupLabel})`);
   }
+  d.h("7B. Chronology: every action, event and process in order");
+  d.row(["#", "Date and time (UTC)", "Who", "What"], [26, 100, 130, 234], { font: "F2", size: 7.5 });
+  for (const r of m.chronology) d.row([String(r.seq), isoZ(r.ts), r.who, r.what], [26, 100, 130, 234], { size: 7 });
   d.h("8. Certification");
   d.text(`We, the undersigned, certify that this document is a true print of the record of the ${kindWord.toLowerCase()} identified above, as published on the platform with the log head and file fingerprint shown in section 7.`, { size: 10 });
   d.sig("Returning Officer / Presiding Officer"); d.sig("Chairperson"); d.sig("Secretary"); d.space(10);

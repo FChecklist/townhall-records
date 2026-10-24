@@ -39,7 +39,7 @@ export interface ReportModel {
   ruleHistory: Array<{ seq: number; ts: number; scope: string; param: string; old: Json | null; new: Json | null; reason: string; by: string | null }>;
   rejected: Array<{ seq: number; scope: string; param: string; reason: string }>;
   notice: { givenDays: number; minDays: number | null; maxDays: number | null; met: boolean | null } | null;
-  attendance: { line: string; officers: number; present: number; total: number; presentWeight: number; totalWeight: number; rows: Array<{ flatNo: string; maskedName: string; mode: string; method: string; docType: string | null; docLast4: string | null; by: string; independent: boolean }> };
+  attendance: { line: string; officers: number; present: number; total: number; presentWeight: number; totalWeight: number; rows: Array<{ ts: number; byRole: string; idVerifiedByName: string; idVerifiedByRole: string; flatNo: string; maskedName: string; mode: string; method: string; docType: string | null; docLast4: string | null; byName: string; by: string; independent: boolean }> };
   quorum: { enabled: boolean; basis: string | null; total: number; present: number; required: number; met: boolean } | null;
   points: PointView[];
   payments: Array<{ state: string; amountMinor: number; currency: string; mode: string }>;
@@ -47,6 +47,8 @@ export interface ReportModel {
   clones: Array<{ direction: string; eventId: string }>; anchors: Array<{ headSeq: number; headHash: string }>;
   problems: string[]; contactsReads: number;
   officials: Array<{ id: string; group: string; groupLabel: string; name: string; designation: string; authority: string; note: string; present: boolean; presentTs: number | null; mode: string | null; publishedTs: number; beforeStart: boolean }>;
+  accountability: Array<{ seq: number; ts: number; who: string; email: string; role: string; what: string }>;
+  chronology: Array<{ seq: number; ts: number; who: string; what: string; hash: string }>;
   overrides: Array<{ seq: number; ts: number; key: string; label: string; value: boolean; declaration: string; lawReason: string }>;
   customRules: Array<{ seq: number; title: string; kind: string; value: string | number | boolean; note: string }>;
   outcome: string | null; outcomeLabel: string; outcomeInfo: { reasonCodes: string[]; reasons: string[]; reason: string; atTs: number } | null; sitting: number;
@@ -66,6 +68,9 @@ export function stageOf(s: EventState): Stage {
   if (s.rules?.options.quorum_check) { try { return computeQuorum(s.rules, s.roll, presentFlatNos(s)).met && s.attendance.size > 0 ? "quorum" : "attendance"; } catch { return "attendance"; } }
   return s.attendance.size > 0 ? "quorum" : "attendance";
 }
+/** ONE RULE FOR EVERYONE on the public page, the PDF, the log and every public answer: the hidden form (Raj****** Aga******). Full values exist only on the signed-in working screen of the person doing the verification. */
+export const nameOf = (s: EventState, pid: string) => s.people.get(pid)?.maskedName ?? "";
+export const roleOf = (s: EventState, pid: string) => (s.people.get(pid)?.roles ?? []).map((r) => (r === "attendance_officer" ? "Attendance Monitor" : r === "host" ? "Host" : "Organizer")).join(" + ");
 export function buildReportModel(s: EventState): ReportModel {
   const c = s.created;
   const rules = s.rules;
@@ -108,7 +113,7 @@ export function buildReportModel(s: EventState): ReportModel {
     ruleHistory: s.ruleHistory.map((r) => ({ seq: r.seq, ts: r.ts, scope: r.scope, param: r.param, old: r.old, new: r.new, reason: r.reason, by: r.by })),
     rejected: s.rejectedChanges.map((r) => ({ seq: r.seq, scope: r.scope, param: r.param, reason: r.reason })),
     notice: s.agenda ? { givenDays: s.agenda.givenDays, minDays: s.agenda.minDays, maxDays: s.agenda.maxDays, met: s.agenda.met } : null,
-    attendance: { line, officers, present: s.attendance.size, total: s.roll.filter((f) => f.eligible).length, presentWeight: w.present, totalWeight: w.total, rows: rows.map((r) => ({ flatNo: r.flatNo, maskedName: r.maskedName, mode: r.mode, method: r.method, docType: r.docType, docLast4: r.docLast4, by: r.by, independent: r.independent })) },
+    attendance: { line, officers, present: s.attendance.size, total: s.roll.filter((f) => f.eligible).length, presentWeight: w.present, totalWeight: w.total, rows: rows.map((r) => ({ flatNo: r.flatNo, maskedName: r.maskedName, mode: r.mode, method: r.method, docType: r.docType, docLast4: null, by: r.by, byName: nameOf(s, r.by), ts: r.ts, byRole: roleOf(s, r.by), idVerifiedByName: r.idVerifiedBy ? nameOf(s, r.idVerifiedBy) : "", idVerifiedByRole: r.idVerifiedBy ? roleOf(s, r.idVerifiedBy) : "", independent: r.independent })) },
     quorum, points,
     payments: s.payments.map((p) => ({ state: p.state, amountMinor: p.amountMinor, currency: p.currency, mode: p.mode })),
     platformActions: s.platformActions, clones: s.clones, anchors: s.anchors, problems: s.problems, contactsReads: s.contactsReads,
@@ -116,6 +121,8 @@ export function buildReportModel(s: EventState): ReportModel {
     outcomeInfo: s.closedInfo ? { reasonCodes: s.closedInfo.reasonCodes, reasons: s.closedInfo.reasonCodes.map((x) => REASON_CODES.find((r) => r.id === x)?.label ?? x), reason: s.closedInfo.reason, atTs: s.closedInfo.ts } : null,
     sitting: s.sitting,
     officials: [...s.officials.values()].sort((a, b) => a.seq - b.seq).map((o) => ({ id: o.id, group: o.group, groupLabel: o.groupLabel || officialGroupLabel(o.group), name: o.name, designation: o.designation, authority: o.authority, note: o.note, present: s.officialPresence.has(o.id), presentTs: s.officialPresence.get(o.id)?.ts ?? null, mode: s.officialPresence.get(o.id)?.mode ?? null, publishedTs: o.ts, beforeStart: s.startedTs === null || o.ts < s.startedTs })),
+    chronology: s.timeline.map((t) => ({ seq: t.seq, ts: t.ts, who: t.pid ? `${nameOf(s, t.pid)} (${roleOf(s, t.pid) || "participant"})` : t.flat ? `flat ${t.flat}` : "system", what: t.detail, hash: t.hash })),
+    accountability: s.actions.map((a) => ({ seq: a.seq, ts: a.ts, who: nameOf(s, a.pid), email: s.people.get(a.pid)?.maskedEmail ?? "", role: roleOf(s, a.pid), what: a.detail })),
     overrides: s.overrides.map((o) => ({ seq: o.seq, ts: o.ts, key: o.key, label: OPTIONS.find((x) => x.key === o.key)?.label ?? o.key, value: o.value, declaration: o.declaration, lawReason: o.lawReason })),
     customRules: [...s.customRules.values()].sort((a, b) => a.seq - b.seq).map((r) => ({ seq: r.seq, title: r.title, kind: r.kind, value: r.value, note: r.note })),
     postponements: s.postponements.map((x) => ({ seq: x.seq, ts: x.ts, phase: x.phase, sitting: x.sitting, reasons: x.reasonCodes.map((c) => REASON_CODES.find((r) => r.id === c)?.label ?? c), reason: x.reason, feeMinor: x.feeMinor, fromStartMs: x.fromStartMs, to: x.to })),
