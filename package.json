@@ -11,5 +11,9 @@
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "dev:api": "bun run apps/api/dev.mjs"
   },
-  "devDependencies": { "@types/bun": "latest", "typescript": "^5.6.0" }
+  "devDependencies": {
+    "@types/bun": "latest",
+    "happy-dom": "^21.0.4",
+    "typescript": "^5.6.0"
+  }
 }

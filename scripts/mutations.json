@@ -916,5 +916,50 @@
   "find": "\"The meeting has not started yet. Choose Cancelled or Postponed.\"",
   "replace": "\"\"",
   "test": "apps/api/test/uiapi.test.ts"
+ },
+ {
+  "id": "V01",
+  "scope": "api",
+  "claim": "UI: every desk tab module loads (a missing or broken module shows the 'being finished' card)",
+  "file": "apps/api/public/assets/desk.js",
+  "find": "mod = await import(\"./\" + file);",
+  "replace": "mod = await import(\"./nope-\" + file);",
+  "test": "apps/api/test/ui.test.ts"
+ },
+ {
+  "id": "V02",
+  "scope": "api",
+  "claim": "UI: switching language back to English does not keep old texts",
+  "file": "apps/api/public/assets/core.js",
+  "find": "  DICT = {};",
+  "replace": "  /* mutated */;",
+  "test": "apps/api/test/ui.test.ts"
+ },
+ {
+  "id": "V03",
+  "scope": "api",
+  "claim": "UI: the Record tab draws without crashing (no early call before its helpers exist)",
+  "file": "apps/api/public/assets/desk-record.js",
+  "find": "  function draw() {",
+  "replace": "  draw();\n  function draw() {",
+  "test": "apps/api/test/ui.test.ts"
+ },
+ {
+  "id": "V04",
+  "scope": "api",
+  "claim": "UI: a monitor sees only Check-in and Record",
+  "file": "apps/api/public/assets/desk.js",
+  "find": "const tabs = staff ? [\"setup\", \"day\", \"team\", ...(mon ? [\"checkin\"] : []), \"end\", \"record\"]",
+  "replace": "const tabs = true ? [\"setup\", \"day\", \"team\", ...(mon ? [\"checkin\"] : []), \"end\", \"record\"]",
+  "test": "apps/api/test/ui.test.ts"
+ },
+ {
+  "id": "V05",
+  "scope": "api",
+  "claim": "UI: a live event's verify page says it is still running (not 'not valid')",
+  "file": "apps/api/public/assets/verify.js",
+  "find": "if (html && !(data.model && data.model.live)) {",
+  "replace": "if (html) {",
+  "test": "apps/api/test/ui.test.ts"
  }
 ]

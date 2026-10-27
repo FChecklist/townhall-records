@@ -24,7 +24,6 @@ export async function render(ctx, el) {
   const tabs = h("div", { class: "tabs", role: "tablist" }, SECTIONS.map(([id, label]) => h("button", { role: "tab", "data-id": id, "data-test": "rec-tab-" + id, class: SUB === id ? "on" : "", "aria-selected": String(SUB === id), onclick: () => { SUB = id; for (const b of tabs.children) b.classList.toggle("on", b.getAttribute("data-id") === id); draw(); } }, t(label))));
   mount(el, wwh(t("Anyone on the team"), t("Read what happened, in order, and who did it"), t("Pick a tab. Type in the search box to find a word or a name"), t("Every action is written once and cannot be changed, so the record can be trusted")),
     h("div", { class: "msg info", "data-test": "record-line" }, h("div", null, h("span", { class: "ti" }, t("Nobody, including us, can edit or delete this record.")), t("Each line carries a short fingerprint. Anyone can check the whole record on the Verify page."), " ", h("a", { href: "/verify/" }, t("Open the Verify page")))), tabs, body);
-  draw();
   function draw() { ({ timeline, who, refused, audit })[SUB](); }
   const search = (onin, ph) => h("input", { type: "search", "data-test": "rec-search", placeholder: ph, "aria-label": ph, oninput: (e) => onin(e.target.value.trim().toLowerCase()), style: "margin-bottom:12px" });
   const more = (shown, total, fn) => shown < total ? h("button", { class: "btn ghost", "data-test": "rec-more", onclick: fn }, t("Show more") + " (" + (total - shown) + ")") : null;
@@ -91,4 +90,5 @@ export async function render(ctx, el) {
       });
     }
   }
+  draw();
 }

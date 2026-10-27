@@ -30,6 +30,7 @@ export function mount(el, ...kids) { el.replaceChildren(...kids.flat(Infinity).f
 let LANG = "en", DICT = {};
 export const lang = () => LANG;
 export async function initLang() {
+  DICT = {};
   try { LANG = localStorage.getItem("tw_lang") || (navigator.language || "en").slice(0, 2); } catch { LANG = "en"; }
   if (!["en", "hi", "mr", "bn", "ta", "te", "gu", "kn", "ml", "pa", "ur", "es", "fr", "pt", "ar", "zh"].includes(LANG)) LANG = "en";
   if (LANG !== "en") { try { const r = await fetch(`/assets/ui-${LANG}.json`); if (r.ok) DICT = await r.json(); } catch { DICT = {}; } }
@@ -58,7 +59,13 @@ export async function config() {
   try { CONFIG = await (await fetch("/config.json")).json(); } catch { CONFIG = {}; }
   return CONFIG;
 }
-export async function turnstileToken() { const c = await config(); return c.testMode ? "test-ok" : (window.__tsToken || ""); }
+/** Bot check. Test mode sends the fixed test token. Live mode loads Cloudflare's widget (the only outside script allowed by the page rules) and waits for a token; with no site key set it sends nothing and the server says so plainly. */
+let TS_LOADING = null;
+export async function turnstileToken() {
+  const c = await config(); if (c.testMode) return "test-ok"; if (!c.turnstileSiteKey) return "";
+  if (!window.turnstile) { TS_LOADING = TS_LOADING || new Promise((ok, no) => { const s = document.createElement("script"); s.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"; s.async = true; s.onload = ok; s.onerror = no; document.head.append(s); }); try { await TS_LOADING; } catch { return ""; } }
+  return new Promise((res) => { const box = document.createElement("div"); box.style.cssText = "position:fixed;bottom:12px;right:12px;z-index:80"; document.body.append(box); try { window.turnstile.render(box, { sitekey: c.turnstileSiteKey, callback: (tok) => { res(tok); setTimeout(() => box.remove(), 500); }, "error-callback": () => res("") }); } catch { res(""); } });
+}
 
 // ---------------------------------------------------------------- API client
 export class TownError extends Error {

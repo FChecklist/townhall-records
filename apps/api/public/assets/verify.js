@@ -76,7 +76,7 @@ async function checkCode(code) {
   const data = await get("/api/r/" + id + "/data");
   let html = null;
   try { const r = await fetch("/api/r/" + id); if (r.ok) { const txt = await r.text(); if (txt.includes('id="aoa-seal"')) html = txt; } } catch { /* data check still possible */ }
-  if (html) { const out = await checkText(html, id); if (out.ok || out.problems.length) return out; }
+  if (html && !(data.model && data.model.live)) { const out = await checkText(html, id); if (out.ok || out.problems.length) return out; }
   const verdict = await globalThis.aoaVerify.verifyEmbedded(data, undefined);
   return finish(verdict, data, { name: id, sealChecked: false, fileSha: null, fromHtml: false });
 }

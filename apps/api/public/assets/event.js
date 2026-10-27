@@ -212,7 +212,7 @@ function shareText(m) { return m.title + " - " + m.society.name + "\n" + when(m.
 const qrBox = h("div", { "data-test": "qr", style: "width:180px;height:180px;background:#fff;padding:8px;border:1px solid var(--line);border-radius:10px;display:none" });
 async function drawQr() {
   try {
-    const mod = await import("/assets/qr.js");
+    const mod = await import("./qr.js");
     const fn = mod.qrSvg || mod.qrSVG || mod.svg || mod.toSvg || mod.default || mod.qr;
     if (typeof fn !== "function") return;
     let out = fn(pageUrl());

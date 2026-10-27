@@ -206,7 +206,7 @@ async function drawTab(name, keep) {
   const el = h("div", { "data-test": "tab-" + name + "-body" });
   if (!keep) shell.body.replaceChildren(loading());
   let mod = null;
-  try { mod = await import("/assets/" + file); } catch (e) { console.warn("desk module missing or broken:", file, e); }
+  try { mod = await import("./" + file); } catch (e) { console.warn("desk module missing or broken:", file, e); }
   if (my !== drawSeq) return;
   const f = mod && (mod[fn] || mod.render);
   if (typeof f !== "function") { shell.body.replaceChildren(h("div", { class: "card center", "data-test": "unfinished" }, h("h3", null, t("This part is being finished")), h("p", { class: "muted" }, t("The \"") + t(label) + t("\" section is not ready yet. Please check again soon. Everything you did so far is safe.")))); return; }

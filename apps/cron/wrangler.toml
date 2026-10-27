@@ -1,0 +1,8 @@
+# Townhall scheduler worker. TARGET is the public address of the Pages site. INTERNAL_SECRET is a secret: `wrangler secret put INTERNAL_SECRET` (same value as the Pages secret).
+name = "aoa-rwa-cron"
+main = "worker.mjs"
+compatibility_date = "2026-09-01"
+[vars]
+TARGET = "https://aoa-rwa.pages.dev"
+[triggers]
+crons = ["* * * * *", "0 3 * * *"]
