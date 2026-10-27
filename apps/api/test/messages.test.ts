@@ -2,8 +2,11 @@
 // every fix and every title the user can see must be short and free of developer words, and explain() must never return an empty box.
 import { describe, expect, test } from "bun:test";
 import { readFileSync, readdirSync } from "node:fs";
+// @ts-ignore plain browser module without types
 import { FIXES } from "../public/assets/fixes.js";
+// @ts-ignore plain browser module without types
 import { TITLES } from "../public/assets/fixes.js";
+// @ts-ignore plain browser module without types
 import { explain } from "../public/assets/core.js";
 
 const files = [...readdirSync("apps/api/src").filter((f) => f.endsWith(".ts")).map((f) => "apps/api/src/" + f), ...readdirSync("packages/engine/src").filter((f) => f.endsWith(".ts") && !f.includes("generated")).map((f) => "packages/engine/src/" + f)];

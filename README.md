@@ -2,7 +2,7 @@
 
 Rules, Attendance, Quorum, Vote, Count, Publish: run general meetings and elections for any AOA, RWA, HOA or housing society, online, on paper or both, transparently. Pay per event (India Rs 499 per meeting and Rs 1499 per election; elsewhere USD 5 and USD 15; TEST mode only until the owner switches payments on). Tamper-evident and independently verifiable: every action is an entry in a hash-chained, Ed25519-signed log; the public page is a deterministic function of that log and turns into a sealed, downloadable report when the event closes.
 
-**Status: back end and engine done and tested; no UI yet; nothing deployed.** Local only. Read `docs/CHECKLIST.md` for evidence per item and `docs/CONFIDENCE.md` for how sure we are (and what is still missing).
+**Status (2026-10-27): engine, API and the screens (12 addresses, laptop + phone, English + Hindi) are built and tested locally; nothing is deployed.** Read `docs/UI-STATUS.md` (what is built, tested, open), `docs/COMPLETION_PLAN.md`, `docs/CHECKLIST.md` and `docs/CONFIDENCE.md`.
 
 ## Layout
 ```
@@ -17,6 +17,11 @@ scripts/           mutate.ts (break the code, watch tests fail), build-verifier.
 ```
 
 ## Commands
+```
+bun run dev:api                      # local site on http://localhost:8788 (real handler + SQLite, in-memory data)
+bun test --isolate --timeout 300000 apps/api/test/grid.test.ts   # generated permission grid
+bun test --isolate --timeout 300000 apps/api/test/ui.test.ts     # generated UI grid in a fake browser
+```
 ```
 bun install                          # only dev types; the product has no runtime dependency
 bun test --isolate --timeout 60000 packages apps   # automated tests (output: docs/evidence/full-run.txt)

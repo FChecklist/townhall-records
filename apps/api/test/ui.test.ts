@@ -84,7 +84,7 @@ describe("static and public pages: every state x page x language x viewport", ()
     test(`public /${route}/ state=${st} lang=${lang}`, async () => {
       stats.cases++; const w = worlds.get(st)!; const pg = await open(hw(st), `/${route}/${w.ctx.eid}`, { lang, mobile: lang === "hi" }); errors.length = 0;
       await load(pg, mod); const text = pg.text();
-      expect(text).toContain(TITLE === "" ? "" : "Annual General Meeting");
+      expect(text).toContain("Annual General Meeting");
       expect(text).not.toMatch(BAD_TEXT); expect(pg.consoleErrors).toEqual([]); expect(errors).toEqual([]);
       for (const v of PRIVATE) expect(text).not.toContain(v);
       for (const v of ["owner1@example.org", "9876543210", "Owner Number"]) expect(text).not.toContain(v);
@@ -109,7 +109,7 @@ describe("Team Desk: every state x role x tab", () => {
       const pg = await open(hw(st), "/desk/", { session: { desk: { eid: w.ctx.eid, pid: w.pids[role], token: w.tokens[role], roles } } }); errors.length = 0;
       await load(pg, "desk.js"); stats.cases++;
       expect(pg.text()).toContain(TITLE);
-      const tabs = pg.qa("[data-test=tabs] button").map((b) => (b.textContent ?? "").trim()); expect(tabs).toEqual(TABS[role]);
+      const tabs = pg.qa("[data-test=tabs] button").map((b) => (b.textContent ?? "").trim()); expect(tabs).toEqual(TABS[role] as string[]);
       const cur = pg.q("[data-test=tabs] button.on"); expect((cur?.textContent ?? "").trim()).toBe(DEFAULT_TAB(st, role));
       for (const label of TABS[role]!) {
         stats.cases++; const b = pg.qa("[data-test=tabs] button").find((x) => (x.textContent ?? "").trim() === label); b.click(); await pg.settle(); await wait(60); await pg.settle();
