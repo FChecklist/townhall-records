@@ -145,3 +145,12 @@ main.hall{max-width:none;padding:2vh 3vw 4vh}
 /* desk-day.js: print one ballot paper only (the paper is placed in .ballot-print while the print dialog is open) */
 .ballot-print{display:none}
 @media print{body.printing-ballot>*:not(.ballot-print){display:none!important}body.printing-ballot .ballot-print{display:block!important}body.printing-ballot .ballot-print svg{width:210mm;height:297mm}}
+/* lead fix: header select must not stretch like a form field */
+.top select{width:auto;min-height:36px;padding:4px 8px}
+/* lead polish: phone header and who/what/how/why take less room */
+@media(max-width:760px){
+  .top nav{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;gap:0}.top nav a{white-space:nowrap;padding:6px 9px;font-size:14px}
+  .deskhead{flex-direction:column;gap:6px}.deskhead .btn{min-height:36px;padding:4px 12px;font-size:14px}
+  .g2,.g3,.g4{grid-template-columns:1fr}.wwh{grid-template-columns:1fr 1fr}.wwh div{padding:8px 10px;font-size:13px}
+}
+.msg>div>span{display:block}

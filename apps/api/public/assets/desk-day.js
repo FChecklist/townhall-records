@@ -112,7 +112,7 @@ function startCard(ctx, m) {
   ];
   const warns = [];
   if (m.notice && m.notice.met === false) warns.push(`${t("The notice period was")} ${m.notice.givenDays} ${t("days; the rules ask for")} ${m.notice.minDays ?? "-"} ${t("to")} ${m.notice.maxDays ?? "-"}. ${t("The public record will show this.")}`);
-  if (!(m.attendance && m.attendance.officers > 0)) warns.push(t("No Attendance Monitor is appointed. You can check people in yourself, but the report will say attendance was not independently checked."));
+  if (!(m.people || []).some((p) => (p.roles || []).includes("attendance_officer"))) warns.push(t("No Attendance Monitor is appointed. You can check people in yourself, but the report will say attendance was not independently checked."));
   if (sch && nowMs() < sch) warns.push(t("The planned start time has not come yet. You may still start early."));
   const blockers = items.filter(([ok]) => !ok);
   const slot = h("div");

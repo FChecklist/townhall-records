@@ -286,8 +286,8 @@ async function idle() {
     h("h2", { "data-test": "idle-title" }, finished ? t("Thank you. Your votes are recorded.") : t("No question is open for you right now")),
     j?.message ? msg(finished ? "ok" : "info", j.message) : null, rows.length ? h("div", { class: "card tint" }, h("h3", null, t("You have voted on")), h("ul", { style: "margin:0;padding-left:20px" }, rows)) : null, slot,
     j?.voted?.length ? receiptChecker(j) : null, S.eid ? big(t("See the live record"), () => { location.href = "/e/" + S.eid; }, { "data-test": "to-record" }) : null,
-    finished ? null : ghost(t("Check again"), idle, { "data-test": "check-again" }));
-  if (!finished) poll(async (alive) => { const d = await loadPoints(); if (!alive()) return; const k = d.points.findIndex((p) => !p.voted); if (k >= 0) mount(slot, h("div", { class: "msg ok", role: "status" }, h("div", null, h("span", { class: "ti" }, t("A question is open.")), h("button", { class: "btn", style: "margin-top:8px", onclick: () => { S.idx = k; question(); }, "data-test": "vote-now" }, t("Vote now"))))); }, 8000);
+    finished ? null : ghost(t("Check again"), ballot, { "data-test": "check-again" }));
+  if (!finished) poll(async (alive) => { const d = await loadPoints(); if (!alive()) return; const k = d.points.findIndex((p) => !p.voted); if (k >= 0) { S.idx = k; question(); } }, 8000);
 }
 
 // ---------------------------------------------------------------- start
