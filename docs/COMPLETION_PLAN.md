@@ -116,3 +116,31 @@ Laptop RAM (browser tests serialised, Chromium only); 158 packs not lawyer-revie
 * **Q4.** For sign-in mail, may I use the same free Resend sender already used for the other products (you set the secrets, I never see them)?
 * **Q5.** Is it fine that v1 ships online voting plus officer-entered paper ballots, and the camera "photograph the paper" reading comes later?
 * **Q6.** Is a free `aoa-rwa.pages.dev` address enough for launch (custom domain later)?
+
+## 10. Page map (owner request 2026-10-27): the three core pages plus the ones I recommend
+Rule: one address per purpose, role decides what you see, every page has Who / What / How / Why at the top.
+
+**Core (yours)**
+| # | Address | Page | Notes |
+|---|---|---|---|
+| 1 | `/e/CODE` | **Notice, Live and Result page** (publish agenda / meeting / election) | One address for the whole life of the event: agenda notice, then live board (six-step tracker, quorum, countdown), then the sealed report. Public, masked, shareable (WhatsApp card + QR), Verify button inside. |
+| 2 | `/desk` | **Team Desk** (Organizer, Host/Co-host, Attendance Monitor, Officials) | Sign in by e-mail 6-digit code or one-tap link; the desk shows only what your role may do. Organizer/Host: Setup (8 steps with Back/Next) and Voting day. Monitor: phone-first Check-in station (flat search, proof, 4-digit exchange, voter code). "Co-host" = Host in the product (up to 4 hosts). |
+| 3 | `/v/CODE` | **Voter page** (attendance + voting, accountless) | Phone-first PWA: flat + 6-digit code, confirm presence, one question per screen, receipt, resume link. |
+
+**Recommended additions**
+| # | Address | Page | Why |
+|---|---|---|---|
+| 4 | `/` | **Home and Start** | Explains the six steps, price, and "Start a meeting or election" wizard; "Find an event" box. Without it nobody can create an event. |
+| 5 | `/pay/CODE` | **Pay page** (anyone with the link: treasurer, a member, the one who postpones) | Payment is allowed for anyone by link; needs a plain page with receipt. |
+| 6 | `/e/CODE/screen` | **Hall screen** (projector view) | Big text: current question, quorum, countdown, no names. Cheap (same data as page 1), very useful in the room. |
+| 7 | `/verify` | **Verify a report** | Drop the sealed report file; checks signatures and recounts offline. This is the trust page. |
+| 8 | `/privacy` | **Privacy and my data** | Privacy request form, erase my details, retention, Grievance Officer, processors; wording "designed around DPDP/GDPR". |
+| 9 | `/help` | **Guides and FAQ** | Role guides (English + Hindi already written), printable one-page cards for officers, contact. |
+| 10 | `/new` | **What's new** (+ `/terms`, `/price`) | Owner standard: reads `release.json`; terms and price pages. |
+| 11 | `/owner` | **Owner console** (Rajat only) | Events, payments ledger, mail quota, audit with reason, health, release. |
+| 12 | (inside desk) | **Print kit** | Notice PDF, attendance sheets, printed ballots with QR, minutes; lives as a Desk tab, not a separate site. |
+| 13 | (inside page 1) | **Record tab** | Unchangeable chronology, who-did-what, shared with Organizer/Host/Monitor and public (masked). |
+| 14 | `/offline` | **Offline / error page** | PWA fallback that says plainly what still works and what to do. |
+
+Totals: 3 core + 8 public/support + 1 owner = 12 addresses; the laptop and phone designs share them (responsive plus a phone-first layout for 2, 3 and the Monitor station).
+Not recommended for v1: a resident login area, chat/notice board, dues and accounts (that is Q1 = year-round product, a separate phase).
