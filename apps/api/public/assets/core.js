@@ -1,5 +1,6 @@
 // Townhall shared browser code: API client, plain-words errors, page frame, small UI helpers. No framework, no build step, no external request.
 // Every page does: import { ... } from "/assets/core.js";
+import { FIXES, TITLES } from "./fixes.js";
 export const VERSION_URL = "/release.json";
 
 // ---------------------------------------------------------------- tiny DOM builder (text is always set as text, never as HTML)
@@ -123,8 +124,8 @@ const STATUS_FIX = {
 export function explain(e) {
   const code = e?.code || "server_error"; const f = FIX[code];
   const server = e?.message && e.message !== "Something went wrong." ? e.message : null;
-  const title = server || (f ? f[0] : "Something went wrong.");
-  const fix = f ? f[1] : (STATUS_FIX[e?.status] || "Try again. If it keeps happening, reload the page.");
+  const title = TITLES[code] || server || (f ? f[0] : "Something went wrong.");
+  const fix = FIXES[code] || (f ? f[1] : (STATUS_FIX[e?.status] || "Try again. If it keeps happening, reload the page."));
   return { title, fix, code };
 }
 export function errorBox(e, retry) {

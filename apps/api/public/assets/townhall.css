@@ -109,3 +109,39 @@ body.phone main,main.phone{padding:14px 14px 90px;max-width:560px}
   .stickybar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:10px 14px;display:flex;gap:10px;z-index:60;box-shadow:0 -8px 24px -14px rgba(0,0,0,.4)}.stickybar .btn{flex:1}
   .nav.sticky{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:10px 14px;margin:0;z-index:60}.nav.sticky .btn{flex:1}
 }
+
+/* help page */
+.guide-step{break-inside:avoid;margin:12px 0}.guide-step dl{display:grid;grid-template-columns:110px 1fr;gap:6px 14px;margin:8px 0 0}.guide-step dt{font:700 12px var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--goldd);padding-top:3px}.guide-step dd{margin:0}
+@media(max-width:760px){.guide-step dl{grid-template-columns:1fr}}
+@media print{.noprint{display:none!important}.guide-step{border:1px solid #999;box-shadow:none}}
+
+/* ---- hall screen (hall.js): projector view, huge text, high contrast, no names ---- */
+body.hallbody{background:#050D1F;color:#fff}
+main.hall{max-width:none;padding:2vh 3vw 4vh}
+.hall .hbar{display:flex;gap:16px;align-items:center;flex-wrap:wrap;color:#FFE9A8;font-size:clamp(18px,2.2vw,34px)}
+.hall .hbar .sp{flex:1}.hall .hbar .btn{min-height:52px;font-size:20px;background:#fff;color:#050D1F;border-color:#fff}
+.hall h1{color:#fff;font-size:clamp(28px,3.4vw,56px);margin:.2em 0}
+.hall .stages div{background:#0C1B3D;border-color:#27427F;color:#C9D5F0;font-size:clamp(14px,1.6vw,26px);padding:14px 6px}.hall .stages div.done{background:#0E4A33;color:#CFF5E3;border-color:#1F7A55}.hall .stages div.cur{background:#FFE9A8;color:#050D1F;border-color:#FFE9A8}.hall .stages div.cur b,.hall .stages div b{color:inherit;opacity:.8}
+.hall .hq{background:#0C1B3D;border:3px solid #27427F;border-radius:22px;padding:3vh 3vw;margin:2vh 0}
+.hall .hq .lbl{font:700 clamp(16px,1.8vw,28px) var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#FFE9A8}
+.hall .hq .big{font-family:var(--serif);font-weight:700;font-size:clamp(34px,6vw,110px);line-height:1.1;margin:.15em 0;color:#fff}
+.hall .hq .num{font:700 clamp(48px,9vw,170px) var(--mono);line-height:1;color:#FFE9A8;font-variant-numeric:tabular-nums}
+.hall .hq .sub{font-size:clamp(20px,2.6vw,44px);color:#E8EEFB}
+.hall .hgrid{display:grid;grid-template-columns:1fr 1fr;gap:2vw}
+.hall .hbarbig{height:clamp(28px,4vh,56px);background:#1B2E57;border-radius:40px;overflow:hidden;margin:1.5vh 0}
+.hall .hbarbig i{display:block;height:100%;background:#FFE9A8}.hall .hbarbig.met i{background:#47D18F}
+.hall .pill{display:inline-block;padding:.1em .6em;border-radius:99px;font-weight:700;font-size:clamp(20px,2.6vw,44px)}.hall .pill.ok{background:#47D18F;color:#032015}.hall .pill.no{background:#FFB020;color:#2B1A00}
+.hall .rl{display:flex;gap:2vw;align-items:baseline;flex-wrap:wrap;border-top:2px solid #27427F;padding:1.4vh 0;font-size:clamp(20px,2.6vw,44px)}.hall .rl:first-of-type{border-top:0}
+.hall .rl .t{flex:1;min-width:40%;font-weight:700}.hall .rl .o{color:#C9D5F0;font-size:.8em}
+@media(max-width:760px){.hall .hgrid{grid-template-columns:1fr}}
+
+/* desk (desk.js, desk-team.js): header block and a tab bar that scrolls sideways on a phone */
+.deskhead{display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:6px}
+.deskhead h1{font-size:30px;margin:2px 0 6px}
+.tabs.scroll{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.tabs.scroll button{white-space:nowrap;flex:0 0 auto;min-height:46px}
+@media(max-width:760px){.deskhead h1{font-size:21px;margin:0 0 4px}.deskhead .eyebrow{font-size:11px}.deskhead + .stages div{min-width:50px;font-size:11px;padding:7px 2px}.deskhead + .stages div b{font-size:10px}}
+
+/* desk-day.js: print one ballot paper only (the paper is placed in .ballot-print while the print dialog is open) */
+.ballot-print{display:none}
+@media print{body.printing-ballot>*:not(.ballot-print){display:none!important}body.printing-ballot .ballot-print{display:block!important}body.printing-ballot .ballot-print svg{width:210mm;height:297mm}}

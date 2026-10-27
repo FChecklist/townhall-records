@@ -799,5 +799,122 @@
   "find": "  /(?<!\\d)0\\d{10}(?!\\d)/g, // 09876543210 (trunk prefix)\n",
   "replace": "",
   "test": "packages/engine/test/basics.test.ts"
+ },
+ {
+  "id": "U01",
+  "scope": "api",
+  "claim": "sign-in mail carries the one-tap link",
+  "file": "apps/api/src/handler.ts",
+  "find": "\\n\\nOr tap this one-tap link on the phone or laptop where you want to work:\\n${origin}/desk/#e=${eid}&p=${pid}&c=${code}\\n",
+  "replace": "",
+  "test": "apps/api/test/signin.test.ts"
+ },
+ {
+  "id": "U02",
+  "scope": "api",
+  "claim": "lookup is rate limited per event+e-mail",
+  "file": "apps/api/src/handler.ts",
+  "find": "await rateLimit(c, \"auth-lookup\", await pepperHash(c.env, \"lk\", eid + em), 5, 600);",
+  "replace": "",
+  "test": "apps/api/test/signin.test.ts"
+ },
+ {
+  "id": "U03",
+  "scope": "api",
+  "claim": "lookup checks the bot test",
+  "file": "apps/api/src/handler.ts",
+  "find": "await checkTurnstile(c, c.body.turnstile);\n  const idx = await pepperHash",
+  "replace": "const idx = await pepperHash",
+  "test": "apps/api/test/signin.test.ts"
+ },
+ {
+  "id": "U04",
+  "scope": "api",
+  "claim": "lookup mails only a person who is really in the event",
+  "file": "apps/api/src/handler.ts",
+  "find": "if (row) { const tx = await Tx.load(c, eid).catch(() => null); if (tx) await issueLogin(c, eid, row.person_id",
+  "replace": "if (!row) { const tx = await Tx.load(c, eid).catch(() => null); if (tx) await issueLogin(c, eid, row!.person_id",
+  "test": "apps/api/test/signin.test.ts"
+ },
+ {
+  "id": "G01",
+  "scope": "api",
+  "claim": "grid: only the Organizer pays",
+  "file": "packages/engine/src/machine.ts",
+  "find": "case \"pay\": return hasRole(s, p.pid, \"organizer\") ?",
+  "replace": "case \"pay\": return isOH ?",
+  "test": "apps/api/test/grid.test.ts"
+ },
+ {
+  "id": "G02",
+  "scope": "api",
+  "claim": "grid: only the Organizer may erase data",
+  "file": "packages/engine/src/machine.ts",
+  "find": "case \"erase_data\": return hasRole(s, p.pid, \"organizer\") ?",
+  "replace": "case \"erase_data\": return isOH ?",
+  "test": "apps/api/test/grid.test.ts"
+ },
+ {
+  "id": "G03",
+  "scope": "api",
+  "claim": "grid: with a Monitor present, Organizer/Host do not mark attendance",
+  "file": "packages/engine/src/machine.ts",
+  "find": "if (isOH && !anyOfficer(s)) return yes;",
+  "replace": "if (isOH) return yes;",
+  "test": "apps/api/test/grid.test.ts"
+ },
+ {
+  "id": "G04",
+  "scope": "api",
+  "claim": "grid: the agenda can be published only once (from setup)",
+  "file": "packages/engine/src/machine.ts",
+  "find": "if (s.status !== \"setup\") return no(\"bad_state\", \"The agenda is already published.\");",
+  "replace": "",
+  "test": "apps/api/test/grid.test.ts"
+ },
+ {
+  "id": "U05",
+  "scope": "api",
+  "claim": "every error code has a how-to-fix line",
+  "file": "apps/api/public/assets/fixes.js",
+  "find": "  already_voted: \"Your vote is already on record and cannot be changed.\",\n",
+  "replace": "",
+  "test": "apps/api/test/messages.test.ts"
+ },
+ {
+  "id": "U06",
+  "scope": "api",
+  "claim": "jargon-free error titles",
+  "file": "apps/api/public/assets/fixes.js",
+  "find": "bad_json: \"We could not understand what was sent.\",",
+  "replace": "",
+  "test": "apps/api/test/messages.test.ts"
+ },
+ {
+  "id": "U07",
+  "scope": "api",
+  "claim": "only Organizer/Host may label a person",
+  "file": "apps/api/src/handler.ts",
+  "find": "const { tx, pid } = await staff(c, m[1]!, \"edit_setup\"); const st = await tx.st(); const target = m[2]!;",
+  "replace": "const { tx, pid } = await staff(c, m[1]!); const st = await tx.st(); const target = m[2]!;",
+  "test": "apps/api/test/uiapi.test.ts"
+ },
+ {
+  "id": "U08",
+  "scope": "api",
+  "claim": "voter answers carry the event id",
+  "file": "apps/api/src/handler.ts",
+  "find": "return json({ eventId: s.eventId, flatNo: s.flatNo, points: st.pointOrder",
+  "replace": "return json({ flatNo: s.flatNo, points: st.pointOrder",
+  "test": "apps/api/test/uiapi.test.ts"
+ },
+ {
+  "id": "U09",
+  "scope": "api",
+  "claim": "disabled end choices say why",
+  "file": "apps/api/src/handler.ts",
+  "find": "\"The meeting has not started yet. Choose Cancelled or Postponed.\"",
+  "replace": "\"\"",
+  "test": "apps/api/test/uiapi.test.ts"
  }
 ]

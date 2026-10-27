@@ -474,7 +474,7 @@ route("GET", "/api/events/:id/end-options", async (c, m) => {
       { id: "stop", outcome: "stopped", label: "Stopped in between", allowed: (st.status === "live" || st.status === "postponed") && me("end_event") },
       { id: "postpone", outcome: "postponed", label: "Postponed (give a new date, time and place)", allowed: me("postpone") && st.status !== "closed", quote },
       { id: "cancel", outcome: "cancelled", label: "Cancelled", allowed: me("end_event") && !everOpened && st.status !== "closed" },
-    ].map((x) => ({ ...x, plain: OUTCOMES.find((o) => o.id === x.outcome)!.plain })),
+    ].map((x) => ({ ...x, plain: OUTCOMES.find((o) => o.id === x.outcome)!.plain, whyNot: x.allowed ? null : st.status === "closed" ? "This event is already closed." : x.id === "cancel" && everOpened ? "Voting has already begun, so choose Stopped in between." : (x.id === "complete" || x.id === "stop") && st.status !== "live" ? "The meeting has not started yet. Choose Cancelled or Postponed." : "Only the Organizer or a Host can do this." })),
     note: "Choose one, tick the reasons, press Yes on the question, then type the 4-digit number shown on the screen.",
   });
 });
@@ -780,6 +780,14 @@ route("POST", "/api/events/:id/people/:pid/remove", async (c, m) => {
   if (role === "organizer") throw err(403, "organizer_fixed", "The Organizer cannot be removed.");
   await tx.add("role_removed", ENTRY_ACTOR(st, pid), { pid: m[2]!, role, removedBy: pid }, (seq) => [roleStmt(c, tx.eid, m[2]!, role, "remove", pid, seq)]);
   await tx.commit(); return json({ ok: true });
+});
+route("POST", "/api/events/:id/people/:pid/label", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!, "edit_setup"); const st = await tx.st(); const target = m[2]!;
+  if (!st.people.has(target)) throw err(404, "no_person", "No such person.");
+  const label = str(c.body.label, "label", 2, 40);
+  const rev = ((await c.db.prepare("SELECT MAX(rev) r FROM person_labels WHERE person_id=?").bind(target).first<{ r: number }>())?.r ?? 0) + 1;
+  await tx.add("label_set", ENTRY_ACTOR(st, pid), { pid: target, label }, (seq) => [c.db.prepare("INSERT INTO person_labels(person_id,event_id,label,rev,log_seq) VALUES(?,?,?,?,?)").bind(target, tx.eid, label, rev, seq)]);
+  await tx.commit(); return json({ ok: true, rev });
 });
 route("POST", "/api/events/:id/holders", async (c, m) => {
   const { tx, pid } = await staff(c, m[1]!, "edit_setup"); const st = await tx.st();
@@ -1104,7 +1112,7 @@ route("GET", "/api/h/:token", async (c, m) => {
       c.db.prepare("INSERT INTO sessions(token_hash,event_id,person_id,flat_no,kind,voter_kind,device_hash,ua_hash,browser_hash,created_ms,expires_ms) VALUES(?,?,NULL,?,'voter',?,?,?,?,?,?)").bind(await pepperHash(c.env, "session", token), h.eventId, h.flatNo, h.kind, devH, (await pepperHash(c.env, "ua", c.req.headers.get("user-agent") ?? "")).slice(0, 24), row?.browser_hash ?? bidH, c.now, c.now + VOTER_TTL),
     ]);
     c.eventId = h.eventId; c.actor = { kind: "voter", ref: h.flatNo };
-    return json({ resume: true, token, flatNo: h.flatNo, kind: h.kind, journey: journeyFor(await tx.st(), h.flatNo, c.now), recognisedBy: byDevice && byCookie ? "device_and_browser" : byDevice ? "device" : "browser_cookie" });
+    return json({ resume: true, eventId: h.eventId, token, flatNo: h.flatNo, kind: h.kind, journey: journeyFor(await tx.st(), h.flatNo, c.now), recognisedBy: byDevice && byCookie ? "device_and_browser" : byDevice ? "device" : "browser_cookie" });
   }
   if (h.deviceHash && !byDevice && byCookie) h = { ...h, deviceHash: devH }; // same browser, device id was cleared: keep the person, adopt the new device id
   const res = openLink(h, c.now, devH, (await pepperHash(c.env, "ua", c.req.headers.get("user-agent") ?? "")).slice(0, 24), (await pepperHash(c.env, "ip", c.ip)).slice(0, 24));
@@ -1113,7 +1121,7 @@ route("GET", "/api/h/:token", async (c, m) => {
   const tx = await Tx.load(c, h.eventId); const st = await tx.st(); const codes = await hsCodes(c, h.id);
   let smsLink: string | null = null; // optional number check: the voter sends an SMS from their own phone to the OFFICER's phone (no cost to the platform)
   if (h.mobileFp) { try { const ph = (await contactOf(c, h.eventId, h.monitorPid)).phone.replace(/[^\d+]/g, ""); if (ph) smsLink = `sms:${ph}?body=${encodeURIComponent("AOA " + h.id.slice(3, 9))}`; } catch { /* no officer phone known */ } }
-  return json({ flatNo: h.flatNo, society: st.created?.society.name, title: st.created?.title, voterCode: codes.voter, smsLink, termsVersion: TERMS_VERSION, termsRequired: !st.terms.has("flat:" + h.flatNo), voterConfirmed: !!h.voterConfirmedMs, expiresMs: h.expiresMs,
+  return json({ eventId: h.eventId, flatNo: h.flatNo, society: st.created?.society.name, title: st.created?.title, voterCode: codes.voter, smsLink, termsVersion: TERMS_VERSION, termsRequired: !st.terms.has("flat:" + h.flatNo), voterConfirmed: !!h.voterConfirmedMs, expiresMs: h.expiresMs,
     instruction: "Say this code to the officer. Type the code shown on the officer's screen below." });
 });
 route("POST", "/api/h/:token/confirm", async (c, m) => {
@@ -1234,7 +1242,7 @@ async function lastSeen(c: Ctx, eid: string, flatNo: string) {
 }
 route("GET", "/api/vote/resume", async (c) => {
   const s = await requireSession(c, "voter"); const st = await (await Tx.load(c, s.eventId!)).st();
-  return json({ journey: journeyFor(st, s.flatNo!, c.now), lastSeen: await lastSeen(c, s.eventId!, s.flatNo!) });
+  return json({ eventId: s.eventId, journey: journeyFor(st, s.flatNo!, c.now), lastSeen: await lastSeen(c, s.eventId!, s.flatNo!) });
 });
 /** Everything the system knows about one flat's participation, built from the log and the audit trail. */
 async function flatEvidence(c: Ctx, tx: Tx, flatNo: string, full: boolean) {
@@ -1299,7 +1307,7 @@ route("POST", "/api/vote/login", async (c) => {
 });
 route("GET", "/api/vote/points", async (c) => {
   const s = await requireSession(c, "voter"); const st = await (await Tx.load(c, s.eventId!)).st();
-  return json({ flatNo: s.flatNo, points: st.pointOrder.map((id) => st.points.get(id)!).filter((p) => p.state === "open").map((p) => ({ pointId: p.def.pointId, number: p.def.number, title: p.def.title, body: p.def.body, kind: p.def.kind, options: p.def.options, maxChoices: p.def.maxChoices, secret: p.def.secret, endsMs: p.endsMs, labels: p.def.labels, minChoices: p.def.minChoices ?? 1, design: p.def.design, instruction: ballotInstruction(p.def.minChoices ?? 1, p.def.maxChoices), voted: !!st.ledger.get(p.def.pointId)?.has(s.flatNo!) })) });
+  return json({ eventId: s.eventId, flatNo: s.flatNo, points: st.pointOrder.map((id) => st.points.get(id)!).filter((p) => p.state === "open").map((p) => ({ pointId: p.def.pointId, number: p.def.number, title: p.def.title, body: p.def.body, kind: p.def.kind, options: p.def.options, maxChoices: p.def.maxChoices, secret: p.def.secret, endsMs: p.endsMs, labels: p.def.labels, minChoices: p.def.minChoices ?? 1, design: p.def.design, instruction: ballotInstruction(p.def.minChoices ?? 1, p.def.maxChoices), voted: !!st.ledger.get(p.def.pointId)?.has(s.flatNo!) })) });
 });
 const lockNumber = async (c: Ctx, tokenHash: string, pointId: string, choices: string[], nonce: string) => String(1000 + (parseInt((await pepperHash(c.env, "votelock", `${tokenHash}:${pointId}:${[...choices].sort().join("|")}:${nonce}`)).slice(0, 8), 16) % 9000));
 /** Step 1 of locking: the voter's ballot is checked and shown back; a 4-digit number appears on the screen and must be typed into the cast call. Nothing is recorded yet. */
