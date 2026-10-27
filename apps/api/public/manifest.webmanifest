@@ -1,0 +1,1 @@
+{ "name": "Townhall", "short_name": "Townhall", "start_url": "/", "display": "standalone", "background_color": "#FBF7EE", "theme_color": "#0F2A5C", "icons": [{ "src": "/assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }] }

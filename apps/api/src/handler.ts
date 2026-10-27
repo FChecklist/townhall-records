@@ -276,7 +276,8 @@ async function issueLogin(c: Ctx, eid: string, pid: string, to: string, society:
   const { code, voidedIds } = await issuePasscode({ store: new D1PasscodeStore(c.db), pepper: c.env.PEPPER, eventId: eid, purpose: "login", subject: pid, nowMs: c.now, ttlMs: LOGIN_TTL_MS, newId: () => newId("pc_"), issuedBy: null });
   await tx.add("passcode_issued", { system: true }, { purpose: "login", subjectKind: "person", subject: pid, voided: voidedIds.length });
   await tx.commit();
-  await sendMail(c, to, `Your ${BRAND} code`, `Your 6-digit code for ${society} is ${code}.\nIt works once and expires in 15 minutes. Never share it.\n`);
+  const origin = (c.env.PUBLIC_ORIGIN ?? c.url.origin).replace(/\/+$/, "");
+  await sendMail(c, to, `Your ${BRAND} code`, `Your 6-digit code for ${society} is ${code}.\nIt works once and expires in 15 minutes. Never share it.\n\nOr tap this one-tap link on the phone or laptop where you want to work:\n${origin}/desk/#e=${eid}&p=${pid}&c=${code}\n`);
 }
 route("POST", "/api/auth/request", async (c) => {
   const { eventId, personId } = c.body; const eid = str(eventId, "eventId", 10, 64), pid = str(personId, "personId", 3, 40);
@@ -285,6 +286,16 @@ route("POST", "/api/auth/request", async (c) => {
   const known = await c.db.prepare("SELECT 1 x FROM people WHERE id=? AND event_id=?").bind(pid, eid).first();
   if (known) { const ct = await contactOf(c, eid, pid); const tx = await Tx.load(c, eid); await issueLogin(c, eid, pid, ct.email, (await tx.st()).created?.society.name ?? "your society"); }
   return json({ sent: true }); // same answer whether or not the person exists
+});
+/** Lost link? The event code plus the e-mail the person was added with. Same answer whether or not it matches (no account oracle). */
+route("POST", "/api/auth/lookup", async (c) => {
+  const eid = str(c.body.eventId, "eventId", 10, 64); const em = emailOf(c.body.email);
+  await rateLimit(c, "auth-ip", c.ip, 20, 600); await rateLimit(c, "auth-event", eid, 60, 600); await rateLimit(c, "auth-lookup", await pepperHash(c.env, "lk", eid + em), 5, 600);
+  await checkTurnstile(c, c.body.turnstile);
+  const idx = await pepperHash(c.env, "email:" + eid, em);
+  const row = await c.db.prepare("SELECT person_id FROM private_contacts WHERE event_id=? AND email_idx=? ORDER BY created_ms LIMIT 1").bind(eid, idx).first<{ person_id: string }>();
+  if (row) { const tx = await Tx.load(c, eid).catch(() => null); if (tx) await issueLogin(c, eid, row.person_id, em, (await tx.st()).created?.society.name ?? "your society"); }
+  return json({ sent: true });
 });
 route("POST", "/api/auth/verify", async (c) => {
   const eid = str(c.body.eventId, "eventId", 10, 64), pid = str(c.body.personId, "personId", 3, 40), code = typeof c.body.code === "string" ? c.body.code : "";
