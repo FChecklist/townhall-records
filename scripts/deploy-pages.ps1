@@ -15,7 +15,7 @@ switch ($Step) {
     # gates: release file, TEST_MODE must not ship, the page rules and no secret-looking text in public files
     $rel = Get-Content ..\api\public\release.json -Raw | ConvertFrom-Json; Write-Host "release $($rel.version) $($rel.date)"
     if ((Get-Content public\config.json -Raw) -match '"testMode"\s*:\s*true') { Write-Host "NOTE: public/config.json has testMode true; the deploy step ships a production copy with testMode false." }
-    $hits = Select-String -Path public\* -Pattern 'BEGIN (RSA|PRIVATE)|CLOUDFLARE_API_TOKEN|re_[A-Za-z0-9]{20,}' -Recurse -ErrorAction SilentlyContinue; if ($hits) { throw "secret-looking text in public files" } else { Write-Host "no secret-looking text in public/" }
+    $hits = Get-ChildItem public -Recurse -File | Select-String -Pattern 'BEGIN (RSA|PRIVATE)|CLOUDFLARE_API_TOKEN|re_[A-Za-z0-9]{20,}'; if ($hits) { throw "secret-looking text in public files" } else { Write-Host "no secret-looking text in public/" }
     & $wr --version
   }
   "d1" {

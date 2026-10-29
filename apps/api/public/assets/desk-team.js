@@ -39,7 +39,7 @@ export async function renderTeam(ctx, el) {
     h("div", { class: "row" },
       h("span", { class: "badge gold", "data-test": "count-hosts" }, t("Hosts ") + c.hostsInclOrganizer + t(" of ") + lim.hostsInclOrganizer),
       h("span", { class: "badge gold", "data-test": "count-monitors" }, t("Attendance Monitors ") + c.monitorsOnly + t(" of ") + lim.monitorsOnly + " " + t("(up to ") + lim.monitorsTotal + t(" if the Organizer or Hosts also monitor)"))),
-    h("p", { class: "muted small", style: "margin-top:10px" }, t("The Organizer counts as one of the Hosts. Hosts can do everything the Organizer can, except payment. Attendance Monitors check people in on the day.")));
+    h("p", { class: "muted small", style: "margin-top:10px" }, t("A Host is also called a Co-host. The Organizer counts as one of the Hosts. Hosts can do everything the Organizer can, except payment. Attendance Monitors check people in on the day.")));
 
   // ---- people
   async function removeRole(p, role) {

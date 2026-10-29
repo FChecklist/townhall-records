@@ -13,7 +13,7 @@ describe("committee, officers and observers", () => {
   test("optional: an event with none works and shows none", async () => {
     const h = await H.make(); const e = await ready(h); await ok(h.call("POST", `/api/events/${e.eid}/agenda/publish`, {}, e.org));
     expect((await h.call("GET", `/api/events/${e.eid}`)).body.model.officials).toEqual([]); expect((await h.call("GET", `/api/r/${e.eid}`)).text).not.toContain("Committee, officers and observers");
-    expect((await h.call("GET", "/api/officials/groups")).body.groups.length).toBe(5);
+    expect((await h.call("GET", "/api/officials/groups")).body.groups.length).toBe(11);
   });
   test("add, edit, remove; free-text designation and authority; shown on the page before the start", async () => {
     const h = await H.make(); const e = await ready(h); const url = `/api/events/${e.eid}/officials`;

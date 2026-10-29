@@ -44,6 +44,12 @@ export const OFFICIAL_GROUPS: Array<{ id: string; label: string; example: string
   { id: "returning_officer", label: "Returning Officer", example: "Returning Officer" },
   { id: "government_officer", label: "Government Officer", example: "Registrar of Co-operative Societies' nominee" },
   { id: "observer", label: "Observer", example: "Observer appointed by the court" },
+  { id: "chair", label: "Chairperson / Presiding Officer", example: "Chairman" },
+  { id: "president", label: "President / Vice President", example: "President" },
+  { id: "general_secretary", label: "General Secretary / Secretary", example: "General Secretary" },
+  { id: "treasurer", label: "Treasurer", example: "Treasurer" },
+  { id: "committee_member", label: "Committee Member / Trustee / Director", example: "Executive Committee Member" },
+  { id: "auditor", label: "Auditor / Scrutineer", example: "Statutory Auditor" },
   { id: "other", label: "Other (write the title yourself)", example: "Auditor" },
 ];
 export const OFFICIAL_GROUP_IDS = new Set(OFFICIAL_GROUPS.map((g) => g.id));

@@ -6,7 +6,7 @@ const COUNTRIES = [["IN", "India"], ["US", "United States"], ["GB", "United King
 const countryName = (c) => (COUNTRIES.find((x) => x[0] === c) || [c, c])[1];
 const TYPE_LABEL = { agm: ["Annual General Meeting (AGM)", "The yearly meeting of all members."], sgm: ["Special General Meeting (SGM)", "A meeting called for one special matter."], committee: ["Committee meeting", "Only the committee members meet."], monthly: ["Monthly meeting", "The regular meeting held each month."], custom: ["Something else", "Any other meeting or election. You write the title."] };
 const TYPE_TITLE = { agm: "Annual General Meeting", sgm: "Special General Meeting", committee: "Committee meeting", monthly: "Monthly meeting", custom: "" };
-const KINDS = [["AOA", "AOA", "Association of Apartment Owners"], ["RWA", "RWA", "Residents' Welfare Association"], ["HOA", "HOA", "Homeowners' Association"], ["Co-operative society", "Co-operative", "Co-operative housing society"]];
+const KINDS = [["AOA", "AOA", "Association of Apartment Owners"], ["RWA", "RWA", "Residents' Welfare Association"], ["HOA", "HOA", "Homeowners' Association"], ["Co-operative society", "Co-operative", "Co-operative housing society"], ["NGO", "NGO", "Non-profit organisation or trust"], ["Association", "Association", "Professional, trade or alumni association"], ["Club", "Club", "Club or social group"], ["Other", "Other", "Any other close group"]];
 const STEPS = ["Meeting or election", "Your society", "The rules", "When and where", "You and the terms"];
 
 let schema = {}, packs = [], terms = null;
