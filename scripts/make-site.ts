@@ -21,7 +21,7 @@ const page = (file: string, title: string, desc: string, body: string) => writeF
 const steps = [["Rules", "Your bye-laws set the rules before anyone votes."], ["Attendance", "Each person is checked in at the door."], ["Quorum", "Who is present is counted and shown live."], ["Vote", "On the phone, on paper, or both."], ["Count", "The software counts. Nobody counts by hand."], ["Publish", "The complete record is published as soon as the event ends."]];
 
 page("index.html", "Townhall | Software for association meetings and elections", `Townhall is software by ${OWNER}. Run your meeting or election online, on paper, or both, with a complete record anyone can download.`, `
-<section class="hero"><div class="wrap"><div class="kicker">Software for associations of every kind</div>
+<section class="hero"><div class="wrap"><div class="kicker">Meeting &amp; Election software for associations of every kind</div>
 <h1>Order in every meeting.<br><em>Proof in every vote.</em></h1>
 <p>Townhall is specialized software for the meetings and elections of your society, association, HOA, AOA or RWA. Members vote on their phone or on paper, following the same steps as your real process. Every rule can be configured as needed, and every step is validated, authenticated and auditable.</p>
 <div class="row"><a class="btn gold" href="${APP}/start/">Start a meeting or election</a><a class="btn ghost" href="#how">See how it works</a></div></div></section>
