@@ -39,7 +39,7 @@ page("index.html", "Townhall | Software for association meetings and elections",
 
 <section class="s" id="price"><div class="wrap"><h2>Simple price, <em>paid per event</em></h2><div class="grid g2">
 <div class="card tint"><div class="kicker" style="color:var(--goldd)">Meeting</div><div class="price">Rs 499</div><p class="muted">One general or committee meeting. Outside India: USD 5.</p></div>
-<div class="card tint"><div class="kicker" style="color:var(--goldd)">Election</div><div class="price">Rs 1,499</div><p class="muted">One election, any number of posts. Outside India: USD 15.</p></div></div></div></section>
+<div class="card tint"><div class="kicker" style="color:var(--goldd)">Election</div><div class="price">Rs 1,499</div><p class="muted">One election, any number of posts. Outside India: USD 15.</p></div></div><p class="muted" style="margin-top:14px">Payment is collected by ${OWNER}, through Razorpay. GST is not charged.</p></div></section>
 
 <section class="s"><div class="wrap"><div class="card"><h3>Software only</h3>
 <p class="muted">We make software. Your association runs its own meetings and elections, decides its own rules, and handles any disagreement or legal matter among its members. How the software performs depends on many things, including your internet connection and the local laws that apply to you.</p></div></div></section>
