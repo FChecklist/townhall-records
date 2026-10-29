@@ -45,13 +45,13 @@ const notice = [
       li(h("b", null, t("Object or complain. ")), t("Tell us if you do not agree with how your data is used.")),
       li(h("b", null, t("Withdraw consent. ")), t("You may stop at any time. Votes already cast stay on the record, hidden.")))
     , h("p", null, t("We acknowledge a request within 3 days and answer within 30 days. Every request and every answer, including a refusal, is a dated entry in the event's log, so anyone can see that we kept the promise.")),
-    h("p", { class: "muted" }, t("This service is designed around the Digital Personal Data Protection Act (India) and the GDPR. It is not legal advice, and a lawyer should read the terms before you rely on them."))),
+    h("p", { class: "muted" }, t("This service is designed around the Digital Personal Data Protection Act (India) and the GDPR. Your society decides its own rules; we provide software only."))),
   h("section", { class: "card" }, h("h2", null, t("Grievance Officer")),
     h("dl", { class: "kv", "data-test": "officer" },
       h("dt", null, t("Name")), h("dd", null, officer?.grievanceOfficer || "Rajat Agarwal"),
-      h("dt", null, t("Contact e-mail")), h("dd", null, officer?.email ? officer.email : [t("Not published yet "), TBC.cloneNode(true)]),
+      h("dt", null, t("Contact e-mail")), h("dd", null, officer?.email ? officer.email : "(+91) 96503 97480"),
       h("dt", null, t("We answer within")), h("dd", null, officer?.answerWithin || t("30 days"))),
-    h("p", { class: "muted" }, t("Until an e-mail address is published, use the form below. It reaches the Organizer of the event, who answers first; if you are not satisfied, write to the Grievance Officer."))),
+    h("p", { class: "muted" }, t("Use the form below, or call (+91) 96503 97480. The form reaches the Organizer of the event, who answers first; if you are not satisfied, write to the Grievance Officer."))),
 ];
 
 // ---------------------------------------------------------------- the request form

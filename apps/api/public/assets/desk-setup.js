@@ -159,7 +159,7 @@ async function step2({ ctx, act, next, S }) {
 
   return [
     wwh(t("You, the Organizer or Host"), t("Check each rule and tick what your society needs"), t("Rules from your law pack are filled in. Fill the ones marked \"You must set this\"."), t("The meeting and the report are checked against these rules. They are fixed when voting opens.")),
-    card(h("h3", null, t("Rules of your law pack")), pack ? h("p", null, b(pack.name), pack.needsLawyer ? h("span", { class: "badge warn", style: "margin-left:8px" }, t("Check with your own bye-laws")) : null) : null,
+    card(h("h3", null, t("Rules of your law pack")), pack ? h("p", null, b(pack.name), null) : null,
       (pack?.recommended || []).length ? h("ul", null, pack.recommended.map((r) => h("li", null, r))) : null,
       h("p", { class: "muted small" }, t("This is a record and a check, not legal advice.")), whyLine(t("A rule that is not set cannot be checked, so the notice cannot be published."))),
     card(h("h3", null, t("Rule values")), main.map(mkParam),

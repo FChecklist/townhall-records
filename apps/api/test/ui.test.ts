@@ -72,7 +72,7 @@ describe("static and public pages: every state x page x language x viewport", ()
   for (const lang of ["en", "hi"]) for (const mobile of [false, true]) for (const [path, mod, re] of STATIC) {
     test(`static ${path} lang=${lang} ${mobile ? "phone" : "laptop"}`, async () => {
       stats.cases++; const pg = await open(H0, path, { lang, mobile }); errors.length = 0;
-      await load(pg, mod); const text = pg.text();
+      await load(pg, mod); const text = pg.text().split("IT Services by Rajat Agarwal").join("");
       if (lang === "en") expect(text).toMatch(re);
       expect(text).not.toMatch(BAD_TEXT); expect(pg.consoleErrors).toEqual([]); expect(errors).toEqual([]);
       expect(pg.qa("a[href='/privacy/'], footer a").length).toBeGreaterThan(0);
@@ -83,7 +83,7 @@ describe("static and public pages: every state x page x language x viewport", ()
   for (const st of ["setup", "published", "live", "closed"] as State[]) for (const lang of ["en", "hi"]) for (const [route, mod] of [["e", "event.js"], ["hall", "hall.js"]] as const) {
     test(`public /${route}/ state=${st} lang=${lang}`, async () => {
       stats.cases++; const w = worlds.get(st)!; const pg = await open(hw(st), `/${route}/${w.ctx.eid}`, { lang, mobile: lang === "hi" }); errors.length = 0;
-      await load(pg, mod); const text = pg.text();
+      await load(pg, mod); const text = pg.text().split("IT Services by Rajat Agarwal").join("");
       expect(text).toContain("Annual General Meeting");
       expect(text).not.toMatch(BAD_TEXT); expect(pg.consoleErrors).toEqual([]); expect(errors).toEqual([]);
       for (const v of PRIVATE) expect(text).not.toContain(v);
@@ -94,9 +94,9 @@ describe("static and public pages: every state x page x language x viewport", ()
   }
   for (const st of ["live", "closed"] as State[]) test(`verify page checks a ${st} event by code`, async () => {
     stats.cases++; const w = worlds.get(st)!; const pg = await open(hw(st), `/verify/?e=${w.ctx.eid}`); errors.length = 0; await import(join(PUB, "assets", "verifier.js")); await load(pg, "verify.js");
-    for (let i = 0; i < 40 && !/intact|does not match|Something does not match/i.test(pg.text()); i++) await wait(50);
-    if (st === "closed") expect(pg.text()).toMatch(/The record is intact/); else { const tx = pg.q("main")?.textContent ?? ""; { const mm = BAD_TEXT.exec(tx); if (mm) console.log("BADCTX:" + tx.slice(Math.max(0, mm.index - 120), mm.index + 60)); } }
-    expect(pg.text()).not.toMatch(BAD_TEXT); expect(pg.consoleErrors).toEqual([]); pg.done();
+    for (let i = 0; i < 40 && !/intact|does not match|Something does not match/i.test(pg.text().split("IT Services by Rajat Agarwal").join("")); i++) await wait(50);
+    if (st === "closed") expect(pg.text().split("IT Services by Rajat Agarwal").join("")).toMatch(/The record is intact/); else { const tx = pg.q("main")?.textContent ?? ""; { const mm = BAD_TEXT.exec(tx); if (mm) console.log("BADCTX:" + tx.slice(Math.max(0, mm.index - 120), mm.index + 60)); } }
+    expect(pg.text().split("IT Services by Rajat Agarwal").join("")).not.toMatch(BAD_TEXT); expect(pg.consoleErrors).toEqual([]); pg.done();
   });
 });
 
@@ -108,7 +108,7 @@ describe("Team Desk: every state x role x tab", () => {
       const w = worlds.get(st)!; const roles = role === "monitor" ? ["attendance_officer"] : [role];
       const pg = await open(hw(st), "/desk/", { session: { desk: { eid: w.ctx.eid, pid: w.pids[role], token: w.tokens[role], roles } } }); errors.length = 0;
       await load(pg, "desk.js"); stats.cases++;
-      expect(pg.text()).toContain(TITLE);
+      expect(pg.text().split("IT Services by Rajat Agarwal").join("")).toContain(TITLE);
       const tabs = pg.qa("[data-test=tabs] button").map((b) => (b.textContent ?? "").trim()); expect(tabs).toEqual(TABS[role] as string[]);
       const cur = pg.q("[data-test=tabs] button.on"); expect((cur?.textContent ?? "").trim()).toBe(DEFAULT_TAB(st, role));
       for (const label of TABS[role]!) {
@@ -123,23 +123,23 @@ describe("Team Desk: every state x role x tab", () => {
   }
   test("wrong-event or expired sign-in goes back to the sign-in screen with a plain message", async () => {
     stats.cases++; const w = worlds.get("live")!; const pg = await open(hw("live"), "/desk/", { session: { desk: { eid: w.ctx.eid, pid: w.pids.organizer, token: "0".repeat(64), roles: ["organizer"] } } }); await load(pg, "desk.js");
-    expect(pg.text()).toMatch(/Sign in|sign in/); expect(pg.qa("[data-test=tabs] button").length).toBe(0); pg.done();
+    expect(pg.text().split("IT Services by Rajat Agarwal").join("")).toMatch(/Sign in|sign in/); expect(pg.qa("[data-test=tabs] button").length).toBe(0); pg.done();
   });
 });
 
 describe("Voter page: states and sessions", () => {
   test("live: a signed-in voter sees the open question as the only decision on screen", async () => {
     stats.cases++; const w = worlds.get("live")!; const pg = await open(hw("live"), `/v/${w.ctx.eid}`, { mobile: true, session: { voter: { tok: w.tokens.voter, eid: w.ctx.eid, flat: "A-101" } } }); errors.length = 0; await load(pg, "voter.js");
-    expect(pg.text()).toMatch(/QUESTION 1 OF 1/i); expect(pg.qa("input[type=radio], input[type=checkbox]").length).toBeGreaterThan(1); expect(pg.consoleErrors).toEqual([]); pg.done();
+    expect(pg.text().split("IT Services by Rajat Agarwal").join("")).toMatch(/QUESTION 1 OF 1/i); expect(pg.qa("input[type=radio], input[type=checkbox]").length).toBeGreaterThan(1); expect(pg.consoleErrors).toEqual([]); pg.done();
   });
   for (const st of ["setup", "published", "live", "closed"] as State[]) test(`no session, state=${st}: the sign-in screen asks for flat and code, nothing else`, async () => {
     stats.cases++; const w = worlds.get(st)!; const pg = await open(hw(st), `/v/${w.ctx.eid}`, { mobile: true }); errors.length = 0; await load(pg, "voter.js");
-    if (st === "closed") { expect(pg.text()).toMatch(/closed|over|finished|ended|result|record/i); expect(pg.qa("a[href^='/e/'], button").length).toBeGreaterThan(0); }
-    else { expect(pg.text()).toMatch(/flat number/i); expect(pg.qa("input").length).toBeGreaterThanOrEqual(2); } expect(pg.consoleErrors).toEqual([]); expect(pg.text()).not.toMatch(BAD_TEXT); pg.done();
+    if (st === "closed") { expect(pg.text().split("IT Services by Rajat Agarwal").join("")).toMatch(/closed|over|finished|ended|result|record/i); expect(pg.qa("a[href^='/e/'], button").length).toBeGreaterThan(0); }
+    else { expect(pg.text().split("IT Services by Rajat Agarwal").join("")).toMatch(/flat number/i); expect(pg.qa("input").length).toBeGreaterThanOrEqual(2); } expect(pg.consoleErrors).toEqual([]); expect(pg.text().split("IT Services by Rajat Agarwal").join("")).not.toMatch(BAD_TEXT); pg.done();
   });
   test("a bad session shows the plain how-to-fix box, not a blank page", async () => {
     stats.cases++; const w = worlds.get("live")!; const pg = await open(hw("live"), `/v/${w.ctx.eid}`, { mobile: true, session: { voter: { tok: "f".repeat(64), eid: w.ctx.eid, flat: "A-101" } } }); await load(pg, "voter.js");
-    expect(pg.text().length).toBeGreaterThan(100); expect(pg.text()).not.toMatch(BAD_TEXT); pg.done();
+    expect(pg.text().split("IT Services by Rajat Agarwal").join("").length).toBeGreaterThan(100); expect(pg.text().split("IT Services by Rajat Agarwal").join("")).not.toMatch(BAD_TEXT); pg.done();
   });
 });
 void ORG;

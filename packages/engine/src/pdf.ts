@@ -129,7 +129,7 @@ export async function renderReportPdf(data: EmbeddedData, seal: Seal | null, opt
     d.space(4);
   }
   d.h("6. Checked against the rules");
-  d.text(`Rules in use: ${m.compliance.packName || m.packId}${m.compliance.needsLawyer ? ". The society should confirm these values against its own bye-laws." : ""}`, { size: 9 });
+  d.text(`Rules in use: ${m.compliance.packName || m.packId}`, { size: 9 });
   for (const c of m.compliance.checks) d.row([c.status === "pass" ? "pass" : c.status === "fail" ? "FAIL" : c.status === "not_set" ? "not set" : "info", c.label, c.detail], [48, 170, 272], { size: 8, font: c.status === "fail" ? "F2" : "F1" });
   d.text(m.compliance.disclaimer, { size: 8 });
   d.h("7. Verification");

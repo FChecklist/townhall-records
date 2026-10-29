@@ -3,7 +3,7 @@
 import { sha256Hex } from "./crypto";
 import { BRAND } from "./brand";
 
-export const TERMS_VERSION = "2026-10-24.3";
+export const TERMS_VERSION = "2026-10-29.1";
 export const TERMS_TEXT = `By using ${BRAND} you agree to the following.
 
 1. Everything is recorded. Every action you take on this service is written to a tamper-evident record. For each action we also keep, privately and encrypted: your IP address, a device identifier and a browser-session identifier created by your browser, a small cookie that lets us recognise your browser when you open your link again, your browser type, screen, language and time-zone settings, the approximate place the network reports for your address, and the time. This is required, for everyone, so that the meeting or election can be checked afterwards.
@@ -18,7 +18,11 @@ export const TERMS_TEXT = `By using ${BRAND} you agree to the following.
 
 6. Your duties. Use your own passcode, never share it, and do not try to vote more than once for a flat or for a flat that is not yours. Attempts are recorded.
 
-7. This service records and checks. It does not give legal advice. A society remains responsible for following its own bye-laws and the law that applies to it.
+7. Software only. ${BRAND} is software owned by IT Services by Rajat Agarwal. We make software products, solutions and applications. We do not run, supervise or take part in any meeting, election or dispute of a society, and we do not coordinate with any government authority. The society and its Organizer are responsible for their bye-laws, notices, rules, results, and for any disagreement or legal matter among members; those are matters for the society and its members.
+
+8. How it performs. How the software performs depends on many things, including your internet connection, your device and the local laws that apply to you. The service is provided as it is. To the extent the law allows, IT Services by Rajat Agarwal is not liable for any loss arising from a society's meeting, election or dispute.
+
+9. The full record. We publish the complete record of each event, with every detail and with personal details hidden as ****. Anyone can download it and save it as a PDF.
 
 By ticking the box you confirm that you have read and accept these terms.`;
 

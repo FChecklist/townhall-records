@@ -27,7 +27,7 @@ export const PLAYBOOKS: Record<PlaybookRole, GuideStep[]> = {
       ["Console, step 2 'Rules'.", "कंसोल, चरण 2 'नियम'।"],
       ["Before you publish the notice. You can still change rules until voting on a point opens; every change is recorded.", "सूचना प्रकाशित करने से पहले। किसी बिंदु पर मतदान खुलने तक बदल सकते हैं; हर बदलाव दर्ज होता है।"],
       ["So the meeting follows your bye-laws and the law that applies to you, and everyone can see the rules in use.", "ताकि बैठक आपके उप-नियमों और लागू कानून के अनुसार हो और सभी नियम देख सकें।"],
-      ["Your committee or secretary; a lawyer if your bye-laws are unclear.", "आपकी समिति या सचिव; उप-नियम अस्पष्ट हों तो वकील।"],
+      ["Your committee or secretary.", "आपकी समिति या सचिव।"],
       ["Choose the pack that matches your society. If none matches, choose 'Any country' and enter your own values.", "अपनी सोसायटी से मेल खाता पैक चुनें। कोई न मिले तो 'कोई भी देश' चुनकर अपने मान भरें।"]),
     s("flats", "building", "console.flats", ["Add the flats", "फ्लैट जोड़ें"],
       ["Give the list of flat numbers that can vote, with their weight if votes are not equal.", "मतदान कर सकने वाले फ्लैट नंबर की सूची दें, मत समान न हों तो उनका भार भी।"],

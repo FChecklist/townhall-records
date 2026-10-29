@@ -143,7 +143,7 @@ function stepRules() {
     const p = packs.find((x) => x.id === S.packId); if (!p || S.rulesMode !== "pack") { detail.replaceChildren(); return; }
     detail.replaceChildren(h("div", { class: "card tint", style: "margin-top:12px" }, h("b", null, p.name),
       h("p", { class: "small" }, t("How sure we are about our summary of this law: ") + (CONF[p.confidence] || p.confidence) + "."),
-      p.needsLawyer ? msg("warn", t("Needs a lawyer's check."), t("We are not lawyers. Please compare these rules with your own bye-laws and ask a lawyer if in doubt."), null) : msg("info", t("No lawyer check is flagged for this pack."), t("Still compare it with your own bye-laws. We do not decide what the law is."), null),
+      msg("info", t("These are your society's rules."), t("The values are a starting point. Your society decides its own rules; we provide software only."), null),
       p.recommended && p.recommended.length ? h("div", null, h("b", { class: "small" }, t("Recommended settings in this pack:")), h("ul", { class: "small" }, p.recommended.map((r) => h("li", null, r)))) : null));
   }
   function drawList() {

@@ -59,7 +59,7 @@ mount(app(),
   h("section", { class: "card noprint", "data-test": "contact" }, h("h2", null, t("Need a person?")),
     h("p", null, t("Write to the Organizer of your society first. For anything about personal data, or if you are not satisfied:")),
     h("dl", { class: "kv" }, h("dt", null, t("Grievance Officer")), h("dd", null, officer?.grievanceOfficer || "Rajat Agarwal"),
-      h("dt", null, t("E-mail")), h("dd", null, officer?.email || [t("Not published yet "), h("span", { class: "badge warn" }, t("to be confirmed"))]),
+      h("dt", null, t("E-mail")), h("dd", null, officer?.email || "(+91) 96503 97480"),
       h("dt", null, t("Privacy form")), h("dd", null, h("a", { href: "/privacy/#form" }, t("Make a privacy request")))),
     h("p", { class: "muted" }, t("We acknowledge within 3 days and answer within 30 days."))));
 show("organizer");
