@@ -12,7 +12,7 @@ const parts = ORDER.filter((k) => k !== "home");
 /** One plain, live line for a section the person may work on. Reads only public figures (status, progress, attendance, the team list). */
 function lineFor(name, ctx) {
   const m = ctx.model || {}, a = m.attendance || {}, pr = ctx.progress || {}, v = pr.voting || {}, st = m.status;
-  if (name === "setup") return st === "setup" ? `${num(pr.percent)}% ${t("of the setup is done")}` : t("The notice is published.");
+  if (name === "setup") { const ask = (m.changeRequests || []).length; return (st === "setup" ? `${num(pr.percent)}% ${t("of the setup is done")}` : t("The notice is published.")) + (ask ? `. ${ask} ${ask === 1 ? t("name correction was asked for") : t("name corrections were asked for")}` : ""); }
   if (name === "day") {
     if (st === "setup") return t("Not started. Publish the notice first.");
     if (st === "live") return `${num(v.pointsClosed)} ${t("of")} ${num(v.pointsTotal)} ${t("questions closed")}`;

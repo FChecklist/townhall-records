@@ -1,6 +1,7 @@
 // Desk > Setup > step 4 "Agenda & ballot": agenda points, secret or open ballot, election settings, ballot designer with live previews.
 // Used by desk-setup.js: import { renderAgenda } from "./desk-ballot.js";
 import { h, t, field, radios, checks, errorBox, msg, busy, toast } from "/assets/core.js";
+import { removePointDialog } from "./desk-items.js";
 
 const UI = new Map(); // per event: what the person is editing (kept while the tab re-draws after a save)
 const ui = (eid) => { if (!UI.has(eid)) UI.set(eid, { editing: null, adding: false, preview: null }); return UI.get(eid); };
@@ -34,7 +35,10 @@ export async function renderAgenda(ctx, el, nav) {
           h("td", null, h("b", null, p.title), p.kind === "election_post" ? h("div", { class: "small muted" }, `${p.options.length} ${t("candidates")} · ${t("tick")} ${p.minChoices}-${p.maxChoices}`) : null),
           h("td", null, t(KIND[p.kind] || p.kind)),
           h("td", null, p.kind === "discussion" ? "-" : h("span", { class: "badge " + (p.secret ? "ok" : "warn") }, p.secret ? t("Secret ballot") : t("Open vote"))),
-          h("td", null, h("button", { class: "btn ghost", style: "min-height:38px", "data-test": "point-edit-" + p.number, onclick: () => { u.editing = p.pointId; u.adding = false; u.preview = null; redo(); } }, p.state === "pending" ? t("Edit") : t("View"))))))))
+          h("td", null, h("div", { class: "row" },
+            h("button", { class: "btn ghost", style: "min-height:38px", "data-test": "point-edit-" + p.number, onclick: () => { u.editing = p.pointId; u.adding = false; u.preview = null; redo(); } }, p.state === "pending" ? t("Edit") : t("View")),
+            // a point can leave the agenda only while its voting has not opened (the server refuses it after that, with a plain reason)
+            p.state === "pending" ? h("button", { class: "btn ghost", style: "min-height:38px", "data-test": "point-remove-" + p.number, onclick: () => removePointDialog(ctx, p) }, t("Remove")) : null)))))))
     : h("p", { class: "muted" }, t("No points yet. Add the first one below."));
 
   const redo = () => ctx.refresh();

@@ -2,6 +2,7 @@
 // 1 Basics & schedule · 2 Rules · 3 Flat list · 4 Agenda & ballot · 5 Helpers · 6 Pay · 7 Publish the notice · 8 Voting day
 import { h, t, mount, field, radios, checks, stepBar, wwh, errorBox, msg, busy, toast, confirmBox, get, post, deviceId, TownError, fmtTime, fmtMoney, copyText, loading, shortCode } from "/assets/core.js";
 import { renderAgenda } from "./desk-ballot.js";
+import { basicsCard, flatListCards } from "./desk-items.js";
 
 const TITLES = ["Basics and times", "Rules", "Flat list", "Agenda and ballot", "Helpers", "Pay", "Publish the notice", "Voting day"];
 const MILESTONES = [["start", "The meeting starts"], ["votingStart", "Voting opens"], ["votingEnd", "Voting closes"], ["end", "The meeting ends"]];
@@ -77,8 +78,9 @@ function step1({ ctx, act, next }) { // eslint-disable-line
     wwh(t("You, the Organizer or Host"), t("Check the title, the four times and the places"), t("Change a time or place if needed, give a reason, then press the big button"), t("Members plan their day around these. The notice period is counted from the day you publish to the start time.")),
     card(h("h3", null, t("Your event")),
       h("dl", { class: "kv" }, h("dt", null, t("Title")), h("dd", { "data-test": "event-title" }, m.title), h("dt", null, t("Society")), h("dd", null, m.society?.name || ""), h("dt", null, t("Kind")), h("dd", null, m.kind === "election" ? t("Election") : t("Meeting")), h("dt", null, t("Changes so far")), h("dd", null, String(m.scheduleChanges || 0))),
-      h("p", { class: "muted small" }, t("The title cannot be changed here. If it is wrong, tell the Grievance Officer or create a new event.")),
+      h("p", { class: "muted small" }, t("You can change the title and the main place in the next box, until the meeting starts.")),
       whyLine(t("A wrong time or place is the most common reason a meeting is challenged later."))),
+    basicsCard(ctx, act),
     card(h("h3", null, t("The four times")), h("p", { class: "muted small" }, `${t("Times are in your browser's time zone")}${tz ? ": " + tz : ""}.`),
       rows.map((r) => h("div", { class: "grid g2", style: "margin-bottom:6px" }, field(t(r.label), r.dt), field(t("Place"), r.pl))),
       field(t("Reason (only if you change something)"), reason, t("It is shown on the public record.")),
@@ -205,6 +207,7 @@ function step3({ ctx, act, next, S, redraw }) {
   const out = [
     wwh(t("You, the Organizer or Host"), t("Give us the list of flats and their votes"), t("Download the sheet, fill it, save it as PDF, upload the PDF, check the result, confirm"), t("Only flats on this list can vote. It is published (without names) so everyone can see it.")),
     card(h("h3", null, t("Your flat list now")), flats ? h("p", { "data-test": "roll-now" }, `${flats} ${t("flats")} · ${t("total weight")} ${weight}`) : h("p", { class: "muted" }, t("No flats yet.")), whyLine(t("Quorum, majorities and who may vote are all worked out from this list."))),
+    ...flatListCards(ctx),
     card(h("h3", null, t("1. Get the sheet and fill it")),
       h("ol", null, [t("Press \"Download the Excel sheet\" (set the number of flats first)."), t("Open it in Excel. One row per flat: flat number, vote weight, can vote (Yes/No), then name, mobile and e-mail if you have them."), t("Press File, then Save As, then choose PDF."), t("Come back here and upload that PDF.")].map((x) => h("li", null, x))),
       h("div", { class: "row" }, field(t("Number of flats"), n), dl), tbox),

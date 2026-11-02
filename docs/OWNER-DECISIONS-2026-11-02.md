@@ -30,7 +30,7 @@ These have a default. Say so only if you want it different.
 - Two real faults were found by reading and fixed in the code: (a) the save of an edited title would have been refused by the database, because the events table cannot be updated; (b) an edited place did not reach the place shown on the pages and in the calendar file.
 - Nothing was run. The laptop had about 0.7 GB free. No tests, no build, no browser, no API call.
 - The verifier bundle (`packages/engine/src/verifier.generated.ts`) must be rebuilt, because the engine changed. Until then the bundle-freshness test fails.
-- Not covered yet: the three new routes are not in the hand-written permission grid (`apps/api/test/grid.test.ts`), and there are no simple screens for the new items.
+- Added later on 2 Nov, also written and NOT run: the three new routes are in the permission grid (`apps/api/test/grid.test.ts`), and each item has a screen on the Team Desk (`apps/api/public/assets/desk-items.js`): title and place box and flat list in Setup, a Remove button on a pending agenda point, and a reason-only "name is wrong" screen at check-in. There are no automated tests for these screens yet beyond the grid and the Home/greyed-panel grid in `ui.test.ts`.
 
 ## D. Run order on the partner laptop (when GAMES says "partner free")
 

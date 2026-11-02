@@ -3,6 +3,7 @@
 // `render(ctx, el)`; see docs/UI-BUILD-BRIEF.md "Desk module contract". The person's full name and mobile are shown only inside the `.working` box and are dropped after marking.
 import { h, t, mount, msg, errorBox, confirmBox, toast, busy, get, field, wwh, fmtTime, copyText } from "/assets/core.js";
 import { qrSvg } from "/assets/qr.js";
+import { wrongNameScreen } from "./desk-items.js";
 
 const ALL_CHECKS = [
   ["proof_seen", "I have seen the person's proof (ID or a known face)", "Look at the proof. Do not copy or photograph the ID number."],
@@ -19,7 +20,7 @@ const FLAG_TEXT = {
   far_from_network: "The phone's place is more than 150 km from where the network places it. A person will look at this.",
   time_off: "The phone's clock is more than 10 minutes away from ours. A person will look at this.",
 };
-const blank = () => ({ step: "pick", q: "", flat: null, verify: null, attendee: "", checks: {}, photo: null, hs: null, hsStatus: null, hsMsg: null, method: null, done: null, code: null, codeFlat: "", showList: false, exchanged: false });
+const blank = () => ({ step: "pick", q: "", flat: null, verify: null, attendee: "", checks: {}, photo: null, hs: null, hsStatus: null, hsMsg: null, method: null, done: null, code: null, codeFlat: "", showList: false, exchanged: false, sent: false });
 const C = { eid: "", flats: null, s: blank(), timers: [], busy: false, ctx: null, el: null };
 const visible = () => document.visibilityState === "visible";
 const clearTimers = () => { C.timers.forEach((id) => clearInterval(id)); C.timers = []; };
@@ -133,24 +134,13 @@ function screenCheck() {
   const ticks = base.map((id) => tick(id, labelOf(id), t(ALL_CHECKS.find((c) => c[0] === id)[2]), sync));
   const node = [stepTitle(2, `${t("Check the person for flat")} ${s.flat}`), workingBox(),
     h("div", { class: "card", style: "margin-top:14px" }, field(t("Name of the person in front of you"), name, t("As on the proof. It is kept private and shown hidden on the public page.")), h("div", { style: "margin-top:10px" }, ticks),
-      h("button", { class: "btn wine", style: "margin-top:8px", "data-test": "name-wrong", onclick: () => go("wrong") }, t("The name is wrong: send a change to the Organizer or Host"))),
+      h("button", { class: "btn wine", style: "margin-top:8px", "data-test": "name-wrong", onclick: () => { s.sent = false; go("wrong"); } }, t("The name is wrong: send a change to the Organizer or Host"))),
     why, bar(backBtn("pick"), next)];
   sync(); return node;
 }
 
-// ---- name is wrong: no editing here
-function screenWrong() {
-  const s = C.s, who = C.ctx.model && C.ctx.model.title;
-  const note = h("textarea", { rows: 3, maxlength: 300, placeholder: t("What is wrong? (do not write the full name; the Organizer can see the list)"), "data-test": "wrong-note", "aria-label": t("What is wrong") });
-  const text = () => `${t("Townhall check-in")} (${who || ""}): ${t("flat")} ${s.flat}. ${t("The name on the flats list does not match the person at the door. Please correct the list.")} ${note.value.trim()}`.trim();
-  return [stepTitle(2, t("Send a change to the Organizer or Host")),
-    h("div", { class: "card" }, h("p", null, t("You cannot change the list from here. That is on purpose: only the Organizer or Host may change it, and every change is recorded.")),
-      field(t("Note for the Organizer or Host"), note),
-      h("div", { class: "row", style: "margin-top:12px" }, h("button", { class: "btn", "data-test": "wrong-copy", onclick: () => copyText(text()) }, t("Copy the message")),
-        navigator.share ? h("button", { class: "btn ghost", "data-test": "wrong-share", onclick: () => navigator.share({ text: text() }).catch(() => {}) }, t("Share the message")) : null),
-      h("p", { class: "small muted", style: "margin-top:10px" }, t("Send the message to the Organizer or Host by call or chat. Meanwhile, do not check this person in."))),
-    bar(backBtn("check", t("Back to the check")), h("button", { class: "btn", "data-test": "wrong-done", onclick: () => { s.checks.name_matches = false; Object.assign(s, { ...blank(), step: "pick" }); draw(); } }, t("Done: pick another flat")))];
-}
+// ---- name is wrong: no editing here. The Monitor taps a reason and it goes to the Organizer and Host as a logged request (the screens live in desk-items.js)
+function screenWrong() { return wrongNameScreen({ C, stepTitle, bar, backBtn, blank, draw }); }
 
 // ---- step 3: photo
 function resizeToJpeg(file) {
