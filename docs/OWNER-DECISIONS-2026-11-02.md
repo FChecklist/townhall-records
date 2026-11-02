@@ -56,3 +56,10 @@ Small calls with defaults (say so only if you want it different):
 3. **Grey parts.** They open a look-only panel with a plain reason and buttons to the parts the person can use. They never load private details.
 4. **Languages.** The new lines are English for now. Other languages fall back to English until the translations are added.
 5. **Inside a bright part.** Paying and erasing private details stay with the Organizer only. The End screen already says "for the Organizer" to a Host on erasing, and the server refuses a Host on paying. This change does not touch those screens; greying the pay button by role there is the next small step if you want it.
+
+## F. Run on the partner laptop, night of 2 Nov (after sections C to E were written)
+
+- Full suite (`bun test --isolate`, packages and apps): **410 pass, 0 fail, 32 files**. Typecheck: clean. Before the fixes: 405 pass, 5 fail, 2 type errors.
+- What was wrong, all in tests or generated files, none in the product code: the new `items.test.ts` called `replayLog` with a wrong argument and opened a point without a quorum and asked for a name correction before the notice was published; one `ui.test.ts` line had a type error; the compliance test still expected the old disclaimer sentence; the verifier bundle and the copy the verify page loads (`apps/api/public/assets/verifier.js`) were not rebuilt after the engine changed.
+- The Team Desk (7 tabs for every role, grey parts, Home tiles) passes the 12-case state x role grid in `ui.test.ts` in a fake browser. It has NOT been looked at in a real browser or on a phone.
+- Rule to remember: after any engine change run `bun scripts/build-verifier.ts` and copy `VERIFIER_JS` into `apps/api/public/assets/verifier.js`; nothing does the second step for you.
