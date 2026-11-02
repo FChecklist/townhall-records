@@ -3,7 +3,7 @@
 import rulePacks from "../../../docs/research/rule-packs.json";
 import extraPacks from "../../../docs/research/rule-packs-extra.json";
 import {
-  type Bytes, BRAND, journeyFor, OFFICIAL_GROUPS, OFFICIAL_GROUP_IDS, OUTCOMES, REASON_CODES, REASON_IDS, postponeQuote, ROLE_LIMITS, roleCounts, appointProblem, missingChecks, geoFlags, buildRollTemplateXlsx, readPdfTable, parseRollTable, diffRoll, type SheetFlat, HANDSHAKE_MAX_TRIES, HANDSHAKE_TTL_MS, codeHash, openLink, voterConfirm, monitorConfirm, type Handshake, hmacHex, newSerial, paperToken, parsePaperToken, paperLayout, renderPaperSvg, LANGUAGES, coverage, dictionary, isLang, playbook,
+  type Bytes, BRAND, journeyFor, OFFICIAL_GROUPS, OFFICIAL_GROUP_IDS, OUTCOMES, REASON_CODES, REASON_IDS, postponeQuote, anyOfficer, ROLE_LIMITS, roleCounts, appointProblem, missingChecks, geoFlags, buildRollTemplateXlsx, readPdfTable, parseRollTable, diffRoll, type SheetFlat, HANDSHAKE_MAX_TRIES, HANDSHAKE_TTL_MS, codeHash, openLink, voterConfirm, monitorConfirm, type Handshake, hmacHex, newSerial, paperToken, parsePaperToken, paperLayout, renderPaperSvg, LANGUAGES, coverage, dictionary, isLang, playbook,
   defaultSchedule, validateSchedule, type Schedule, TERMS_VERSION, TERMS_TEXT, termsSha256, priceFor, isCountry, formatPrice, renderReportPdf, pdfSha256, extractSeal, normalizeBallotDesign, defaultBallotDesign, ballotInstruction, type Actor,
   CUSTOM_WORLD_PACK, OPTIONS, PARAMS, RuleError, aesDecrypt, aesEncrypt, applyRecommended, b64url, buildReportModel, canAmendPoint, canChangeRoll, canChangeRule, canDo, canVote, cloneTemplate,
   deriveKey32, effectiveWeight, extractData, fromB64url, issuePasscode, loadAllPacks, maskEmail, maskName, maskPhone, newRuleSet, parseMajority, progressOf, proxyAllowed, randomHex, renderReportHtml,
@@ -777,17 +777,29 @@ route("POST", "/api/events/:id/flats/:flat/change-request", async (c, m) => {
 route("POST", "/api/events/:id/people", async (c, m) => {
   const { tx, pid } = await staff(c, m[1]!, "edit_setup"); const st = await tx.st();
   const role = c.body.role as Role; if (!["host", "attendance_officer"].includes(role)) throw err(400, "bad_role", "role must be host or attendance_officer.");
-  { const known = typeof c.body.personId === "string" ? st.people.get(c.body.personId) ?? null : null; const why = appointProblem([...st.people.values()], known, role); if (why) throw err(409, "role_limit", why + " Remove someone first, or give the role to a person who already has another role."); }
+  // "replaces": the Monitor is absent on the day. The old Monitor's role is taken away and the new one appointed in ONE request (two signed entries, the removal first so the limits hold), with the reason.
+  const replaces = typeof c.body.replaces === "string" ? c.body.replaces : ""; let swapReason = "";
+  if (replaces) {
+    if (role !== "attendance_officer") throw err(400, "bad_replace", "Only an Attendance Monitor can be replaced this way.");
+    const old = st.people.get(replaces); if (!old || !old.roles.includes("attendance_officer")) throw err(404, "no_role", "That person is not an Attendance Monitor.");
+    if (replaces === c.body.personId) throw err(400, "bad_replace", "Choose a different person as the replacement.");
+    swapReason = str(c.body.reason, "reason", 3, 160);
+  }
+  { const people = [...st.people.values()].map((p) => (p.pid === replaces ? { ...p, roles: p.roles.filter((r) => r !== "attendance_officer") } : p)); const known = typeof c.body.personId === "string" ? people.find((p) => p.pid === c.body.personId) ?? null : null; const why = appointProblem(people, known, role); if (why) throw err(409, "role_limit", why + " Remove someone first, or give the role to a person who already has another role."); }
   const stmts: D1Stmt[] = []; let target = typeof c.body.personId === "string" ? c.body.personId : "";
   let to = "";
   if (target) { if (!st.people.has(target)) throw err(404, "no_person", "No such person."); to = (await contactOf(c, tx.eid, target)).email; }
   else {
     const p = { name: str(c.body.name, "name", 2, 80), email: emailOf(c.body.email), phone: optStr(c.body.phone, "phone", 20) };
     target = newId("p_", 8); to = p.email; stmts.push(...(await personStmts(c, tx.eid, target, p, optStr(c.body.flatNo, "flatNo", 24) || null, await eventKey(c, tx.eid))));
+    if (replaces) await tx.add("role_removed", ENTRY_ACTOR(st, pid), { pid: replaces, role: "attendance_officer", removedBy: pid, reason: "Replaced: " + swapReason }, (seq) => [roleStmt(c, tx.eid, replaces, "attendance_officer", "remove", pid, seq)]);
     const tt = target;
     await tx.add("role_appointed", ENTRY_ACTOR(st, pid), { pid: tt, role, appointedBy: pid, maskedName: maskName(p.name), maskedEmail: maskEmail(p.email) }, (seq) => [roleStmt(c, tx.eid, tt, role, "appoint", pid, seq)]);
   }
-  if (c.body.personId) await tx.add("role_appointed", ENTRY_ACTOR(st, pid), { pid: target, role, appointedBy: pid, maskedName: st.people.get(target)!.maskedName, maskedEmail: st.people.get(target)!.maskedEmail }, (seq) => [roleStmt(c, tx.eid, target, role, "appoint", pid, seq)]);
+  if (c.body.personId) {
+    if (replaces) await tx.add("role_removed", ENTRY_ACTOR(st, pid), { pid: replaces, role: "attendance_officer", removedBy: pid, reason: "Replaced: " + swapReason }, (seq) => [roleStmt(c, tx.eid, replaces, "attendance_officer", "remove", pid, seq)]);
+    await tx.add("role_appointed", ENTRY_ACTOR(st, pid), { pid: target, role, appointedBy: pid, maskedName: st.people.get(target)!.maskedName, maskedEmail: st.people.get(target)!.maskedEmail }, (seq) => [roleStmt(c, tx.eid, target, role, "appoint", pid, seq)]);
+  }
   if (c.body.label) {
     const label = str(c.body.label, "label", 2, 40);
     const rev = ((await c.db.prepare("SELECT MAX(rev) r FROM person_labels WHERE person_id=?").bind(target).first<{ r: number }>())?.r ?? 0) + 1;
@@ -803,8 +815,26 @@ route("POST", "/api/events/:id/people/:pid/remove", async (c, m) => {
   const role = c.body.role as Role; const p = st.people.get(m[2]!);
   if (!p || !p.roles.includes(role)) throw err(404, "no_role", "That person does not hold that role.");
   if (role === "organizer") throw err(403, "organizer_fixed", "The Organizer cannot be removed.");
-  await tx.add("role_removed", ENTRY_ACTOR(st, pid), { pid: m[2]!, role, removedBy: pid }, (seq) => [roleStmt(c, tx.eid, m[2]!, role, "remove", pid, seq)]);
+  const why = optStr(c.body.reason, "reason", 160); // optional: why the role ended (for example "absent on the day"); it is written in the signed log
+  await tx.add("role_removed", ENTRY_ACTOR(st, pid), { pid: m[2]!, role, removedBy: pid, ...(why ? { reason: why } : {}) }, (seq) => [roleStmt(c, tx.eid, m[2]!, role, "remove", pid, seq)]);
   await tx.commit(); return json({ ok: true });
+});
+// The Attendance Monitor is absent on the day: an Organizer or Host takes the check-in over (or hands it back). Every change is a signed entry with the reason, shown in "Who did what".
+route("POST", "/api/events/:id/checkin/takeover", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!, "edit_setup"); const st = await tx.st();
+  if (st.status !== "agenda_published" && st.status !== "live" && st.status !== "postponed") throw err(409, "bad_state", "Check-in opens once the notice is published.");
+  const on = c.body.on !== false;
+  if (on) {
+    if (!anyOfficer(st)) throw err(409, "no_monitor", "No Attendance Monitor is appointed, so the Organizer and Hosts already do the check-in.");
+    if (st.checkinTakeover) throw err(409, "already_taken", "The check-in is already taken over.");
+    const reason = optStr(c.body.reason, "reason", 160).trim(); if (reason.length < 3) throw err(400, "reason_needed", "Say why you are taking the check-in over (for example: the Monitor is absent).");
+    await tx.add("checkin_takeover", ENTRY_ACTOR(st, pid), { on: true, reason, by: pid });
+  } else {
+    if (!st.checkinTakeover) throw err(409, "not_taken", "The check-in has not been taken over.");
+    const reason = optStr(c.body.reason, "reason", 160).trim();
+    await tx.add("checkin_takeover", ENTRY_ACTOR(st, pid), { on: false, by: pid, ...(reason ? { reason } : {}) });
+  }
+  await tx.commit(); return json({ ok: true, takenOver: on });
 });
 route("POST", "/api/events/:id/people/:pid/label", async (c, m) => {
   const { tx, pid } = await staff(c, m[1]!, "edit_setup"); const st = await tx.st(); const target = m[2]!;

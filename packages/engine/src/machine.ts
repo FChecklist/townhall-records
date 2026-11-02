@@ -50,8 +50,8 @@ export function canDo(s: EventState, pid: string | null, action: Action, ctx: { 
     case "mark_attendance": case "issue_voter_code": {
       if (s.status !== "agenda_published" && s.status !== "live" && s.status !== "postponed") return no("bad_state", "Attendance opens once the agenda is published.");
       if (isOfficer) return yes;
-      if (isOH && !anyOfficer(s)) return yes;
-      return no("not_allowed", anyOfficer(s) ? "An Attendance Officer does this for this event." : "Not allowed.");
+      if (isOH && (!anyOfficer(s) || s.checkinTakeover)) return yes; // no Monitor appointed, or the Organizer/Host took the check-in over because the Monitor is absent (a logged, reversible act)
+      return no("not_allowed", anyOfficer(s) ? "An Attendance Officer does this for this event. If the Monitor is absent, an Organizer or Host can take the check-in over from the Team section." : "Not allowed.");
     }
     case "open_point": case "close_point": case "extend_point": {
       if (!isOH) return no("not_allowed", "Only the Organizer or a Host can do this.");

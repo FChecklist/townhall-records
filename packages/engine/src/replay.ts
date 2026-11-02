@@ -42,6 +42,8 @@ export interface EventState {
   changeRequests: Array<{ seq: number; ts: number; flatNo: string; reason: string }>;
   /** agenda points taken off AFTER the notice went out: never deleted, kept here with the reason and the time (see the point_withdrawn entry) */
   withdrawn: Array<{ seq: number; ts: number; pointId: string; number: string; title: string; reason: string; by: string | null }>;
+  /** set while an Organizer or Host does the check-in although an Attendance Monitor is appointed (the Monitor is absent); cleared when they hand it back */
+  checkinTakeover: null | { seq: number; ts: number; by: string | null; reason: string };
   officials: Map<string, { id: string; seq: number; ts: number; group: string; groupLabel: string; name: string; designation: string; authority: string; note: string }>;
   officialPresence: Map<string, { seq: number; ts: number; mode: string; by: string | null }>;
   /** who did what and when: every action of a named person (Organizer, Host, Attendance Monitor), in order */
@@ -64,7 +66,7 @@ export function emptyState(eid: string): EventState {
   return {
     eid, seqCount: 0, head: null, firstTs: null, lastTs: null, created: null, rules: null, initialRules: null, ruleHistory: [], rejectedChanges: [], status: "setup", paid: false, payments: [],
     people: new Map(), roleLog: [], roll: [], rollRev: 0, points: new Map(), pointOrder: [], attendance: new Map(), attendanceLog: [], ledger: new Map(),
-    seals: new Map(), results: new Map(), devices: [], handshakes: 0, agenda: null, startedTs: null, closedInfo: null, outcome: null, sitting: 1, postponements: [], overrides: [], actions: [], timeline: [], customRules: new Map(), officials: new Map(), changeRequests: [], withdrawn: [], officialPresence: new Map(), clones: [], platformActions: [], contactsReads: 0, anchors: [], scheduleChanges: [], terms: new Set(), accEntries: 0, packInfo: { name: "", confidence: "", needsLawyer: true }, problems: [],
+    seals: new Map(), results: new Map(), devices: [], handshakes: 0, agenda: null, startedTs: null, closedInfo: null, outcome: null, sitting: 1, postponements: [], overrides: [], actions: [], timeline: [], customRules: new Map(), officials: new Map(), changeRequests: [], withdrawn: [], checkinTakeover: null, officialPresence: new Map(), clones: [], platformActions: [], contactsReads: 0, anchors: [], scheduleChanges: [], terms: new Set(), accEntries: 0, packInfo: { name: "", confidence: "", needsLawyer: true }, problems: [],
   };
 }
 
@@ -153,6 +155,12 @@ export async function replayLog(entries: SignedEntry[]): Promise<EventState> {
         const reason = asStr(p.reason).trim(); if (reason.length < 3) bad(seq, `point ${ex.def.number} withdrawn without a reason`);
         s.withdrawn.push({ seq, ts: e.ts, pointId: p.pointId, number: ex.def.number, title: ex.def.title, reason: reason.slice(0, 200), by: actorPid });
         s.points.delete(p.pointId); s.pointOrder = s.pointOrder.filter((x) => x !== p.pointId); break;
+      }
+      case "checkin_takeover": {
+        if (p.on === false) { if (!s.checkinTakeover) bad(seq, "check-in handed back although nobody had taken it over"); s.checkinTakeover = null; break; }
+        if (s.status !== "agenda_published" && s.status !== "live" && s.status !== "postponed") bad(seq, "check-in taken over while attendance is not open");
+        const reason = asStr(p.reason).trim(); if (reason.length < 3) bad(seq, "check-in taken over without a reason");
+        s.checkinTakeover = { seq, ts: e.ts, by: actorPid, reason: reason.slice(0, 200) }; break;
       }
       case "name_change_requested": s.changeRequests.push({ seq, ts: e.ts, flatNo: asStr(p.flatNo), reason: asStr(p.reason) }); break;
       case "official_removed": { if (s.status === "live" || s.status === "closed") bad(seq, "officials changed after the event started"); s.officials.delete(asStr(p.id)); s.officialPresence.delete(asStr(p.id)); break; }

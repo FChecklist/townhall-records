@@ -52,7 +52,8 @@ const STAFF_ONLY = ["setup", "day", "team", "end"];
  * What may these roles work on? Returns { home|setup|day|team|checkin|end|record: { ok, why } }.
  * - Setup, Voting day, Team and End or move belong to the Organizer and Hosts.
  * - Check-in belongs to an Attendance Monitor. If NO Attendance Monitor has been appointed, the Organizer and Hosts do the check-in themselves
- *   (the engine's rule: canDo "mark_attendance"); once one is appointed, it is theirs and the Organizer and Hosts see it greyed out.
+ *   (the engine's rule: canDo "mark_attendance"); once one is appointed, it is theirs and the Organizer and Hosts see it greyed out,
+ *   UNLESS they have taken the check-in over because the Monitor is absent (model.checkinTakeover, a logged and reversible act: then it is open for them too).
  * - Home and Record are for everyone (the audit trail inside Record is limited by the Record screen itself).
  * `model` is the public event model; only model.people[].roles is read.
  */
@@ -64,6 +65,7 @@ export function rightsOf(roles, model) {
   const out = {};
   for (const k of ORDER) out[k] = { ok: true, why: "" };
   if (!staff) for (const k of STAFF_ONLY) out[k] = { ok: false, why: "This part belongs to the Organizer or a Host." };
-  if (!monitor && !(staff && !monitorAppointed)) out.checkin = { ok: false, why: staff ? "An Attendance Monitor does the check-in for this event." : "This part belongs to an Attendance Monitor." };
+  const takenOver = !!(model && model.checkinTakeover);
+  if (!monitor && !(staff && (!monitorAppointed || takenOver))) out.checkin = { ok: false, why: staff ? "An Attendance Monitor does the check-in for this event. If the Monitor is absent, take it over or replace them in Team." : "This part belongs to an Attendance Monitor." };
   return out;
 }

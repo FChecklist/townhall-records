@@ -20,7 +20,7 @@ function lineFor(name, ctx) {
     return t("The notice is out. Start the meeting when it is time.");
   }
   if (name === "team") { const n = (m.people || []).length; return `${n} ${n === 1 ? t("person") : t("people")} ${t("on the team")}`; }
-  if (name === "checkin") return `${num(a.present)} ${t("of")} ${num(a.total)} ${t("flats checked in")}` + ((ctx.roles || []).includes("attendance_officer") ? "" : ". " + t("No Attendance Monitor is appointed, so you check people in."));
+  if (name === "checkin") return `${num(a.present)} ${t("of")} ${num(a.total)} ${t("flats checked in")}` + ((ctx.roles || []).includes("attendance_officer") ? "" : ". " + (m.checkinTakeover ? t("The Attendance Monitor is absent, so you took the check-in over.") : t("No Attendance Monitor is appointed, so you check people in.")));
   if (name === "end") return st === "closed" ? t("The meeting is finished.") : st === "live" ? t("You can end or postpone from here.") : t("Postpone or cancel from here if plans change.");
   return t("Every action is written here with its time.");
 }
@@ -59,6 +59,8 @@ export async function renderLocked(ctx, el, name) {
       h("div", { class: "row" }, h("div", { class: "sp" }, h("div", { class: "eyebrow" }, "🔒 " + t("Greyed out for your role")), h("h2", { style: "margin:2px 0 0" }, t(S.label))), h("span", { class: "badge warn", "data-test": "locked-who" }, t(S.who))),
       h("p", { style: "margin-top:10px", "data-test": "locked-why" }, t((R[key] && R[key].why) || "")), h("p", { class: "muted" }, t(S.what)),
       h("ul", { class: "ghostlist", "data-test": "locked-items" }, S.items.map((x) => h("li", null, t(x))))),
+    key === "checkin" && R.team.ok ? h("div", { class: "card tint", "data-test": "monitor-absent" }, h("h3", null, t("Is the Attendance Monitor absent?")), h("p", null, t("You can take the check-in over, or replace the Monitor. The reason is written in the record.")),
+      h("button", { class: "btn gold", "data-test": "go-absent", onclick: () => ctx.go("team") }, t("Open Team: take over or replace"))) : null,
     h("div", { class: "card" }, h("h3", null, t("What you can do instead")),
       h("div", { class: "row" }, usable.map((k) => h("button", { class: "btn" + (k === "home" ? " gold" : " ghost"), "data-test": "instead-" + k, onclick: () => ctx.go(k) }, t(SECTIONS[k].open))))));
 }

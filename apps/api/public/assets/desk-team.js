@@ -1,6 +1,7 @@
 // Team Desk module: the team (Hosts, Attendance Monitors) and the optional "Committee, officers and observers" list.
 // Used as the "Team" tab and by Setup step 5 ("Helpers"). Contract: export async function renderTeam(ctx, el).
 import { h, mount, t, get, field, radios, checks, wwh, errorBox, msg, confirmBox, toast, busy, loading } from "/assets/core.js";
+import { absentCard } from "/assets/desk-absent.js";
 
 const ROLE_WORD = { organizer: "Organizer", host: "Host", attendance_officer: "Attendance Monitor" };
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -157,7 +158,7 @@ export async function renderTeam(ctx, el) {
 
   mount(el,
     wwh(t("Organizer or Host"), t("Add the people who will help on the day."), t("Fill in the form and press Add. Each person gets a sign-in e-mail."), t("Every action is recorded under the name of the person who did it.")),
-    counts, list, out, form, offBox);
+    counts, list, absentCard(ctx, done, fail), out, form, offBox);
 }
 
 export const render = renderTeam;

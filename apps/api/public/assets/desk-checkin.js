@@ -4,6 +4,7 @@
 import { h, t, mount, msg, errorBox, confirmBox, toast, busy, get, field, wwh, fmtTime, copyText } from "/assets/core.js";
 import { qrSvg } from "/assets/qr.js";
 import { wrongNameScreen } from "./desk-items.js";
+import { takeoverBanner } from "./desk-absent.js";
 
 const ALL_CHECKS = [
   ["proof_seen", "I have seen the person's proof (ID or a known face)", "Look at the proof. Do not copy or photograph the ID number."],
@@ -54,7 +55,7 @@ function bar(back, primary) { return h("div", { class: "nav sticky" }, back || h
 function draw() {
   const s = C.s, el = C.el;
   const fn = { pick: screenPick, check: screenCheck, photo: screenPhoto, phone: screenPhone, mark: screenMark, done: screenDone, wrong: screenWrong, code: screenCode }[s.step] || screenPick;
-  mount(el, shell(fn()));
+  mount(el, takeoverBanner(C.ctx), shell(fn())); // the banner shows only while an Organizer or Host has taken the check-in over (the Monitor is absent)
 }
 const go = (step) => { C.s.step = step; draw(); window.scrollTo({ top: 0 }); };
 const backBtn = (to, label) => h("button", { class: "btn ghost", "data-test": "back", onclick: () => go(to) }, label || t("Back"));

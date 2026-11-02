@@ -66,7 +66,8 @@ export function describeAction(type: string, p: any): string {
     switch (type) {
       case "event_created": return "Created the " + n(p.kind) + " " + n(p.title);
       case "role_appointed": return `Appointed ${n(p.maskedName)} as ${role(n(p.role))}`;
-      case "role_removed": return `Removed a ${role(n(p.role))}`;
+      case "role_removed": return `Removed a ${role(n(p.role))}${n(p.reason) ? ": " + n(p.reason) : ""}`;
+      case "checkin_takeover": return p.on === false ? `Handed the check-in back to the Attendance Monitor${n(p.reason) ? ": " + n(p.reason) : ""}` : `Took over the check-in from the Attendance Monitor (the Monitor is absent): ${n(p.reason)}`;
       case "terms_accepted": return "Accepted the terms";
       case "email_verified": return "Confirmed their e-mail address";
       case "roll_set": return `Set the flat list (revision ${p.rev}, ${Array.isArray(p.flats) ? p.flats.length : "?"} flats${p.source ? ", by " + n(p.source) : ""})${n(p.reason) ? ": " + n(p.reason) : ""}`;

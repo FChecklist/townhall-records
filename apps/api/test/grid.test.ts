@@ -43,6 +43,7 @@ const A: Act[] = [
   { id: "basics", m: "PUT", path: (c) => `/api/events/${c.eid}/basics`, body: () => ({ venue: "Grid hall", reason: "grid check" }), who: "OH", write: true, refuseIn: ["live", "closed"] },
   { id: "point-remove", m: "POST", path: (c) => `/api/events/${c.eid}/points/${c.pt}/remove`, body: () => ({ reason: "grid check" }), who: "OH", write: true, refuseIn: ["live", "closed"] },
   { id: "name-change-request", m: "POST", path: (c) => `/api/events/${c.eid}/flats/${c.flat2}/change-request`, body: () => ({ reason: "spelling" }), who: "desk", write: true, refuseIn: ["setup", "closed"] },
+  { id: "checkin-takeover", m: "POST", path: (c) => `/api/events/${c.eid}/checkin/takeover`, body: () => ({ on: true, reason: "grid check" }), who: "OH", write: true, refuseIn: ["setup", "closed"] },
   { id: "contacts", m: "GET", path: (c) => `/api/events/${c.eid}/contacts`, who: "OH", write: false },
   { id: "private", m: "GET", path: (c) => `/api/events/${c.eid}/private`, who: "staff", write: false },
   { id: "audit", m: "GET", path: (c) => `/api/events/${c.eid}/audit`, who: "OH", write: false },
