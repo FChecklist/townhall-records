@@ -98,6 +98,9 @@ export function describeAction(type: string, p: any): string {
       case "person_erased": return "Erased a person's private details";
       case "key_destroyed": return "Erased all private details of the event";
       case "privacy_resolved": return `Answered a privacy request (${n(p.action)})`;
+      case "basics_set": return "Changed the title or place of the event";
+      case "point_removed": return `Removed agenda point ${n(p.number)} before voting`;
+      case "name_change_requested": return `Asked for a name correction for flat ${n(p.flatNo)} (${n(p.reason)})`;
       case "label_set": return `Gave a designation: ${n(p.label)}`;
       case "rules_initialized": return `Rules set from the pack ${n(p.packName)}`;
       case "anchor": return "Integrity checkpoint signed (a fingerprint of the whole record so far)";

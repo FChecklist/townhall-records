@@ -749,6 +749,25 @@ route("PUT", "/api/events/:id/points/:pid", async (c, m) => {
   await tx.add("point_amended", ENTRY_ACTOR(st, pid), { pointId: m[2]!, number, ...p, rev } as any, (seq) => [pointStmt(c, tx.eid, m[2]!, { number, ...p }, rev, seq)]);
   await tx.commit(); return json({ ok: true, rev });
 });
+route("PUT", "/api/events/:id/basics", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!, "edit_setup"); const st = await tx.st();
+  if (st.status === "live" || st.status === "closed") throw err(403, "frozen", "The title and place can no longer be changed.");
+  const title = c.body.title === undefined ? st.created!.title : str(c.body.title, "title", 3, 160), venue = c.body.venue === undefined ? st.created!.venue : str(c.body.venue, "venue", 2, 200);
+  await tx.add("basics_set", ENTRY_ACTOR(st, pid), { title, venue, reason: optStr(c.body.reason, "reason", 200) ?? "", old: { title: st.created!.title, venue: st.created!.venue } } as any); // no row change: events is append-only (a trigger refuses UPDATE); the signed log is the record, and every page reads the replayed model
+  await tx.commit(); return json({ ok: true, title, venue });
+});
+route("POST", "/api/events/:id/points/:pid/remove", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!, "edit_setup"); const st = await tx.st(); decide(canAmendPoint(st, m[2]!));
+  const cur = st.points.get(m[2]!); if (!cur) throw err(404, "unknown_point", "No such agenda point.");
+  await tx.add("point_removed", ENTRY_ACTOR(st, pid), { pointId: m[2]!, number: cur.def.number, reason: optStr(c.body.reason, "reason", 200) ?? "" } as any);
+  await tx.commit(); return json({ ok: true });
+});
+route("POST", "/api/events/:id/flats/:flat/change-request", async (c, m) => {
+  const { tx, pid } = await staff(c, m[1]!, "mark_attendance"); const st = await tx.st(); const flatNo = decodeURIComponent(m[2]!);
+  if (!st.roll.some((f) => f.flatNo === flatNo)) throw err(404, "no_flat", "That flat is not on the list.");
+  const reason = String(c.body.reason ?? ""); if (!["spelling", "owner_changed", "wrong_flat", "other"].includes(reason)) throw err(400, "bad_reason", "Choose why the name needs a correction.");
+  await tx.add("name_change_requested", ENTRY_ACTOR(st, pid), { flatNo, reason } as any); await tx.commit(); return json({ ok: true });
+});
 route("POST", "/api/events/:id/people", async (c, m) => {
   const { tx, pid } = await staff(c, m[1]!, "edit_setup"); const st = await tx.st();
   const role = c.body.role as Role; if (!["host", "attendance_officer"].includes(role)) throw err(400, "bad_role", "role must be host or attendance_officer.");

@@ -39,6 +39,7 @@ export interface EventState {
   agenda: null | { seq: number; ts: number; givenDays: number; minDays: number | null; maxDays: number | null; met: boolean | null };
   startedTs: number | null; closedInfo: null | { seq: number; ts: number; outcome: Outcome; reasonCodes: string[]; reason: string };
   outcome: Outcome | null; sitting: number;
+  changeRequests: Array<{ seq: number; ts: number; flatNo: string; reason: string }>;
   officials: Map<string, { id: string; seq: number; ts: number; group: string; groupLabel: string; name: string; designation: string; authority: string; note: string }>;
   officialPresence: Map<string, { seq: number; ts: number; mode: string; by: string | null }>;
   /** who did what and when: every action of a named person (Organizer, Host, Attendance Monitor), in order */
@@ -61,7 +62,7 @@ export function emptyState(eid: string): EventState {
   return {
     eid, seqCount: 0, head: null, firstTs: null, lastTs: null, created: null, rules: null, initialRules: null, ruleHistory: [], rejectedChanges: [], status: "setup", paid: false, payments: [],
     people: new Map(), roleLog: [], roll: [], rollRev: 0, points: new Map(), pointOrder: [], attendance: new Map(), attendanceLog: [], ledger: new Map(),
-    seals: new Map(), results: new Map(), devices: [], handshakes: 0, agenda: null, startedTs: null, closedInfo: null, outcome: null, sitting: 1, postponements: [], overrides: [], actions: [], timeline: [], customRules: new Map(), officials: new Map(), officialPresence: new Map(), clones: [], platformActions: [], contactsReads: 0, anchors: [], scheduleChanges: [], terms: new Set(), accEntries: 0, packInfo: { name: "", confidence: "", needsLawyer: true }, problems: [],
+    seals: new Map(), results: new Map(), devices: [], handshakes: 0, agenda: null, startedTs: null, closedInfo: null, outcome: null, sitting: 1, postponements: [], overrides: [], actions: [], timeline: [], customRules: new Map(), officials: new Map(), changeRequests: [], officialPresence: new Map(), clones: [], platformActions: [], contactsReads: 0, anchors: [], scheduleChanges: [], terms: new Set(), accEntries: 0, packInfo: { name: "", confidence: "", needsLawyer: true }, problems: [],
   };
 }
 
@@ -142,6 +143,9 @@ export async function replayLog(entries: SignedEntry[]): Promise<EventState> {
         const prev = s.officials.get(id);
         s.officials.set(id, { id, seq: prev?.seq ?? seq, ts: prev?.ts ?? e.ts, group, groupLabel: f("groupLabel", 100), name, designation: f("designation", 160), authority: f("authority", 200), note: f("note", 300) }); break;
       }
+      case "basics_set": { if (s.status === "live" || s.status === "closed") bad(seq, "title or place changed after the event started"); if (s.created) { if (typeof p.title === "string") s.created.title = p.title; if (typeof p.venue === "string") { const old = s.created.venue, sc = s.created.schedule, re = (m: { atMs: number; place: string }) => (m.place === old ? { ...m, place: p.venue as string } : m); s.created.schedule = { start: re(sc.start), votingStart: re(sc.votingStart), votingEnd: re(sc.votingEnd), end: re(sc.end) }; s.created.venue = p.venue; } } break; }
+      case "point_removed": { const ex = s.points.get(p.pointId); if (!ex) { bad(seq, "removed an unknown agenda point"); break; } if (ex.state !== "pending") bad(seq, `point ${ex.def.number} removed after it opened`); s.points.delete(p.pointId); s.pointOrder = s.pointOrder.filter((x) => x !== p.pointId); break; }
+      case "name_change_requested": s.changeRequests.push({ seq, ts: e.ts, flatNo: asStr(p.flatNo), reason: asStr(p.reason) }); break;
       case "official_removed": { if (s.status === "live" || s.status === "closed") bad(seq, "officials changed after the event started"); s.officials.delete(asStr(p.id)); s.officialPresence.delete(asStr(p.id)); break; }
       case "official_attendance": {
         const id = asStr(p.id); if (!s.officials.has(id)) { bad(seq, "attendance for an unknown official"); break; }
