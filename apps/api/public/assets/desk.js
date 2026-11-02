@@ -1,13 +1,13 @@
 // /desk/ : the Team Desk shell. Signs the person in (one-tap link, 6-digit code, or lost-link lookup), loads the event and shows a role-aware tab bar.
 // Each tab is a separate module: desk-<name>.js exporting render(ctx, el) (the team tab: renderTeam). See docs/UI-BUILD-BRIEF.md "Desk module contract".
 import { h, $, frame, app, mount, t, get, post, put, store, field, wwh, stageBar, errorBox, msg, busy, loading, shortCode, turnstileToken, TownError } from "/assets/core.js";
+import { ORDER, ROLE_WORD, rightsOf } from "/assets/desk-rights.js"; // who may work on which section: the one table (also used by desk-home.js)
 await frame({ active: "/desk/" });
 
 const root = app();
 const STAFF = ["organizer", "host"];
-const ROLE_WORD = { organizer: "Organizer", host: "Host", attendance_officer: "Attendance Monitor" };
 const STATUS_WORD = { setup: "Setting up", agenda_published: "Notice published", live: "Live now", postponed: "Postponed", closed: "Finished" };
-const TABS = { setup: ["Setup", "desk-setup.js", "render"], day: ["Voting day", "desk-day.js", "render"], team: ["Team", "desk-team.js", "renderTeam"], checkin: ["Check-in", "desk-checkin.js", "render"], end: ["End or move", "desk-end.js", "render"], record: ["Record", "desk-record.js", "render"] };
+const TABS = { home: ["Home", "desk-home.js", "render"], setup: ["Setup", "desk-setup.js", "render"], day: ["Voting day", "desk-day.js", "render"], team: ["Team", "desk-team.js", "renderTeam"], checkin: ["Check-in", "desk-checkin.js", "render"], end: ["End or move", "desk-end.js", "render"], record: ["Record", "desk-record.js", "render"] };
 
 let SES = store.get("desk"); // {eid, pid, token, roles}  (this tab only; gone when the tab closes)
 let ctx = null, curTab = null, drawSeq = 0, termsInfo = null, oneTap = null; // oneTap = {e,p,c}: the code from the link lives only in memory
@@ -176,13 +176,12 @@ async function loadEvent() {
     ctx = makeCtx(d, schema); rememberEvent(SES.eid, SES.pid, d.pub.model.title);
     const staff = SES.roles.some((r) => STAFF.includes(r)), mon = SES.roles.includes("attendance_officer");
     if (!staff && !mon) { mount(root, wwh(t("Team member"), t("You have no role in this event."), t("Ask the Organizer to add you."), t("Only appointed people can work here.")), note("warn", t("You are signed in, but you have no role in this event yet."), t("Ask the Organizer to add you as a Host or an Attendance Monitor, then sign in again."), null), h("button", { class: "btn", onclick: signOut }, t("Sign out"))); return; }
-    const tabs = staff ? ["setup", "day", "team", ...(mon ? ["checkin"] : []), "end", "record"] : ["checkin", "record"];
+    const tabs = ORDER; // one page for every role: all sections are shown, and the ones this role may not work on are greyed out (see rightsOf)
     shell = { tabs, head: h("div", { "data-test": "head" }), bar: h("div", { class: "tabs scroll", role: "tablist", "aria-label": t("Team Desk sections"), "data-test": "tabs" }), body: h("div", { "data-test": "tab-body" }) };
     mount(root, shell.head, shell.bar, shell.body);
     drawHeader();
-    const saved = store.get("desk_tab"); const st = d.pub.model.status;
-    const dflt = !staff ? "checkin" : st === "setup" ? "setup" : st === "closed" ? "record" : "day";
-    await showTab(saved && tabs.includes(saved) ? saved : dflt);
+    const saved = store.get("desk_tab"); // a saved tab is used only while this role may still work on it; otherwise everyone lands on Home
+    await showTab(saved && tabs.includes(saved) && rightsOf(ctx.roles, ctx.model)[saved].ok ? saved : "home");
   } catch (e) { if (e.handled) return; mount(root, errorBox(e, loadEvent), h("p", { class: "muted small" }, t("Your sign-in is still active.")), h("button", { class: "btn ghost", onclick: signOut }, t("Sign out"))); }
 }
 
@@ -194,7 +193,8 @@ function drawHeader() {
       h("div", { class: "row small" }, h("span", { class: "badge gold", "data-test": "status" }, t(STATUS_WORD[m.status] || m.status)), h("span", { class: "badge" }, m.kind === "election" ? t("Election") : t("Meeting")), h("span", { class: "muted" }, t("Signed in as ") + roles))),
     h("div", { class: "row" }, h("a", { class: "btn ghost", href: "/e/" + ctx.eid, "data-test": "public-page" }, t("Public page")), h("button", { class: "btn ghost", "data-test": "signout", onclick: signOut }, t("Sign out")))),
     stageBar(m.stage));
-  shell.bar.replaceChildren(...shell.tabs.map((k) => h("button", { role: "tab", "data-test": "tab-" + k, "aria-selected": k === curTab ? "true" : "false", class: k === curTab ? "on" : "", onclick: () => showTab(k) }, t(TABS[k][0]))));
+  const R = rightsOf(ctx.roles, m); // a greyed tab still opens (look only, with the reason); it is aria-disabled, not disabled, so it can be focused and explained
+  shell.bar.replaceChildren(...shell.tabs.map((k) => h("button", { role: "tab", "data-test": "tab-" + k, "aria-selected": k === curTab ? "true" : "false", "aria-disabled": R[k].ok ? null : "true", title: R[k].ok ? null : t(R[k].why), class: (k === curTab ? "on" : "") + (R[k].ok ? "" : " locked"), onclick: () => showTab(k) }, t(TABS[k][0]))));
 }
 
 async function showTab(name) {
@@ -202,7 +202,8 @@ async function showTab(name) {
   const on = shell?.bar.querySelector(".on"); if (on && on.scrollIntoView) on.scrollIntoView({ block: "nearest", inline: "center" });
 }
 async function drawTab(name, keep) {
-  if (!shell || !ctx || !name) return; const my = ++drawSeq; const [label, file, fn] = TABS[name];
+  if (!shell || !ctx || !name) return; const my = ++drawSeq; let [label, file, fn] = TABS[name];
+  if (!rightsOf(ctx.roles, ctx.model)[name].ok) { file = "desk-home.js"; fn = "renderLocked"; } // a section this role does not cover: the grey, look-only panel (no data is loaded)
   const el = h("div", { "data-test": "tab-" + name + "-body" });
   if (!keep) shell.body.replaceChildren(loading());
   let mod = null;
@@ -211,7 +212,7 @@ async function drawTab(name, keep) {
   const f = mod && (mod[fn] || mod.render);
   if (typeof f !== "function") { shell.body.replaceChildren(h("div", { class: "card center", "data-test": "unfinished" }, h("h3", null, t("This part is being finished")), h("p", { class: "muted" }, t("The \"") + t(label) + t("\" section is not ready yet. Please check again soon. Everything you did so far is safe.")))); return; }
   try {
-    await f(ctx, el); if (my !== drawSeq) return;
+    await f(ctx, el, name); if (my !== drawSeq) return;
     shell.body.replaceChildren(el);
   } catch (e) {
     if (e.handled) return; if (my !== drawSeq) return;

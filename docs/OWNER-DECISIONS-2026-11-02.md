@@ -38,3 +38,21 @@ These have a default. Say so only if you want it different.
 2. `bun scripts/build-verifier.ts`, then the bundle-freshness test
 3. Full suite, one file at a time, `--timeout 120000`
 4. Fix what fails, commit on branch `townhall-items-2026-11-02`. No deploy.
+5. Also run `apps/api/test/desk-rights.test.ts` (new) and `apps/api/test/ui.test.ts` (changed: the desk tabs are now 7 for every role).
+
+## E. One common Team Desk page (built the evening of 2 Nov, written and read through, NOT run)
+
+The Team Desk (`/desk/`) is now one page for the Organizer, the Host (Co-host) and the Attendance Monitor. Everyone lands on **Home**: one tile for each part of the desk. The parts a person may work on are bright; the rest are grey, say whose they are, and open a look-only panel that shows the names of the steps and no data. The tab bar shows all seven tabs to everyone, with the grey ones marked by a small lock. The rule lives in one place (`apps/api/public/assets/desk-rights.js`) and the server still decides every action.
+
+| Part | Organizer | Host / Co-host | Attendance Monitor |
+|------|-----------|----------------|--------------------|
+| Home, Record | works | works | works |
+| Setup, Voting day, Team, End or move | works | works | grey |
+| Check-in | works only if no Monitor is appointed | works only if no Monitor is appointed | works |
+
+Small calls with defaults (say so only if you want it different):
+1. **Co-host.** It is the same right as Host, so the page says "Host / Co-host". There is no separate Co-host role.
+2. **Check-in for the Organizer and Host.** It is grey once an Attendance Monitor is appointed (the engine's own rule). With no Monitor appointed they check people in themselves, and the report says attendance was not independently checked. Before this change the Organizer and Host had no Check-in tab at all.
+3. **Grey parts.** They open a look-only panel with a plain reason and buttons to the parts the person can use. They never load private details.
+4. **Languages.** The new lines are English for now. Other languages fall back to English until the translations are added.
+5. **Inside a bright part.** Paying and erasing private details stay with the Organizer only. The End screen already says "for the Organizer" to a Host on erasing, and the server refuses a Host on paying. This change does not touch those screens; greying the pay button by role there is the next small step if you want it.

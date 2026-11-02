@@ -154,3 +154,19 @@ main.hall{max-width:none;padding:2vh 3vw 4vh}
   .g2,.g3,.g4{grid-template-columns:1fr}.wwh{grid-template-columns:1fr 1fr}.wwh div{padding:8px 10px;font-size:13px}
 }
 .msg>div>span{display:block}
+
+/* desk Home and greyed-out sections (desk.js, desk-home.js): every role sees every part; a part the role may not work on is grey and says why. Grey text keeps 4.5:1 where it carries information. */
+.tabs button.locked{color:var(--faint);font-weight:500}
+.tabs button.locked::before{content:"\1F512\00a0";font-size:.8em}
+.tabs button.locked:hover{color:var(--muted)}
+.tiles{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));margin-bottom:18px}
+.tile{display:flex;flex-direction:column;gap:6px;background:var(--surface);border:1.5px solid var(--line);border-top:5px solid var(--gold);border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow)}
+.tile h3{margin:0}.tile p{margin:0}.tile .btn{margin-top:auto;align-self:flex-start}
+.tile .line{font-weight:600;color:var(--ink2)}
+.tile.off,.card.locked{background:var(--sunk);border-color:#DDD6C3;box-shadow:none}
+.tile.off{border-top-color:#CFC8B6;color:#646B79}
+.tile.off h3,.tile.off .eyebrow,.card.locked h2,.card.locked .eyebrow{color:#7A8090}
+.card.locked{border-style:dashed;color:#646B79}
+.ghostlist{list-style:none;padding:0;margin:14px 0 0;display:flex;flex-wrap:wrap;gap:8px}
+.ghostlist li{padding:6px 12px;border:1px dashed #CFC8B6;border-radius:99px;background:#F6F2E8;color:#646B79;font-size:14px}
+@media(max-width:760px){.tiles{grid-template-columns:1fr}.tile .btn{align-self:stretch}}

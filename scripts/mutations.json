@@ -947,10 +947,10 @@
  {
   "id": "V04",
   "scope": "api",
-  "claim": "UI: a monitor sees only Check-in and Record",
+  "claim": "UI: a part this role may not work on is greyed out in the tab bar (locked), for every role",
   "file": "apps/api/public/assets/desk.js",
-  "find": "const tabs = staff ? [\"setup\", \"day\", \"team\", ...(mon ? [\"checkin\"] : []), \"end\", \"record\"]",
-  "replace": "const tabs = true ? [\"setup\", \"day\", \"team\", ...(mon ? [\"checkin\"] : []), \"end\", \"record\"]",
+  "find": "(R[k].ok ? \"\" : \" locked\")",
+  "replace": "\"\"",
   "test": "apps/api/test/ui.test.ts"
  },
  {

@@ -101,22 +101,28 @@ describe("static and public pages: every state x page x language x viewport", ()
 });
 
 describe("Team Desk: every state x role x tab", () => {
-  const TABS: Record<string, string[]> = { organizer: ["Setup", "Voting day", "Team", "End or move", "Record"], host: ["Setup", "Voting day", "Team", "End or move", "Record"], monitor: ["Check-in", "Record"] };
-  const DEFAULT_TAB = (st: State, role: string) => role === "monitor" ? "Check-in" : st === "setup" ? "Setup" : st === "closed" ? "Record" : "Voting day";
+  const TABS = ["Home", "Setup", "Voting day", "Team", "Check-in", "End or move", "Record"]; // one page for every role: all sections are shown
+  const GREY: Record<string, string[]> = { organizer: ["Check-in"], host: ["Check-in"], monitor: ["Setup", "Voting day", "Team", "End or move"] }; // greyed out = not this role's to work on (the test world has an Attendance Monitor, so the Organizer and Host see Check-in grey)
+  const NAMES = [ORG, HOSTP, OFFP].flatMap((p) => [p.name, p.email, p.phone]);
   for (const st of ["setup", "published", "live", "closed"] as State[]) for (const role of ["organizer", "host", "monitor"] as const) {
     test(`desk state=${st} role=${role}: tabs, default tab, every tab renders`, async () => {
       const w = worlds.get(st)!; const roles = role === "monitor" ? ["attendance_officer"] : [role];
       const pg = await open(hw(st), "/desk/", { session: { desk: { eid: w.ctx.eid, pid: w.pids[role], token: w.tokens[role], roles } } }); errors.length = 0;
       await load(pg, "desk.js"); stats.cases++;
       expect(pg.text().split("IT Services by Rajat Agarwal").join("")).toContain(TITLE);
-      const tabs = pg.qa("[data-test=tabs] button").map((b) => (b.textContent ?? "").trim()); expect(tabs).toEqual(TABS[role] as string[]);
-      const cur = pg.q("[data-test=tabs] button.on"); expect((cur?.textContent ?? "").trim()).toBe(DEFAULT_TAB(st, role));
-      for (const label of TABS[role]!) {
+      const tabs = pg.qa("[data-test=tabs] button").map((b) => (b.textContent ?? "").trim()); expect(tabs).toEqual(TABS);
+      expect(pg.qa("[data-test=tabs] button.locked").map((b) => (b.textContent ?? "").trim())).toEqual(GREY[role]);
+      expect(pg.qa("[data-test=tabs] button[aria-disabled=true]").length).toBe(GREY[role]!.length);
+      const cur = pg.q("[data-test=tabs] button.on"); expect((cur?.textContent ?? "").trim()).toBe("Home");
+      for (const label of TABS) {
         stats.cases++; const b = pg.qa("[data-test=tabs] button").find((x) => (x.textContent ?? "").trim() === label); b.click(); await pg.settle(); await wait(60); await pg.settle();
         const body = (pg.q("[data-test=tab-body]") ?? pg.q("main"))!; const text = body.textContent ?? "";
         expect(text.length).toBeGreaterThan(40);
         expect(text, `${st}/${role}/${label}`).not.toMatch(/being finished/i); expect(text, `${st}/${role}/${label}`).not.toMatch(BAD_TEXT);
         const bad = pg.qa(".msg.bad").map((x) => x.textContent); expect(bad, `${st}/${role}/${label}`).toEqual([]);
+        const grey = GREY[role]!.includes(label); expect(!!body.querySelector("[data-test=locked-panel]"), `${st}/${role}/${label} grey panel`).toBe(grey);
+        if (grey) { for (const v of NAMES) expect(text, `${st}/${role}/${label} private`).not.toContain(v); expect(body.querySelectorAll("[data-test=locked-items] li").length).toBeGreaterThan(2); }
+        if (label === "Home") { expect(body.querySelectorAll(".tile.on").length, `${st}/${role} bright tiles`).toBe(6 - GREY[role]!.length); expect(body.querySelectorAll(".tile.off").length, `${st}/${role} grey tiles`).toBe(GREY[role]!.length); }
       }
       expect(pg.consoleErrors).toEqual([]); expect(errors).toEqual([]); pg.done();
     });
