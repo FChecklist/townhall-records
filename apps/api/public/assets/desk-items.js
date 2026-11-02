@@ -33,21 +33,35 @@ export function basicsCard(ctx, act) {
       : h("p", { class: "muted small", style: "margin-top:10px" }, t("Members are not sent a new notice automatically. Tell them yourself if the change matters.")));
 }
 
-/** Setup step 4, agenda list: ask why, then take a point off the agenda (POST /points/:pid/remove). Only for a point whose voting has not opened. Resolves true when it was removed. */
+/** Setup step 4, agenda list: ask why, then take a point off the agenda (POST /points/:pid/remove). Only for a point whose voting has not opened. Resolves true when it was removed.
+ *  Before the notice is published the point is simply removed. After that it is NEVER deleted: it is WITHDRAWN, a reason is required, and it stays on the record and in the minutes. */
 export function removePointDialog(ctx, p) {
+  const out_ = ctx.model.status !== "setup"; // the notice has gone out
   return new Promise((done) => {
-    const why = h("input", { type: "text", maxlength: "200", placeholder: t("For example: this item is already dealt with"), "data-test": "point-remove-reason", "aria-label": t("Reason for removing this point") });
+    const why = h("input", { type: "text", maxlength: "200", placeholder: out_ ? t("For example: the committee dropped this item") : t("For example: this item is already dealt with"), "data-test": "point-remove-reason", "aria-label": out_ ? t("Reason for withdrawing this point") : t("Reason for removing this point") });
     const out = h("div");
     let dlg = null;
     const yes = h("button", { class: "btn", "data-test": "point-remove-yes", onclick: async () => {
       out.replaceChildren();
-      try { await busy(yes, () => ctx.call.post(`/points/${p.pointId}/remove`, { reason: why.value.trim() })); dlg.close(); toast(t("The point was removed.")); await ctx.refresh(); done(true); }
+      if (out_ && why.value.trim().length < 3) { why.classList.add("err"); out.replaceChildren(msg("bad", t("Please say why, in a few words."), null, t("The notice has already gone out, so the reason is kept on the record."))); return; }
+      try { await busy(yes, () => ctx.call.post(`/points/${p.pointId}/remove`, { reason: why.value.trim() })); dlg.close(); toast(out_ ? t("The point was withdrawn. It stays on the record.") : t("The point was removed.")); await ctx.refresh(); done(true); }
       catch (e) { out.replaceChildren(errorBox(e)); }
-    } }, t("Yes, remove it"));
-    dlg = modal([h("h3", null, t("Remove this point?")), h("p", null, `${t("Point")} ${p.number}: ${p.title}. ${t("It leaves the agenda. The record keeps that you removed it, with the time.")}`),
-      field(t("Reason (a few words)"), why), out,
+    } }, out_ ? t("Yes, withdraw it") : t("Yes, remove it"));
+    dlg = modal([h("h3", null, out_ ? t("Withdraw this point?") : t("Remove this point?")),
+      h("p", { "data-test": "point-remove-text" }, `${t("Point")} ${p.number}: ${p.title}. ` + (out_
+        ? t("The notice has already gone out, so the point is not deleted. It stays on the record and in the minutes as Withdrawn, with your reason and the time.")
+        : t("It leaves the agenda. The record keeps that you removed it, with the time."))),
+      field(out_ ? t("Reason (required, a few words)") : t("Reason (a few words)"), why), out,
       h("div", { class: "row", style: "justify-content:flex-end;margin-top:16px" }, h("button", { class: "btn ghost", "data-test": "point-remove-no", onclick: () => { dlg.close(); done(false); } }, t("No, keep it")), yes)]);
   });
+}
+
+/** Setup step 4: the points withdrawn after the notice went out, kept on screen (grey) with the reason and the time. Returns a card, or null when there are none. */
+export function withdrawnCard(ctx) {
+  const w = ctx.model.withdrawn || []; if (!w.length) return null;
+  return card(h("h3", null, t("Withdrawn points")), h("p", { class: "muted small" }, t("These points were taken off the agenda after the notice went out. They are not deleted: they stay on the record and in the minutes.")),
+    h("div", { class: "tw" }, h("table", { class: "t", "data-test": "withdrawn-list" }, h("thead", null, h("tr", null, [t("No."), t("Point"), t("Status"), t("Reason"), t("When")].map((x) => h("th", null, x)))),
+      h("tbody", null, w.map((x) => h("tr", { "data-test": "withdrawn-" + x.number }, h("td", null, x.number), h("td", null, x.title), h("td", null, h("span", { class: "badge warn" }, t("Withdrawn"))), h("td", null, x.reason), h("td", null, fmtTime(x.ts, ctx.model.timezone))))))));
 }
 
 /** Setup step 3: the flat list as a table (from the public model: flat, weight, can vote) and the name corrections an Attendance Monitor asked for. Returns a list of cards. */

@@ -100,6 +100,7 @@ export function describeAction(type: string, p: any): string {
       case "privacy_resolved": return `Answered a privacy request (${n(p.action)})`;
       case "basics_set": return "Changed the title or place of the event";
       case "point_removed": return `Removed agenda point ${n(p.number)} before voting`;
+      case "point_withdrawn": return `Withdrew agenda point ${n(p.number)} after the notice went out (it stays on the record): ${n(p.reason)}`;
       case "name_change_requested": return `Asked for a name correction for flat ${n(p.flatNo)} (${n(p.reason)})`;
       case "label_set": return `Gave a designation: ${n(p.label)}`;
       case "rules_initialized": return `Rules set from the pack ${n(p.packName)}`;

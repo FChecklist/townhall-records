@@ -759,8 +759,14 @@ route("PUT", "/api/events/:id/basics", async (c, m) => {
 route("POST", "/api/events/:id/points/:pid/remove", async (c, m) => {
   const { tx, pid } = await staff(c, m[1]!, "edit_setup"); const st = await tx.st(); decide(canAmendPoint(st, m[2]!));
   const cur = st.points.get(m[2]!); if (!cur) throw err(404, "unknown_point", "No such agenda point.");
+  // Before the notice went out the point is simply taken off. After that it is NEVER deleted: it becomes "Withdrawn", with a reason and the time, and stays on the record, in the report and in the minutes.
+  if (st.status !== "setup") {
+    const reason = optStr(c.body.reason, "reason", 200); if (reason.trim().length < 3) throw err(400, "reason_needed", "The notice has already gone out, so say why this point is withdrawn (a few words).");
+    await tx.add("point_withdrawn", ENTRY_ACTOR(st, pid), { pointId: m[2]!, number: cur.def.number, title: cur.def.title, reason: reason.trim() } as any);
+    await tx.commit(); return json({ ok: true, withdrawn: true });
+  }
   await tx.add("point_removed", ENTRY_ACTOR(st, pid), { pointId: m[2]!, number: cur.def.number, reason: optStr(c.body.reason, "reason", 200) ?? "" } as any);
-  await tx.commit(); return json({ ok: true });
+  await tx.commit(); return json({ ok: true, withdrawn: false });
 });
 route("POST", "/api/events/:id/flats/:flat/change-request", async (c, m) => {
   const { tx, pid } = await staff(c, m[1]!, "mark_attendance"); const st = await tx.st(); const flatNo = decodeURIComponent(m[2]!);

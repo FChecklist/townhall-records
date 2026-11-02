@@ -259,8 +259,14 @@ function rulesSummary(m) {
   ].filter(Boolean);
   return h("ul", null, items.map((x) => h("li", null, x)));
 }
+/** Points withdrawn after the notice went out stay visible here (never deleted), with the reason and the time. */
+function withdrawnPoints(m) {
+  const w = m.withdrawn || []; if (!w.length) return null;
+  return card(h("h3", null, t("Withdrawn points")), h("p", { class: "small muted" }, t("These points were on the notice but were taken off the agenda. They stay on the record.")),
+    h("ul", { "data-test": "withdrawn-points" }, w.map((x) => h("li", null, h("b", null, x.number + ". " + x.title), " ", badge(t("Withdrawn"), "warn"), h("div", { class: "small muted" }, t("Reason: ") + x.reason + " · " + when(x.ts, m.timezone))))));
+}
 function agendaTab(m) {
-  if (!m.points.length) return card(h("p", { class: "muted" }, t("No agenda points have been added yet.")));
+  if (!m.points.length) return h("div", null, card(h("p", { class: "muted" }, t("No agenda points have been added yet."))), withdrawnPoints(m));
   return h("div", null, m.points.map((p) => card(
     h("div", { class: "row" }, h("h3", { style: "margin:0" }, h("em", null, p.number + "."), " ", p.title), h("span", { class: "sp" }), badge(t(KIND_WORDS[p.kind] || p.kind), "gold")),
     p.body ? h("p", null, p.body) : null,
@@ -271,7 +277,7 @@ function agendaTab(m) {
       h("p", { class: "small" }, h("b", null, p.kind === "election_post" ? t("Candidates: ") : t("Choices: ")), p.options.map((o) => optLabel(p, o)).join(" · ")),
       p.seats && p.seats.length ? h("p", { class: "small" }, h("b", null, t("Seats: ")), p.seats.join(", ")) : null) : null,
     h("div", { class: "tiny muted" }, t("State: ") + (p.state === "pending" ? t("not opened") : p.state === "open" ? t("voting open") : t("voting closed")))
-  )));
+  )), withdrawnPoints(m));
 }
 function rulesTab(m) {
   const cmp = m.compliance;

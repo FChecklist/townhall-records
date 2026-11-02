@@ -47,6 +47,8 @@ export interface ReportModel {
   clones: Array<{ direction: string; eventId: string }>; anchors: Array<{ headSeq: number; headHash: string }>;
   problems: string[]; contactsReads: number;
   roll: Array<{ flatNo: string; weight: number; eligible: boolean }>; changeRequests: Array<{ seq: number; ts: number; flatNo: string; reason: string }>;
+  /** agenda points withdrawn after the notice went out: never deleted, shown here and in the report with the reason and the time */
+  withdrawn: Array<{ seq: number; ts: number; number: string; title: string; reason: string; byName: string }>;
   officials: Array<{ id: string; group: string; groupLabel: string; name: string; designation: string; authority: string; note: string; present: boolean; presentTs: number | null; mode: string | null; publishedTs: number; beforeStart: boolean }>;
   accountability: Array<{ seq: number; ts: number; who: string; email: string; role: string; what: string }>;
   chronology: Array<{ seq: number; ts: number; who: string; what: string; hash: string }>;
@@ -122,6 +124,7 @@ export function buildReportModel(s: EventState): ReportModel {
     outcomeInfo: s.closedInfo ? { reasonCodes: s.closedInfo.reasonCodes, reasons: s.closedInfo.reasonCodes.map((x) => REASON_CODES.find((r) => r.id === x)?.label ?? x), reason: s.closedInfo.reason, atTs: s.closedInfo.ts } : null,
     sitting: s.sitting,
     roll: s.roll.map((f) => ({ flatNo: f.flatNo, weight: f.weight, eligible: f.eligible })), changeRequests: s.changeRequests.map((x) => ({ ...x })),
+    withdrawn: s.withdrawn.map((w) => ({ seq: w.seq, ts: w.ts, number: w.number, title: w.title, reason: w.reason, byName: w.by ? nameOf(s, w.by) : "" })),
     officials: [...s.officials.values()].sort((a, b) => a.seq - b.seq).map((o) => ({ id: o.id, group: o.group, groupLabel: o.groupLabel || officialGroupLabel(o.group), name: o.name, designation: o.designation, authority: o.authority, note: o.note, present: s.officialPresence.has(o.id), presentTs: s.officialPresence.get(o.id)?.ts ?? null, mode: s.officialPresence.get(o.id)?.mode ?? null, publishedTs: o.ts, beforeStart: s.startedTs === null || o.ts < s.startedTs })),
     chronology: s.timeline.map((t) => ({ seq: t.seq, ts: t.ts, who: t.pid ? `${nameOf(s, t.pid)} (${roleOf(s, t.pid) || "participant"})` : t.flat ? `flat ${t.flat}` : "system", what: t.detail, hash: t.hash })),
     accountability: s.actions.map((a) => ({ seq: a.seq, ts: a.ts, who: nameOf(s, a.pid), email: s.people.get(a.pid)?.maskedEmail ?? "", role: roleOf(s, a.pid), what: a.detail })),

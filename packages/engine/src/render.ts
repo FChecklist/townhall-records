@@ -32,6 +32,12 @@ function tree(nodes: ReportModel["tree"], by: Map<string, string>): string {
   return "<ul>" + nodes.map((n) => `<li><b>${esc(n.maskedName)}</b> <span class="tag">${esc(n.roles.join(" + ").replace(/_/g, " ") || "removed")}</span>${n.label ? ` <span class="tag lab">${esc(n.label)}</span>` : ""}${tree(n.children, by)}</li>`).join("") + "</ul>";
 }
 
+/** Agenda points taken off AFTER the notice went out: never deleted, listed here as Withdrawn with the reason and the time. */
+function withdrawnHtml(m: ReportModel): string {
+  if (!m.withdrawn.length) return "";
+  return `<section class="pt withdrawn" data-test="withdrawn"><h3>Withdrawn agenda points</h3><p class="meta">The notice had already gone out, so these points were not deleted. They stay on the record.</p><table><tr><th>No.</th><th>Point</th><th>Status</th><th>Reason</th><th>When</th></tr>${m.withdrawn.map((w) => `<tr><td>${esc(w.number)}</td><td>${esc(w.title)}</td><td><b>Withdrawn</b></td><td>${esc(w.reason)}</td><td>${esc(dt(w.ts))}</td></tr>`).join("")}</table></section>`;
+}
+
 function pointHtml(m: ReportModel, p: ReportModel["points"][number]): string {
   const t = p.tally;
   const stateTxt = p.state === "pending" ? "Not opened yet" : p.state === "open" ? "VOTING OPEN" : "Closed";
@@ -123,6 +129,7 @@ ${ownRules}
 <h2 data-i18n="sec.attendance">Attendance and quorum</h2><div class="card"><p><b>${esc(att.line)}</b></p><p>${att.present} of ${att.total} flats present${q ? ` · quorum: ${q.present} present, ${q.required} needed (${esc(q.basis ?? "")}): <b>${q.met ? "met" : "not met"}</b>` : " · quorum check was off"}</p>
 ${attRows ? `<details><summary>Present flats</summary><table><tr><th>Flat</th><th>Mode</th><th>Attendee (hidden form)</th><th>Who verified the ID</th><th>Who marked the attendance</th></tr>${attRows}</table></details>` : ""}</div>
 <h2 data-i18n="sec.agenda">Agenda and results</h2>${model.points.map((p) => pointHtml(model, p)).join("") || '<div class="card">No agenda points yet.</div>'}
+${withdrawnHtml(model)}
 ${model.payments.length ? `<h2 data-i18n="sec.payment">Payment</h2><div class="card">${model.payments.map((p) => `${esc(money(p.amountMinor, p.currency))} · ${esc(p.state)} · ${esc(p.mode)} mode`).join("<br>")}</div>` : ""}
 ${model.platformActions.length ? `<h2>Platform actions</h2><div class="card">${model.platformActions.map((a) => `#${a.seq} ${esc(a.action)}: ${esc(a.reason)}`).join("<br>")}</div>` : ""}
 ${model.problems.length ? `<h2 class="warn">Problems found in the log</h2><div class="card warn">${model.problems.map(esc).join("<br>")}</div>` : ""}

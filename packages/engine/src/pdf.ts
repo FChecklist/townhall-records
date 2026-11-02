@@ -128,6 +128,11 @@ export async function renderReportPdf(data: EmbeddedData, seal: Seal | null, opt
     if (p.openVotes?.length) { d.text("How each flat voted (open vote):", { size: 8.5, indent: 6, font: "F2" }); d.text(p.openVotes.map((v) => `${v.flatNo}: ${v.choices.map((c) => p.labels[c] ?? c).join("+")}`).join("   "), { size: 8, indent: 6 }); }
     d.space(4);
   }
+  if (m.withdrawn.length) {
+    d.text("Withdrawn after the notice went out (not deleted; they stay on the record):", { font: "F2", size: 9.5 });
+    for (const w of m.withdrawn) d.row([w.number, w.title, "WITHDRAWN", isoZ(w.ts), w.reason], [30, 150, 62, 100, 148], { size: 8 });
+    d.space(4);
+  }
   d.h("6. Checked against the rules");
   d.text(`Rules in use: ${m.compliance.packName || m.packId}`, { size: 9 });
   for (const c of m.compliance.checks) d.row([c.status === "pass" ? "pass" : c.status === "fail" ? "FAIL" : c.status === "not_set" ? "not set" : "info", c.label, c.detail], [48, 170, 272], { size: 8, font: c.status === "fail" ? "F2" : "F1" });

@@ -55,3 +55,28 @@ describe("the flat list is in the model, and a name correction can be requested"
     await chainOk(h, e.eid);
   });
 });
+
+describe("withdraw an agenda point after the notice went out", () => {
+  test("before the notice it is removed; after it, it is WITHDRAWN (reason required), never deleted, visible in the model and the signed log", async () => {
+    const h = await H.make(); const e = await setup(h); const mon = await appointVerified(h, e, OFFP, "attendance_officer");
+    const a = await ok(h.call("POST", `/api/events/${e.eid}/points`, { kind: "discussion", title: "Garden", body: "Talk about the garden" }, e.org));
+    const b = await ok(h.call("POST", `/api/events/${e.eid}/points`, { kind: "discussion", title: "Parking", body: "Talk about parking" }, e.org));
+    const r1 = await ok(h.call("POST", `/api/events/${e.eid}/points/${a.body.pointId}/remove`, { reason: "typo" }, e.org)); // setup: a plain removal
+    expect(r1.body.withdrawn).toBe(false); expect((await model(h, e.eid)).withdrawn).toEqual([]);
+    await ok(h.call("POST", `/api/events/${e.eid}/agenda/publish`, {}, e.org)); // the notice goes out
+    const before = (await model(h, e.eid)).points.length;
+    const noReason = await h.call("POST", `/api/events/${e.eid}/points/${b.body.pointId}/remove`, {}, e.org);
+    expect(noReason.status).toBe(400); expect(noReason.body.error).toBe("reason_needed");
+    expect((await h.call("POST", `/api/events/${e.eid}/points/${b.body.pointId}/remove`, { reason: "no" }, e.org)).status).toBe(400); // two letters are not a reason
+    expect((await h.call("POST", `/api/events/${e.eid}/points/${b.body.pointId}/remove`, { reason: "committee decided" }, mon.token)).status).toBe(403);
+    const r2 = await ok(h.call("POST", `/api/events/${e.eid}/points/${b.body.pointId}/remove`, { reason: "Dealt with at the last meeting" }, e.org));
+    expect(r2.body.withdrawn).toBe(true);
+    const m = await model(h, e.eid);
+    expect(m.points.length).toBe(before - 1); expect(m.points.some((p: any) => p.pointId === b.body.pointId)).toBe(false);
+    expect(m.withdrawn).toEqual([{ seq: expect.any(Number), ts: expect.any(Number), number: expect.any(String), title: "Parking", reason: "Dealt with at the last meeting", byName: expect.any(String) }]);
+    expect(m.chronology.some((c: any) => /Withdrew agenda point .* \(it stays on the record\): Dealt with at the last meeting/.test(c.what))).toBe(true);
+    const log = await getLog(h, e.eid); expect(log.entries.some((x) => x.entry.type === "point_withdrawn")).toBe(true); expect(log.entries.some((x) => x.entry.type === "point_removed" && (x.entry.payload as any).reason === "Dealt with at the last meeting")).toBe(false);
+    expect((await h.call("POST", `/api/events/${e.eid}/points/${b.body.pointId}/remove`, { reason: "again please" }, e.org)).status).toBe(404); // it is gone from the agenda
+    await chainOk(h, e.eid); // chain verifies and the replay finds no problem
+  });
+});
