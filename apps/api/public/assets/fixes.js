@@ -140,6 +140,10 @@ export const FIXES = {
   contains_personal_data: "Delete the e-mail address or phone number from the text. Private details go in the private fields.",
   role_limit: "Remove someone first, or ask the Organizer to change roles.",
   wrong_kind: "Use the sign-in made for this page.",
+  bad_replace: "Choose a different person, and give them the Attendance Monitor role.",
+  no_monitor: "Nothing to take over: the Organizer and Hosts already check people in.",
+  already_taken: "Hand the check-in back first if you want to change who does it.",
+  not_taken: "Nothing is taken over now, so there is nothing to hand back.",
 };
 
 // Where the server's own sentence has developer words, this friendlier sentence is shown instead.
