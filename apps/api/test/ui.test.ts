@@ -111,7 +111,7 @@ describe("Team Desk: every state x role x tab", () => {
       await load(pg, "desk.js"); stats.cases++;
       expect(pg.text().split("IT Services by Rajat Agarwal").join("")).toContain(TITLE);
       const tabs = pg.qa("[data-test=tabs] button").map((b) => (b.textContent ?? "").trim()); expect(tabs).toEqual(TABS);
-      expect(pg.qa("[data-test=tabs] button.locked").map((b) => (b.textContent ?? "").trim())).toEqual(GREY[role]);
+      expect(pg.qa("[data-test=tabs] button.locked").map((b) => (b.textContent ?? "").trim())).toEqual(GREY[role] as string[]);
       expect(pg.qa("[data-test=tabs] button[aria-disabled=true]").length).toBe(GREY[role]!.length);
       const cur = pg.q("[data-test=tabs] button.on"); expect((cur?.textContent ?? "").trim()).toBe("Home");
       for (const label of TABS) {

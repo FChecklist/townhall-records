@@ -63,7 +63,7 @@ describe("checked against the rules", () => {
   test("the public page prints the section, with FAIL rows visible and the disclaimer", async () => {
     const s = await Scenario.fullMeeting(); const k = await testKey();
     const html = renderReportHtml(buildReportModel(await s.state()), s.entries, k.publicKeyRaw, k.kid);
-    expect(html).toContain("Checked against the rules"); expect(html).toContain("✘ FAIL"); expect(html).toContain("not legal advice"); expect(html).toContain("confirm these values against its own bye-laws");
+    expect(html).toContain("Checked against the rules"); expect(html).toContain("✘ FAIL"); expect(html).toContain("not legal advice"); expect(html).toMatch(/does not replace the society(&#39;|')s own bye-laws/);
     expect(html).toContain("Access trail and terms");
   });
 });

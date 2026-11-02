@@ -5,7 +5,7 @@ import { replayLog, verifyChain } from "../../../packages/engine/src";
 
 const ok = async (p: Promise<any>) => { const r = await p; if (r.status >= 300) throw new Error(JSON.stringify(r.body)); return r; };
 const model = async (h: H, eid: string) => (await h.call("GET", `/api/events/${eid}`)).body.model;
-const chainOk = async (h: H, eid: string) => { const log = await getLog(h, eid); expect((await verifyChain(log.entries, log.publicKey)).ok).toBe(true); expect((await replayLog(log.entries, log.publicKey)).problems).toEqual([]); };
+const chainOk = async (h: H, eid: string) => { const log = await getLog(h, eid); expect((await verifyChain(log.entries, log.publicKey)).ok).toBe(true); expect((await replayLog(log.entries)).problems).toEqual([]); };
 
 describe("edit title and place", () => {
   test("Organizer and Host may; a Monitor may not; the record shows the old and new; frozen once live", async () => {
