@@ -35,6 +35,7 @@ describe("remove an agenda point", () => {
     await chainOk(h, e.eid);
     await ok(h.call("POST", `/api/events/${e.eid}/agenda/publish`, {}, e.org)); h.now += 11 * DAY; h.raw.query("UPDATE sessions SET expires_ms = ?").run(h.now + DAY);
     await ok(h.call("POST", `/api/events/${e.eid}/start`, {}, e.org));
+    for (let i = 0; i < 4; i++) await ok(h.call("POST", `/api/events/${e.eid}/attendance`, { flatNo: `A-${101 + i}`, attendeeName: "Owner " + i, mode: "physical", method: "visual" }, mon.token)); // the point needs a quorum before it can open
     await ok(h.call("POST", `/api/events/${e.eid}/points/${e.pointId}/open`, { minutes: 30 }, e.org));
     expect((await h.call("POST", `/api/events/${e.eid}/points/${e.pointId}/remove`, {}, e.org)).status).toBe(403);
   });
@@ -44,6 +45,8 @@ describe("the flat list is in the model, and a name correction can be requested"
   test("roll lists every flat; a Monitor's request is logged by reason only, bad input refused", async () => {
     const h = await H.make(); const e = await setup(h, { flats: 6 }); const mon = await appointVerified(h, e, OFFP, "attendance_officer");
     const m0 = await model(h, e.eid); expect(m0.roll.length).toBe(6); expect(m0.roll[0]).toEqual({ flatNo: "A-101", weight: expect.any(Number), eligible: expect.any(Boolean) });
+    expect((await h.call("POST", `/api/events/${e.eid}/flats/A-101/change-request`, { reason: "spelling" }, mon.token)).status).toBeGreaterThanOrEqual(400); // check-in work is closed until the notice is published
+    await ok(h.call("POST", `/api/events/${e.eid}/agenda/publish`, {}, e.org));
     await ok(h.call("POST", `/api/events/${e.eid}/flats/A-101/change-request`, { reason: "spelling" }, mon.token));
     expect((await h.call("POST", `/api/events/${e.eid}/flats/A-101/change-request`, { reason: "gossip" }, mon.token)).status).toBe(400);
     expect((await h.call("POST", `/api/events/${e.eid}/flats/Z-999/change-request`, { reason: "spelling" }, mon.token)).status).toBe(404);
