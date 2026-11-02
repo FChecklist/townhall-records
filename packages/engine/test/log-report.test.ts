@@ -1,4 +1,6 @@
 import { describe, expect, test } from "bun:test";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { appendEntry, genesisHash, verifyChain, type SignedEntry } from "../src/log";
 import { generateSigningKey } from "../src/crypto";
 import { buildReportModel, extractData, extractSeal, verifyReportHtml, verifyEmbedded, stripSeal, fileDigest } from "../src/model";
@@ -178,6 +180,12 @@ describe("the public page / report", () => {
     expect((await g.aoaVerify.verifyReportHtml(html)).ok).toBe(true);
     const rebuilt = await Bun.build({ entrypoints: ["packages/engine/src/browser-verifier.ts"], target: "browser", format: "iife", minify: true });
     expect(await rebuilt.outputs[0]!.text()).toBe(VERIFIER_JS);
+  });
+  test("the copy the /verify/ page loads (apps/api/public/assets/verifier.js) is the same text as the embedded bundle, and the build script writes both", () => {
+    const page = readFileSync(join(import.meta.dir, "../../../apps/api/public/assets/verifier.js"), "utf8");
+    expect(page).toBe(VERIFIER_JS);
+    const script = readFileSync(join(import.meta.dir, "../../../scripts/build-verifier.ts"), "utf8");
+    expect(script).toContain("packages/engine/src/verifier.generated.ts"); expect(script).toContain("apps/api/public/assets/verifier.js");
   });
   test("LIVE then FINAL: the same page is a live dashboard mid-event and a sealed report after close", async () => {
     const s = await Scenario.create();
