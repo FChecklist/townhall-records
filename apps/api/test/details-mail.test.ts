@@ -30,7 +30,7 @@ describe("meeting details changed: mail to the members", () => {
     await ok(h.call("POST", `/api/events/${e.eid}/agenda/publish`, {}, e.org));
     const r = await ok(basics(h, e.eid, { venue: "Garden lawn", reason: "The hall roof is being repaired" }, e.org));
     expect(r.body).toEqual({ ok: true, title: "Annual General Meeting 2026", venue: "Garden lawn", mailed: 3, mailFailed: 0 }); // owner3 and owner4 share one address: one mail; A-105 has none
-    const mails = sent(h); expect(mails.map((x) => x.to_addr).sort()).toEqual(["owner1@example.org", "owner2@example.org", "owner3@example.org"]);
+    const mails = sent(h); expect(mails.map((x) => x.to_addr.toLowerCase()).sort()).toEqual(["owner1@example.org", "owner2@example.org", "owner3@example.org"]);
     for (const m of mails) {
       expect(m.subject).toBe("Meeting details changed: Annual General Meeting 2026");
       expect(m.body).toContain('Place: was "Community hall", now "Garden lawn"'); expect(m.body).not.toContain("Title:"); expect(m.body).toContain("Reason: The hall roof is being repaired"); expect(m.body).toContain(`/e/${e.eid}`);

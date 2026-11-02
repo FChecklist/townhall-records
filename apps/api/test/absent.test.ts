@@ -9,7 +9,7 @@ const CHECKS = { proof_seen: true, name_matches: true, flat_matches: true, perso
 const mark = (h: H, eid: string, flat: string, token: string) => h.call("POST", `/api/events/${eid}/attendance`, { flatNo: flat, attendeeName: "Owner", mode: "physical", method: "known_person", checks: CHECKS }, token);
 const model = async (h: H, eid: string) => (await h.call("GET", `/api/events/${eid}`)).body.model;
 const chainOk = async (h: H, eid: string) => { const log = await getLog(h, eid); expect((await verifyChain(log.entries, log.publicKey)).ok).toBe(true); expect((await replayLog(log.entries)).problems).toEqual([]); return log; };
-const takeover = (h: H, eid: string, body: unknown, token: string) => h.call("POST", `/api/events/${eid}/checkin/takeover`, body, token);
+const takeover = (h: H, eid: string, body: unknown, token?: string) => h.call("POST", `/api/events/${eid}/checkin/takeover`, body, token);
 
 describe("take the check-in over", () => {
   test("refused without a Monitor or before the notice; needs a reason; only Organizer/Host; then the Host may check people in, and handing it back closes the door again", async () => {
@@ -58,7 +58,7 @@ describe("replace the Attendance Monitor", () => {
     expect((await post({ role: "attendance_officer", ...NEW, replaces: mon.pid, reason: "ill" }, mon.token)).status).toBe(403); // the Monitor cannot appoint
     const r = await ok(post({ role: "attendance_officer", ...NEW, replaces: mon.pid, reason: "ill on the day" })); expect(r.body.role).toBe("attendance_officer");
     const m = await model(h, e.eid);
-    expect(m.people.find((p: any) => p.pid === mon.pid).roles).not.toContain("attendance_officer");
+    const old = m.people.find((p: any) => p.pid === mon.pid); expect(old ? old.roles : []).not.toContain("attendance_officer"); // a person left with no role is no longer listed at all
     expect(m.people.find((p: any) => p.pid === r.body.personId).roles).toEqual(["attendance_officer"]);
     const log = await chainOk(h, e.eid); const types = log.entries.map((x) => x.entry.type);
     const iRemove = types.lastIndexOf("role_removed"), iAppoint = types.lastIndexOf("role_appointed"); expect(iRemove).toBeGreaterThan(-1); expect(iRemove).toBeLessThan(iAppoint); // removal first, so the limits always hold

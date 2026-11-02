@@ -152,7 +152,7 @@ describe("the Attendance Monitor is absent: take over, hand back, replace", () =
     pg.q("[data-test=replace-name]").value = "Kiran Mehta"; pg.q("[data-test=replace-email]").value = "kiran.mehta@example.org";
     pg.q("[data-test=replace-go]").click(); await wait(100); await after(pg);
     const m = await modelOf(w); const mons = m.people.filter((p: any) => p.roles.includes("attendance_officer"));
-    expect(mons.length).toBe(1); expect(mons[0].pid).not.toBe(w.pids.monitor); expect(m.people.find((p: any) => p.pid === w.pids.monitor).roles).not.toContain("attendance_officer");
+    expect(mons.length).toBe(1); expect(mons[0].pid).not.toBe(w.pids.monitor); const old = m.people.find((p: any) => p.pid === w.pids.monitor); expect(old ? old.roles : []).not.toContain("attendance_officer"); // a person left with no role is no longer listed
     expect(m.chronology.some((c: any) => c.what === "Removed a Attendance Monitor: Replaced: Moved away on short notice")).toBe(true);
     expect(pg.consoleErrors).toEqual([]); expect(errors).toEqual([]); pg.done();
   });
