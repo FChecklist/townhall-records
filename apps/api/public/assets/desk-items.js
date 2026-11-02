@@ -30,7 +30,9 @@ export function basicsCard(ctx, act) {
     field(t("Reason (optional)"), reason, t("It is shown on the public record, with the old and the new words.")),
     box, h("div", { style: "margin-top:14px" }, save),
     frozen ? h("div", { class: "why-off", "data-test": "basics-why" }, t("The title and place are fixed once the meeting has started."))
-      : h("p", { class: "muted small", style: "margin-top:10px" }, t("Members are not sent a new notice automatically. Tell them yourself if the change matters.")));
+      : h("p", { class: "muted small", "data-test": "basics-mail-note", style: "margin-top:10px" }, m.status === "setup"
+        ? t("Nobody has had the notice yet, so no mail is sent. Once the notice is out, a change is mailed to members who have an e-mail on the flat list.")
+        : t("Members who have an e-mail on the flat list are sent a short mail with the old and the new words. Members without one are not: tell them yourself if the change matters.")));
 }
 
 /** Setup step 4, agenda list: ask why, then take a point off the agenda (POST /points/:pid/remove). Only for a point whose voting has not opened. Resolves true when it was removed.

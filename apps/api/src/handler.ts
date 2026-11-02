@@ -270,6 +270,35 @@ async function eventKey2(c: Ctx, eid: string, stmts: D1Stmt[]): Promise<Bytes> {
 const pointStmt = (c: Ctx, eid: string, pointId: string, p: any, rev: number, seq: number) =>
   c.db.prepare("INSERT INTO agenda_points(point_id,event_id,number,title,body,kind,options_json,max_choices,majority_class,secret,extra_json,rev,log_seq) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)").bind(pointId, eid, p.number, p.title, p.body, p.kind, JSON.stringify(p.options), p.maxChoices, p.majorityClass, p.secret ? 1 : 0, JSON.stringify({ labels: p.labels ?? {}, minChoices: p.minChoices ?? 1, format: p.format ?? null, seats: p.seats ?? [], topN: p.topN ?? null, design: p.design ?? null }), rev, seq);
 
+/**
+ * B1 (owner decision, 2 Nov 2026): once the notice has gone out, a change of title or place is mailed to the flat holders who have an e-mail on the list, with the old and the new words,
+ * so nobody turns up at the wrong place. Best effort: a mail problem (daily limit, provider down) never undoes the change; the counts come back to the Organizer.
+ * Goes through sendMail, so with no provider configured the mails only land in the local outbox (nothing leaves the machine until the owner sets the mail sender).
+ */
+const NOTICE_MAX = 500;
+async function mailDetailsChanged(c: Ctx, eid: string, society: string, kind: string, was: { title: string; venue: string }, now: { title: string; venue: string }, reason: string): Promise<{ mailed: number; mailFailed: number }> {
+  const rows = (await c.db.prepare("SELECT id FROM people WHERE event_id=? AND flat_no IS NOT NULL ORDER BY id").bind(eid).all<{ id: string }>()).results;
+  const seen = new Set<string>(); const to: string[] = [];
+  for (const r of rows) {
+    let ct: Contact | null = null; try { ct = await contactOf(c, eid, r.id); } catch { continue; } // erased or unreadable: skip
+    const em = (ct.email ?? "").trim().toLowerCase(); if (!em || seen.has(em)) continue; seen.add(em); to.push(ct.email.trim()); if (to.length >= NOTICE_MAX) break;
+  }
+  if (!to.length) return { mailed: 0, mailFailed: 0 };
+  const what = kind === "election" ? "election" : "meeting"; const origin = (c.env.PUBLIC_ORIGIN ?? c.url.origin).replace(/\/+$/, "");
+  const lines = [`Dear member, a small but important note about the ${what} of ${society}.`, "", `The Organizer has changed its details. Please keep the new ones:`, ""];
+  if (now.title !== was.title) lines.push(`Title: was "${was.title}", now "${now.title}"`);
+  if (now.venue !== was.venue) lines.push(`Place: was "${was.venue}", now "${now.venue}"`);
+  if (reason) lines.push("", `Reason: ${reason}`);
+  lines.push("", `The full record, with the old and the new words, is here:`, `${origin}/e/${eid}`, "", `With thanks, ${BRAND}`);
+  const subject = `Meeting details changed: ${now.title}`; const text = lines.join("\n") + "\n";
+  let mailed = 0, mailFailed = 0;
+  for (let i = 0; i < to.length; i++) {
+    try { await sendMail(c, to[i]!, subject, text); mailed++; }
+    catch (e) { mailFailed++; if (e instanceof ApiError && e.code === "mail_quota_reached") { mailFailed += to.length - i - 1; break; } } // over the daily limit: the rest are not tried
+  }
+  return { mailed, mailFailed };
+}
+
 // ------------------------------------------------------------------------------------------------ e-mail passcode login
 async function issueLogin(c: Ctx, eid: string, pid: string, to: string, society: string): Promise<void> {
   const tx = await Tx.load(c, eid);
@@ -753,8 +782,12 @@ route("PUT", "/api/events/:id/basics", async (c, m) => {
   const { tx, pid } = await staff(c, m[1]!, "edit_setup"); const st = await tx.st();
   if (st.status === "live" || st.status === "closed") throw err(403, "frozen", "The title and place can no longer be changed.");
   const title = c.body.title === undefined ? st.created!.title : str(c.body.title, "title", 3, 160), venue = c.body.venue === undefined ? st.created!.venue : str(c.body.venue, "venue", 2, 200);
-  await tx.add("basics_set", ENTRY_ACTOR(st, pid), { title, venue, reason: optStr(c.body.reason, "reason", 200) ?? "", old: { title: st.created!.title, venue: st.created!.venue } } as any); // no row change: events is append-only (a trigger refuses UPDATE); the signed log is the record, and every page reads the replayed model
-  await tx.commit(); return json({ ok: true, title, venue });
+  const was = { title: st.created!.title, venue: st.created!.venue }, why = optStr(c.body.reason, "reason", 200) ?? "";
+  await tx.add("basics_set", ENTRY_ACTOR(st, pid), { title, venue, reason: why, old: was } as any); // no row change: events is append-only (a trigger refuses UPDATE); the signed log is the record, and every page reads the replayed model
+  await tx.commit();
+  const changed = title !== was.title || venue !== was.venue; // members hear of it only once the notice has gone out (before that nobody has been told anything)
+  const mail = changed && st.status !== "setup" ? await mailDetailsChanged(c, tx.eid, st.created!.society.name, st.created!.kind, was, { title, venue }, why) : { mailed: 0, mailFailed: 0 };
+  return json({ ok: true, title, venue, ...mail });
 });
 route("POST", "/api/events/:id/points/:pid/remove", async (c, m) => {
   const { tx, pid } = await staff(c, m[1]!, "edit_setup"); const st = await tx.st(); decide(canAmendPoint(st, m[2]!));
