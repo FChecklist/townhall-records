@@ -1,7 +1,7 @@
 // /desk/ : the Team Desk shell. Signs the person in (one-tap link, 6-digit code, or lost-link lookup), loads the event and shows a role-aware tab bar.
 // Each tab is a separate module: desk-<name>.js exporting render(ctx, el) (the team tab: renderTeam). See docs/UI-BUILD-BRIEF.md "Desk module contract".
 import { h, $, frame, app, mount, t, get, post, put, store, field, wwh, stageBar, errorBox, msg, busy, loading, shortCode, turnstileToken, TownError } from "/assets/core.js";
-import { ORDER, ROLE_WORD, rightsOf } from "/assets/desk-rights.js"; // who may work on which section: the one table (also used by desk-home.js)
+import { ORDER, ROLE_WORD, rightsOf, landingTab } from "/assets/desk-rights.js"; // who may work on which section: the one table (also used by desk-home.js)
 await frame({ active: "/desk/" });
 
 const root = app();
@@ -180,8 +180,8 @@ async function loadEvent() {
     shell = { tabs, head: h("div", { "data-test": "head" }), bar: h("div", { class: "tabs scroll", role: "tablist", "aria-label": t("Team Desk sections"), "data-test": "tabs" }), body: h("div", { "data-test": "tab-body" }) };
     mount(root, shell.head, shell.bar, shell.body);
     drawHeader();
-    const saved = store.get("desk_tab"); // a saved tab is used only while this role may still work on it; otherwise everyone lands on Home
-    await showTab(saved && tabs.includes(saved) && rightsOf(ctx.roles, ctx.model)[saved].ok ? saved : "home");
+    const saved = store.get("desk_tab"); // a saved tab is used only while this role may still work on it; otherwise an Attendance Monitor lands on Check-in (the door job) and everyone else on Home
+    await showTab(landingTab(ctx.roles, ctx.model, saved));
   } catch (e) { if (e.handled) return; mount(root, errorBox(e, loadEvent), h("p", { class: "muted small" }, t("Your sign-in is still active.")), h("button", { class: "btn ghost", onclick: signOut }, t("Sign out"))); }
 }
 

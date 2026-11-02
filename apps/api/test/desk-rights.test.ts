@@ -6,7 +6,7 @@ import { join } from "node:path";
 import { H, HOSTP, OFFP, appointVerified, setup } from "./harness";
 
 const R: any = await import(join(import.meta.dir, "../public/assets/desk-rights.js"));
-const { rightsOf, ORDER, SECTIONS, ROLE_WORD } = R;
+const { rightsOf, landingTab, ORDER, SECTIONS, ROLE_WORD } = R;
 const team = (...roles: string[][]) => ({ people: roles.map((r) => ({ roles: r })) });
 const open = (roles: string[], model: unknown): string[] => ORDER.filter((k: string) => rightsOf(roles, model)[k].ok);
 const without = (...gone: string[]) => ORDER.filter((k: string) => !gone.includes(k));
@@ -69,5 +69,48 @@ describe("the rights table agrees with the server", () => {
     await ok(h.call("PUT", `/api/events/${e.eid}/basics`, { venue: "Club house" }, e.org));
     await ok(h.call("PUT", `/api/events/${e.eid}/basics`, { venue: "Community hall" }, host.token));
     expect((await h.call("PUT", `/api/events/${e.eid}/basics`, { venue: "Garden" }, mon.token)).status).toBe(403);
+  });
+});
+
+describe("where a person lands after signing in", () => {
+  const live = (...r: string[][]) => ({ status: "agenda_published", people: r.map((x) => ({ roles: x })) });
+  test("an Attendance Monitor lands on Check-in once attendance is open (the door job: one tap less)", () => {
+    for (const status of ["agenda_published", "live", "postponed"]) expect(landingTab(["attendance_officer"], { ...live(["organizer"], ["attendance_officer"]), status }, null)).toBe("checkin");
+  });
+  test("before the notice (nothing to check in yet) and after the end, a Monitor lands on Home", () => {
+    for (const status of ["setup", "closed", "suspended"]) expect(landingTab(["attendance_officer"], { ...live(["organizer"], ["attendance_officer"]), status }, null)).toBe("home");
+  });
+  test("Organizer, Host, an Organizer who is also the Monitor, and a person with no role all land on Home", () => {
+    const m = live(["organizer", "attendance_officer"], ["host"]);
+    expect(landingTab(["organizer"], m, null)).toBe("home"); expect(landingTab(["host"], m, null)).toBe("home");
+    expect(landingTab(["organizer", "attendance_officer"], m, null)).toBe("home"); expect(landingTab([], m, null)).toBe("home"); expect(landingTab(undefined, undefined, null)).toBe("home");
+  });
+  test("the tab the person was last on wins while their role may still work on it; otherwise the rule above applies", () => {
+    const m = live(["organizer"], ["attendance_officer"]);
+    expect(landingTab(["attendance_officer"], m, "record")).toBe("record"); expect(landingTab(["attendance_officer"], m, "home")).toBe("home");
+    expect(landingTab(["attendance_officer"], m, "setup")).toBe("checkin"); // greyed for a Monitor: ignored
+    expect(landingTab(["host"], live(["organizer"], ["host"], ["attendance_officer"]), "checkin")).toBe("home"); // greyed for a Host while a Monitor does it
+    expect(landingTab(["attendance_officer"], m, "nonsense")).toBe("checkin");
+  });
+});
+
+describe("a take-over opens Check-in for the Organizer and Host, on the page and on the server", () => {
+  test("rightsOf: greyed while the Monitor does it, open once taken over, greyed again after the hand-back; the Monitor is never affected", () => {
+    const base = { people: [{ roles: ["organizer"] }, { roles: ["host"] }, { roles: ["attendance_officer"] }] };
+    expect(rightsOf(["host"], base).checkin.ok).toBe(false); expect(rightsOf(["host"], base).checkin.why).toContain("take it over or replace them in Team");
+    const taken = { ...base, checkinTakeover: { seq: 9, ts: 1, byName: "N*", reason: "ill" } };
+    expect(rightsOf(["host"], taken).checkin.ok).toBe(true); expect(rightsOf(["organizer"], taken).checkin.ok).toBe(true); expect(rightsOf(["attendance_officer"], taken).checkin.ok).toBe(true);
+    expect(rightsOf(["host"], { ...base, checkinTakeover: null }).checkin.ok).toBe(false);
+    expect(rightsOf([], taken).checkin.ok).toBe(false); // a person with no role gets nothing from it
+  });
+  test("the page's answer matches the server before, during and after a take-over", async () => {
+    const h = await H.make(); const e = await setup(h); const host = await appointVerified(h, e, HOSTP, "host"); await appointVerified(h, e, OFFP, "attendance_officer");
+    await ok(h.call("POST", `/api/events/${e.eid}/agenda/publish`, {}, e.org));
+    const model = async () => (await h.call("GET", `/api/events/${e.eid}`)).body.model; const verify = () => h.call("GET", `/api/events/${e.eid}/verify/A-101`, undefined, host.token);
+    expect(rightsOf(["host"], await model()).checkin.ok).toBe(false); expect((await verify()).status).toBe(403);
+    await ok(h.call("POST", `/api/events/${e.eid}/checkin/takeover`, { on: true, reason: "ill" }, e.org));
+    expect(rightsOf(["host"], await model()).checkin.ok).toBe(true); expect((await verify()).status).toBe(200);
+    await ok(h.call("POST", `/api/events/${e.eid}/checkin/takeover`, { on: false }, host.token));
+    expect(rightsOf(["host"], await model()).checkin.ok).toBe(false); expect((await verify()).status).toBe(403);
   });
 });

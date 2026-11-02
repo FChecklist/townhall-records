@@ -69,3 +69,19 @@ export function rightsOf(roles, model) {
   if (!monitor && !(staff && (!monitorAppointed || takenOver))) out.checkin = { ok: false, why: staff ? "An Attendance Monitor does the check-in for this event. If the Monitor is absent, take it over or replace them in Team." : "This part belongs to an Attendance Monitor." };
   return out;
 }
+
+/**
+ * Which section a person lands on after signing in.
+ * - `saved` (the section they were last on, kept for this browser tab only) wins while their role may still work on it.
+ * - An Attendance Monitor who is not also on the Organizer/Host side lands on Check-in: it is the door job, so that is one tap less. This only applies once attendance is open
+ *   (the notice is published); before that Check-in has nothing to do yet and Home explains what comes next.
+ * - Everyone else lands on Home.
+ */
+export function landingTab(roles, model, saved) {
+  const R = rightsOf(roles, model), r = Array.isArray(roles) ? roles : [];
+  if (saved && ORDER.includes(saved) && R[saved].ok) return saved;
+  const staff = r.includes("organizer") || r.includes("host");
+  const open = !!model && ["agenda_published", "live", "postponed"].includes(model.status);
+  if (r.includes("attendance_officer") && !staff && open && R.checkin.ok) return "checkin";
+  return "home";
+}

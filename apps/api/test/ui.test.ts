@@ -113,7 +113,7 @@ describe("Team Desk: every state x role x tab", () => {
       const tabs = pg.qa("[data-test=tabs] button").map((b) => (b.textContent ?? "").trim()); expect(tabs).toEqual(TABS);
       expect(pg.qa("[data-test=tabs] button.locked").map((b) => (b.textContent ?? "").trim())).toEqual(GREY[role] as string[]);
       expect(pg.qa("[data-test=tabs] button[aria-disabled=true]").length).toBe(GREY[role]!.length);
-      const cur = pg.q("[data-test=tabs] button.on"); expect((cur?.textContent ?? "").trim()).toBe("Home");
+      const cur = pg.q("[data-test=tabs] button.on"); expect((cur?.textContent ?? "").trim()).toBe(role === "monitor" && (st === "published" || st === "live") ? "Check-in" : "Home"); // an Attendance Monitor lands on Check-in once attendance is open
       for (const label of TABS) {
         stats.cases++; const b = pg.qa("[data-test=tabs] button").find((x) => (x.textContent ?? "").trim() === label); b.click(); await pg.settle(); await wait(60); await pg.settle();
         const body = (pg.q("[data-test=tab-body]") ?? pg.q("main"))!; const text = body.textContent ?? "";
