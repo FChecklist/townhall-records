@@ -1,11 +1,11 @@
 /* Townhall design system. Royal blue + ivory + gold + wine. One file for every page. Laptop first; the phone layout is a separate set of rules at the bottom (body.phone or max-width 760px). */
 :root{
-  --blue:#0F2A5C;--blue2:#1B3F86;--deep:#091A3E;--gold:#C9A24B;--gold2:#E7CF94;--goldd:#8A6A22;--wine:#7A1C33;--wine2:#9A2A47;
-  --ivory:#FBF7EE;--bg:#F5F0E4;--surface:#FFFFFF;--sunk:#F1EBDD;--ink:#16202F;--ink2:#34405A;--muted:#5F6B80;--faint:#98A1B3;--line:#E3DBC8;--line2:#EFE8D8;
+  --blue:#0F2A5C;--blue2:#1B3F86;--deep:#091A3E;--gold:#C9A24B;--gold2:#E7CF94;--goldd:#7D5F1B;--wine:#7A1C33;--wine2:#9A2A47;
+  --ivory:#FBF7EE;--bg:#F5F0E4;--surface:#FFFFFF;--sunk:#F1EBDD;--ink:#16202F;--ink2:#34405A;--muted:#5F6B80;--faint:#5E6677;--line:#E3DBC8;--line2:#EFE8D8;
   --ok:#1F7A55;--okbg:#E4F3EC;--warn:#8A5A00;--warnbg:#FBF0D9;--bad:#B3261E;--badbg:#FBE7E4;--info:#1F4E8C;--infobg:#E6EEF9;
   --serif:Georgia,"Iowan Old Style","Palatino Linotype",Palatino,"Times New Roman",serif;
   --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans","Noto Sans Devanagari",Arial,sans-serif;
-  --mono:ui-monospace,Consolas,Menlo,monospace;
+  --mono:ui-monospace,Consolas,Menlo,monospace;--grey-text:#5B6270;
   --shadow:0 1px 2px rgba(15,42,92,.06),0 16px 36px -24px rgba(15,42,92,.5);--r:12px}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{-webkit-text-size-adjust:100%}
@@ -49,7 +49,7 @@ footer.foot a{color:var(--muted)}
 .btn:hover{background:var(--blue2)}.btn.gold{background:var(--gold);border-color:var(--gold);color:var(--deep)}.btn.gold:hover{background:var(--gold2)}
 .btn.ghost{background:transparent;color:var(--blue)}.btn.ghost:hover{background:var(--infobg)}
 .btn.wine{background:var(--wine);border-color:var(--wine)}.btn.big{min-height:58px;font-size:18px;padding:14px 28px}
-.btn[disabled],.btn.off{background:#D9D6CE;border-color:#D9D6CE;color:#6d6b66;cursor:not-allowed}
+.btn[disabled],.btn.off{background:#D9D6CE;border-color:#D9D6CE;color:#55534E;cursor:not-allowed}
 .why-off{font-size:13.5px;color:var(--warn);margin-top:6px}
 /* forms: radio buttons and check boxes are big tappable tiles */
 label.f{display:block;font-weight:600;margin:14px 0 5px}.hint{font-size:13.5px;color:var(--muted);margin:2px 0 6px;font-weight:400}
@@ -97,6 +97,20 @@ table.t td{padding:10px;border-bottom:1px solid var(--line2);vertical-align:top}
 .tabs{display:flex;gap:4px;border-bottom:2px solid var(--line);margin-bottom:18px;flex-wrap:wrap}
 .tabs button{background:none;border:0;padding:10px 16px;font-weight:600;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;cursor:pointer;font-size:15.5px}
 .tabs button.on{color:var(--blue);border-bottom-color:var(--gold)}
+/* desk tab bar. Wide screens: the bar as before (the wrappers vanish, the reason sits in the note under the bar). Phones: one menu button opens the seven sections as a list, each grey one with its reason written under it. */
+.tabs .ti{display:contents}.tabs .ti .why{display:none}
+.tabs-menu-btn{display:none;width:100%;align-items:center;gap:10px;min-height:48px;padding:8px 14px;margin:0 0 8px;background:var(--surface);color:var(--blue);border:1.5px solid var(--line);border-radius:10px;font:600 16px var(--sans);text-align:left;cursor:pointer}
+.tabs-menu-btn .sp{flex:1}.tabs-menu-btn[aria-expanded=true]{border-color:var(--blue)}
+.tab-hint{margin:0 0 14px;padding:8px 12px;background:var(--sunk);border-radius:10px;color:var(--ink2)}.tab-hint p{margin:2px 0}
+@media(max-width:760px){
+  .tabs-menu-btn{display:flex}
+  .tabs.scroll.collapsible{display:none;flex-direction:column;flex-wrap:nowrap;overflow:visible;gap:0;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);margin:0 0 10px}
+  .tabs.scroll.collapsible.open{display:flex}
+  .tabs.scroll.collapsible .ti{display:block;border-bottom:1px solid var(--line2)}.tabs.scroll.collapsible .ti:last-child{border-bottom:0}
+  .tabs.scroll.collapsible .ti button{display:block;width:100%;text-align:left;min-height:48px;padding:12px 14px;margin:0;border-bottom:0}
+  .tabs.scroll.collapsible .ti button.on{background:var(--infobg);box-shadow:inset 4px 0 0 var(--gold)}
+  .tabs.scroll.collapsible .ti .why{display:block;padding:0 14px 12px;font-size:14px;color:var(--grey-text)}
+}
 .timeline{border-left:3px solid var(--gold2);margin:0 0 0 8px;padding-left:18px}.timeline .e{margin:0 0 12px;position:relative}.timeline .e:before{content:"";position:absolute;left:-26px;top:7px;width:11px;height:11px;border-radius:50%;background:var(--gold);border:2px solid #fff}
 @media print{.top,footer.foot,.nav,.btn,.tabs{display:none!important}body{background:#fff}.card{box-shadow:none;break-inside:avoid}}
 /* phone design: a separate layout, not a squeezed laptop page */
@@ -156,7 +170,7 @@ main.hall{max-width:none;padding:2vh 3vw 4vh}
 .msg>div>span{display:block}
 
 /* desk Home and greyed-out sections (desk.js, desk-home.js): every role sees every part; a part the role may not work on is grey and says why. Grey text keeps 4.5:1 where it carries information. */
-.tabs button.locked{color:var(--faint);font-weight:500}
+.tabs button.locked{color:var(--faint);font-weight:500;font-style:italic}
 .tabs button.locked::before{content:"\1F512\00a0";font-size:.8em}
 .tabs button.locked:hover{color:var(--muted)}
 .tiles{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));margin-bottom:18px}
@@ -164,9 +178,9 @@ main.hall{max-width:none;padding:2vh 3vw 4vh}
 .tile h3{margin:0}.tile p{margin:0}.tile .btn{margin-top:auto;align-self:flex-start}
 .tile .line{font-weight:600;color:var(--ink2)}
 .tile.off,.card.locked{background:var(--sunk);border-color:#DDD6C3;box-shadow:none}
-.tile.off{border-top-color:#CFC8B6;color:#646B79}
-.tile.off h3,.tile.off .eyebrow,.card.locked h2,.card.locked .eyebrow{color:#7A8090}
-.card.locked{border-style:dashed;color:#646B79}
+.tile.off{border-top-color:#CFC8B6;color:var(--grey-text)}
+.tile.off h3,.tile.off .eyebrow,.card.locked h2,.card.locked .eyebrow{color:var(--grey-text)}
+.card.locked{border-style:dashed;color:var(--grey-text)}
 .ghostlist{list-style:none;padding:0;margin:14px 0 0;display:flex;flex-wrap:wrap;gap:8px}
-.ghostlist li{padding:6px 12px;border:1px dashed #CFC8B6;border-radius:99px;background:#F6F2E8;color:#646B79;font-size:14px}
+.ghostlist li{padding:6px 12px;border:1px dashed #CFC8B6;border-radius:99px;background:#F6F2E8;color:var(--grey-text);font-size:14px}
 @media(max-width:760px){.tiles{grid-template-columns:1fr}.tile .btn{align-self:stretch}}

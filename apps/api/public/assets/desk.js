@@ -177,8 +177,11 @@ async function loadEvent() {
     const staff = SES.roles.some((r) => STAFF.includes(r)), mon = SES.roles.includes("attendance_officer");
     if (!staff && !mon) { mount(root, wwh(t("Team member"), t("You have no role in this event."), t("Ask the Organizer to add you."), t("Only appointed people can work here.")), note("warn", t("You are signed in, but you have no role in this event yet."), t("Ask the Organizer to add you as a Host or an Attendance Monitor, then sign in again."), null), h("button", { class: "btn", onclick: signOut }, t("Sign out"))); return; }
     const tabs = ORDER; // one page for every role: all sections are shown, and the ones this role may not work on are greyed out (see rightsOf)
-    shell = { tabs, head: h("div", { "data-test": "head" }), bar: h("div", { class: "tabs scroll", role: "tablist", "aria-label": t("Team Desk sections"), "data-test": "tabs" }), body: h("div", { "data-test": "tab-body" }) };
-    mount(root, shell.head, shell.bar, shell.body);
+    // On a phone the seven sections collapse into one menu button (see .tabs-menu-btn / .tabs.collapsible in townhall.css); on a laptop the bar is shown as before.
+    shell = { tabs, head: h("div", { "data-test": "head" }), menu: h("button", { class: "tabs-menu-btn", type: "button", "aria-haspopup": "true", "aria-expanded": "false", "aria-controls": "desk-tabs", "data-test": "tabs-menu", onclick: () => setMenu(!shell.bar.classList.contains("open")) }),
+      bar: h("div", { class: "tabs scroll collapsible", id: "desk-tabs", role: "tablist", "aria-label": t("Team Desk sections"), "data-test": "tabs", onkeydown: (ev) => { if (ev.key === "Escape") { setMenu(false); shell.menu.focus(); } } }),
+      hint: h("div", { "data-test": "tab-hint-box" }), body: h("div", { "data-test": "tab-body" }) };
+    mount(root, shell.head, shell.menu, shell.bar, shell.hint, shell.body);
     drawHeader();
     const saved = store.get("desk_tab"); // a saved tab is used only while this role may still work on it; otherwise an Attendance Monitor lands on Check-in (the door job) and everyone else on Home
     await showTab(landingTab(ctx.roles, ctx.model, saved));
@@ -194,8 +197,16 @@ function drawHeader() {
     h("div", { class: "row" }, h("a", { class: "btn ghost", href: "/e/" + ctx.eid, "data-test": "public-page" }, t("Public page")), h("button", { class: "btn ghost", "data-test": "signout", onclick: signOut }, t("Sign out")))),
     stageBar(m.stage));
   const R = rightsOf(ctx.roles, m); // a greyed tab still opens (look only, with the reason); it is aria-disabled, not disabled, so it can be focused and explained
-  shell.bar.replaceChildren(...shell.tabs.map((k) => h("button", { role: "tab", "data-test": "tab-" + k, "aria-selected": k === curTab ? "true" : "false", "aria-disabled": R[k].ok ? null : "true", title: R[k].ok ? null : t(R[k].why), class: (k === curTab ? "on" : "") + (R[k].ok ? "" : " locked"), onclick: () => showTab(k) }, t(TABS[k][0]))));
+  // The reason a tab is grey is VISIBLE TEXT, not only a hover tip (a phone has no hover): inside the menu under each grey section, and as a short note under the bar (grouped by reason).
+  shell.bar.replaceChildren(...shell.tabs.map((k) => h("div", { class: "ti" + (R[k].ok ? "" : " locked"), role: "presentation" },
+    h("button", { role: "tab", "data-test": "tab-" + k, "aria-selected": k === curTab ? "true" : "false", "aria-disabled": R[k].ok ? null : "true", "aria-describedby": R[k].ok ? null : "why-tab-" + k, title: R[k].ok ? null : t(R[k].why), class: (k === curTab ? "on" : "") + (R[k].ok ? "" : " locked"), onclick: () => showTab(k) }, t(TABS[k][0])),
+    R[k].ok ? null : h("span", { class: "why", id: "why-tab-" + k, "data-test": "why-tab-" + k }, t(R[k].why)))));
+  shell.menu.replaceChildren(h("span", { "aria-hidden": "true" }, "☰"), h("span", { class: "sp", "data-test": "tabs-menu-label" }, t("Section: ") + t(TABS[curTab || "home"][0])), h("span", { "aria-hidden": "true", class: "chev" }, "▾"));
+  setMenu(false);
+  const byWhy = new Map(); for (const k of shell.tabs) if (!R[k].ok) { const w = t(R[k].why); byWhy.set(w, [...(byWhy.get(w) || []), t(TABS[k][0])]); }
+  shell.hint.replaceChildren(...(byWhy.size ? [h("div", { class: "tab-hint small", "data-test": "tab-hint" }, [...byWhy].map(([why, names]) => h("p", null, h("b", null, "🔒 " + names.join(", ") + ": "), why)))] : []));
 }
+function setMenu(open) { if (!shell) return; shell.bar.classList.toggle("open", !!open); shell.menu.setAttribute("aria-expanded", open ? "true" : "false"); }
 
 async function showTab(name) {
   curTab = name; store.set("desk_tab", name); drawHeader(); await drawTab(name, false);
