@@ -79,7 +79,7 @@ wrangler pages secret put ORGANIZERS --project-name voter-list --env production 
 bun run build:pages
 wrangler pages deploy dist --project-name voter-list --branch preview
 ```
-This publishes to a preview address using `voter-list-preview`, never the live database. Walk through `docs/SMOKE-TEST.md` on a phone and a laptop, and watch the Pages Function logs for "Exceeded CPU" while doing the import, the final freeze, the public PDF and the full audit check. If any step is over the limit the fallbacks, in order of cost, are: do the heavy step in smaller pieces (already segmented for the audit check), move the upload parsing into the browser, or ask the owner about the paid Workers plan (USD 5 a month, an owner decision).
+This publishes to a preview address using `voter-list-preview`, never the live database. Walk through `docs/SMOKE-TEST.md` on a phone and a laptop, and watch the Pages Function logs for "Exceeded CPU" while doing the import, the final freeze, the public PDF and the full audit check. If any step is over the limit the fallbacks, in order of cost, are: do the heavy step in smaller pieces (already segmented for the audit check), move the upload parsing into the browser, or ask the owner about the paid Workers plan (an owner decision).
 
 **Step 5. Go live (only after the preview passes and the owner says go).** First tag the exact commit you are about to deploy (`git tag voter-list-v1-predeploy`), so the rollback id points at what is live.
 ```bash
