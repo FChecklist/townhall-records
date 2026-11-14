@@ -2,7 +2,7 @@
 
 ## In plain words
 
-The product has the owner's nine requirements **and** the three changes of 14 Nov 2026 (the Cloudflare e-mail sender, the "Owner / 1st Name in Registration" label with several people per flat, and the reasons for "not allowed to vote"). Audit rounds 27 and 28 both passed, in a row, on that combined code. The code is on the private preview copy. **Nobody has signed in there yet**, because the sign-in code goes to a mailbox the build session may not read. **Nothing is live. No DNS was changed by the build session. Nothing was paid for.**
+The product has the owner's nine requirements **and** the three changes of 14 Nov 2026 (the Cloudflare e-mail sender, the "Owner / 1st Name in Registration" label with several people per flat, and the reasons for "not allowed to vote"). Audit rounds 27 and 28 both passed, in a row, on that combined code. The code is on the private preview copy, and **the smoke test has now run on it** (see below): sign-in codes arrive in an inbox (not spam) within about a minute, and the main journey works. A few smoke rows are still open. **Nothing is live. No DNS was changed by the build session. Nothing was paid for.**
 
 ## What is done
 
@@ -14,7 +14,8 @@ The product has the owner's nine requirements **and** the three changes of 14 No
 
 ## What is not done
 
-- **The smoke test has not run** (`../SMOKE-TEST.md`, rows 1 to 17, 23 and 24 on the preview). Sign-in needs a 6-digit code, and the preview's `ORGANIZERS` list is only `host@townhall-records.com`. The owner reads that mailbox and pastes the code, or a test address is routed to a mailbox someone may read. No personal mailbox is to be used. So **the free plan's 10 ms CPU limit, the D1 write budget, the real inbox (not spam) check of the sign-in mail, and a very large import's undo** are still unverified. This is the one thing the audits could not settle.
+- **Smoke test, 14 Nov 2026 (`../SMOKE-TEST.md`; details in `../PROGRESS.md`):** rows 1 to 12, 14, 16 and 23 passed on the preview, using four test addresses (`host@`, `smoke1@`, `smoke2@`, `smoke3@townhall-records.com`) that Cloudflare Email Routing forwards to one mailbox the owner's side reads (undo: delete those rules). Every code and the host invitation reached the inbox, not spam. **CPU per request** (Cloudflare's live log): normal requests 2 to 20 ms, a 2000-row import 135 ms, draft 44 ms, freeze 36 ms, no "Exceeded CPU" and no 5xx, so the free plan's 10 ms was not enforced as a hard stop at these sizes. **Database writes: about 10 rows per person imported** (not 3): a 6,000-person import is about 60,000 of the day's 100,000.
+- **Still open from the smoke test:** row 15 only as a bulk of 2; row 24 (reasons) and two people in one flat not clicked through on the preview; row 13 (Turnstile, owner-gated); CPU of a draft or freeze with thousands of approved people; the Organizer pages in a phone browser on the preview.
 - Live go and Address go (migrations on the live database, production deploy, DNS for `voterlist.townhall-records.com`).
 - The follow-ups from the audit notes (rounds 16 and 28), for example: tightening the public-reason setting leaves an already published draft as it was until the next publish; a Host can set "no" on a person the Organizer authorized (logged, reversible); a lone person the Organizer refused can re-enrol under another e-mail.
 - The Organizer page is English only; the Hindi has not been read by a native speaker.
@@ -23,7 +24,7 @@ The product has the owner's nine requirements **and** the three changes of 14 No
 
 | # | Question | Why it matters | Safest default now |
 |---|---|---|---|
-| 1 | **A sign-in code for the preview.** Who reads `host@townhall-records.com` (or a routed test address) and pastes the 6-digit code? | Without it the smoke test cannot start. | Waiting. |
+| 1 | **Keep or remove the test mail routes.** `host@`, `smoke1@`, `smoke2@`, `smoke3@townhall-records.com` forward to a test mailbox. Remove the three `smoke` rules (and decide on `host@`) when testing ends. | They forward the domain's mail to someone else's mailbox. | Kept until the owner says. |
 | 2 | **Real Organizer e-mail IDs** for the live list. The preview has only `host@townhall-records.com`. | Without the list nobody can become an Organizer in production (closed sign-up, by design). | Preview: the permanent host only. |
 | 3 | **What the public list says about a reason.** The builder chose the default "only reasons that follow from the role" (Tenant, Co-owner, Not a member, the voting-rule reason); unpaid dues, proxy papers and anyone's own words stay private. Is that what the owner wants? The Organizer can change it in Step 1. | A privacy decision about named people. | The default above. |
 | 4 | **Turnstile.** Create the free Cloudflare Turnstile site and set both `TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET`; allow `voterlist.townhall-records.com` and the preview address. | It must be on before the link goes public; it protects the small e-mail allowance. | Off. |
@@ -36,6 +37,5 @@ The product has the owner's nine requirements **and** the three changes of 14 No
 
 ## What the owner must say next
 
-- **A sign-in code** (or a routed test address) so the preview smoke test can run.
 - **Live go:** after the preview smoke test passes, with the real Organizer list, new production secrets and Turnstile in place.
 - **Address go:** for the DNS step (one `voterlist` CNAME).

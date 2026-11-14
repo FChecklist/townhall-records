@@ -8,12 +8,12 @@ Audited the old product against the owner's nine requirements, rebuilt it, close
 
 ## State in one paragraph
 
-Code at local commit `9c9b728` is the audited code; later commits are documents and tests only. Preview is at https://preview.voter-list.pages.dev with that code. The smoke test (`../SMOKE-TEST.md`, rows 1 to 17, 23, 24) has **not** run: sign-in needs a 6-digit code from a mailbox the session may not read. Details: `5-CURRENT-STATE.md`.
+Code at local commit `9c9b728` is the audited code; later commits are documents and tests only. Preview is at https://preview.voter-list.pages.dev with that code. The smoke test (`../SMOKE-TEST.md`) **has run** on the preview (14 Nov 2026): rows 1 to 12, 14, 16 and 23 passed; the open rows are listed in `5-CURRENT-STATE.md`. Details: `5-CURRENT-STATE.md`.
 
 ## Do next, in this order
 
-1. Get a sign-in code path from the owner: the owner reads `host@townhall-records.com` and pastes the code, or a routed test address a person may read. **Do not open any personal mailbox.** (Adding an address to the preview `ORGANIZERS` secret is a preview-only change.)
-2. Run `../SMOKE-TEST.md` rows 1 to 17, 23 and 24 on the preview, on a phone and a laptop, watching the Function logs for `Exceeded CPU` and reading the day's D1 **rows written**; check that the sign-in mail lands in the **inbox, not spam**, with the From line "Townhall Records <no-reply@townhall-records.com>"; check the daily `sent` count never passes `MAIL_DAILY_CAP` (20). Fix whatever it finds; any **code** change needs a fresh independent audit round, and two passes in a row for anything that changes behaviour (rule 7c).
+1. Test mailboxes: `host@`, `smoke1@`, `smoke2@`, `smoke3@townhall-records.com` forward to a mailbox the owner's side reads (Cloudflare Email Routing). **Do not open any personal mailbox.** Each address gets at most 4 codes an hour. Remove the three `smoke` rules when testing ends.
+2. Finish the open smoke rows (`5-CURRENT-STATE.md`), on a phone and a laptop. A useful trick: `wrangler pages deployment tail <full deployment id> --project-name voter-list --environment preview --format json` prints each request's CPU time. Fix whatever it finds; any **code** change needs a fresh independent audit round, and two passes in a row for anything that changes behaviour (rule 7c). Know that an import writes about 10 database rows per person.
 3. Report to the owner in plain words what passed and failed.
 4. Only on the owner's explicit words: Live go, then Address go. Re-create the rollback tag on the commit you deploy.
 
