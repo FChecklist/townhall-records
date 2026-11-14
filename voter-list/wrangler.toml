@@ -9,7 +9,7 @@ database_name = "voter-list"
 database_id = "61171e0a-0cf7-4ef8-99ee-d239dad583a7"
 migrations_dir = "migrations"
 
-# Secrets (never in this file): SIGNING_KEY, PEPPER, and optionally RESEND_API_KEY, MAIL_FROM.
+# Secrets (never in this file): SIGNING_KEY, PEPPER, and CF_EMAIL_TOKEN and CF_ACCOUNT_ID (the Cloudflare Email Service; RESEND_API_KEY is the older route), MAIL_FROM.
 # Do NOT set TEST_MODE in production.
 
 # The smoke-test (preview) deployment uses its own empty database, never the live one.

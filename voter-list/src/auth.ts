@@ -84,6 +84,42 @@ export async function checkTurnstile(env: Env, token: string, ip: string): Promi
   if (!ok) throw new HttpError(400, "The safety box did not pass. Please try it once more.", "turnstile");
 }
 
+/** E-mail is configured when the Cloudflare Email Service (CF_EMAIL_TOKEN and CF_ACCOUNT_ID) or, as the older route, Resend (RESEND_API_KEY) has its secrets. */
+const CF_ID = /^[0-9a-f]{32}$/i; // a Cloudflare account id is 32 hex characters; anything else is treated as not set
+const cfRoute = (env: Env): boolean => !!env.CF_EMAIL_TOKEN && CF_ID.test((env.CF_ACCOUNT_ID ?? "").trim());
+export const mailConfigured = (env: Env): boolean => cfRoute(env) || !!env.RESEND_API_KEY;
+
+/** The From header: a display name is always quoted ("Townhall Records" <no-reply@townhall-records.com>), so a name with a comma or other special character cannot break the header. */
+export function fromHeader(env: Env): string {
+  const raw = (env.MAIL_FROM ?? "").trim() || "Townhall Records <no-reply@townhall-records.com>";
+  const m = /^([^<>]*?)\s*<([^<>\s]+)>$/.exec(raw);
+  if (!m) return raw.replace(/[\u0000-\u001f\u007f]/g, ""); // not "Name <address>": a plain address, with no control characters
+  const name = m[1]!.replace(/["\u0000-\u001f\u007f\\]/g, " ").replace(/\s+/g, " ").trim(); // no control characters or backslashes in the display name
+  return name ? `"${name}" <${m[2]}>` : m[2]!;
+}
+
+/** The sender as Cloudflare's REST API wants it: a plain address, or { address, name } when there is a display name (as in its "Specify recipients" examples). */
+export function fromObject(env: Env): string | { address: string; name: string } {
+  const h = fromHeader(env);
+  const m = /^"(.*)" <([^<>\s]+)>$/.exec(h);
+  return m ? { address: m[2]!, name: m[1]! } : h;
+}
+
+/** Hands one message to the mail provider. The Cloudflare Email Service is used when its two secrets are set; otherwise Resend. True only when the provider accepted it. */
+async function deliver(env: Env, to: string, subject: string, text: string): Promise<boolean> {
+  const from = fromHeader(env);
+  if (cfRoute(env)) {
+    const r = await fetch(`https://api.cloudflare.com/client/v4/accounts/${(env.CF_ACCOUNT_ID ?? "").trim()}/email/sending/send`, { signal: AbortSignal.timeout(10_000), method: "POST", headers: { authorization: "Bearer " + env.CF_EMAIL_TOKEN, "content-type": "application/json" }, body: JSON.stringify({ from: fromObject(env), to: [to], subject, text }) });
+    if (!r.ok) return false;
+    const j = await r.json().catch(() => null) as { success?: boolean; result?: { delivered?: unknown; queued?: unknown } } | null;
+    if (j?.success !== true) return false;
+    const res = j.result; // when the answer lists who was delivered or queued, at least one must be there
+    return Array.isArray(res?.delivered) && Array.isArray(res?.queued) ? res.delivered.length + res.queued.length > 0 : true;
+  }
+  const r = await fetch("https://api.resend.com/emails", { signal: AbortSignal.timeout(10_000), method: "POST", headers: { authorization: "Bearer " + env.RESEND_API_KEY, "content-type": "application/json" }, body: JSON.stringify({ from, to: [to], subject, text }) });
+  return r.ok;
+}
+
 export async function sendMail(env: Env, to: string, subject: string, body: string, kind: string, now: number): Promise<void> {
   const p = mailPools(env);
   const dayStart = now - (now % 86_400_000);
@@ -91,17 +127,16 @@ export async function sendMail(env: Env, to: string, subject: string, body: stri
   const KL = VOTER_KINDS.map((k) => "'" + k + "'").join(",");
   const kindLimit = kind === "otp-member-new" ? Math.floor((p.voters * 2) / 3) : kind === "voter-note" ? Math.floor(p.voters / 6) : limit; // newcomers at most two thirds, notes at most a sixth
   let status: "queued" | "sent" | "failed" | "capped" = "queued";
-  if (env.TEST_MODE !== "1" && !env.RESEND_API_KEY) throw new HttpError(503, "E-mail is not set up on this server yet.", "mail_not_configured");
+  if (env.TEST_MODE !== "1" && !mailConfigured(env)) throw new HttpError(503, "E-mail is not set up on this server yet.", "mail_not_configured");
   const subj = outboxText(env, kind, subject), text = outboxText(env, kind, body);
-  if (env.TEST_MODE !== "1" && env.RESEND_API_KEY) {
+  if (env.TEST_MODE !== "1" && mailConfigured(env)) {
     // The slot is claimed and counted in ONE statement, so a burst of requests cannot overshoot the day's allowance (a row stays 'queued' until the provider answers).
     const claim = await env.DB.prepare("INSERT INTO mail_outbox (to_addr, subject, body, kind, status, created_at) SELECT ?, ?, ?, ?, 'queued', ? WHERE (SELECT COUNT(*) FROM mail_outbox WHERE (status = 'sent' OR (status = 'queued' AND created_at >= ?)) AND created_at >= ? AND kind " + (voterKind ? "IN" : "NOT IN") + " (" + KL + ")) < ? AND (SELECT COUNT(*) FROM mail_outbox WHERE (status = 'sent' OR (status = 'queued' AND created_at >= ?)) AND created_at >= ? AND kind = ?) < ?")
       .bind(to, subj, text, kind, now, now - 600_000, dayStart, limit, now - 600_000, dayStart, kind, kindLimit).run(); // a claim nobody answered for 10 minutes stops counting
     if (!claim.meta?.changes) status = "capped";
     else {
       try {
-        const r = await fetch("https://api.resend.com/emails", { method: "POST", headers: { authorization: "Bearer " + env.RESEND_API_KEY, "content-type": "application/json" }, body: JSON.stringify({ from: env.MAIL_FROM ?? "Townhall Records <no-reply@townhall-records.com>", to: [to], subject, text: body }) });
-        status = r.ok ? "sent" : "failed";
+        status = (await deliver(env, to, subject, body)) ? "sent" : "failed";
       } catch { status = "failed"; }
       try { await env.DB.prepare("UPDATE mail_outbox SET status = ? WHERE id = ?").bind(status, claim.meta.last_row_id).run(); } catch { /* the row stays 'queued' and stops counting after 10 minutes */ }
     }
@@ -117,7 +152,7 @@ export async function startCode(env: Env, rawEmail: string, purpose: "staff" | "
   const em = cleanEmail(rawEmail);
   if (!em.ok) throw new HttpError(400, "Please type a proper e-mail ID.", "bad_email");
   const email = em.value;
-  if (env.TEST_MODE !== "1" && !env.RESEND_API_KEY) throw new HttpError(503, "E-mail is not set up on this server yet.", "mail_not_configured"); // the same for everyone, so it tells nothing
+  if (env.TEST_MODE !== "1" && !mailConfigured(env)) throw new HttpError(503, "E-mail is not set up on this server yet.", "mail_not_configured"); // the same for everyone, so it tells nothing
   if (randomInt(20) === 0) await purgeStale(env, now);
   await rateLimit(env, `otp-ip:${ip}`, 60, 3_600_000, now);
   await rateLimit(env, `otp-email:${email}`, 4, 3_600_000, now, "Several codes were sent to this e-mail ID already. Please check your inbox (and the spam folder), or try again in an hour.");

@@ -23,7 +23,7 @@ Screens of every step were captured on 14 Nov 2026 (made-up data, local test cop
 ## The voter's journey
 
 1. **Sign in:** e-mail ID, then 6-digit code (valid 10 minutes; session about 8 hours; spaces in the code are fine).
-2. **Enrol:** Owner, Co-owner, Tenant or Proxy, as far as the list's voting rule allows; flat or house, name (as in the sale deed or society record), mobile. A person the Organizer already uploaded or added skips this: their details are filled in and they land on step 3.
+2. **Enrol:** **Owner / 1st Name in Registration** (stored as "Owner"), Co-owner, Tenant or Proxy, as far as the list's voting rule allows; flat or house, name (as in the sale deed or society record), mobile. A person the Organizer already uploaded or added skips this: their details are filled in and they land on step 3.
 3. **Check and send:** read the details, tick the consent line, send to the list team. A record sent back shows the reason here and says where to fix it ("Send again").
 4. **Your information:** change details while the list is open.
 5. **Documents:** up to 3 per record (PDF, JPG or PNG, 400 KB each): Sale Deed or Share Certificate, Allotment or Possession Letter, Rent Agreement, Proxy Nomination Form, Society ID, Registration Paper, Others. A Proxy cannot send without the Proxy Nomination Form. Government ID types are refused; the page asks people to cover ID numbers.
@@ -43,7 +43,22 @@ Each record is **Waiting**, **Sent back**, **Approved** or **Invited** (uploaded
 
 ## Settings chosen at set-up (Step 1)
 
-Society name, kind (RWA, AOA, HOA, co-operative society, others), state, optional registration number and registering office; **who may vote** (five rules: Owner only; Owner or tenant; Owner or authorised proxy; Owner, tenant or authorised proxy; Member only); **how votes count** (every flat one vote, or weighted); **when enrolment closes** (a date and time in India time); whether to ask every voter for one supporting document. A dues cut-off and one-voter-per-flat selection (Step 5 "Final checks", with a chooser when a flat has two people) are part of the checks. An Organizer can hold up to 10 lists.
+Society name, kind (RWA, AOA, HOA, co-operative society, others), state, optional registration number and registering office; **who may vote** (five rules: Owner only; Owner or tenant; Owner or authorised proxy; Owner, tenant or authorised proxy; Member only); **how votes count** (every flat one vote, or weighted); **when enrolment closes** (a date and time in India time); whether to ask every voter for one supporting document. A dues cut-off and the authorization of people in a flat (Step 5 "Final checks") are part of the checks. An Organizer can hold up to 10 lists.
+
+## Several people in one flat, and who may vote (owner's decision of 14 Nov 2026)
+
+A flat may have **several registrations** (for example a husband, a wife and a son). The first role is shown everywhere as **"Owner / 1st Name in Registration"**; the stored value stays "Owner". The product does **not** enforce one vote per flat. **Only the Organizer decides who is authorized to vote**: in Step 5 the Organizer goes through each flat that needs a decision, says Yes or No for each person, and a lone person is authorized by default. Hosts can see but cannot change authorization, cannot move a person who carries the Organizer's mark, and cannot undo an action that set it. The mark is cleared when a person moves to another flat (a person can no longer retype their flat to get out of a "no").
+
+## Reasons for "not allowed to vote" (owner's requirement of 14 Nov 2026, "very important")
+
+Whenever the Organizer or a Host says a person is **not allowed to vote**, they must choose a **reason**: Dues unpaid, Tenant, Co-owner (not the 1st name), Not a member, Proxy papers awaited, or Another reason (their own words, 120 characters; phone numbers, e-mail IDs and links are refused). There is no silent "no".
+
+- **Who sees it:** the Organizer, the Hosts, and the person (in their own status, in plain words).
+- **The public list** shows a reason only as the Organizer allows (Step 1, "What the public list says about a reason"): **None**, **Only reasons that follow from the role (the default)**, or **All**. By default the public sees Tenant, Co-owner, Not a member and the voting-rule reason, **never** unpaid dues, proxy papers or anyone's own words. The public wording is fixed text; it never carries a person's own words except under "All".
+- **The audit trail** records the reason code, who chose it and when. The person's own words stay in the record, never in the signed payload. Uploads and undos record per-reason counts.
+- **A Host cannot change, override or undo the Organizer's reasons.** Corrections by the Organizer are logged with a required note.
+- **Upload:** a Reason column (and a template column) carries the reason; filler such as "na" or "-" counts as no reason. A "no" without a reason is flagged and **blocks the final freeze** until the Organizer fixes it (a draft can still be published).
+- The Hindi voter page and public list carry the reasons too.
 
 ## Publishing
 
@@ -60,9 +75,9 @@ Everywhere public (page, CSV, PDF, proof, the `?pub=` view, error messages): fla
 
 Every state-changing action writes an entry in the same database transaction as the change. Entries are hash-chained (each includes the previous hash) and signed with Ed25519; database triggers refuse any update or delete. The Organizer can press **Check the whole trail** ("All N entries check out") and download it. Entries name the person by e-mail ID for staff and say only "A voter" for voters; **no personal data of voters** is written to the log. A Host's opening of a record, a Host's dry-run check of a sheet, bulk actions and undos are all logged.
 
-## The e-mail rules (free Resend allowance, about 80 mails a day for the whole product)
+## The e-mail rules (a small shared daily allowance, set by `MAIL_DAILY_CAP`)
 
-Codes are sent through Resend from `Townhall Records <no-reply@townhall-records.com>`. Because the free allowance is small, there are **five rules** (written at the top of `mailPools` in `src/auth.ts`):
+Codes are sent through the **Cloudflare Email Service** from `Townhall Records <no-reply@townhall-records.com>` (the older Resend route still works if only its key is set). The account's sending allowance is shared with everything else on the account, so `MAIL_DAILY_CAP` is kept small (20 on the preview; 80 if unset). Because the allowance is small, there are **five rules** (written at the top of `mailPools` in `src/auth.ts`):
 
 1. **Closed Organizer sign-up:** a new Organizer must be on the owner's `ORGANIZERS` list (`OPEN_SIGNUP=1` opens it).
 2. **Per e-mail ID:** at most 4 codes an hour and 8 a day.

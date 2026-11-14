@@ -7,6 +7,8 @@ export interface Settings {
   duesEnabled: boolean;
   duesCutoff: string | null;
   country: string;
+  /** what the public list may show of a "not allowed" reason: nothing, the reasons that follow from the role (default), or all */
+  reasonPublic?: "none" | "role" | "all";
 }
 
 /** One line of a list as it is stored (a working draft or a published version). weight null = not given (counts as 1). */
@@ -25,6 +27,9 @@ export interface ListRow {
   canVote: boolean;
   duesPaidOn: string | null;
   sourceRow?: number | null;
+  /** why this person is marked "not allowed" (a code from reasons.ts) and their own words */
+  noVoteReason?: string | null;
+  noVoteNote?: string | null;
 }
 
 export type NewRow = Omit<ListRow, "id">;

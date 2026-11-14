@@ -18,7 +18,7 @@ export function noContactDetails(text: string, what: string) {
   if (scanPublic(text).length) throw new HttpError(400, `Please do not write phone numbers or e-mail IDs in ${what}.`);
 }
 
-export interface ListInput { name: string; kind: string; kindOther?: string; country?: string; state?: string; regNo?: string; regOffice?: string; byeLawsNote?: string; ruleCode?: number; ruleClause?: string; weightMode?: string; duesEnabled?: boolean; duesCutoff?: string | null; tzOffsetMin?: number; docsRequired?: boolean; cutoff?: string | null }
+export interface ListInput { name: string; kind: string; kindOther?: string; country?: string; state?: string; regNo?: string; regOffice?: string; byeLawsNote?: string; ruleCode?: number; ruleClause?: string; weightMode?: string; reasonPublic?: string; duesEnabled?: boolean; duesCutoff?: string | null; tzOffsetMin?: number; docsRequired?: boolean; cutoff?: string | null }
 
 /** "2026-12-05T18:00" in the list's own time zone -> UTC milliseconds. */
 export function localToMs(local: string, tzOffsetMin: number): number | null {
@@ -46,6 +46,7 @@ function validate(i: Partial<ListInput>, creating: boolean, now: number, tz: num
   if (i.ruleClause !== undefined) out.rule_clause = squeeze(i.ruleClause).slice(0, 300);
   if (i.ruleCode !== undefined) { if (!RULES.some((r) => r.code === i.ruleCode)) throw new HttpError(400, "Please choose one of the five voting rules."); out.rule_code = i.ruleCode!; }
   if (i.weightMode !== undefined) { if (!["equal", "unequal"].includes(i.weightMode)) throw new HttpError(400, "Please choose equal or unequal vote weight."); out.weight_mode = i.weightMode; }
+  if (i.reasonPublic !== undefined) { if (!["none", "role", "all"].includes(i.reasonPublic)) throw new HttpError(400, "Please choose what the public list may say about people who are not allowed to vote."); out.reason_public = i.reasonPublic; }
   if (i.duesEnabled !== undefined) out.dues_enabled = i.duesEnabled ? 1 : 0;
   if (i.duesCutoff !== undefined) { if (i.duesCutoff === null || i.duesCutoff === "") out.dues_cutoff = null; else { const d = parseDate(i.duesCutoff); if (!d) throw new HttpError(400, "Please pick a proper dues date."); out.dues_cutoff = d; } }
   if (i.docsRequired !== undefined) out.docs_required = i.docsRequired ? 1 : 0;
@@ -97,7 +98,7 @@ export async function updateList(ctx: StaffCtx, input: Partial<ListInput> & { cl
 
 export const viewList = (s: SocietyRow) => ({
   id: s.id, name: s.name, kind: s.kind, kindOther: s.kind_other, country: s.country, state: s.state, regNo: s.reg_no, regOffice: s.reg_office, byeLawsNote: s.bye_laws_note,
-  ruleCode: s.rule_code, ruleClause: s.rule_clause, weightMode: s.weight_mode, duesEnabled: !!s.dues_enabled, duesCutoff: s.dues_cutoff, tzOffsetMin: s.tz_offset_min, docsRequired: !!s.docs_required,
+  ruleCode: s.rule_code, ruleClause: s.rule_clause, weightMode: s.weight_mode, reasonPublic: s.reason_public ?? "role", duesEnabled: !!s.dues_enabled, duesCutoff: s.dues_cutoff, tzOffsetMin: s.tz_offset_min, docsRequired: !!s.docs_required,
   phase: s.phase, cutoffAt: s.cutoff_at, cutoffLocal: s.cutoff_at === null ? null : msToLocal(s.cutoff_at, s.tz_offset_min), link: `/v/${s.verify_slug}`, linkSharedAt: s.link_shared_at, hostsSkipped: !!s.hosts_skipped, createdAt: s.created_at,
 });
 

@@ -136,7 +136,7 @@ describe("importer", () => {
     const p = await parseUpload({ format: "csv", text: synthCsv({ units: 40, defects: true }) }, { country: "India", ruleCode: 3 });
     const rep = runChecks(toRows(p), S);
     const codes = Object.keys(rep.byCode);
-    for (const c of ["E_EMPTY_UNIT", "E_DUP_ROW", "E_MOBILE_MISSING", "E_EMAIL_BAD", "E_TWO_VOTERS", "E_NO_VOTER", "W_SAME_MOBILE"]) expect(codes).toContain(c);
+    for (const c of ["E_EMPTY_UNIT", "E_DUP_ROW", "E_MOBILE_MISSING", "E_EMAIL_BAD", "W_SAME_MOBILE"]) expect(codes).toContain(c);
     expect(rep.canPublish).toBe(false);
     const kinds = p.mends.map((m) => m.kind);
     expect(kinds).toContain("unit_variants"); expect(kinds).toContain("mobile_format"); expect(kinds).toContain("email_format");
@@ -165,7 +165,7 @@ describe("importer", () => {
 });
 
 describe("rules and weights", () => {
-  const mk = (over: Partial<ListRow>, id: number): ListRow => ({ id, rowNo: id, unit: "A-1", unitKey: "A1", name: "Asha", capacity: "Owner", mobile: "9000000101", email: "a@s.example", isVoter: true, weightMilli: null, canAttend: true, canVote: true, duesPaidOn: null, ...over });
+  const mk = (over: Partial<ListRow>, id: number): ListRow => ({ noVoteReason: "tenant", id, rowNo: id, unit: "A-1", unitKey: "A1", name: "Asha", capacity: "Owner", mobile: "9000000101", email: "a@s.example", isVoter: true, weightMilli: null, canAttend: true, canVote: true, duesPaidOn: null, ...over });
   const rep = (rows: ListRow[], s: Partial<Settings> = {}) => runChecks(rows, { ...S, ...s });
   test("rule 1 owner only: a tenant voter is an error unless the unit is set to not vote", () => {
     expect(rep([mk({ capacity: "Tenant" }, 1)], { ruleCode: 1 }).byCode.E_VOTER_INELIGIBLE).toBe(1);
@@ -173,18 +173,27 @@ describe("rules and weights", () => {
     const r = rep([mk({ capacity: "Tenant", canVote: false }, 1)], { ruleCode: 1 });
     expect(r.errors).toBe(0); expect(r.summary.canVote).toBe(0);
   });
-  test("rule 1 suggests the co-owner when the voter is a tenant", () => {
+  test("rule 1: a tenant the Organizer authorized is named as ineligible; the Organizer's decision is never changed by the system", () => {
     const r = rep([mk({ capacity: "Tenant" }, 1), mk({ id: 2, name: "Bharat", capacity: "Owner", isVoter: false, mobile: "9000000102", email: "b@s.example" }, 2)], { ruleCode: 1 });
-    expect(r.issues.find((i) => i.code === "E_VOTER_INELIGIBLE")!.fix).toEqual({ type: "set_voter", rowId: 2 });
+    const i = r.issues.find((x) => x.code === "E_VOTER_INELIGIBLE")!;
+    expect(i.rowIds).toEqual([1]); expect(i.fix).toBeUndefined();
   });
   test("rule 5 member only", () => {
     expect(rep([mk({ capacity: "Owner" }, 1)], { ruleCode: 5 }).byCode.E_VOTER_INELIGIBLE).toBe(1);
     expect(rep([mk({ capacity: "Member" }, 1)], { ruleCode: 5 }).errors).toBe(0);
   });
-  test("unit with one person needs no mark; two people need exactly one", () => {
-    expect(rep([mk({ isVoter: null }, 1)]).errors).toBe(0);
-    expect(rep([mk({ isVoter: null }, 1), mk({ name: "Bharat", mobile: "9000000102", isVoter: null }, 2)]).byCode.E_NO_VOTER).toBe(1);
-    expect(rep([mk({}, 1), mk({ name: "Bharat", mobile: "9000000102" }, 2)]).byCode.E_TWO_VOTERS).toBe(1);
+  test("a lone person needs no mark; with several people the Organizer authorizes any number, and the system never insists on one", () => {
+    const lone = rep([mk({ isVoter: null }, 1)]);
+    expect(lone.errors).toBe(0); expect(lone.summary.canVote).toBe(1);
+    const two = (a: boolean | null, b: boolean | null) => rep([mk({ isVoter: a }, 1), mk({ name: "Bharat", mobile: "9000000102", email: "b@s.example", isVoter: b }, 2)]);
+    const none = two(null, null);
+    expect(none.errors).toBe(0); expect(none.byCode.W_NO_VOTER).toBe(1); expect(none.summary.canVote).toBe(0);
+    const both = two(true, true);
+    expect(both.errors).toBe(0); expect(both.byCode.W_NO_VOTER).toBeUndefined(); expect(both.units[0]!.voters).toHaveLength(2); expect(both.summary.canVote).toBe(1); expect(both.summary.totalWeightMilli).toBe(1000);
+    const one = two(true, false);
+    expect(one.errors).toBe(0); expect(one.units[0]!.voters.map((p) => p.row.id)).toEqual([1]);
+    const lonelyNo = rep([mk({ isVoter: false }, 1)]);
+    expect(lonelyNo.byCode.W_NO_VOTER).toBe(1); expect(lonelyNo.summary.canVote).toBe(0);
   });
   test("weights: equal mode ignores, unequal mode uses; conflicts and defaults are named", () => {
     const rows = [mk({ weightMilli: 2000 }, 1), mk({ unit: "B-1", unitKey: "B1", name: "Bharat", mobile: "9000000102", email: "b@s.example", weightMilli: 1000 }, 2)];

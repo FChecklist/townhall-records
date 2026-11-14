@@ -209,17 +209,27 @@ describe("publishing: draft first, then frozen at a date-and-time cut-off", () =
     expect(f.json.cutoffAt).toBe(h.clock.now);
   });
 
-  test("a flat with two approved people needs one voter chosen before the list can be frozen", async () => {
+  test("a flat may have several registered people; the Organizer authorizes any of them, and the system never forces one vote per flat", async () => {
     const h = await makeHarness(); const { jar, sid, slug } = await newList(h);
     await enrolVoter(h, slug, "o@sample.example", { unit: "C-1", name: "Olga Owner", mobile: "9000000121" });
     await enrolVoter(h, slug, "co@sample.example", { unit: "C-1", name: "Ravi Coowner", capacity: "Co-owner", mobile: "9000000122" });
     await h.call("POST", `/api/lists/${sid}/records/decide`, { items: await waiting(h, sid, jar), decision: "approve" }, jar);
     const c = await h.call("GET", `/api/lists/${sid}/checks`, undefined, jar);
-    expect(c.json.choose).toHaveLength(1); expect(c.json.choose[0].options).toHaveLength(2);
+    expect(c.json.flats).toHaveLength(1); expect(c.json.flats[0].people).toHaveLength(2);
+    expect(c.json.flats[0].people.map((p: { authorized: boolean }) => p.authorized)).toEqual([false, false]); // nobody is authorized until the Organizer says so
+    expect(c.json.flats[0].people.map((p: { capacity: string }) => p.capacity)).toContain("Owner / 1st Name in Registration");
+    const ids = c.json.flats[0].people.map((p: { voterId: string }) => p.voterId);
+    const pick = await h.call("POST", `/api/lists/${sid}/units/choose`, { unit: "C-1", voterId: ids[0] }, jar); expect(pick.status).toBe(200);
+    const pick2 = await h.call("POST", `/api/lists/${sid}/units/choose`, { unit: "C-1", voterId: ids[1] }, jar); expect(pick2.status).toBe(200); // a second person in the same flat: allowed
+    const c2 = await h.call("GET", `/api/lists/${sid}/checks`, undefined, jar);
+    expect(c2.json.flats[0].people.map((p: { authorized: boolean }) => p.authorized)).toEqual([true, true]);
+    const off = await h.call("POST", `/api/lists/${sid}/units/choose`, { unit: "C-1", voterId: ids[1], authorized: false, reason: "tenant" }, jar); expect(off.status).toBe(200);
+    const c3 = await h.call("GET", `/api/lists/${sid}/checks`, undefined, jar);
+    expect(c3.json.flats[0].people.map((p: { authorized: boolean }) => p.authorized)).toEqual([true, false]);
+    await h.call("POST", `/api/lists/${sid}/units/choose`, { unit: "C-1", voterId: ids[1] }, jar);
     const body = { eventName: "AGM", eventType: "meeting", confirm: "FREEZE", closeNow: true };
-    expect((await h.call("POST", `/api/lists/${sid}/publish/frozen`, body, jar)).json.code).toBe("checks");
-    const pick = await h.call("POST", `/api/lists/${sid}/units/choose`, { unit: "C-1", voterId: c.json.choose[0].options[0].voterId }, jar); expect(pick.status).toBe(200);
     expect((await h.call("POST", `/api/lists/${sid}/publish/frozen`, body, jar)).status).toBe(201);
+    expect(h.raw.query("SELECT COUNT(*) AS n FROM publication_rows WHERE is_voter = 1 AND unit = 'C-1'").get()).toEqual({ n: 2 });
   });
 
   test("reopen for a new round keeps the earlier final list exactly as it was", async () => {

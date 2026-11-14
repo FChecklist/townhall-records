@@ -57,7 +57,7 @@ Rules of the page: only the current step is expanded; earlier ones show a one-li
  Step 3  Your team      1 Organizer, up to 10 Hosts, + Townhall Records host (not counted). [ Skip for now ]
  Step 4  Check records  Waiting / Sent back / Approved tabs. Open one: see details and documents.
                         [ Approve ]  [ Not approved… (reason) ]   bulk: tick several.   Undo (last actions)
- Step 5  Final checks   plain-words problems (e.g. "Flat C-1 has two people; choose who votes"); weights if unequal
+ Step 5  Final checks   plain-words problems (e.g. "Flat C-1 has two people and none is authorized yet"; the Organizer authorizes any number of them); weights if unequal
  Step 6  Publish draft  public, masked, marked provisional; publish again to replace it
  Step 7  Publish final  event name and type, closing date and time, type FREEZE; fingerprint, signature, proof link
  ──────────────────────────────────────────────────────────────────────

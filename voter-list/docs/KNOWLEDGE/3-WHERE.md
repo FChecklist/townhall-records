@@ -10,7 +10,8 @@ Everything for the product lives in this `voter-list/` folder of the Townhall Re
 |---|---|
 | `src/` | All the server logic (TypeScript). The same code runs in Cloudflare and on a local SQLite stand-in. |
 | `src/handler.ts` | The HTTP API: one function `handle(request, env, now)`; about 50 routes (`/api/...`). |
-| `src/auth.ts` | E-mail code sign-in, sessions, rate limits, the mail outbox and `mailPools` (the five e-mail rules), `purgeStale` (the 30-day clearing). |
+| `src/auth.ts` | E-mail code sign-in, sessions, rate limits, the mail outbox and `mailPools` (the five e-mail rules), `deliver` (Cloudflare Email Service, or Resend as the older route), `fromHeader` and `fromObject` (the sender), `purgeStale` (the 30-day clearing). |
+| `src/reasons.ts` | The reasons for "not allowed to vote": the short list, the public wording and what each setting may show, the contact-detail check, reading a sheet's Reason column. |
 | `src/records.ts` | The voter's side: enrol, confirm, update, documents, status, withdraw. Every record change goes through one helper. |
 | `src/review.ts` | The team's side: review queue, approve / not approved, bulk and undo, add a person, upload (`importRecords`), weights, choosing a voter for a flat. |
 | `src/publish.ts` | Final checks view, draft and final publications, the public page data, search, proof. |
@@ -27,12 +28,12 @@ Everything for the product lives in this `voter-list/` folder of the Townhall Re
 | `src/synthetic.ts` | Made-up names, mobiles and `@sample.example` e-mail IDs. |
 | `functions/api/[[path]].ts` | The Cloudflare Pages Function entry: passes the environment (plus `waitUntil`) to `handle`. |
 | `public/` | The two pages and their assets: `index.html` (Organizer and Host), `v/index.html` (voter), `assets/` (`app.css`, `ui.js`, `steps.js`, `organizer.js`, `organizer-work.js`, `voter.js`, `i18n.js`, `lang/hi.js`, logos), `_headers` (strict content-security policy), `_redirects`, `_routes.json`. |
-| `migrations/` | `0001_core` to `0006_indexes` (see tables below). |
+| `migrations/` | `0001_core` to `0007_reasons` (see tables below). |
 | `scripts/` | `build-pages.ts` (build `dist/`), `gen-dev-vars.ts` (local secrets), `gen-prod-keys.ts` (production secrets file, refuses a path inside the repo), `migrate.ts`, `seed.ts` (a made-up society). |
-| `test/` | 160 tests: `pure`, `flow`, `team`, `hardening`, `pages`, `round1` to `round7`; the harness `harness.ts`. They call the real handler on a real SQLite database with a fake clock. |
+| `test/` | 215 tests: `pure`, `flow`, `team`, `hardening`, `pages`, `round1` to `round10`; the harness `harness.ts`. They call the real handler on a real SQLite database with a fake clock. |
 | `dev.ts` | Local server on port 8787 in TEST_MODE. |
 | `wrangler.toml` | Cloudflare configuration (below). |
-| `docs/` | Plan, research, progress, smoke test, audit rounds 0 to 16, and this knowledge pack. |
+| `docs/` | Plan, research, progress, smoke test, audit rounds 0 to 28, the e-mail sender and DNS plan with its rollback (`EMAIL-SENDING-DNS-PLAN.md`), and this knowledge pack. |
 | `ASSUMPTIONS.md` | Every default, with the file that implements it. |
 | `README.md` | What it does, run locally, tests and the full deploy plan. |
 
@@ -44,12 +45,12 @@ Everything for the product lives in this `voter-list/` folder of the Townhall Re
 | `users`, `memberships` | People who sign in as staff, and who is Organizer, Host or the permanent host on which list (rebuilt in migration 0005 with the 10-host and permanent-host triggers). |
 | `sessions`, `otp_codes`, `rate_hits` | Sign-in sessions, one-time codes, rate-limit counters. |
 | `mail_outbox` | Every mail the product sent or tried to send (sign-in codes are not stored in readable form outside TEST_MODE). |
-| `voters`, `voter_docs`, `voter_events` | Voter records, their documents (at most 3), and each record's append-only history. |
+| `voters`, `voter_docs`, `voter_events` | Voter records (including who may vote: `is_voter`; and the reason, the person's own words and who chose it), their documents (at most 3), and each record's append-only history (before and after, so undo and the Host guards work). |
 | `publications`, `publication_rows` | Draft and final lists and their rows; finals are immutable (triggers). |
 | `audit_entries` | The signed, hash-chained audit log (no updates, no deletes). |
 | `list_versions`, `list_rows`, `imports`, `list_changes`, `claims`, `claim_docs`, `freezes`, `freeze_rows`, `orders` | Tables from the earlier shape of the product (versions, claims, freezes) that the rebuild's migrations created and still carry. The current journey uses `voters` and `publications`; `orders` backs the price slot. |
 
-Migrations: `0001_core` (societies, users, memberships, sessions, codes, rate hits, outbox), `0002_lists`, `0003_workflow` (audit entries and the earlier workflow), `0004_hardening`, `0005_enrolment` (the single-link enrolment model), `0006_indexes` (clean-up indexes).
+Migrations: `0001_core` (societies, users, memberships, sessions, codes, rate hits, outbox), `0002_lists`, `0003_workflow` (audit entries and the earlier workflow), `0004_hardening`, `0005_enrolment` (the single-link enrolment model), `0006_indexes` (clean-up indexes), `0007_reasons` (the reason columns on `voters`, the public-reason setting on `societies`, and the reason columns of `publication_rows`).
 
 ## `wrangler.toml` (committed; it holds no secrets)
 
@@ -78,10 +79,10 @@ Database ids are identifiers, not secrets; access needs the owner's Cloudflare l
 | Thing | Name | State on 14 Nov 2026 |
 |---|---|---|
 | Pages project | `voter-list` | Created. No Git integration (deploys are by hand with `wrangler`). Production address `voter-list.pages.dev` has **no deployment** (404) on purpose. |
-| Preview address | https://preview.voter-list.pages.dev (build https://2652c573.voter-list.pages.dev) | Deployed; pages, assets and `/api/config` work; **sign-in does not** (no `RESEND_API_KEY`). |
+| Preview address | https://preview.voter-list.pages.dev (build https://6d29c6da.voter-list.pages.dev, code of commit `9c9b728`) | Deployed 14 Nov 2026 after audit rounds 27 and 28 passed. **Sign-in has not been tried yet**: it needs a code from a mailbox the owner reads (see `5-CURRENT-STATE.md`). |
 | D1 database (live) | `voter-list` | Created, empty, **no migrations applied**. |
-| D1 database (preview) | `voter-list-preview` | Migrations 0001 to 0006 applied; no real data. |
-| Preview secrets | `SIGNING_KEY`, `PEPPER`, `ORGANIZERS`, `MAIL_FROM`, `MAIL_DAILY_CAP` | Set (values not recorded anywhere in the repo). `RESEND_API_KEY` **not** set. `TEST_MODE` **not** set. |
+| D1 database (preview) | `voter-list-preview` | Migrations 0001 to 0007 applied; no real data. |
+| Preview secrets | `SIGNING_KEY`, `PEPPER`, `ORGANIZERS`, `MAIL_FROM`, `MAIL_DAILY_CAP` (20), `CF_EMAIL_TOKEN`, `CF_ACCOUNT_ID` | Set (values not recorded anywhere in the repo). `RESEND_API_KEY` **not** set (not needed). `TEST_MODE` **not** set. |
 | Production secrets | none | Not created. |
 | Marketing site | Pages project `townhall-site` (`townhall-records.com`, `www`) | **Untouched.** |
 | Planned address | `voterlist.townhall-records.com` | Not in DNS; needs its own go. |

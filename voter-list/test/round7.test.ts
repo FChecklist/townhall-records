@@ -14,7 +14,7 @@ describe("masks: the public sees only what the owner allowed", () => {
     const list = (await h.call("GET", `/api/v/${slug}/list`)).json;
     const row = list.rows[0];
     expect(row.email).toBe("********" + "somebody.private@sample.example".slice(-4)); expect(row.mobile).toMatch(/^\*{6}\d{4}$/);
-    expect(Object.keys(row).sort()).toEqual(["capacity", "email", "forOwner", "mayAttend", "mayVote", "mobile", "name", "no", "unit", "voterForFlat"]);
+    expect(Object.keys(row).sort()).toEqual(["capacity", "email", "forOwner", "mayAttend", "mayVote", "mobile", "name", "no", "reason", "unit", "voterForFlat"]);
     const csv = (await h.call("GET", `/api/v/${slug}/list.csv`)).text;
     for (const secret of ["somebody", "sample.example"]) { expect(JSON.stringify(list)).not.toContain(secret); expect(csv.toLowerCase()).not.toContain(secret); }
     expect(csv).toContain("********" + "somebody.private@sample.example".slice(-4));

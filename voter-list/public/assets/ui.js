@@ -1,6 +1,8 @@
 // Small shared helpers. No framework, no innerHTML with data: every value goes in as text, so a name like <script> is only ever shown, never run.
 (function () {
   const VL = (window.VL = {});
+  // What people read for a role (the stored value for the first role stays "Owner").
+  VL.cap = (c) => (c === "Owner" ? "Owner / 1st Name in Registration" : c || "");
   // append() that flattens arrays and skips null/false, so conditional children are safe everywhere
   const nativeAppend = Element.prototype.append;
   Element.prototype.append = function (...kids) { return nativeAppend.apply(this, kids.flat(Infinity).filter((k) => k != null && k !== false)); };
@@ -50,10 +52,10 @@
   // modal: fields = [{name,label,type,options,value,help}] -> resolves to {name:value} or null
   VL.ask = function ask(title, intro, fields, okLabel) {
     return new Promise((resolve) => {
-      const d = el("dialog");
+      const d = el("dialog", { "aria-labelledby": "dlg_title" });
       const form = el("form", { method: "dialog" });
       const inputs = {};
-      form.append(el("h2", {}, title), intro ? el("p", { class: "small" }, intro) : null);
+      form.append(el("h2", { id: "dlg_title" }, title), intro ? el("p", { class: "small" }, intro) : null);
       for (const f of fields || []) {
         const id = "f_" + f.name;
         let input;
@@ -74,6 +76,20 @@
       });
       d.showModal(); const first = Object.values(inputs)[0]; if (first) first.focus();
     });
+  };
+  // the short list offered whenever someone is marked "not allowed to vote" (mirrors src/reasons.ts)
+  VL.REASONS = [["dues", "Dues unpaid"], ["tenant", "Tenant"], ["coowner", "Co-owner, or not the 1st name (only the Owner / 1st name may vote)"], ["not_member", "Not a member of the society"], ["proxy_papers", "Proxy papers awaited"], ["other", "Another reason (I will write it below)"]];
+  // asks for the reason: resolves to {reason, note} or null; never lets "no reason" through
+  VL.askReason = async function askReason(title, intro, cur, okLabel, save) {
+    for (;;) {
+      const a = await VL.ask(title, intro, [{ name: "reason", type: "select", label: "Why is this person not allowed to vote?", options: [{ value: "", label: "Choose a reason..." }, ...VL.REASONS.map(([value, label]) => ({ value, label }))], value: (cur && cur.reason) || "" }, { name: "note", label: "Your own words (needed for 'Another reason', optional for the others)", max: 120, value: (cur && cur.note) || "", help: "Please do not write phone numbers or e-mail IDs." }], okLabel || "Save");
+      if (!a) return null;
+      if (!a.reason) { VL.toast("Please choose a reason from the list.", true); cur = a; continue; }
+      if (a.reason === "other" && a.note.trim().length < 3) { VL.toast("Please write the reason in a few words.", true); cur = a; continue; }
+      const out = { reason: a.reason, note: a.note.trim() };
+      if (save) { try { await save(out); } catch (e) { VL.fail(e); cur = out; continue; } }
+      return out;
+    }
   };
   VL.confirm = async (title, text, okLabel) => !!(await VL.ask(title, text, [], okLabel || "Yes, do it"));
   VL.show = function show(title, ...body) {

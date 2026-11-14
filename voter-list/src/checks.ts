@@ -4,7 +4,8 @@ import { canonical } from "./vendor/canonical";
 import { sha256Hex } from "./vendor/crypto";
 import { maskPhone } from "./vendor/masking";
 import { EQUAL_WEIGHT, ruleOf, type ListRow, type Settings } from "./model";
-import { cleanEmail, cleanMobile, editDistance, nameKey } from "./text";
+import { DUES_REASON, OTHER_CHOSEN, PENDING_REASON, publicOk, reasonText, ruleReason, type PublicMode, type ReasonKind } from "./reasons";
+import { capLabel, cleanEmail, cleanMobile, editDistance, nameKey } from "./text";
 
 export type Severity = "error" | "warning";
 export interface Issue {
@@ -16,14 +17,20 @@ export interface Issue {
   message: string;
   hint?: string;
   /** an action the application can offer as one button */
-  fix?: { type: "remove_rows"; rowIds: number[] } | { type: "set_voter"; rowId: number };
+  fix?: { type: "remove_rows"; rowIds: number[] };
 }
 
+/** Whether one registered person may vote and, if not, why (the full reason, and the part the public list may show). */
+export interface PersonStatus { rowId: number; allowed: boolean; kind: ReasonKind | ""; code: string; reason: string; publicReason: string; missing: boolean }
+export interface UnitVoter { row: ListRow; canVote: boolean; canAttend: boolean; duesClear: boolean; reasons: string[] }
 export interface UnitResult {
   unit: string;
   unitKey: string;
   rows: ListRow[];
-  voter: ListRow | null;
+  /** the people the Organizer has authorized to vote for this unit (none, one or several), each with their own rights */
+  voters: UnitVoter[];
+  /** every registered person of the unit: may vote or not, and why not */
+  status: PersonStatus[];
   weightMilli: number;
   canAttend: boolean;
   canVote: boolean;
@@ -34,7 +41,8 @@ export interface UnitResult {
 export interface Summary {
   rows: number;
   units: number;
-  voters: number; // units with exactly one voter named
+  voters: number; // units with at least one person authorized to vote
+  authorized: number; // people authorized to vote, in all units (a flat may have several)
   canVote: number; // units whose voter may vote under the rule, dues check and unit settings
   cannotVote: number;
   totalWeightMilli: number; // of the units that may vote
@@ -68,7 +76,7 @@ export function runChecks(rows: ListRow[], s: Settings): CheckReport {
     const e = cleanEmail(r.email);
     if (!r.email.trim()) add({ code: "E_EMAIL_MISSING", severity: "error", unit: r.unit, rowIds: [r.id], message: `${here}: the e-mail ID is missing.` });
     else if (!e.ok) add({ code: "E_EMAIL_BAD", severity: "error", unit: r.unit, rowIds: [r.id], message: `${here}: the e-mail ID does not look right.`, hint: e.problem });
-    if (!r.capacity) add({ code: "E_CAPACITY_BAD", severity: "error", unit: r.unit, rowIds: [r.id], message: `${here}: the capacity is blank. Choose Owner, Co-owner, Tenant or Member.`, hint: "The voting rule needs to know who this person is." });
+    if (!r.capacity) add({ code: "E_CAPACITY_BAD", severity: "error", unit: r.unit, rowIds: [r.id], message: `${here}: the capacity is blank. Choose ${capLabel("Owner")}, Co-owner, Tenant or Member.`, hint: "The voting rule needs to know who this person is." });
     const dk = dupKey(r);
     if (seenDup.has(dk)) add({ code: "E_DUP_ROW", severity: "error", unit: r.unit, rowIds: [r.id], message: `${here}: this line repeats row ${seenDup.get(dk)} exactly.`, hint: "Delete the repeated line.", fix: { type: "remove_rows", rowIds: [r.id] } });
     else seenDup.set(dk, r.rowNo);
@@ -80,12 +88,11 @@ export function runChecks(rows: ListRow[], s: Settings): CheckReport {
   const units: UnitResult[] = [];
   for (const [key, rs] of byUnit) {
     const unit = rs[0]!.unit;
-    const marked = rs.filter((r) => r.isVoter === true);
-    let voter: ListRow | null = null;
-    if (rs.length === 1) { voter = rs[0]!.isVoter === false ? null : rs[0]!; if (!voter) add({ code: "E_NO_VOTER", severity: "error", unit, rowIds: [rs[0]!.id], message: `Unit ${unit}: its only person is marked as not the voter, so the unit has no voter.`, hint: "Mark the person as the voter.", fix: { type: "set_voter", rowId: rs[0]!.id } }); }
-    else if (marked.length === 1) voter = marked[0]!;
-    else if (marked.length === 0) add({ code: "E_NO_VOTER", severity: "error", unit, rowIds: rs.map((r) => r.id), message: `Unit ${unit} has ${rs.length} people and none is marked as the voter.`, hint: "Choose the one voter for this unit." });
-    else add({ code: "E_TWO_VOTERS", severity: "error", unit, rowIds: marked.map((r) => r.id), message: `Unit ${unit} has ${marked.length} people marked as the voter. A unit has one voter.`, hint: "Keep Yes for one person only." });
+    // Who may vote is the Organizer's decision, person by person. A flat may have any number of registered people, and any number of them may be authorized:
+    // the checks never insist on one voter per flat. A lone person is authorized unless the Organizer said no; where several people share a flat, nobody is authorized until the Organizer says so.
+    const authorized = (r: ListRow) => r.isVoter === true || (r.isVoter === null && rs.length === 1);
+    const vs = rs.filter(authorized);
+    if (!vs.length) add({ code: "W_NO_VOTER", severity: "warning", unit, rowIds: rs.map((r) => r.id), message: rs.length === 1 ? `Flat ${unit}: its only person is not authorized to vote, so nobody votes for this flat.` : `Flat ${unit} has ${rs.length} people and none is authorized to vote yet, so nobody votes for this flat.`, hint: "The Organizer chooses who may vote for this flat; leave it if nobody from it should." });
 
     // weight of the unit
     let weight = EQUAL_WEIGHT;
@@ -96,37 +103,48 @@ export function runChecks(rows: ListRow[], s: Settings): CheckReport {
       else add({ code: "W_WEIGHT_DEFAULTED", severity: "warning", unit, rowIds: [rs[0]!.id], message: `Unit ${unit}: no weight was given, so it counts as 1.` });
     } else if (given.some((w) => w !== EQUAL_WEIGHT)) add({ code: "W_WEIGHT_IGNORED", severity: "warning", unit, rowIds: rs.map((r) => r.id), message: `Unit ${unit} carries a weight other than 1, but the society chose equal weight, so it counts as 1.`, hint: "Choose 'Unequal' in Weightage if the weights should count." });
 
-    // rights
-    const why: string[] = [];
-    let canVote = true, canAttend = true, duesClear = true;
-    if (!voter) { canVote = false; why.push("no voter"); }
-    else {
-      canAttend = voter.canAttend;
-      if (!voter.canVote) { canVote = false; why.push("set to not vote"); }
-      if (voter.capacity && !rule.capacities.includes(voter.capacity)) {
-        if (voter.canVote) {
-          const alt = rs.find((r) => r.id !== voter!.id && r.capacity && rule.capacities.includes(r.capacity));
-          add({ code: "E_VOTER_INELIGIBLE", severity: "error", unit, rowIds: [voter.id], message: `Unit ${unit}: the voter is a ${voter.capacity.toLowerCase()}, and the rule "${rule.name}" does not allow that.`,
-            hint: alt ? `Make ${shortName(alt.name)} (${alt.capacity!.toLowerCase()}) the voter, or set "Allowed to vote" to No for this unit.` : `Set "Allowed to vote" to No for this unit, or change the rule.`, ...(alt ? { fix: { type: "set_voter" as const, rowId: alt.id } } : {}) });
-        }
-        canVote = false; why.push("rule");
+    // rights, person by person (the weight and the dues date belong to the unit)
+    const unitDues = rs.map((r) => r.duesPaidOn).filter(Boolean).sort().pop() ?? null;
+    const people: UnitVoter[] = vs.map((v) => {
+      let ok = true; const reasons: string[] = [];
+      if (!v.canVote) { ok = false; reasons.push("set to not vote"); }
+      if (v.capacity && !rule.capacities.includes(v.capacity)) {
+        if (v.canVote) add({ code: "E_VOTER_INELIGIBLE", severity: "error", unit, rowIds: [v.id], message: `Unit ${unit}: ${shortName(v.name) || "a person"} (${capLabel(v.capacity)}) is authorized to vote, and the rule "${rule.name}" does not allow that.`, hint: "Choose another person for this flat, remove this record, or change who may vote in Step 1." });
+        ok = false; reasons.push("rule");
       }
-      if (s.duesEnabled && s.duesCutoff) {
-        const date = voter.duesPaidOn ?? rs.map((r) => r.duesPaidOn).filter(Boolean).sort().pop() ?? null;
-        duesClear = !!date && date <= s.duesCutoff;
-        if (!duesClear) { canVote = false; why.push("dues"); }
+      let dues = true;
+      if (s.duesEnabled && s.duesCutoff) { const date = v.duesPaidOn ?? unitDues; dues = !!date && date <= s.duesCutoff; if (!dues) { ok = false; reasons.push("dues"); } }
+      return { row: v, canVote: ok, canAttend: v.canAttend, duesClear: dues, reasons };
+    });
+    // why not, person by person: the reason the Organizer or a Host chose, the voting rule, unpaid dues, or only "waiting for the Organizer"
+    const mode = (s.reasonPublic ?? "role") as PublicMode;
+    const byId = new Map(people.map((p) => [p.row.id, p] as const));
+    const status: PersonStatus[] = rs.map((r) => {
+      const p = byId.get(r.id);
+      const parts: Array<{ kind: ReasonKind; code: string; text: string; plain?: string }> = []; let missing = false;
+      const manual = () => { const t = reasonText(r.noVoteReason, r.noVoteNote); if (t) parts.push({ kind: "manual", code: r.noVoteReason ?? "other", text: t, plain: reasonText(r.noVoteReason, "") }); else { missing = true; parts.push({ kind: "manual", code: "", text: "Not allowed to vote (the reason has not been chosen yet)" }); } };
+      if (!p) { if (r.isVoter === false) manual(); else parts.push({ kind: "pending", code: "", text: people.length ? OTHER_CHOSEN : PENDING_REASON }); }
+      else if (!p.canVote) {
+        if (p.reasons.includes("set to not vote")) manual();
+        if (p.reasons.includes("rule")) parts.push({ kind: "rule", code: "", text: ruleReason(r.capacity) });
+        if (p.reasons.includes("dues")) parts.push({ kind: "dues", code: "", text: DUES_REASON });
       }
-    }
-    units.push({ unit, unitKey: key, rows: rs, voter, weightMilli: weight, canAttend: canAttend && !!voter, canVote, why, duesClear });
+      if (missing) add({ code: "E_REASON_MISSING", severity: "error", unit, rowIds: [r.id], message: `Flat ${unit}: ${shortName(r.name) || "a person"} is marked not allowed to vote, but no reason is given.`, hint: "Please choose a reason (for example dues unpaid, tenant, or co-owner), or write your own." });
+      const allowed = !!p && p.canVote;
+      return { rowId: r.id, allowed, kind: allowed ? "" : parts[0]!.kind, code: allowed ? "" : parts[0]!.code, reason: allowed ? "" : parts.map((x) => x.text).join("; "), publicReason: allowed ? "" : parts.filter((x) => publicOk(x.kind, x.code, mode)).map((x) => (mode === "all" ? x.text : x.plain ?? x.text)).join("; "), missing };
+    });
+    const canVote = people.some((p) => p.canVote);
+    const why = canVote ? [] : people.length ? [...new Set(people.flatMap((p) => p.reasons))] : ["no voter"];
+    units.push({ unit, unitKey: key, rows: rs, voters: people, status, weightMilli: weight, canAttend: people.some((p) => p.canAttend), canVote, why, duesClear: !people.length || people.some((p) => p.duesClear) });
   }
 
   // ---- across units (warnings)
   const mobileUnits = new Map<string, Set<string>>();
-  for (const u of units) if (u.voter && cleanMobile(u.voter.mobile, s.country).ok) { const k = u.voter.mobile; const a = mobileUnits.get(k) ?? new Set<string>(); a.add(u.unit); mobileUnits.set(k, a); }
-  for (const [mob, us] of mobileUnits) if (us.size > 1) add({ code: "W_SAME_MOBILE", severity: "warning", unit: [...us][0]!, rowIds: units.filter((u) => us.has(u.unit)).map((u) => u.voter!.id), message: `The mobile number ending ${maskPhone(mob).slice(-4)} is the voter for ${us.size} units (${[...us].slice(0, 6).join(", ")}): one person would hold ${us.size} votes.`, hint: "Please confirm this is right." });
+  for (const u of units) for (const p of u.voters) if (cleanMobile(p.row.mobile, s.country).ok) { const k = p.row.mobile; const a = mobileUnits.get(k) ?? new Set<string>(); a.add(u.unit); mobileUnits.set(k, a); }
+  for (const [mob, us] of mobileUnits) if (us.size > 1) add({ code: "W_SAME_MOBILE", severity: "warning", unit: [...us][0]!, rowIds: units.filter((u) => us.has(u.unit)).flatMap((u) => u.voters.filter((p) => p.row.mobile === mob).map((p) => p.row.id)), message: `The mobile number ending ${maskPhone(mob).slice(-4)} is the voter for ${us.size} units (${[...us].slice(0, 6).join(", ")}): one person would hold ${us.size} votes.`, hint: "Please confirm this is right." });
   const nameUnits = new Map<string, Set<string>>();
-  for (const u of units) if (u.voter && u.voter.name.trim()) { const k = nameKey(u.voter.name); const a = nameUnits.get(k) ?? new Set<string>(); a.add(u.unit); nameUnits.set(k, a); }
-  for (const [, us] of nameUnits) if (us.size > 1) add({ code: "W_DUP_NAME", severity: "warning", unit: [...us][0]!, rowIds: units.filter((u) => us.has(u.unit)).map((u) => u.voter!.id), message: `The same voter name appears for ${us.size} units (${[...us].slice(0, 6).join(", ")}). Different people can share a name; please glance at it.` });
+  for (const u of units) for (const p of u.voters) if (p.row.name.trim()) { const k = nameKey(p.row.name); const a = nameUnits.get(k) ?? new Set<string>(); a.add(u.unit); nameUnits.set(k, a); }
+  for (const [nk, us] of nameUnits) if (us.size > 1) add({ code: "W_DUP_NAME", severity: "warning", unit: [...us][0]!, rowIds: units.filter((u) => us.has(u.unit)).flatMap((u) => u.voters.filter((p) => nameKey(p.row.name) === nk).map((p) => p.row.id)), message: `The same voter name appears for ${us.size} units (${[...us].slice(0, 6).join(", ")}). Different people can share a name; please glance at it.` });
   for (const u of units) {
     const rs = u.rows; if (rs.length < 2) continue;
     outer: for (let i = 0; i < rs.length; i++) for (let j = i + 1; j < rs.length; j++) {
@@ -139,7 +157,7 @@ export function runChecks(rows: ListRow[], s: Settings): CheckReport {
 
   const duesPending = s.duesEnabled ? units.filter((u) => !u.duesClear).length : 0;
   const summary: Summary = {
-    rows: rows.length, units: units.length, voters: units.filter((u) => u.voter).length,
+    rows: rows.length, units: units.length, voters: units.filter((u) => u.voters.length).length, authorized: units.reduce((a, u) => a + u.voters.length, 0),
     canVote: units.filter((u) => u.canVote).length, cannotVote: units.filter((u) => !u.canVote).length,
     totalWeightMilli: units.filter((u) => u.canVote).reduce((a, u) => a + u.weightMilli, 0), allWeightMilli: units.reduce((a, u) => a + u.weightMilli, 0), duesPending,
   };

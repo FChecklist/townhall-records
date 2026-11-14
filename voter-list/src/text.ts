@@ -3,6 +3,9 @@
 
 export type Capacity = "Owner" | "Co-owner" | "Tenant" | "Proxy" | "Member";
 export const CAPACITIES: Capacity[] = ["Owner", "Co-owner", "Tenant", "Proxy", "Member"];
+/** What a person sees for a capacity (the owner's wording, 14 Nov 2026). The stored value stays "Owner"; only the words people read change, in the pages, lists, exports and e-mails. */
+export const CAPACITY_LABEL: Record<Capacity, string> = { Owner: "Owner / 1st Name in Registration", "Co-owner": "Co-owner", Tenant: "Tenant", Proxy: "Proxy", Member: "Member" };
+export const capLabel = (c: string | null | undefined): string => (c && (CAPACITY_LABEL as Record<string, string>)[c]) || c || "";
 
 /** NFC, odd spaces and zero-width marks removed, runs of white space folded to one space, trimmed. */
 export function squeeze(s: unknown): string {
@@ -81,7 +84,7 @@ export function cleanEmail(s: string): Cleaned<string> {
 export function parseCapacity(s: string): Capacity | null {
   const t = squeeze(s).toLowerCase().replace(/[^a-z]/g, "");
   if (!t) return null;
-  if (["owner", "o", "own", "flatowner", "houseowner", "primaryowner", "firstowner", "landlord"].includes(t)) return "Owner";
+  if (["owner", "ownerstnameinregistration", "o", "own", "flatowner", "houseowner", "primaryowner", "firstowner", "landlord"].includes(t)) return "Owner";
   if (["coowner", "co", "jointowner", "secondowner", "joint", "coown"].includes(t)) return "Co-owner";
   if (["tenant", "t", "renter", "rent", "lessee", "tenants"].includes(t)) return "Tenant";
   if (["proxy", "p", "authorisedproxy", "authorizedproxy", "proxyholder", "representative"].includes(t)) return "Proxy";

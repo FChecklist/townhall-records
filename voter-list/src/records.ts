@@ -5,8 +5,9 @@ import { HttpError, rateLimit, sendMail } from "./auth";
 import { looksPrivate, commit, guardChanged, pseudonym, pubUnit } from "./audit";
 import { uid, type D1Stmt, type Env } from "./db";
 import { ruleOf } from "./model";
-import { enrolOpen, getVoter, onList, ownedOf, type Owned, type SocietyRow, type VoterRow } from "./store";
-import { cleanMobile, cleanName, squeeze, unitDisplay, unitKey, parseCapacity, type Capacity } from "./text";
+import { runChecks } from "./checks";
+import { buildRoll, enrolOpen, getVoter, onList, ownedOf, settingsOf, type Owned, type SocietyRow, type VoterRow } from "./store";
+import { capLabel, cleanMobile, cleanName, squeeze, unitDisplay, unitKey, parseCapacity, type Capacity } from "./text";
 import { scanPublic } from "./vendor/masking";
 import { sha256Hex } from "./vendor/crypto";
 
@@ -18,7 +19,7 @@ export const MAX_RECORDS_PER_PERSON = 5;
 const STALE = "This record was changed a moment ago. Please look again and try once more.";
 
 // ------------------------------------------------------------------------------------------------------------------ the mutation helper
-export const MUT = ["unit", "unit_key", "name", "capacity", "mobile", "proxy_for", "is_voter", "weight_milli", "can_attend", "can_vote", "dues_paid_on", "status", "reason", "approved_json", "confirmed_at", "submitted_at", "decided_by", "decided_at"] as const;
+export const MUT = ["unit", "unit_key", "name", "capacity", "mobile", "proxy_for", "is_voter", "weight_milli", "can_attend", "can_vote", "dues_paid_on", "status", "reason", "approved_json", "confirmed_at", "submitted_at", "decided_by", "decided_at", "no_vote_reason", "no_vote_note", "no_vote_by"] as const;
 export type MutCol = (typeof MUT)[number];
 export type Patch = Partial<Pick<VoterRow, MutCol>>;
 export const snapshot = (v: Pick<VoterRow, MutCol>): string => JSON.stringify(Object.fromEntries(MUT.map((k) => [k, v[k] ?? null])));
@@ -64,7 +65,7 @@ export function checkOwned(society: SocietyRow, input: RecordInput, cur?: VoterR
   const capRaw = input.capacity !== undefined ? String(input.capacity) : cur?.capacity ?? "";
   const cap = parseCapacity(capRaw);
   if (!cap) throw new HttpError(400, "Please choose how you are connected to this home.");
-  if (!rule.capacities.includes(cap)) throw new HttpError(400, cap === "Proxy" ? "On this list the owner or tenant enrols in person. Please choose that role instead." : `This list is for: ${rule.capacities.join(", ").toLowerCase()}.`, "capacity_not_allowed");
+  if (!rule.capacities.includes(cap)) throw new HttpError(400, cap === "Proxy" ? "On this list the owner or tenant enrols in person. Please choose that role instead." : `This list is for: ${rule.capacities.map(capLabel).join(", ")}.`, "capacity_not_allowed");
   let proxyFor = "";
   if (cap === "Proxy") {
     proxyFor = cleanName(input.proxyFor !== undefined ? String(input.proxyFor) : cur?.proxy_for ?? "").value;
@@ -94,7 +95,15 @@ export async function viewMine(c: VoterCtx, v: VoterRow) {
   const docs = (await c.env.DB.prepare("SELECT id, doc_type, filename, mime, size, created_at FROM voter_docs WHERE voter_id = ? ORDER BY created_at, id").bind(v.id).all<{ id: string; doc_type: string; filename: string; mime: string; size: number; created_at: number }>()).results;
   const ev = (await c.env.DB.prepare("SELECT ts, kind, reason, actor_role FROM voter_events WHERE society_id = ? AND voter_id = ? AND undone_by IS NULL AND kind IN ('created','imported','added','confirmed','resubmitted','edited','corrected','approved','sent_back','doc_added','doc_removed') ORDER BY id").bind(c.society.id, v.id).all<{ ts: number; kind: string; reason: string; actor_role: string }>()).results;
   const live = onList(v);
+  // can this person vote, and if not, why (the full reason: it is their own record)
+  let vote: { allowed: boolean; reason: string } | null = null;
+  if (live) {
+    const roll = await buildRoll(c.env, c.society.id, v.unit_key); const line = roll.lines.find((l) => l.voterId === v.id);
+    const st = line ? runChecks(roll.rows, settingsOf(c.society)).units[0]?.status.find((x) => x.rowId === line.row.id) : undefined;
+    if (st) vote = { allowed: st.allowed, reason: st.reason };
+  }
   return {
+    vote,
     id: v.id, unit: v.unit, name: v.name, capacity: v.capacity, mobile: v.mobile, email: v.email, proxyFor: v.proxy_for, status: v.status, reason: v.status === "sent_back" ? v.reason : "",
     onTheList: !!live, whatIsOnTheList: live && v.status !== "approved" ? { name: live.name, capacity: live.capacity } : null, next: NEXT[v.status] ?? "",
     canEdit: enrolOpen(c.society, c.now) && v.status !== "removed", canWithdraw: ["invited", "draft", "submitted", "sent_back", "approved"].includes(v.status) && c.society.phase === "open" && !c.society.erased_at,
@@ -124,7 +133,7 @@ export async function createRecord(c: VoterCtx, input: RecordInput) {
   const stmts: D1Stmt[] = [];
   if (ex) { // a record this person removed earlier: reuse the row, start again as a draft
     id = ex.id;
-    const m = mutation(c.env, c.now, ex, { unit, unit_key: uk, name: owned.name, capacity: owned.capacity, mobile: owned.mobile, proxy_for: owned.proxyFor, status: "draft", reason: "", approved_json: null, is_voter: null, confirmed_at: null, submitted_at: null, decided_by: null, decided_at: null }, { kind: "created", actorEmail: c.email, actorRole: "voter" });
+    const m = mutation(c.env, c.now, ex, { unit, unit_key: uk, name: owned.name, capacity: owned.capacity, mobile: owned.mobile, proxy_for: owned.proxyFor, status: "draft", reason: "", approved_json: null, confirmed_at: null, submitted_at: null, decided_by: null, decided_at: null }, { kind: "created", actorEmail: c.email, actorRole: "voter" });
     stmts.push(...m.stmts);
   } else {
     id = uid("vtr");
@@ -145,11 +154,12 @@ export async function editRecord(c: VoterCtx, id: string, input: RecordInput) {
   const locked = !!v.approved_json || v.status === "approved"; // a flat, once approved, is not renamed: remove it and enrol the right one
   if (locked && input.unit !== undefined && unitKey(unitDisplay(String(input.unit))) !== v.unit_key) throw new HttpError(409, "The Flat / House ID cannot be changed once it was approved. Please ask the list team.", "unit_locked");
   const { unit, unitKey: uk, owned } = checkOwned(c.society, input, v);
+  if (uk !== v.unit_key && v.no_vote_by === "organizer") throw new HttpError(409, "The Organizer has decided about your vote for this flat, so the flat cannot be changed here. Please ask the Organizer.", "unit_locked");
   const was = ownedOf(v);
   const fields: string[] = (["name", "mobile", "capacity", "proxyFor"] as const).filter((k) => was[k] !== owned[k]);
   if (unit !== v.unit) fields.push("unit");
   if (!fields.length) return viewMine(c, v);
-  const patch: Patch = { unit, unit_key: uk, name: owned.name, capacity: owned.capacity, mobile: owned.mobile, proxy_for: owned.proxyFor };
+  const patch: Patch = { unit, unit_key: uk, ...(uk !== v.unit_key ? { is_voter: null, ...(v.can_vote !== 0 ? { no_vote_reason: null, no_vote_note: null, no_vote_by: null } : {}) } : {}), name: owned.name, capacity: owned.capacity, mobile: owned.mobile, proxy_for: owned.proxyFor };
   if (v.status === "approved") Object.assign(patch, { approved_json: JSON.stringify(was), status: "submitted", reason: "", submitted_at: c.now, confirmed_at: c.now, decided_by: null, decided_at: null }); // the earlier approval stays on the list until the edit is checked
   if (v.status === "approved" || v.status === "submitted") { // a record that changes after it was sent must still meet the rules a new one meets
     const docs = await c.env.DB.prepare("SELECT doc_type FROM voter_docs WHERE voter_id = ?").bind(id).all<{ doc_type: string }>();

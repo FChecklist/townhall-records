@@ -1,6 +1,6 @@
 # Voter List (Townhall Records)
 
-A single-page product for AOA, HOA and RWA societies to build, check, publish and freeze the voter list for a general meeting or an election. Part of Townhall Records (townhall-records.com). **Nothing has been deployed.** The deploy plan is below and waits for the owner's go-ahead.
+A single-page product for AOA, HOA and RWA societies to build, check, publish and freeze the voter list for a general meeting or an election. Part of Townhall Records (townhall-records.com). **Only a preview copy is deployed** (see `docs/PROGRESS.md`); nothing is live and no DNS was changed. The deploy plan is below and waits for the owner's go-ahead.
 
 ## What it does
 
@@ -10,9 +10,11 @@ A single-page product for AOA, HOA and RWA societies to build, check, publish an
 
 **Publishing.** A **draft** list is public at once, masked and marked provisional, and can be replaced. A **final** list is frozen at a date-and-time cut-off: immutable (the database refuses changes), fingerprinted and signed, with a proof page anyone can check. The public page shows the flat number, a masked name, the role, may-vote, the mobile's last 4 digits and the e-mail ID's last 4 characters, and nothing else.
 
-**Roles.** Exactly 1 Organizer and up to 10 Hosts per list, enforced in the database. `host@townhall-records.com` is a permanent standing Host on every list; it does **not** use one of the 10 seats and cannot be removed. Hosts check and correct records on the Organizer's behalf; they see people masked until they open one record, and every opening and every action is written to the signed audit log under that identity. Only the Organizer changes settings, publishes, freezes, manages the team, makes full exports or erases.
+**Roles.** (Only the Organizer decides who is authorized to vote in a flat; Hosts can see but not change it.) Exactly 1 Organizer and up to 10 Hosts per list, enforced in the database. `host@townhall-records.com` is a permanent standing Host on every list; it does **not** use one of the 10 seats and cannot be removed. Hosts check and correct records on the Organizer's behalf; they see people masked until they open one record, and every opening and every action is written to the signed audit log under that identity. Only the Organizer changes settings, publishes, freezes, manages the team, makes full exports or erases.
 
-Also: bulk upload (people are invited, not approved), up to 3 documents per record (PDF/JPG/PNG, 400 KB), a dues cut-off, equal or weighted votes, one voter per flat, plain-words checks, a signed hash-chained audit trail, records kept always (erasing only if the owner sets a retention period; a lawyer should review under the DPDP Act 2023), a language switch on the voter page (English and Hindi; the Organizer page is English for now; more languages by adding a file), and a 10-lists-per-organizer limit.
+**Why someone may not vote.** A person who is "not allowed to vote" always has a reason, chosen from a short list or written by the Organizer or Host (a Host cannot change a reason the Organizer gave). The Organizer, the Hosts and the person see it; the public list shows only what the Organizer allows in Step 1 (by default reasons that follow from the role, never unpaid dues or private notes); the signed trail records the reason, who gave it and when. An uploaded list can carry a reason column, and a "No" without a reason must be fixed before the list can be published.
+
+Also: bulk upload (people are invited, not approved), up to 3 documents per record (PDF/JPG/PNG, 400 KB), a dues cut-off, equal or weighted votes, several people per flat with the Organizer authorizing who votes, plain-words checks, a signed hash-chained audit trail, records kept always (erasing only if the owner sets a retention period; a lawyer should review under the DPDP Act 2023), a language switch on the voter page (English and Hindi; the Organizer page is English for now; more languages by adding a file), and a 10-lists-per-organizer limit.
 
 Read `docs/GAPS-AND-PLAN.md` for the design, the single-page mocks, what was borrowed from other products and what was left out. `ASSUMPTIONS.md` lists every default. `docs/PROGRESS.md` holds the owner's open questions.
 
@@ -59,7 +61,7 @@ bun test --isolate && bun run typecheck && bun run build:pages
 wrangler login
 wrangler d1 create voter-list           # copy the printed id into wrangler.toml, database_id
 wrangler d1 create voter-list-preview   # copy the id into wrangler.toml, [env.preview], database_id
-wrangler d1 migrations apply voter-list-preview --remote --env preview    # applies migrations 0001 to 0006 to the PREVIEW database only
+wrangler d1 migrations apply voter-list-preview --remote --env preview    # applies migrations 0001 to 0007 to the PREVIEW database only
 ```
 
 **Step 3. Create secrets outside the repo.** Production secrets must be new, not the dev ones; keep the signing key backed up offline, because it signs the audit trail and the final lists.
@@ -68,8 +70,10 @@ bun run scripts/gen-prod-keys.ts ../voter-list-secrets.json   # refuses a path i
 wrangler pages project create voter-list --production-branch main
 wrangler pages secret bulk ../voter-list-secrets.json --project-name voter-list --env production
 wrangler pages secret bulk ../voter-list-secrets.json --project-name voter-list --env preview   # the preview needs its own copy; for a throw-away preview you may generate a second file with gen-prod-keys instead
-wrangler pages secret put RESEND_API_KEY --project-name voter-list --env production    # the existing free-limit Resend key; MAIL_FROM too if needed (repeat with --env preview)
-wrangler pages secret put MAIL_DAILY_CAP --project-name voter-list --env preview        # type 20: the preview shares the one free Resend key, so keep its share small during the smoke test (voters then get 10 of the 20 and sign-ins 10)
+wrangler pages secret put CF_EMAIL_TOKEN --project-name voter-list --env production    # an API token allowed to send with the Cloudflare Email Service; type it at the prompt, never in a command line (repeat with --env preview)
+wrangler pages secret put CF_ACCOUNT_ID --project-name voter-list --env production      # the Cloudflare account id (repeat with --env preview)
+wrangler pages secret put MAIL_FROM --project-name voter-list --env production           # Townhall Records <no-reply@townhall-records.com> (repeat with --env preview)
+wrangler pages secret put MAIL_DAILY_CAP --project-name voter-list --env preview        # type 20: the Cloudflare Email Service has one shared daily quota for the whole account, so keep this small (never above 20 without the owner's say) (voters then get 10 of the 20 and sign-ins 10)
 wrangler pages secret put ORGANIZERS --project-name voter-list --env preview           # the same list for the preview, or no Organizer can sign in there and smoke-test row 1 fails
 wrangler pages secret put ORGANIZERS --project-name voter-list --env production        # the e-mail IDs (comma separated) allowed to start lists; see the note below
 ```
@@ -94,7 +98,7 @@ wrangler pages deploy dist --project-name voter-list --branch main
 5. Do **not** use any "move the whole domain" or "change nameservers" option, and do not add a wildcard. If the DNS is *not* in this Cloudflare account, the owner adds that single CNAME (`voterlist` pointing to `voter-list.pages.dev`) at their DNS provider and nothing else, and adds the custom domain in the Pages project as in step 2.
 Do not put the address on the marketing site until row 22 passes.
 
-**The sender of the 6-digit codes.** Codes and invitations go out from `Townhall Records <no-reply@townhall-records.com>` (this is the built-in default; set it explicitly as the `MAIL_FROM` secret in production so nothing depends on a default). It uses the existing free Resend key. Before the address go, the owner (or IT SERVICES BY RAJAT AGARWAL) confirms in Resend that `townhall-records.com` is a verified sending domain (its SPF and DKIM records are in place); if it is not, Resend shows the few records to add, which are mail records only and do not affect the website. Replies to `no-reply` are not read. Also confirm that the standing host address `host@townhall-records.com` can receive mail, because its sign-in code arrives there.
+**The sender of the 6-digit codes.** Codes and invitations go out from `"Townhall Records" <no-reply@townhall-records.com>` (the display name is always put in quotes; this is the built-in default; set it explicitly as the `MAIL_FROM` secret so nothing depends on a default). They are sent by the **Cloudflare Email Service** (decided 14 Nov 2026; `CF_EMAIL_TOKEN` and `CF_ACCOUNT_ID`); the older Resend route (`RESEND_API_KEY`) still works if only that key is set. Before the first send, the sending domain is onboarded in the dashboard; `docs/EMAIL-SENDING-DNS-PLAN.md` lists the exact mail-only records it adds, how they are checked against the records that exist, and the rollback (delete exactly those records). Replies to `no-reply` are not read. Also confirm that the standing host address `host@townhall-records.com` can receive mail, because its sign-in code arrives there.
 
 **Turnstile.** When the free Turnstile check is created, add `voterlist.townhall-records.com` (and the preview `*.pages.dev` address for the test) to its allowed hostnames.
 
@@ -102,7 +106,7 @@ Do not put the address on the marketing site until row 22 passes.
 
 Before running any command below, check the flags with `wrangler pages secret --help` and `wrangler d1 migrations apply --help` (the tool changes often); the commands are the plan, not a tested script.
 
-Environment: `SIGNING_KEY`, `PEPPER` (required); `ORGANIZERS` (comma-separated e-mail IDs that may start lists; without it, nobody new can become an Organizer in production, by design) or `OPEN_SIGNUP=1` (anyone may; only after the Cloudflare Turnstile check is in place); `RESEND_API_KEY`, `MAIL_FROM`, `MAIL_DAILY_CAP`, `MAIL_STAFF_RESERVE`, `MAIL_LIST_CAP` (optional); `TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET` (optional, the free Cloudflare check on sign-in; it is on only when both are set); `PERMANENT_HOST_EMAIL` (default `host@townhall-records.com`), `RETENTION_DAYS` (unset = records are kept always; if set, minimum 30), `PRICE_INR` (optional, see ASSUMPTIONS.md). **Never set `TEST_MODE` in production.** Never commit `.dev.vars` or any key. Payments, if ever added, go only through IT SERVICES BY RAJAT AGARWAL via Razorpay; that is not wired here.
+Environment: `SIGNING_KEY`, `PEPPER` (required); `ORGANIZERS` (comma-separated e-mail IDs that may start lists; without it, nobody new can become an Organizer in production, by design) or `OPEN_SIGNUP=1` (anyone may; only after the Cloudflare Turnstile check is in place); `CF_EMAIL_TOKEN` with `CF_ACCOUNT_ID` (Cloudflare Email Service) or `RESEND_API_KEY` (older route), `MAIL_FROM`, `MAIL_DAILY_CAP`, `MAIL_STAFF_RESERVE`, `MAIL_LIST_CAP` (optional); `TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET` (optional, the free Cloudflare check on sign-in; it is on only when both are set); `PERMANENT_HOST_EMAIL` (default `host@townhall-records.com`), `RETENTION_DAYS` (unset = records are kept always; if set, minimum 30), `PRICE_INR` (optional, see ASSUMPTIONS.md). **Never set `TEST_MODE` in production.** Never commit `.dev.vars` or any key. Payments, if ever added, go only through IT SERVICES BY RAJAT AGARWAL via Razorpay; that is not wired here.
 
 ## Data protection note for Organizers (DPDP Act 2023)
 

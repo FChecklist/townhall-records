@@ -124,8 +124,8 @@ route("PATCH", "/api/lists/:sid/records/:rid", async (r) => { const c = await st
 route("GET", "/api/lists/:sid/records/:rid/docs/:did", async (r) => { const d = await review.getStaffDoc(await staff(r), r.params.rid!, r.params.did!); return file(d.body, d.type, d.filename, true); });
 
 // checks, who votes for a flat, weights
-route("GET", "/api/lists/:sid/checks", async (r) => json(await publish.checksView(await staff(r))));
-route("POST", "/api/lists/:sid/units/choose", async (r) => { const b = await r.body(); return json(await review.chooseVoter(await staff(r), str(b.unit, 60), str(b.voterId, 60))); });
+route("GET", "/api/lists/:sid/checks", async (r) => json(await publish.checksView(await staff(r), r.url.searchParams.get("find") ?? "")));
+route("POST", "/api/lists/:sid/units/choose", async (r) => { const b = await r.body(); return json(await review.chooseVoter(await staff(r), str(b.unit, 60), str(b.voterId, 60), typeof b.authorized === "boolean" ? b.authorized : b.authorized === undefined ? true : (() => { throw new HttpError(400, "Please say true or false."); })(), b.reason, b.note)); });
 route("PUT", "/api/lists/:sid/weights", async (r) => { const b = await r.body(); return json(await review.setWeights(await staff(r), Array.isArray(b.items) ? (b.items as Array<{ unit: string; weight: string }>) : [])); });
 
 // undo

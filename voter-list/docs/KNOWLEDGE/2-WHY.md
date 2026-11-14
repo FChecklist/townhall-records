@@ -2,7 +2,7 @@
 
 ## In plain words
 
-The owner gave nine requirements and a few standing rules. The product was first audited against them (round 0, by the builder), then rebuilt around them, then audited by **sixteen** fresh reviewers in a row until two passed one after the other. Each failed round found real problems; each was fixed and tested. Most of the late findings were about one thing: protecting the small free e-mail allowance from abuse without making the rules hard to explain.
+The owner gave nine requirements and a few standing rules. The product was first audited against them (round 0, by the builder), then rebuilt around them, then audited by **twenty-eight** fresh reviewers, in two sequences, until two passed one after the other each time. Each failed round found real problems; each was fixed and tested. Most of the late findings were about one thing: protecting the small free e-mail allowance from abuse without making the rules hard to explain.
 
 ## The owner's nine requirements (the brief)
 
@@ -36,9 +36,12 @@ The owner gave nine requirements and a few standing rules. The product was first
 | 13 Nov | **What the public list shows:** flat, masked name, role, may-vote, mobile as `******` plus the last 4 digits, e-mail ID as `********` plus the last 4 characters. |
 | 13 Nov | **Languages:** each voter can switch language on the voter page for their own view; English and Hindi now; more by adding a file. |
 | 13 Nov | **The address name** `voterlist.townhall-records.com` approved (the name only; adding it to DNS needs its own go). |
+| 14 Nov | **Sender moved to the Cloudflare Email Service** (the owner added six mail DNS records on `townhall-records.com`: three MX `cf-bounce` routes, SPF, DKIM `cf-bounce._domainkey`, DMARC `_dmarc` with p=reject; recorded with a rollback in `../EMAIL-SENDING-DNS-PLAN.md`). Resend stays as an older route. `MAIL_DAILY_CAP` stays at 20 until the owner says otherwise. |
+| 14 Nov | **Role label and several people per flat:** the first role reads "Owner / 1st Name in Registration" everywhere (stored "Owner"); a flat may have several registrations; the Organizer decides who is authorized; the product does not enforce one vote per flat. |
+| 14 Nov | **Reasons for "not allowed to vote"** ("its very important"): always chosen from a short list or in the Organizer's or Host's own words; visible to the Organizer, Hosts and the person; the public list shows only what the Organizer allows. **Default chosen by the builder (the owner can change it in Step 1): the public list shows only reasons that follow from the role (Tenant, Co-owner, Not a member, the voting-rule reason); unpaid dues, proxy papers and anyone's own words stay private.** A Host cannot change the Organizer's reasons. |
 | 14 Nov | **"Ok approved all":** (1) the **preview go** (create the two databases, the secrets and the Pages project, publish to a `pages.dev` preview only; no DNS change; the marketing site untouched; free plan only); (2) the **sender** `Townhall Records <no-reply@townhall-records.com>` (if `townhall-records.com` is not a verified Resend sending domain, stop and ask instead of changing DNS or adding a paid plan); (3) **Organizers:** the owner named no e-mail IDs, so the preview has only `host@townhall-records.com`, no personal address is used, and the real list is still needed before the live go. `TEST_MODE` is never set on a publicly reachable address. This was **not** the live go and **not** the address go. |
 
-## The sixteen audit rounds
+## The audit rounds (0 to 16 first, 17 to 28 for the changes of 14 Nov)
 
 Round 0 was the builder's own gap check. Rounds 1 to 16 were independent: a fresh reviewer who had no part in the build, read-only, who read the code, ran the tests, drove the pages in a browser at phone and laptop width (from round 2), and ran attack scripts against the real handler. Full write-ups: `../AUDIT-ROUND-<n>.md`.
 
@@ -64,9 +67,24 @@ Round 0 was the builder's own gap check. Rounds 1 to 16 were independent: a fres
 
 The git log has one commit per round named `close audit round N findings`: it holds the fixes made after round N failed. The commit in the table is the one the reviewer examined.
 
+### Rounds 17 to 28: the three changes of 14 Nov 2026 (sender, role label and several people per flat, reasons)
+
+These changes needed a **second sequence** of audits, because the first two passes (rounds 15 and 16) were on the earlier code. Full write-ups: `../AUDIT-ROUND-17.md` to `../AUDIT-ROUND-28.md`.
+
+| Round | Verdict | In short |
+|---|---|---|
+| 17 | FAIL (1 medium) | The sender: account-id check, From-name clean-up, 10-second timeout, "delivered" check. |
+| 18 to 22 | FAIL (each 1 to 3 medium) | Several people per flat: only the Organizer authorizes; Hosts cannot touch or undo it; the mark clears when a person changes flat; Step 5 lists every flat that needs a decision. |
+| 23 | FAIL (1 medium, 4 low) | Head-count rules for the default authorization. |
+| 24 | FAIL (1 high, 3 medium, 8 low) | Reasons: public wording must never carry a person's own words; uploads always mean "not allowed"; contact-detail check; the trail keeps the code only. |
+| 25 | FAIL (2 medium, 5 low) | A Host could undo an Organizer's upload; the Cloudflare sender as `{address, name}`; reason-only edit. |
+| 26 | FAIL | A reasonless "No" in an upload was not the Organizer's mark; filler in the Reason column; counts in the signed trail; sender-name clean-up. |
+| **27** | **PASS** | Code of commit `9c9b728`; 215 tests; about 35 deliberate breakages caught. |
+| **28** | **PASS** | Same code (only documents and tests changed). **Second pass in a row**; a randomized test of 40+ sequences found no way for a Host to change the Organizer's marks. 9 low notes, listed in the write-up. |
+
 **Round 16's eight LOW follow-ups (not fixed, so the audited code stays as audited):** the 5-homes limit is checked then inserted, so parallel requests can slip past it (still bounded by 12 enrolments a day per e-mail ID); undoing an import of more than 5,000 rows leaves the rest and names a smaller count; rate-limit counting happens before validation; a removed record vanishes silently from the voter's view; a two-person flat after the chosen voter withdraws; an English "Reason:" label in the Hindi page; a Withdraw dialog line about final lists; angle brackets in uploaded names. Other accepted and documented items: the free plan's CPU limit is unverified until the preview smoke test; cut-off times use fixed India offsets; documents are stored in the database; the Organizer page is English only; the automatic 30-day clearing writes no signed entry (a counts-only entry would be a small addition).
 
-## The five e-mail rules, and why
+## The five e-mail rules, and why (the sender changed on 14 Nov; the rules did not)
 
 Six audit rounds kept finding new ways to spend the free allowance, and each time another pool was added, which made the design harder to explain and to trust. On 13 Nov the builder stepped back and reduced it to **five rules**:
 

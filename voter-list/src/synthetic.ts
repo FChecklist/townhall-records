@@ -28,9 +28,9 @@ export function synthRows(o: SynthOpts = {}): string[][] {
     rows.push([rows[1]![0]!, rows[1]![1]!, rows[1]![2]!, rows[1]![3]!, rows[1]![4]!, "", ""]);                           // exact duplicate row
     rows.push(["E-101", "SampleOwner NoMobile", "Owner", "", "nomobile@sample.example", "", ""]);                          // missing mobile
     rows.push(["E-102", "SampleOwner BadMail", "Owner", "9000000997", "not-an-email", "", ""]);                           // bad e-mail
-    rows.push(["E-103", "SampleOwner Twin", "Owner", "9000000996", "twin@sample.example", "Yes", ""]);                    // two voters in one unit
+    rows.push(["E-103", "SampleOwner Twin", "Owner", "9000000996", "twin@sample.example", "Yes", ""]);                    // two people authorized in one unit (allowed)
     rows.push(["E-103", "SampleOwner Twin Two", "Co-owner", "9000000995", "twin2@sample.example", "Yes", ""]);
-    rows.push(["E-104", "SampleOwner Pair", "Owner", "9000000994", "pair@sample.example", "", ""]);                       // no voter marked among two
+    rows.push(["E-104", "SampleOwner Pair", "Owner", "9000000994", "pair@sample.example", "", ""]);                       // two people, nobody authorized yet (a warning)
     rows.push(["E-104", "SampleOwner Pair Two", "Co-owner", "9000000993", "pair2@sample.example", "", ""]);
     rows.push(["E-105", "SampleOwner Sharer", "Owner", rows[1]![3]!, "sharer@sample.example", "", ""]);                    // same mobile as another unit's voter
   }

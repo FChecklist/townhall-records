@@ -11,7 +11,7 @@ import { noContactDetails, msToLocal } from "./lists";
 import { buildRoll, enrolOpen, need, seesFull, settingsOf, type RollLine, type SocietyRow, type StaffCtx } from "./store";
 import { fmtMilli } from "./checks";
 import { registerCsv, registerPdf, type RegisterLine, type RegisterMeta } from "./register";
-import { squeeze } from "./text";
+import { capLabel, squeeze, unitKey } from "./text";
 import { canonical } from "./vendor/canonical";
 import { publicKeyFromPrivate, sha256Hex, verifyMessage } from "./vendor/crypto";
 import { signingMessage, entryHash } from "./vendor/log";
@@ -25,7 +25,7 @@ export const pubMobile = (m: string) => { const d = m.replace(/\D/g, ""); return
 export const pubEmail = (e: string) => { const c = Array.from(e.trim()); return c.length < 6 || !e.includes("@") ? "********" : "********" + c.slice(-4).join(""); };
 
 // ------------------------------------------------------------------------------------------------------------------ the checks
-export interface Snap { unit: string; unitKey: string; name: string; capacity: string; mobile: string; email: string; proxyFor: string; isVoter: boolean; weightMilli: number; canAttend: boolean; canVote: boolean }
+export interface Snap { unit: string; unitKey: string; name: string; capacity: string; mobile: string; email: string; proxyFor: string; isVoter: boolean; weightMilli: number; canAttend: boolean; canVote: boolean; reasonPublic: string; reasonFull: string }
 
 /** The list's own state: who is on it now, the report of the checks, and the one line per person a publication would hold. */
 export async function rollReport(env: Env, society: SocietyRow, maskNames = false) {
@@ -35,28 +35,44 @@ export async function rollReport(env: Env, society: SocietyRow, maskNames = fals
   const proxy = new Map(roll.lines.map((l) => [l.row.id, l]));
   const snaps: Snap[] = [];
   for (const u of report.units) {
-    const rs = [...u.rows].sort((a, b) => Number(b.id === u.voter?.id) - Number(a.id === u.voter?.id) || a.rowNo - b.rowNo);
+    const auth = new Map(u.voters.map((p) => [p.row.id, p]));
+    const why = new Map(u.status.map((x) => [x.rowId, x]));
+    const rs = [...u.rows].sort((a, b) => Number(auth.has(b.id)) - Number(auth.has(a.id)) || a.rowNo - b.rowNo);
     for (const r of rs) {
-      const isVoter = r.id === u.voter?.id;
-      snaps.push({ unit: pubUnit(u.unit), unitKey: u.unitKey, name: roll.rows[r.id - 1]!.name, capacity: r.capacity ?? "", mobile: roll.rows[r.id - 1]!.mobile, email: r.email, proxyFor: proxy.get(r.id)?.proxyFor ?? "", isVoter, weightMilli: isVoter ? u.weightMilli : 0, canAttend: isVoter && u.canAttend, canVote: isVoter && u.canVote });
+      const p = auth.get(r.id), isVoter = !!p;
+      snaps.push({ unit: pubUnit(u.unit), unitKey: u.unitKey, name: roll.rows[r.id - 1]!.name, capacity: r.capacity ?? "", mobile: roll.rows[r.id - 1]!.mobile, email: r.email, proxyFor: proxy.get(r.id)?.proxyFor ?? "", isVoter, weightMilli: isVoter ? u.weightMilli : 0, canAttend: !!p && p.canAttend, canVote: !!p && p.canVote, reasonPublic: why.get(r.id)?.publicReason ?? "", reasonFull: why.get(r.id)?.reason ?? "" });
     }
   }
   return { roll, report, snaps };
 }
 
-export async function checksView(ctx: StaffCtx) {
+export async function checksView(ctx: StaffCtx, find = "") {
   need(ctx, "view");
   const full = seesFull(ctx);
   const { roll, report } = await rollReport(ctx.env, ctx.society, !full);
   const lineOf = (rowId: number): RollLine | undefined => roll.lines[rowId - 1];
-  const choose = report.issues.filter((i) => i.code === "E_NO_VOTER" || i.code === "E_TWO_VOTERS").slice(0, 100).map((i) => ({
-    unit: i.unit, code: i.code, options: i.rowIds.map((id) => lineOf(id)).filter(Boolean).map((l) => ({ voterId: l!.voterId, name: full ? l!.row.name : maskName(l!.row.name), capacity: l!.row.capacity })),
-  }));
-  const allowedBy = report.issues.filter((i) => i.code !== "E_NO_VOTER" && i.code !== "E_TWO_VOTERS");
+  // Every flat with more than one registered person: all of them, and which are authorized to vote. The Organizer decides; a Host sees the same, masked.
+  const FLATS_SHOWN = 400;
+  const ineligible = new Set(report.issues.filter((i) => i.code === "E_VOTER_INELIGIBLE").map((i) => i.unit));
+  // every flat that needs a decision: more than one person, or a lone person who is not authorized, or whose role the rule does not allow
+  const multi = report.units.filter((u) => u.rows.length > 1 || u.voters.length === 0 || ineligible.has(u.unit) || u.status.some((x) => x.missing));
+  if (multi.length > FLATS_SHOWN) multi.sort((a, b) => Number(!a.rows.every((r) => r.isVoter === null)) - Number(!b.rows.every((r) => r.isVoter === null)) || Number(a.voters.length > 0) - Number(b.voters.length > 0)); // only when not every flat fits: those still waiting for a choice come first (otherwise the order stays put while the Organizer works)
+  const flatOf = (u: (typeof report.units)[number]) => ({
+    unit: u.unit,
+    people: u.rows.map((r) => lineOf(r.id)).filter(Boolean).map((l) => ({ voterId: l!.voterId, name: full ? l!.row.name : maskName(l!.row.name), capacity: capLabel(l!.row.capacity ?? ""), authorized: u.voters.some((p) => p.row.id === l!.row.id), reason: u.status.find((x) => x.rowId === l!.row.id)?.reason ?? "", reasonCode: l!.row.noVoteReason ?? "", reasonNote: l!.row.noVoteNote ?? "", reasonMissing: !!u.status.find((x) => x.rowId === l!.row.id)?.missing })),
+  });
+  const flats = multi.slice(0, FLATS_SHOWN).map(flatOf);
+  // a look-up of any flat (also a lone person who is authorized by default), so the Organizer can always say yes or no
+  const fk = unitKey(find.slice(0, 40));
+  const lookup = fk ? report.units.filter((u) => u.unitKey.includes(fk)).slice(0, 10).map(flatOf) : [];
+  // many flats with nobody authorized would crowd out the other warnings, so beyond a few they become one line
+  const noOne = report.issues.filter((i) => i.code === "W_NO_VOTER"), others = report.issues.filter((i) => i.code !== "W_NO_VOTER");
+  const noOneAll = report.byCode["W_NO_VOTER"] ?? 0; // the report keeps only the first few hundred lines of one kind, but counts them all
+  const issues = (noOneAll > 10 ? [...others.slice(0, 89), ...noOne.slice(0, 10), { code: "W_NO_VOTER", severity: "warning" as const, unit: "", message: `${noOneAll - 10} more flats have nobody authorized to vote yet (the first ten are listed above).`, hint: "Authorize people in the flats table below, or leave them if nobody from those flats should vote." }] : report.issues).slice(0, 100);
   const wl = ctx.society.weight_mode === "unequal" ? report.units.slice(0, 500).map((u) => ({ unit: u.unit, weightMilli: u.weightMilli })) : [];
   return {
     summary: report.summary, errors: report.errors, warnings: report.warnings, canFreeze: report.errors === 0 && roll.rows.length > 0, onList: roll.rows.length, notIncluded: roll.notIncluded,
-    issues: allowedBy.slice(0, 100).map((i) => ({ code: i.code, severity: i.severity, unit: i.unit, message: i.message, hint: i.hint ?? "" })), choose, weights: wl,
+    issues: issues.map((i) => ({ code: i.code, severity: i.severity, unit: i.unit, message: i.message, hint: i.hint ?? "" })), flats, lookup, flatsMore: Math.max(0, multi.length - FLATS_SHOWN), weights: wl,
   };
 }
 
@@ -74,9 +90,9 @@ function pubStatements(env: Env, society: SocietyRow, id: string, kind: "draft" 
     VALUES (?, ?, ?, (SELECT IFNULL(MAX(seq), 0) + 1 FROM publications WHERE society_id = ? AND kind = ?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, (SELECT IFNULL(MAX(seq), 0) + 1 FROM audit_entries WHERE society_id = ?), ?, ?)`)
     .bind(id, sid, kind, sid, kind, meta.eventName, meta.eventType, meta.cutoffAt, society.rule_code, society.weight_mode, society.dues_enabled, society.dues_enabled ? society.dues_cutoff : null, report.summary.units, snaps.length, report.summary.canVote, report.summary.totalWeightMilli, meta.notIncluded, meta.fp, sid, meta.by, meta.now)];
   for (let i = 0; i < snaps.length; i += 400) {
-    const chunk = snaps.slice(i, i + 400).map((r, k) => [i + k + 1, r.unit, r.unitKey, r.name, r.capacity, r.mobile, r.email, r.proxyFor, r.isVoter ? 1 : 0, r.weightMilli, r.canAttend ? 1 : 0, r.canVote ? 1 : 0]);
-    stmts.push(db.prepare(`INSERT INTO publication_rows (society_id, publication_id, seq, unit, unit_key, name, capacity, mobile, email, proxy_for, is_voter, weight_milli, can_attend, can_vote)
-      SELECT ?, ?, json_extract(j.value,'$[0]'), json_extract(j.value,'$[1]'), json_extract(j.value,'$[2]'), json_extract(j.value,'$[3]'), json_extract(j.value,'$[4]'), json_extract(j.value,'$[5]'), json_extract(j.value,'$[6]'), json_extract(j.value,'$[7]'), json_extract(j.value,'$[8]'), json_extract(j.value,'$[9]'), json_extract(j.value,'$[10]'), json_extract(j.value,'$[11]') FROM json_each(?) j ORDER BY j.key`).bind(sid, id, JSON.stringify(chunk)));
+    const chunk = snaps.slice(i, i + 400).map((r, k) => [i + k + 1, r.unit, r.unitKey, r.name, r.capacity, r.mobile, r.email, r.proxyFor, r.isVoter ? 1 : 0, r.weightMilli, r.canAttend ? 1 : 0, r.canVote ? 1 : 0, r.reasonPublic, r.reasonFull]);
+    stmts.push(db.prepare(`INSERT INTO publication_rows (society_id, publication_id, seq, unit, unit_key, name, capacity, mobile, email, proxy_for, is_voter, weight_milli, can_attend, can_vote, reason_public, reason_full)
+      SELECT ?, ?, json_extract(j.value,'$[0]'), json_extract(j.value,'$[1]'), json_extract(j.value,'$[2]'), json_extract(j.value,'$[3]'), json_extract(j.value,'$[4]'), json_extract(j.value,'$[5]'), json_extract(j.value,'$[6]'), json_extract(j.value,'$[7]'), json_extract(j.value,'$[8]'), json_extract(j.value,'$[9]'), json_extract(j.value,'$[10]'), json_extract(j.value,'$[11]'), json_extract(j.value,'$[12]'), json_extract(j.value,'$[13]') FROM json_each(?) j ORDER BY j.key`).bind(sid, id, JSON.stringify(chunk)));
   }
   return stmts;
 }
@@ -168,14 +184,14 @@ export async function listPublications(ctx: StaffCtx) {
 }
 
 // ------------------------------------------------------------------------------------------------------------------ exports
-interface PubLine { seq: number; unit: string; name: string; capacity: string; mobile: string; email: string; proxy_for: string; is_voter: number; weight_milli: number; can_attend: number; can_vote: number }
+interface PubLine { seq: number; unit: string; name: string; capacity: string; mobile: string; email: string; proxy_for: string; is_voter: number; weight_milli: number; can_attend: number; can_vote: number; reason_public?: string; reason_full?: string }
 async function loadPub(env: Env, societyId: string, pid: string) {
   const p = await env.DB.prepare("SELECT * FROM publications WHERE society_id = ? AND id = ?").bind(societyId, pid).first<PubRow>();
   if (!p) throw new HttpError(404, "Not found.", "not_found");
   return p;
 }
 function exportBody(society: SocietyRow, p: PubRow, rows: PubLine[], full: boolean, fmt: "pdf" | "csv") {
-  const lines: RegisterLine[] = rows.map((r) => ({ unit: r.unit, name: full ? r.name : pubName(r.name), capacity: r.capacity + (r.proxy_for ? ` for ${full ? r.proxy_for : pubName(r.proxy_for)}` : ""), mobile: full ? r.mobile : pubMobile(r.mobile), email: full ? r.email : pubEmail(r.email), voter: !!r.is_voter, weightMilli: r.weight_milli, canVote: !!r.can_vote, canAttend: !!r.can_attend, note: r.is_voter ? (r.can_vote ? "" : "may attend, not vote") : "also on the record" }));
+  const lines: RegisterLine[] = rows.map((r) => ({ unit: r.unit, name: full ? r.name : pubName(r.name), capacity: capLabel(r.capacity) + (r.proxy_for ? ` for ${full ? r.proxy_for : pubName(r.proxy_for)}` : ""), mobile: full ? r.mobile : pubMobile(r.mobile), email: full ? r.email : pubEmail(r.email), voter: !!r.is_voter, weightMilli: r.weight_milli, canVote: !!r.can_vote, canAttend: !!r.can_attend, reason: (full ? r.reason_full : r.reason_public) ?? "", note: r.is_voter ? (r.can_vote ? "" : "may attend, not vote") : "registered, not authorized to vote" }));
   const tz = society.tz_offset_min;
   const label = p.kind === "frozen" ? `Final list ${p.seq}, frozen at the cut-off of ${msToLocal(p.cutoff_at ?? p.published_at, tz).replace("T", " ")}` : `Provisional (draft) list ${p.seq}, as on ${msToLocal(p.published_at, tz).replace("T", " ")}. It may still change.`;
   const meta: RegisterMeta = { society: society.name, kind: society.kind, state: society.state, country: society.country, regNo: society.reg_no, regOffice: society.reg_office, title: p.kind === "frozen" ? "Final voter list" : "Draft voter list (provisional)", versionLabel: label, ruleCode: p.rule_code, weightMode: p.weight_mode, duesCutoff: p.dues_cutoff, fingerprint: p.fingerprint, publishedAt: p.published_at, tzOffsetMin: tz, event: p.event_name ? { name: p.event_name, type: p.event_type, date: msToLocal(p.cutoff_at ?? p.published_at, tz).slice(0, 10) } : null };
@@ -183,10 +199,10 @@ function exportBody(society: SocietyRow, p: PubRow, rows: PubLine[], full: boole
   if (fmt === "csv") return { body: new TextEncoder().encode(registerCsv(meta, lines, full)), type: "text/csv; charset=utf-8", filename: base + ".csv" };
   return { body: registerPdf(meta, lines, { units: p.units, voters: p.voters, canVote: p.voters, weightMilli: p.total_weight_milli }, full), type: "application/pdf", filename: base + ".pdf" };
 }
-const loadLines = async (env: Env, pid: string) => (await env.DB.prepare("SELECT seq, unit, name, capacity, mobile, email, proxy_for, is_voter, weight_milli, can_attend, can_vote FROM publication_rows WHERE publication_id = ? ORDER BY seq").bind(pid).all<PubLine>()).results;
+const loadLines = async (env: Env, pid: string) => (await env.DB.prepare("SELECT seq, unit, name, capacity, mobile, email, proxy_for, is_voter, weight_milli, can_attend, can_vote, reason_public, reason_full FROM publication_rows WHERE publication_id = ? ORDER BY seq").bind(pid).all<PubLine>()).results;
 /** A provisional (draft) list is public from the moment it is published, so a person who withdrew or was removed since then must not stay on it until the next draft: a line is shown only while someone with that flat and e-mail ID is still on the list (matched on the flat key, not the typed text, and still true after the 30-day purge of removed records). A final list is never filtered. */
 const GONE = " AND EXISTS (SELECT 1 FROM voters v WHERE v.society_id = publication_rows.society_id AND v.unit_key = publication_rows.unit_key AND v.email = publication_rows.email AND v.status <> 'removed' AND (v.status = 'approved' OR v.approved_json IS NOT NULL))";
-const loadShownLines = async (env: Env, p: PubRow) => p.kind === "frozen" ? loadLines(env, p.id) : (await env.DB.prepare("SELECT seq, unit, name, capacity, mobile, email, proxy_for, is_voter, weight_milli, can_attend, can_vote FROM publication_rows WHERE publication_id = ?" + GONE + " ORDER BY seq").bind(p.id).all<PubLine>()).results;
+const loadShownLines = async (env: Env, p: PubRow) => p.kind === "frozen" ? loadLines(env, p.id) : (await env.DB.prepare("SELECT seq, unit, name, capacity, mobile, email, proxy_for, is_voter, weight_milli, can_attend, can_vote, reason_public, reason_full FROM publication_rows WHERE publication_id = ?" + GONE + " ORDER BY seq").bind(p.id).all<PubLine>()).results;
 
 export async function exportPublication(ctx: StaffCtx, pid: string, fmt: "pdf" | "csv", full: boolean) {
   need(ctx, full ? "fullExport" : "view");
@@ -230,9 +246,9 @@ export async function publicList(env: Env, society: SocietyRow, o: { offset?: nu
   const where = (uq ? "publication_id = ? AND unit_key LIKE ? ESCAPE '\\' AND (instr(unit, '#') = 0 OR instr(?, '#') > 0)" : "publication_id = ?") /* a masked ID (digits shown as #) is never found by typing digits */ + (p.kind === "draft" ? GONE : "");
   const binds: unknown[] = uq ? [p.id, uq.replace(/[\\%_]/g, (m) => "\\" + m) + "%", uq] : [p.id];
   const total = (await env.DB.prepare(`SELECT COUNT(*) AS n FROM publication_rows WHERE ${where}`).bind(...binds).first<{ n: number }>())?.n ?? 0;
-  const rows = (await env.DB.prepare(`SELECT seq, unit, name, capacity, mobile, email, proxy_for, is_voter, can_vote, can_attend FROM publication_rows WHERE ${where} ORDER BY seq LIMIT ? OFFSET ?`).bind(...binds, lim, off).all<PubLine>()).results;
+  const rows = (await env.DB.prepare(`SELECT seq, unit, name, capacity, mobile, email, proxy_for, is_voter, can_vote, can_attend, reason_public FROM publication_rows WHERE ${where} ORDER BY seq LIMIT ? OFFSET ?`).bind(...binds, lim, off).all<PubLine>()).results;
   return { total, offset: off, publication: { id: p.id, kind: p.kind, seq: p.seq, fingerprintShort: shortFingerprint(p.fingerprint) },
-    rows: rows.map((r) => ({ no: r.seq, unit: r.unit, name: pubName(r.name), capacity: r.capacity, forOwner: r.proxy_for ? pubName(r.proxy_for) : "", mobile: pubMobile(r.mobile), email: pubEmail(r.email), voterForFlat: !!r.is_voter, mayVote: !!r.can_vote, mayAttend: !!r.can_attend })) };
+    rows: rows.map((r) => ({ no: r.seq, unit: r.unit, name: pubName(r.name), capacity: capLabel(r.capacity), forOwner: r.proxy_for ? pubName(r.proxy_for) : "", mobile: pubMobile(r.mobile), email: pubEmail(r.email), voterForFlat: !!r.is_voter, mayVote: !!r.can_vote, mayAttend: !!r.can_attend, reason: r.reason_public ?? "" })) };
 }
 
 export async function publicExport(env: Env, society: SocietyRow, fmt: "pdf" | "csv", pubId?: string) {
@@ -250,7 +266,7 @@ export async function publicProof(env: Env, society: SocietyRow, pubId?: string)
   const [e] = await auditEntries(env, society.id, { from: p.audit_seq, limit: 1 });
   let linesMatch: boolean | null = null;
   if (!society.erased_at && p.kind === "frozen") { // a draft may change (a withdrawn voter's line is cleared), so only a final list can be re-checked line by line
-    const snaps: Snap[] = rows.map((r) => ({ unit: r.unit, unitKey: "", name: r.name, capacity: r.capacity, mobile: r.mobile, email: r.email, proxyFor: r.proxy_for, isVoter: !!r.is_voter, weightMilli: r.weight_milli, canAttend: !!r.can_attend, canVote: !!r.can_vote }));
+    const snaps: Snap[] = rows.map((r) => ({ unit: r.unit, unitKey: "", name: r.name, capacity: r.capacity, mobile: r.mobile, email: r.email, proxyFor: r.proxy_for, isVoter: !!r.is_voter, weightMilli: r.weight_milli, canAttend: !!r.can_attend, canVote: !!r.can_vote, reasonPublic: "", reasonFull: "" }));
     const s = { ...society, rule_code: p.rule_code, weight_mode: p.weight_mode, dues_enabled: p.dues_enabled, dues_cutoff: p.dues_cutoff } as SocietyRow;
     linesMatch = (await pubFingerprint(p.kind, p.kind === "frozen" ? p.cutoff_at : null, p.kind === "frozen" ? p.event_name.toLowerCase() + "|" + p.event_type : "", s, snaps)) === p.fingerprint;
   }

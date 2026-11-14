@@ -123,8 +123,8 @@ export async function readXlsx(bytes: Uint8Array): Promise<string[][]> {
 
 // ---------------------------------------------------------------------------------------------------------------------------
 export const TEMPLATE_HEADERS = [
-  "Flat / House / Member ID", "Name", "Capacity (Owner / Co-owner / Tenant / Member)", "Mobile", "E-mail",
-  "Voter for the unit (Yes, or leave blank)", "Weight", "Allowed to attend (Yes / No)", "Allowed to vote (Yes / No)", "Dues paid on (date)",
+  "Flat / House / Member ID", "Name", "Capacity (Owner / 1st Name in Registration, Co-owner, Tenant, Member)", "Mobile", "E-mail",
+  "Authorized to vote (Yes, or leave blank)", "Weight", "Allowed to attend (Yes / No)", "Allowed to vote (Yes / No)", "Dues paid on (date)", "Reason (if not allowed to vote)",
 ] as const;
 
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -135,18 +135,18 @@ const is = (r: number, c: number, text: string, style: number) => `<c r="${colL(
 export function buildTemplateXlsx(opts: { rows?: number; societyName?: string } = {}): Uint8Array {
   const n = Math.max(1, Math.min(3000, Math.floor(opts.rows ?? 200)));
   const first = 4, last = first + n;
-  const how = "HOW TO FILL: one person per row. A flat with two owners gets two rows with the same ID; mark ONE of them Yes under 'Voter for the unit' (a flat with one owner needs no mark). Name, Mobile and E-mail are needed for every row. Weight is optional (blank = 1). Do not change the headings. Save as .xlsx or .csv and upload it.";
+  const how = "HOW TO FILL: one person per row. A flat with several people gets one row each, with the same ID; write Yes under 'Authorized to vote' for each person the Organizer authorizes to vote (a flat with one person needs no mark; any number of people in a flat may be authorized). Name, Mobile and E-mail are needed for every row. Weight is optional (blank = 1). Write No under 'Authorized to vote' or 'Allowed to vote' only for a person who may not vote, and give the reason in the last column (for example Dues unpaid, Tenant, Co-owner); a No with no reason has to be fixed before the list can be published. Do not change the headings. Save as .xlsx or .csv and upload it.";
   const rows: string[] = [];
   rows.push(`<row r="1" ht="22" customHeight="1">${is(1, 0, `Townhall Records | Voter list template${opts.societyName ? " | " + opts.societyName : ""}`, 1)}</row>`);
   rows.push(`<row r="2" ht="64" customHeight="1">${is(2, 0, how, 2)}</row>`);
   rows.push(`<row r="3" ht="6" customHeight="1"/>`);
   rows.push(`<row r="4" ht="42" customHeight="1">${TEMPLATE_HEADERS.map((h, i) => is(4, i, h, 3)).join("")}</row>`);
-  const widths = [18, 28, 26, 16, 32, 22, 10, 16, 16, 16];
+  const widths = [18, 28, 26, 16, 32, 22, 10, 16, 16, 16, 32];
   const sheet = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0"><pane ySplit="4" topLeftCell="A5" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews><cols>${widths.map((w, i) => `<col min="${i + 1}" max="${i + 1}" width="${w}" customWidth="1"/>`).join("")}</cols><sheetData>${rows.join("")}</sheetData>` +
-    `<mergeCells count="1"><mergeCell ref="A2:J2"/></mergeCells>` +
-    `<dataValidations count="3"><dataValidation type="list" allowBlank="1" showErrorMessage="1" sqref="C${first + 1}:C${last}"><formula1>"Owner,Co-owner,Tenant,Member"</formula1></dataValidation>` +
+    `<mergeCells count="1"><mergeCell ref="A2:K2"/></mergeCells>` +
+    `<dataValidations count="4"><dataValidation type="list" allowBlank="1" showErrorMessage="1" sqref="C${first + 1}:C${last}"><formula1>"Owner / 1st Name in Registration,Co-owner,Tenant,Member"</formula1></dataValidation>` +
     `<dataValidation type="list" allowBlank="1" showErrorMessage="1" sqref="F${first + 1}:F${last}"><formula1>"Yes,No"</formula1></dataValidation>` +
-    `<dataValidation type="list" allowBlank="1" showErrorMessage="1" sqref="H${first + 1}:I${last}"><formula1>"Yes,No"</formula1></dataValidation></dataValidations></worksheet>`;
+    `<dataValidation type="list" allowBlank="1" showErrorMessage="1" sqref="H${first + 1}:I${last}"><formula1>"Yes,No"</formula1></dataValidation><dataValidation type="list" allowBlank="1" showErrorMessage="0" sqref="K${first + 1}:K${last}"><formula1>"Dues unpaid,Tenant,Co-owner,Not a member of the society,Proxy papers awaited"</formula1></dataValidation></dataValidations></worksheet>`;
   const styles = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><fonts count="3"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="13"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts><fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FFD9D9D9"/></patternFill></fill></fills><borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="4"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment wrapText="1" vertical="top"/></xf><xf numFmtId="0" fontId="2" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1" applyAlignment="1"><alignment wrapText="1" vertical="center"/></xf></cellXfs></styleSheet>`;
   const wb = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="Voter list" sheetId="1" r:id="rId1"/></sheets></workbook>`;
   const ct = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>`;

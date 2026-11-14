@@ -16,7 +16,11 @@ export interface Env {
   PEPPER: string;
   /** "1" only on a developer machine: relaxes Secure cookies, exposes the test payment confirm, never sends real mail. */
   TEST_MODE?: string;
+  /** The older mail route (Resend). Used only when the Cloudflare Email Service secrets below are not set. */
   RESEND_API_KEY?: string;
+  /** Cloudflare Email Service (sending from townhall-records.com): an API token allowed to send, and the account id. Both set = this route is used. */
+  CF_EMAIL_TOKEN?: string;
+  CF_ACCOUNT_ID?: string;
   /** E-mail IDs (comma separated) allowed to start lists as brand-new Organizers. Needed in production unless OPEN_SIGNUP is "1". */
   ORGANIZERS?: string;
   /** Cloudflare Turnstile (free). Both set = codes are sent only after the check was passed. The site key is public; the secret is not. */

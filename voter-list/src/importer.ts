@@ -3,21 +3,25 @@
 import { parseDelimited } from "./csv";
 import { readXlsx } from "./xlsx";
 import type { NewRow } from "./model";
+import { reasonFromSheet } from "./reasons";
 import { cleanEmail, cleanMobile, cleanName, parseCapacity, parseDate, parseWeight, parseYesNo, squeeze, unitDisplay, unitKey } from "./text";
 
-export type Field = "unit" | "name" | "capacity" | "mobile" | "email" | "voter" | "weight" | "attend" | "vote" | "dues";
-export const FIELD_LABEL: Record<Field, string> = { unit: "Flat / House / Member ID", name: "Name", capacity: "Capacity", mobile: "Mobile", email: "E-mail", voter: "Voter for the unit", weight: "Weight", attend: "Allowed to attend", vote: "Allowed to vote", dues: "Dues paid on" };
+export type Field = "unit" | "name" | "capacity" | "mobile" | "email" | "voter" | "weight" | "attend" | "vote" | "dues" | "reason";
+export const FIELD_LABEL: Record<Field, string> = { unit: "Flat / House / Member ID", name: "Name", capacity: "Capacity", mobile: "Mobile", email: "E-mail", voter: "Authorized to vote", weight: "Weight", attend: "Allowed to attend", vote: "Allowed to vote", dues: "Dues paid on", reason: "Reason (if not allowed to vote)" };
 
+/** Rows that were marked "authorized" only because they are alone in the sheet (not because the sheet said Yes). */
+export const autoMarked = new WeakSet<object>();
 const ALIASES: Record<Field, string[]> = {
   unit: ["id", "flatno", "flatnumber", "flat", "houseno", "housenumber", "house", "memberid", "memberno", "unit", "unitno", "unitid", "flathousememberid", "flathousememberidno", "flathouseno", "plot", "plotno", "flatid", "houseid", "apartment", "apt", "aptno", "flathouse", "unitnumber"],
   name: ["name", "ownername", "membername", "fullname", "votername", "nameofowner", "nameofmember", "resident", "residentname", "nameofvoter", "ownersname"],
   capacity: ["capacity", "type", "ownertype", "relation", "role", "occupancy", "ownership"],
   mobile: ["mobile", "mobileno", "mobilenumber", "phone", "phoneno", "phonenumber", "contact", "contactno", "contactnumber", "cell", "whatsapp", "mob"],
   email: ["email", "emailid", "emailaddress", "mail", "emailidofowner", "eid", "emailids"],
-  voter: ["voter", "voterfortheunit", "isvoter", "votingmember", "voterforunit", "votes", "voterflag"],
+  voter: ["voter", "authorizedtovote", "authorisedtovote", "authorized", "authorised", "voterfortheunit", "isvoter", "votingmember", "voterforunit", "votes", "voterflag"],
   weight: ["weight", "weightage", "voteweightage", "votingweight", "wt", "voteweight", "weightageofvote"],
   attend: ["allowedtoattend", "attend", "canattend", "allowedattend"],
   vote: ["allowedtovote", "canvote", "votingright", "allowedvote"],
+  reason: ["reason", "reasonifnotallowedtovote", "reasonnotallowed", "reasonfornotvoting", "whynotallowed", "notallowedreason", "reasonfornotallowed", "reasonwhynotallowed"],
   dues: ["duespaidon", "duespaid", "duesdate", "duespaiddate", "duespaidupto", "datedues"],
 };
 const LOOKUP = new Map<string, Field>();
@@ -42,7 +46,7 @@ export function mapHeaders(rows: string[][]): HeaderMap {
   return best;
 }
 
-export interface RawRow { sourceRow: number; unit: string; name: string; capacity: string; mobile: string; email: string; voter: string; weight: string; attend: string; vote: string; dues: string }
+export interface RawRow { sourceRow: number; unit: string; name: string; capacity: string; mobile: string; email: string; voter: string; weight: string; attend: string; vote: string; dues: string; reason: string }
 
 export interface Mend { kind: string; label: string; count: number }
 export interface ImportProblem { row: number; field: Field; message: string }
@@ -74,7 +78,7 @@ export function toRawRows(table: string[][], hm: HeaderMap): RawRow[] {
   for (let i = hm.headerIndex + 1; i < table.length; i++) {
     const r = table[i]!;
     if (!r.some((c) => squeeze(c))) continue;
-    const row: RawRow = { sourceRow: i + 1, unit: g(r, "unit"), name: g(r, "name"), capacity: g(r, "capacity"), mobile: g(r, "mobile"), email: g(r, "email"), voter: g(r, "voter"), weight: g(r, "weight"), attend: g(r, "attend"), vote: g(r, "vote"), dues: g(r, "dues") };
+    const row: RawRow = { sourceRow: i + 1, unit: g(r, "unit"), name: g(r, "name"), capacity: g(r, "capacity"), mobile: g(r, "mobile"), email: g(r, "email"), voter: g(r, "voter"), weight: g(r, "weight"), attend: g(r, "attend"), vote: g(r, "vote"), dues: g(r, "dues"), reason: g(r, "reason") };
     // a heading repeated further down (pasted twice, or at the top of each printed page)
     if (norm(row.unit) && LOOKUP.get(norm(row.unit)) === "unit" && LOOKUP.get(norm(row.name)) === "name") continue;
     out.push(row);
@@ -98,20 +102,27 @@ export function normalizeRows(raw: RawRow[], hm: HeaderMap, opt: NormalizeOption
     let capacity = parseCapacity(r.capacity);
     // a blank capacity is NOT guessed: guessing "Owner" could give a tenant a vote under an owner-only rule. It stays blank, the Checks ask for it, and one click fills them all.
     if (!squeeze(r.capacity)) { capacity = null; bump(hm.map.capacity === undefined ? "capacity_blank_nocol" : "capacity_blank"); }
-    else if (!capacity) prob(r.sourceRow, "capacity", `Capacity "${squeeze(r.capacity).slice(0, 30)}" is not one of Owner, Co-owner, Tenant, Proxy, Member.`);
+    else if (!capacity) prob(r.sourceRow, "capacity", `Capacity "${squeeze(r.capacity).slice(0, 30)}" is not one of Owner / 1st Name in Registration, Co-owner, Tenant, Proxy, Member.`);
     else if (squeeze(r.capacity) !== capacity) bump("capacity_words");
     const mob = cleanMobile(r.mobile, opt.country); if (mob.mended) bump("mobile_format");
     const em = cleanEmail(r.email); if (em.mended) bump("email_format");
     let isVoter: boolean | null = null; const v = parseYesNo(r.voter);
-    if (v === undefined) prob(r.sourceRow, "voter", `Voter says "${squeeze(r.voter).slice(0, 20)}". Please write Yes or leave it blank.`); else isVoter = v;
+    if (v === undefined) prob(r.sourceRow, "voter", `Authorized to vote says "${squeeze(r.voter).slice(0, 20)}". Please write Yes or leave it blank.`); else isVoter = v;
     let weightMilli: number | null = null; const w = parseWeight(r.weight);
     if (w === undefined) prob(r.sourceRow, "weight", `Weight "${squeeze(r.weight).slice(0, 20)}" is not a positive number such as 1 or 2.5.`); else weightMilli = w;
     let canAttend = true, canVote = true; const a = parseYesNo(r.attend), c = parseYesNo(r.vote);
     if (a === undefined) prob(r.sourceRow, "attend", "Allowed to attend should be Yes or No."); else if (a !== null) canAttend = a;
     if (c === undefined) prob(r.sourceRow, "vote", "Allowed to vote should be Yes or No."); else if (c !== null) canVote = c;
+    // a reason for "not allowed to vote": it names the person as not allowed (said out loud in the report); it must agree with the Yes / No columns
+    let noVoteReason: string | null = null, noVoteNote: string | null = null;
+    const rs = reasonFromSheet(r.reason);
+    if (rs) {
+      if (v === true || c === true) prob(r.sourceRow, "reason", "A reason is given, but the sheet also says this person may vote. Please make the two agree.");
+      else { noVoteReason = rs.code; noVoteNote = rs.note || null; if (v !== false && c !== false) { isVoter = false; bump("reason_marks"); } }
+    }
     let duesPaidOn: string | null = null; const d = parseDate(r.dues);
     if (d === undefined) prob(r.sourceRow, "dues", `The date "${squeeze(r.dues).slice(0, 20)}" is not understood. Please write it as 15/11/2026.`); else { duesPaidOn = d; if (d && squeeze(r.dues) !== d) bump("date_format"); }
-    return { rowNo: i + 1, unit, unitKey: unitKey(unit), name: nm.value, capacity: capacity ?? null, mobile: mob.value, email: em.value, isVoter, weightMilli, canAttend, canVote, duesPaidOn, sourceRow: r.sourceRow };
+    return { rowNo: i + 1, unit, unitKey: unitKey(unit), name: nm.value, capacity: capacity ?? null, mobile: mob.value, email: em.value, isVoter, weightMilli, canAttend, canVote, duesPaidOn, noVoteReason, noVoteNote, sourceRow: r.sourceRow };
   });
 
   // one unit written two ways (A-101 / A 101): keep the commonest form
@@ -125,9 +136,9 @@ export function normalizeRows(raw: RawRow[], hm: HeaderMap, opt: NormalizeOption
   const byUnit = new Map<string, NewRow[]>();
   for (const r of rows) if (r.unitKey) byUnit.set(r.unitKey, [...(byUnit.get(r.unitKey) ?? []), r]);
   for (const rs of byUnit.values()) {
-    if (rs.length === 1) { if (rs[0]!.isVoter === null) { rs[0]!.isVoter = true; bump("voter_single"); } continue; }
+    if (rs.length === 1) { if (rs[0]!.isVoter === null) { rs[0]!.isVoter = true; autoMarked.add(rs[0]!); bump("voter_single"); } continue; }
     const marked = rs.filter((r) => r.isVoter === true);
-    if (marked.length === 1) for (const r of rs) if (r.isVoter === null) { r.isVoter = false; }
+    // the people the sheet leaves unmarked stay undecided (the Organizer chooses); nobody is turned down without a reason
     const ws = new Set(rs.map((r) => r.weightMilli).filter((x): x is number => x !== null));
     if (ws.size === 1) { const only = [...ws][0]!; for (const r of rs) if (r.weightMilli === null) { r.weightMilli = only; bump("weight_inherit"); } }
   }
@@ -138,7 +149,8 @@ export function normalizeRows(raw: RawRow[], hm: HeaderMap, opt: NormalizeOption
     capacity_blank: "blank capacities left blank (the Checks ask you to choose; one click can fill them all)", capacity_blank_nocol: "rows with no Capacity column left blank (the Checks ask you to choose; one click can fill them all)",
     capacity_words: "capacities written another way (such as 'owner' or 'tenant')", mobile_format: "mobile numbers written in a tidier form (no +91, spaces or dashes)",
     email_format: "e-mail IDs written in small letters and tidied", date_format: "dates read and written one way",
-    voter_single: "units with one person: that person marked as the voter", weight_inherit: "co-owner lines given the same weight as their unit",
+    reason_marks: "people with a reason written but no No in the Yes / No columns: marked not allowed to vote, with that reason",
+    voter_single: "flats with one person: that person marked as authorized to vote (the Organizer's upload; the Organizer decides this)", weight_inherit: "co-owner lines given the same weight as their unit",
   };
   const mends: Mend[] = Object.entries(counts).map(([kind, count]) => ({ kind, label: label[kind] ?? kind, count })).sort((a, b) => b.count - a.count);
   return { rows, mends, problems };

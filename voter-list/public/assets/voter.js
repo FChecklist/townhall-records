@@ -55,7 +55,7 @@
     const mk = (key, short, title, o) => ({ key, short, title, ...o, open: S.open === key });
     const s = [
       mk("signin", "Sign in", "Step 1. Sign in", { state: signedIn ? "done" : "now", summary: signedIn ? S.me.email : "", body: signinBody }),
-      mk("enrol", "Enrol", "Step 2. Tell us who you are", { state: !signedIn ? "locked" : has ? "done" : closed ? "todo" : "now", summary: has ? `${r.unit}, ${r.capacity}` : "", body: enrolBody, lockedNote: "Opens after you sign in" }),
+      mk("enrol", "Enrol", "Step 2. Tell us who you are", { state: !signedIn ? "locked" : has ? "done" : closed ? "todo" : "now", summary: has ? `${r.unit}, ${window.VL.cap(r.capacity)}` : "", body: enrolBody, lockedNote: "Opens after you sign in" }),
       mk("confirm", "Send", "Step 3. Check and send", { state: !has ? "locked" : isSent ? "done" : "now", summary: isSent ? "Sent to the list team" : "", body: confirmBody, lockedNote: "Opens after step 2" }),
       mk("details", "Details", "Step 4. Your information", { state: !has ? "locked" : "todo", summary: has ? r.name : "", body: detailsBody, lockedNote: "Opens after step 2" }),
       mk("docs", "Files", "Step 5. Documents", { state: !has ? "locked" : "todo", summary: has ? (r.docs.length ? `${r.docs.length} added` : "None added") : "", body: docsBody, lockedNote: "Opens after step 2" }),
@@ -101,7 +101,7 @@
     const proxy = el("input", { id: "pf", type: "text", autocomplete: "off", maxlength: "100", value: r ? r.proxyFor : "" });
     const proxyRow = el("div", {}, el("label", { for: "pf" }, "Name of the owner you act for"), proxy);
     const caps = i.rule.capacities; let chosen = r && r.capacity ? r.capacity : caps.length === 1 ? caps[0] : "";
-    const radios = caps.map((c) => el("label", {}, el("input", { type: "radio", name: "cap", value: c, checked: c === chosen, required: true, on: { change: () => { chosen = c; sync(); } } }), el("span", {}, c, el("small", {}, CAP_HELP[c] || ""))));
+    const radios = caps.map((c) => el("label", {}, el("input", { type: "radio", name: "cap", value: c, checked: c === chosen, required: true, on: { change: () => { chosen = c; sync(); } } }), el("span", {}, window.VL.cap(c), el("small", {}, CAP_HELP[c] || ""))));
     const sync = () => proxyRow.classList.toggle("hidden", chosen !== "Proxy"); sync();
     const lockUnit = r && r.status === "approved";
     if (lockUnit) unit.disabled = true;
@@ -124,7 +124,7 @@
     const parts = [];
     if (list.length && !S.adding) {
       const r = cur();
-      parts.push(el("p", { class: "big" }, r.status === "invited" ? "The list team has prepared your details. Please check them in the next step." : "You are enrolled for "), list.length > 1 ? chipsFor(list) : el("p", {}, el("b", {}, `${r.unit}, as ${r.capacity}`), r.proxyFor ? ` for ${r.proxyFor}` : ""));
+      parts.push(el("p", { class: "big" }, r.status === "invited" ? "The list team has prepared your details. Please check them in the next step." : "You are enrolled for "), list.length > 1 ? chipsFor(list) : el("p", {}, el("b", {}, `${r.unit}, as ${window.VL.cap(r.capacity)}`), r.proxyFor ? ` for ${r.proxyFor}` : ""));
       if (S.info.enrolOpen && list.length < 5) parts.push(el("div", { class: "row" }, el("button", { class: "btn ghost", type: "button", on: { click: () => { S.adding = true; draw("enrol"); } } }, "Add another flat or house")));
       return parts;
     }
@@ -162,7 +162,7 @@
       err, el("div", { class: "row" }, btn)),
       el("p", { class: "tiny muted" }, "What happens next: the list team checks your record. You can see the answer in Step 6.")];
   }
-  const summary = (r) => el("dl", { class: "kv" }, el("dt", {}, "Flat or house"), el("dd", {}, r.unit), el("dt", {}, "Name"), el("dd", {}, r.name), el("dt", {}, "Role"), el("dd", {}, r.capacity + (r.proxyFor ? ` for ${r.proxyFor}` : "")), el("dt", {}, "Mobile"), el("dd", {}, r.mobile), el("dt", {}, "E-mail ID"), el("dd", {}, r.email));
+  const summary = (r) => el("dl", { class: "kv" }, el("dt", {}, "Flat or house"), el("dd", {}, r.unit), el("dt", {}, "Name"), el("dd", {}, r.name), el("dt", {}, "Role"), el("dd", {}, window.VL.cap(r.capacity) + (r.proxyFor ? ` for ${r.proxyFor}` : "")), el("dt", {}, "Mobile"), el("dd", {}, r.mobile), el("dt", {}, "E-mail ID"), el("dd", {}, r.email));
 
   // ---- step 4
   function detailsBody() {
@@ -212,6 +212,7 @@
     return [...homeChips(),
       el("p", {}, el("span", { class: "badge " + (tone || "info") }, statusWord(r)), r.onTheList ? el("span", { class: "badge ok", style: "margin-left:6px" }, "On the list") : null),
       r.status === "sent_back" ? el("div", { class: "note bad" }, el("b", {}, "Why it was sent back: "), r.reason) : null,
+      r.vote ? (r.vote.allowed ? el("div", { class: "note ok" }, "As the list stands now, you are allowed to vote.") : el("div", { class: "note bad" }, el("b", {}, "As the list stands now, you are not allowed to vote."), " ", r.vote.reason, el("div", { class: "small" }, "If this is wrong, please ask the Organizer of the list."))) : null,
       el("div", { class: "next" }, el("b", {}, "What happens next. "), r.next),
       r.status === "sent_back" ? el("div", { class: "row" }, el("button", { class: "btn brass", type: "button", on: { click: () => go("details") } }, "Fix my details")) : null,
       el("h3", {}, "History"), el("ol", { class: "timeline" }, r.timeline.map((t) => { const w = WHAT[t.what] || [t.what, ""]; return el("li", { class: w[1] }, el("b", {}, w[0]), " ", el("span", { class: "muted small" }, window.VL.fmtDate(t.at)), t.reason && t.what === "sent_back" ? el("div", { class: "small" }, "Reason: " + t.reason) : null); })),
@@ -228,7 +229,7 @@
     return [el("p", { class: "note " + (p.provisional ? "warn" : "ok") }, p.provisional ? `Provisional list ${p.seq}, published ${window.VL.fmtDate(p.publishedAt)}. It may still change.` : `Final list${p.event ? " for " + p.event : ""}, frozen at the cut-off of ${window.VL.localTime(p.cutoffLocal)}. It cannot change.`),
       el("p", { class: "small muted" }, `${(p.provisional && !S.pub.q ? S.pub.total : p.people)} ${(p.provisional && !S.pub.q ? S.pub.total : p.people) === 1 ? "person" : "people"}${p.provisional ? "" : ` in ${p.units} ${p.units === 1 ? "flat" : "flats"}`}. Fingerprint `, el("span", { class: "mono" }, p.fingerprintShort), ". Names, mobile numbers and e-mail IDs are masked."),
       q,
-      S.pub.rows.length ? window.VL.table(["Flat", "Name", "Role", "May vote", "Mobile", "E-mail ID"], S.pub.rows.map((x) => el("tr", {}, el("td", {}, x.unit), el("td", {}, x.name), el("td", {}, x.capacity + (x.forOwner ? " for " + x.forOwner : "")), el("td", {}, x.mayVote ? "Yes" : "No"), el("td", { class: "mono" }, x.mobile), el("td", { class: "mono" }, x.email)))) : el("p", { class: "muted" }, S.pub.q ? "No one is listed for that flat." : "No one is listed."),
+      S.pub.rows.length ? window.VL.table(S.pub.rows.some((x) => x.reason) ? ["Flat", "Name", "Role", "May vote", "Why not", "Mobile", "E-mail ID"] : ["Flat", "Name", "Role", "May vote", "Mobile", "E-mail ID"], S.pub.rows.map((x) => el("tr", {}, el("td", {}, x.unit), el("td", {}, x.name), el("td", {}, x.capacity + (x.forOwner ? " for " + x.forOwner : "")), el("td", {}, x.mayVote ? "Yes" : "No"), S.pub.rows.some((y) => y.reason) ? el("td", {}, x.reason || "") : null, el("td", { class: "mono" }, x.mobile), el("td", { class: "mono" }, x.email)))) : el("p", { class: "muted" }, S.pub.q ? "No one is listed for that flat." : "No one is listed."),
       S.pub.rows.length < S.pub.total ? el("div", { class: "row" }, el("button", { class: "btn ghost", type: "button", on: { click: async () => { await loadPub(undefined, true); draw("list"); } } }, `Show more (${S.pub.total - S.pub.rows.length} left)`)) : null,
       el("div", { class: "row" }, el("a", { class: "btn ghost small", href: A("/list.pdf") }, "Download PDF"), el("a", { class: "btn ghost small", href: A("/list.csv") }, "Download CSV"),
         !p.provisional ? el("button", { class: "btn ghost small", type: "button", on: { click: () => showProof() } }, "Check the proof") : null),
