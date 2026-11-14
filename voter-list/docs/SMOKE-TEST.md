@@ -1,0 +1,30 @@
+# Smoke test for the preview deployment
+
+Run on the **preview** address (database `voter-list-preview`), once on a phone and once on a laptop, with real e-mail IDs you control (Resend must be set up). Use made-up society and people names. While you click, keep the Pages Function logs open (Cloudflare dashboard, Pages, voter-list, Functions, real-time logs) and look for `Exceeded CPU` or `Error 1102`.
+
+| # | Do this | You should see |
+|---|---|---|
+| 1 | Open the preview address. Sign in as the Organizer with an e-mail ID and the code that arrives. | The code arrives within a minute; the page opens at Step 1. |
+| 2 | Create a list (RWA, rule "Owner, tenant or authorised proxy", closing time tomorrow). | "Your list is ready", Step 2 shows one link. |
+| 3 | Step 3: add one Host. Open the team list. | 1 of 10 hosts, plus "Townhall Records host" marked as not counted. |
+| 4 | Step 2: upload a 20-row sample (use `/api/template.csv`). Preview, then invite. | "20 people will be invited"; no CPU error in the log. |
+| 5 | Open the voter link in a private window. Sign in as one invited person; confirm and send. Also enrol a second person as Proxy and add a small PDF as the Proxy Nomination Form. | Steps move down one by one; the Proxy cannot send without the form. |
+| 6 | As the Host: Step 4. Names are masked. Open one record. Not approved with a reason. | The record shows "Sent back" for the voter, with the reason. |
+| 7 | As the voter: fix it, send again. As the Host: approve it. Approve the rest in bulk. Undo the bulk, then approve again. | The loop works; Undo restores the queue. |
+| 8 | As the Organizer: Step 5 (choose a voter for any flat that has two people), Step 6 publish the draft. Open the voter page, Step 7. | The voter page's public list shows Flat, a masked name (`Ra**** Sh****`, one letter for words of up to 3 letters), Role, May vote, a mobile as `******` plus the last 4 digits and an e-mail ID as `********` plus its last 4 characters, marked provisional. The CSV and PDF show the same. Switch the language to Hindi (top right): the page changes for you only. |
+| 9 | Step 7: close now, type FREEZE. Open the proof on the voter page. Download the public PDF. | "Final list"; the proof says the signature is valid; PDF opens. No CPU error. |
+| 10 | More, The signed trail: "Check the whole trail". | "All N entries check out" and the Host's actions are listed by e-mail ID. |
+| 11 | Voter page again: try to change a record. | "Enrolment has closed"; the list cannot be changed. |
+| 12 | Reopen with a reason. | The list is open again; the earlier final list is still shown. |
+| 13 | **Before the link goes public:** create the Turnstile site (free, in the Cloudflare dashboard), set **both** `TURNSTILE_SITE_KEY` and `TURNSTILE_SECRET` on the preview (the check is on only when both are set), then open both sign-in pages. | A small safety box shows; with it ticked a code arrives; asking for a code without ticking it is refused in plain words. |
+| 14 | Ask for a code with an e-mail ID that is not on the `ORGANIZERS` list. | The usual answer, and no mail arrives; a listed e-mail ID gets its code. |
+| 15 | Step 4: send back 20 records at once (bulk Not approved with a reason). | It completes without a 5xx or subrequest error in the log (the first 10 notes of an action, and at most a sixth of the voters' daily share — about 1 a day on the preview's cap of 20 — go out by e-mail; every voter sees the reason on the page). |
+| 16 | Step 6 (unequal weight list): save weights for 60 flats at once. | It saves without a 5xx or CPU error in the log (one read for all flats). |
+| 17 | After the walk-through, open the preview database in the Cloudflare dashboard and read the day's **rows written**. | It is far below the free plan's daily limit (believed to be about 100,000 a day for the whole account; confirm the figure there). One voter writes about 11 rows; importing a 6,000-record list about 18,000; each draft of it about 12,000. Large lists: make fewer drafts a day. |
+| 18 | Before the address go: write down the DNS records of `townhall-records.com` (a screenshot of Cloudflare, DNS, Records). | You have a "before" copy; there is no `voterlist` record and no wildcard `*` record. |
+| 19 | After adding the custom domain to the **voter-list** project: look at the records again. | Exactly one new record, `voterlist` (CNAME to `voter-list.pages.dev`). Apex, `www`, MX, SPF, DKIM and DMARC records are unchanged. |
+| 20 | Open `https://townhall-records.com` and `https://www.townhall-records.com` on a phone. | The marketing site loads exactly as before. |
+| 21 | Open `https://voterlist.townhall-records.com`; check the padlock; sign in as the Organizer. | The Voter List page opens with a valid certificate. The 6-digit code arrives from `no-reply@townhall-records.com` within a minute, not in spam. |
+| 22 | Repeat rows 2, 5, 8 and 9 on this address (create a list, enrol, publish the draft, freeze, public page and proof). Then ask for a code for `host@townhall-records.com`. | They work as in the preview; the Turnstile box shows; the standing host's code arrives in its mailbox. |
+
+Pass means all seventeen rows (1 to 17, on the preview) behave as written and the log shows no CPU or 5xx errors. Rows 18 to 22 are done once, at the address go, and must also pass before the address is shown to anyone. Write the result, the time and the browser in `docs/PROGRESS.md`. If row 4, 9 or 10 hits the CPU limit, stop and use the fallbacks in the README (do not turn on anything paid without the owner).

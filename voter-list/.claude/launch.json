@@ -1,0 +1,6 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "voter-list-dev", "runtimeExecutable": "bun", "runtimeArgs": ["run", "dev.ts"], "port": 8787 }
+  ]
+}
