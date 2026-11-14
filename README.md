@@ -43,3 +43,6 @@ C:\ct\tools\wrangler3\node_modules\.bin\wrangler pages dev public --d1 DB --loca
 Read `docs/design/API.md`, `docs/design/WORLDWIDE-AND-LIVE-PAGE.md`, `docs/UI-CONTRACT.md`. The engine is imported as source (`packages/engine/src`), so the browser can reuse masking, passcode format checks, tally preview and the verifier. The public page is already complete HTML (`GET /api/r/:id`); the UI can embed it or restyle it from `GET /api/r/:id/data`.
 
 Public wording: "tamper-evident", "verifiable", "transparent". Never "100% cheat-proof".
+
+
+See [KNOWLEDGE-MAP.md](KNOWLEDGE-MAP.md) for what this repository is for and what the other repositories are for (updated 14 Nov 2026).
