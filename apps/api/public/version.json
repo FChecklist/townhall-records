@@ -1,0 +1,19 @@
+{
+  "product": "Townhall Records (Meetings and Elections for AOA, RWA and HOA societies)",
+  "version": "0.2.0",
+  "releasedAt": "2026-10-27T11:38:09Z",
+  "releasedAtIST": "2026-10-27 17:08 IST",
+  "commit": "fb43373",
+  "changes": [
+    {
+      "version": "0.2.0",
+      "releasedAt": "2026-10-27",
+      "notes": "Screens arrive: first screens for the public page, the team desk and the voter page; plain-words error messages that say how to fix each problem; phone and laptop designs. Same wording as release.json."
+    },
+    {
+      "version": "0.1.0",
+      "releasedAt": "2026-10-24",
+      "notes": "Engine and rules: signed, tamper-evident record of every action; 158 rule packs; online and printed ballots, 4-digit check-in, privacy requests. Same wording as release.json."
+    }
+  ]
+}
