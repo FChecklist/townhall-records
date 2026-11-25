@@ -10,6 +10,7 @@ Rule: every deployed change gets a new version (MAJOR.MINOR.PATCH), a new entry 
 
 - The home page content was rewritten from the association's point of view.
 - The small mark was added to the three marketing pages (home, privacy, terms) with its approved style; the guard test now covers `site/` too. The privacy and terms menus use the same words as the home page.
+- After the first audit round: removed a phone-answering promise the page could not support, replaced the heading "Work done in minutes" (a time claim) by "Work done by the software", and the receipt code now says "each online voter" (paper voters are not promised one).
 
 ## 0.2.1 - 25 Nov 2026
 
