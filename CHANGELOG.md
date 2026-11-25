@@ -6,6 +6,10 @@ The live version file is `apps/api/public/version.json`. The older in-app releas
 
 Rule: every deployed change gets a new version (MAJOR.MINOR.PATCH), a new entry here, an updated `version.json` and an updated `KNOWLEDGE-MAP.md`, all in the same pull request.
 
+## 0.2.1 - 25 Nov 2026
+
+- The small mark १३९ (6px, bold, dark blue, thin dark red line under it) at the very top centre of every page, above the header. It does not move content, cannot be clicked, and is hidden from screen readers. A test (`apps/api/test/mark139.test.ts`) checks every page. The work listed below under "Not yet versioned" is still not versioned.
+
 ## Not yet versioned (work done after 0.2.0, nothing of it deployed)
 
 This work is in the code but has no version number yet. Give it one (suggested 0.3.0) in the pull request that deploys it.
