@@ -184,3 +184,5 @@ main.hall{max-width:none;padding:2vh 3vw 4vh}
 .ghostlist{list-style:none;padding:0;margin:14px 0 0;display:flex;flex-wrap:wrap;gap:8px}
 .ghostlist li{padding:6px 12px;border:1px dashed #CFC8B6;border-radius:99px;background:#F6F2E8;color:var(--grey-text);font-size:14px}
 @media(max-width:760px){.tiles{grid-template-columns:1fr}.tile .btn{align-self:stretch}}
+.mark139{position:absolute;top:0;left:0;right:0;margin:0;padding:1px 0 0;text-align:center;line-height:1;pointer-events:none;user-select:none;z-index:2147483647;font-family:"Noto Sans Devanagari","Mukta","Nirmala UI","Mangal","Kohinoor Devanagari","Devanagari Sangam MN",sans-serif;font-size:6px;font-weight:700;color:#0B2A6B}
+.mark139 span{display:inline-block;border-bottom:.5px solid #7A1010;padding-bottom:.5px}
