@@ -13,7 +13,7 @@ Written by BOSS for every repository, so any session knows what is done and what
 ## Version
 
 - What this repository is: the **Meetings and Elections product** (Townhall Records) for AOA, RWA and HOA societies. It is neither a Corporate Game nor a shared tool.
-- Current version: **0.2.1** (25 Nov 2026; adds the small mark १३९ at the top centre of every page). Work done after that (29 Oct, 2 Nov, 14 Nov 2026) is not yet versioned or deployed; see "Not yet versioned" in CHANGELOG.md. Give it a number in the pull request that deploys it.
+- Current version: **0.2.2** (25 Nov 2026; home page content rewritten from the association's point of view; 0.2.1 added the small mark १३९). Work done after that (29 Oct, 2 Nov, 14 Nov 2026) is not yet versioned or deployed; see "Not yet versioned" in CHANGELOG.md. Give it a number in the pull request that deploys it.
 - Where the version lives: `apps/api/public/version.json` (served at /version.json once deployed), with notes in `CHANGELOG.md` at the repo root. The older in-app file `apps/api/public/release.json` (read by the What's new page) is still kept in step.
 - How to bump: for every deployed change, raise MAJOR.MINOR.PATCH, add the entry to CHANGELOG.md, update version.json (and release.json) and this section, all in the same pull request.
 

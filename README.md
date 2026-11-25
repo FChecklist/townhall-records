@@ -47,4 +47,4 @@ Public wording: "tamper-evident", "verifiable", "transparent". Never "100% cheat
 
 See [KNOWLEDGE-MAP.md](KNOWLEDGE-MAP.md) for what this repository is for and what the other repositories are for (updated 14 Nov 2026).
 
-Version history: see [CHANGELOG.md](CHANGELOG.md) (current version 0.2.1, file `apps/api/public/version.json`).
+Version history: see [CHANGELOG.md](CHANGELOG.md) (current version 0.2.2, file `apps/api/public/version.json`).

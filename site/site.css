@@ -49,3 +49,5 @@ footer{background:var(--deep);color:#B6C3E0;font-size:14px;padding:28px 0}footer
 @media(max-width:860px){.hero .wrap{grid-template-columns:minmax(0,1fr)}.hero{padding:44px 0 52px}.g6{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){header.top nav{margin-left:0}section.s{padding:40px 0}header.top{position:static}.rec li{grid-template-columns:64px minmax(0,1fr)}}
 @media(max-width:480px){.g6{grid-template-columns:minmax(0,1fr)}.btn{width:100%}header.top .btn{width:auto}}
+.mark139{position:absolute;top:0;left:0;right:0;margin:0;padding:1px 0 0;text-align:center;line-height:1;pointer-events:none;user-select:none;z-index:2147483647;font-family:"Noto Sans Devanagari","Mukta","Nirmala UI","Mangal","Kohinoor Devanagari","Devanagari Sangam MN",sans-serif;font-size:6px;font-weight:700;color:#0B2A6B}
+.mark139 span{display:inline-block;border-bottom:.5px solid #7A1010;padding-bottom:.5px}

@@ -1,10 +1,15 @@
 {
   "product": "Townhall Records (Meetings and Elections for AOA, RWA and HOA societies)",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "releasedAt": "2026-11-25",
   "releasedAtIST": "2026-11-25 IST",
   "commit": "fb43373",
   "changes": [
+    {
+      "version": "0.2.2",
+      "releasedAt": "2026-11-25",
+      "notes": "The home page content was rewritten from the association's point of view. Same wording as release.json."
+    },
     {
       "version": "0.2.1",
       "releasedAt": "2026-11-25",
