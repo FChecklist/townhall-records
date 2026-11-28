@@ -6,6 +6,25 @@ The live version file is `apps/api/public/version.json`. The older in-app releas
 
 Rule: every deployed change gets a new version (MAJOR.MINOR.PATCH), a new entry here, an updated `version.json` and an updated `KNOWLEDGE-MAP.md`, all in the same pull request.
 
+## 0.3.0 - 28 Nov 2026 (build date; the release date is the day it is deployed, after an audit PASS)
+
+New home page hero, ordered by the owner and designed for more impact.
+
+- What: the hero now reads "Townhall Records brings method to" followed by four lines (Voter List Management, Attendance Management, Meeting Management, Election Management); the two sublines "It works both offline and online." and "With paper and without paper." shown as paired chips; the audience line "Designed for HOAs, AOAs, RWAs and residential / housing associations."; and a new strip of three promises right below the hero: every step recorded with date and time stamp, over 40 options to serve every use case, no subscription and pay for what you use. The old line about "madness" is gone.
+- Why: the owner saw the live headline and asked for a clearer, stronger message that names what the product manages and who it is for.
+- Where: `site/index.html` (hero and new `.proof` strip), `site/site.css` (new rules at the end, marked "hero v0.3.0"), `site/version.json` (new, served at /version.json), `apps/api/public/version.json`, `apps/api/public/release.json`, `KNOWLEDGE-MAP.md`.
+- How: navy and gold look kept; the four products are a numbered list; the sample dated record on the right now appears line by line (CSS only, no script, off for people who prefer reduced motion); no images, no libraries; on a phone the record moves under the text and the promises stack.
+- Logic (the number): "over 40" is counted from `packages/engine/src/rules.ts`: 30 rule parameters (`PARAMS`) plus 15 on/off options (`OPTIONS`) = 45 settings an association can set per event, so "over 40" is true. The 165 rule sets (7 in `rule-packs.json` plus 158 in `rule-packs-extra.json`, no overlap) are a different count and the page's existing "More than 150 regional rule sets" stays true.
+- Pricing check: the promise matches the existing Price section (Rs 499 per meeting, Rs 1,499 per election; pay per use, no subscription). The three-cup price list in memory belongs to the games, not to Townhall.
+- Input: none (static page). Output: the home page; title, meta description, canonical, Open Graph and Organization markup are unchanged.
+- Tests: HTML tag balance and duplicate ids checked by script (clean); `#how` anchor exists; no `madness` left; colour contrast computed (lowest 5.6:1 on the brass button, all text 9:1 or better, AA passed); layout inspected for 375px width by static reading of the media rules (not opened in a browser on this low-memory laptop: unverified visually); mark 139 untouched. Audit by a different session is still to be done.
+
+## 0.2.2 - 25 Nov 2026
+
+- The home page content was rewritten from the association's point of view.
+- The small mark was added to the three marketing pages (home, privacy, terms) with its approved style; the guard test now covers `site/` too. The privacy and terms menus use the same words as the home page.
+- After the first audit round: removed a phone-answering promise the page could not support, replaced the heading "Work done in minutes" (a time claim) by "Work done by the software", and the receipt code now says "each online voter" (paper voters are not promised one).
+
 ## 0.2.1 - 25 Nov 2026
 
 - The small mark १३९ (6px, bold, dark blue, thin dark red line under it) at the very top centre of every page, above the header. It does not move content, cannot be clicked, and is hidden from screen readers. A test (`apps/api/test/mark139.test.ts`) checks every page. The work listed below under "Not yet versioned" is still not versioned.

@@ -1,10 +1,20 @@
 {
   "product": "Townhall Records (Meetings and Elections for AOA, RWA and HOA societies)",
-  "version": "0.2.1",
-  "releasedAt": "2026-11-25",
-  "releasedAtIST": "2026-11-25 IST",
+  "version": "0.3.0",
+  "releasedAt": "2026-11-28",
+  "releasedAtIST": "2026-11-28 IST (build date; deploy date set when deployed)",
   "commit": "fb43373",
   "changes": [
+    {
+      "version": "0.3.0",
+      "releasedAt": "2026-11-28",
+      "notes": "New home page hero: the four things Townhall Records manages (Voter List, Attendance, Meeting and Election Management), works offline and online and with and without paper, three promises (every step dated and time stamped, over 40 options, no subscription), the old 'madness' line removed. Same wording as release.json."
+    },
+    {
+      "version": "0.2.2",
+      "releasedAt": "2026-11-25",
+      "notes": "The home page content was rewritten from the association's point of view. The small mark was added to the home, privacy and terms pages. Same wording as release.json."
+    },
     {
       "version": "0.2.1",
       "releasedAt": "2026-11-25",

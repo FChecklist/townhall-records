@@ -30,3 +30,22 @@ describe("mark 139", () => {
     for (const t of ["#0B2A6B", "#7A1010", "6px", "700", ".5px"]) expect(CSS.join("")).toContain(t);
   });
 });
+
+// The marketing site (townhall-records.com) lives in site/ and must carry the same mark.
+const siteDir = join(import.meta.dir, "..", "..", "..", "site");
+const SITE_PAGES = readdirSync(siteDir).filter((f) => f.endsWith(".html")).map((f) => join(siteDir, f));
+describe("mark 139 on the marketing site", () => {
+  test("site page list is not empty", () => expect(SITE_PAGES.length).toBeGreaterThanOrEqual(3));
+  for (const p of SITE_PAGES) {
+    test(`site/${p.slice(siteDir.length + 1)} has the mark exactly once, first in body`, () => {
+      const t = readFileSync(p, "utf8");
+      expect(t.split('class="mark139"').length - 1).toBe(1);
+      expect(t.replace(/<body[^>]*>/, "<body>")).toContain("<body>" + MARK);
+      expect(t).toContain("/site.css");
+    });
+  }
+  test("site stylesheet holds the approved CSS once", () => {
+    const c = readFileSync(join(siteDir, "site.css"), "utf8");
+    for (const rule of CSS) expect(c.split(rule).length - 1).toBe(1);
+  });
+});
